@@ -13,15 +13,19 @@
 		1B3C065E287BDD82006A36CF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1B3C065D287BDD82006A36CF /* SnapKit */; };
 		1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C065F287BE02D006A36CF /* LoginViewController.swift */; };
 		1B3C0665287BE1FA006A36CF /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1B3C0664287BE1FA006A36CF /* FlexLayout */; };
+		79CCF85D45CE0B358F88A6B1 /* Pods_issue_tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_issue_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3C0645287BDD15006A36CF /* issue-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "issue-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3C0648287BDD15006A36CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B3C064A287BDD15006A36CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1B3C0651287BDD17006A36CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B3C0656287BDD17006A36CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.debug.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.debug.xcconfig"; sourceTree = "<group>"; };
+		E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.release.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			files = (
 				1B3C065E287BDD82006A36CF /* SnapKit in Frameworks */,
 				1B3C0665287BE1FA006A36CF /* FlexLayout in Frameworks */,
+				79CCF85D45CE0B358F88A6B1 /* Pods_issue_tracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				1B3C0647287BDD15006A36CF /* issue-tracker */,
 				1B3C0646287BDD15006A36CF /* Products */,
+				440D177E0B9EC4919A60E539 /* Pods */,
+				A7F487DF3B8972BAF813A75C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +88,24 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		440D177E0B9EC4919A60E539 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */,
+				E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A7F487DF3B8972BAF813A75C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -88,9 +113,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1B3C0659287BDD17006A36CF /* Build configuration list for PBXNativeTarget "issue-tracker" */;
 			buildPhases = (
+				50EBA2A31AEFFEB42CB23D55 /* [CP] Check Pods Manifest.lock */,
 				1B3C0641287BDD15006A36CF /* Sources */,
 				1B3C0642287BDD15006A36CF /* Frameworks */,
 				1B3C0643287BDD15006A36CF /* Resources */,
+				F831AB947A411E0880D4F313 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,8 +157,8 @@
 			);
 			mainGroup = 1B3C063C287BDD15006A36CF;
 			packageReferences = (
-				1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit" */,
-				1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout" */,
+				1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit.git" */,
+				1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout.git" */,
 			);
 			productRefGroup = 1B3C0646287BDD15006A36CF /* Products */;
 			projectDirPath = "";
@@ -152,6 +179,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		50EBA2A31AEFFEB42CB23D55 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-issue-tracker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F831AB947A411E0880D4F313 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-issue-tracker/Pods-issue-tracker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-issue-tracker/Pods-issue-tracker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-issue-tracker/Pods-issue-tracker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1B3C0641287BDD15006A36CF /* Sources */ = {
@@ -283,6 +352,7 @@
 		};
 		1B3C065A287BDD17006A36CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -310,6 +380,7 @@
 		};
 		1B3C065B287BDD17006A36CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -359,7 +430,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -367,7 +438,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout" */ = {
+		1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/layoutBox/FlexLayout.git";
 			requirement = {
@@ -380,12 +451,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		1B3C065D287BDD82006A36CF /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit.git" */;
 			productName = SnapKit;
 		};
 		1B3C0664287BE1FA006A36CF /* FlexLayout */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			package = 1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout.git" */;
 			productName = FlexLayout;
 		};
 /* End XCSwiftPackageProductDependency section */

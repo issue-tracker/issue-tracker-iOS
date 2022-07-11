@@ -10,9 +10,8 @@
 		1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C0648287BDD15006A36CF /* AppDelegate.swift */; };
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
-		1B3C065E287BDD82006A36CF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1B3C065D287BDD82006A36CF /* SnapKit */; };
 		1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C065F287BE02D006A36CF /* LoginViewController.swift */; };
-		1B3C0665287BE1FA006A36CF /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 1B3C0664287BE1FA006A36CF /* FlexLayout */; };
+		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		79CCF85D45CE0B358F88A6B1 /* Pods_issue_tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +23,7 @@
 		1B3C0651287BDD17006A36CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B3C0656287BDD17006A36CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.debug.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.release.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -33,8 +33,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B3C065E287BDD82006A36CF /* SnapKit in Frameworks */,
-				1B3C0665287BE1FA006A36CF /* FlexLayout in Frameworks */,
 				79CCF85D45CE0B358F88A6B1 /* Pods_issue_tracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				1B3C065F287BE02D006A36CF /* LoginViewController.swift */,
+				1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -94,7 +93,6 @@
 				5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */,
 				E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -125,8 +123,6 @@
 			);
 			name = "issue-tracker";
 			packageProductDependencies = (
-				1B3C065D287BDD82006A36CF /* SnapKit */,
-				1B3C0664287BE1FA006A36CF /* FlexLayout */,
 			);
 			productName = "issue-tracker";
 			productReference = 1B3C0645287BDD15006A36CF /* issue-tracker.app */;
@@ -157,8 +153,6 @@
 			);
 			mainGroup = 1B3C063C287BDD15006A36CF;
 			packageReferences = (
-				1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit.git" */,
-				1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout.git" */,
 			);
 			productRefGroup = 1B3C0646287BDD15006A36CF /* Products */;
 			projectDirPath = "";
@@ -230,6 +224,7 @@
 				1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */,
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,
 				1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */,
+				1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,38 +423,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit.git" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-		1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout.git" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/layoutBox/FlexLayout.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		1B3C065D287BDD82006A36CF /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1B3C065C287BDD82006A36CF /* XCRemoteSwiftPackageReference "SnapKit.git" */;
-			productName = SnapKit;
-		};
-		1B3C0664287BE1FA006A36CF /* FlexLayout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1B3C0663287BE1FA006A36CF /* XCRemoteSwiftPackageReference "FlexLayout.git" */;
-			productName = FlexLayout;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1B3C063D287BDD15006A36CF /* Project object */;
 }

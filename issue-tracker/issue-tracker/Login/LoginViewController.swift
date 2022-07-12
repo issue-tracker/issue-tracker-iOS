@@ -55,7 +55,9 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
         
-        infoFlexContainer.flex.direction(.column).padding(padding).define { flex in
+        signInButton.addTarget(self, action: #selector(pushSignInCategoryScreen(_:)), for: .touchUpInside)
+        
+        infoFlexContainer.flex.direction(.column).margin(padding).define { flex in
             
             flex.addItem().direction(.row).define { flex in
                 flex.addItem(idTitleLabel).width(30%)
@@ -77,18 +79,21 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @objc func pushSignInCategoryScreen(_ sender: Any?) {
+        navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         infoFlexContainer.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading)
-            make.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing)
+            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(160)
         }
         
         view.layoutIfNeeded()
         
-        infoFlexContainer.flex.layout(mode: .adjustHeight)
+        infoFlexContainer.flex.layout()
     }
 }

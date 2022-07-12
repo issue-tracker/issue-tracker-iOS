@@ -11,4 +11,14 @@ class LoginNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        super.pushViewController(viewController, animated: animated)
+        
+        if viewController is LoginViewController {
+            isNavigationBarHidden = true
+        } else {
+            isNavigationBarHidden = false
+        }
+    }
 }

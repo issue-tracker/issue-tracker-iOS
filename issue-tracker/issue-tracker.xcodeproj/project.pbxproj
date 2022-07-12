@@ -11,6 +11,8 @@
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
 		1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C065F287BE02D006A36CF /* LoginViewController.swift */; };
+		1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */; };
+		1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		79CCF85D45CE0B358F88A6B1 /* Pods_issue_tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */; };
 /* End PBXBuildFile section */
@@ -23,6 +25,8 @@
 		1B3C0651287BDD17006A36CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B3C0656287BDD17006A36CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCategoryViewController.swift; sourceTree = "<group>"; };
+		1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.debug.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.release.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				1B3C065F287BE02D006A36CF /* LoginViewController.swift */,
+				1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */,
+				1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */,
 				1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */,
 			);
 			path = Login;
@@ -222,6 +228,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */,
+				1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */,
+				1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */,
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,
 				1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */,
 				1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */,

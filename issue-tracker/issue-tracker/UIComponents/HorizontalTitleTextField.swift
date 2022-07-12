@@ -11,7 +11,7 @@ import SnapKit
 
 class HorizontalTitleTextField: UIView {
     
-    private let rootContainer = UIView()
+    private let _rootContainer = UIView()
     let titleLabel = UILabel()
     let textField = UITextField()
     var padding: CGFloat = 8
@@ -26,36 +26,34 @@ class HorizontalTitleTextField: UIView {
         super.init(coder: coder)
     }
     
-    @discardableResult
     convenience public init(
         @HorizontalTitleTextFieldBuilder _ content: () -> HorizontalTitleTextFieldComponents,
         _ completionHandler: ((HorizontalTitleTextField)->Void)? = nil
     ) {
         self.init()
+        self.completionHandler = completionHandler
         let contents = content()
         
-        addSubview(rootContainer)
+        addSubview(_rootContainer)
         
         titleLabel.text = contents.title
         textField.borderStyle = .roundedRect
         
-        rootContainer.flex.direction(.row).define { flex in
+        _rootContainer.flex.direction(.row).define { flex in
             flex.addItem(titleLabel).width(30%)
             flex.addItem(textField).width(70%)
         }
-        
-        self.completionHandler = completionHandler
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        rootContainer.flex.layout(mode: .adjustHeight)
+        _rootContainer.flex.layout(mode: .adjustHeight)
         completionHandler?(self)
     }
 }
 
 @resultBuilder
-public struct HorizontalTitleTextFieldBuilder {
+fileprivate struct HorizontalTitleTextFieldBuilder {
     public static func buildBlock(_ components: String...) -> HorizontalTitleTextFieldComponents {
         guard let title = components.first else {
             fatalError("[HorizontalTitleTextFieldBuilder] No Title for HorizontalTitleTextField.")

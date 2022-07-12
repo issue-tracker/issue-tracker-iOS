@@ -15,45 +15,32 @@ class LoginViewController: UIViewController {
     
     private let infoFlexContainer = UIView()
     
-    private let loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("로그인", for: .normal)
-        button.setTitleColor(UIColor.secondaryLabel, for: .normal)
-        return button
-    }()
-    private let signInButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("회원가입", for: .normal)
-        button.setTitleColor(UIColor.secondaryLabel, for: .normal)
-        return button
-    }()
-    
-    private var idTextFieldContainer = HorizontalTitleTextField {
+    private let idTextFieldContainer = HorizontalTitleTextField {
         return HorizontalTitleTextFieldComponents(title: "ID")
     }
-    private var passwordTextFieldContainer = HorizontalTitleTextField {
+    private let passwordTextFieldContainer = HorizontalTitleTextField {
         return HorizontalTitleTextFieldComponents(title: "Password")
+    }
+    
+    private lazy var horizontalButtons = HorizontalButtons {
+        HorizontalButtonsComponents(title: "회원가입", handler: UIAction(handler: { _ in
+            self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+        }))
+        HorizontalButtonsComponents(title: "로그인", handler: UIAction(handler: { _ in
+            self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+        }))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
-        signInButton.addTarget(self, action: #selector(pushSignInCategoryScreen(_:)), for: .touchUpInside)
         
         infoFlexContainer.flex.direction(.column).margin(padding).define { flex in
-            
             flex.addItem(idTextFieldContainer).grow(1)
-            
             flex.addItem().height(1).width(100%).marginVertical(padding).backgroundColor(.systemGray5)
-            
-            flex.addItem(passwordTextFieldContainer).grow(1)
-            
-            flex.addItem().direction(.row).height(30).marginTop(padding*3).marginVertical(padding).define { flex in
-                flex.addItem(loginButton).grow(1)
-                flex.addItem().width(10%)
-                flex.addItem(signInButton).grow(1)
-            }
+            flex.addItem(passwordTextFieldContainer).paddingBottom(padding).grow(1)
+            flex.addItem(horizontalButtons).grow(1)
         }
     }
     

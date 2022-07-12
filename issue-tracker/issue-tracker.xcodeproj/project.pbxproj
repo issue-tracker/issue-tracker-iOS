@@ -14,6 +14,7 @@
 		1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */; };
 		1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */; };
 		1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */; };
+		1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		79CCF85D45CE0B358F88A6B1 /* Pods_issue_tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 		1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCategoryViewController.swift; sourceTree = "<group>"; };
 		1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalTitleTextField.swift; sourceTree = "<group>"; };
+		1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalButtons.swift; sourceTree = "<group>"; };
 		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		5FD7055645C55C316497802F /* Pods-issue-tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.debug.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.debug.xcconfig"; sourceTree = "<group>"; };
 		E128D463EDE30DD08500270D /* Pods-issue-tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker.release.xcconfig"; path = "Target Support Files/Pods-issue-tracker/Pods-issue-tracker.release.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */,
+				1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */,
 				1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */,
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
+				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */,
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,
 				1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */,

@@ -15,28 +15,6 @@ class LoginViewController: UIViewController {
     
     private let infoFlexContainer = UIView()
     
-    private let idTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "ID"
-        return label
-    }()
-    private let passwordTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "PassWord"
-        return label
-    }()
-    
-    private let idTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    private let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    
     private let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그인", for: .normal)
@@ -50,26 +28,26 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private var idTextFieldContainer = HorizontalTitleTextField {
+        return HorizontalTitleTextFieldComponents(title: "ID")
+    }
+    private var passwordTextFieldContainer = HorizontalTitleTextField {
+        return HorizontalTitleTextFieldComponents(title: "Password")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
-        
         signInButton.addTarget(self, action: #selector(pushSignInCategoryScreen(_:)), for: .touchUpInside)
         
         infoFlexContainer.flex.direction(.column).margin(padding).define { flex in
             
-            flex.addItem().direction(.row).define { flex in
-                flex.addItem(idTitleLabel).width(30%)
-                flex.addItem(idTextField).width(70%)
-            }
+            flex.addItem(idTextFieldContainer).grow(1)
             
             flex.addItem().height(1).width(100%).marginVertical(padding).backgroundColor(.systemGray5)
             
-            flex.addItem().direction(.row).define { flex in
-                flex.addItem(passwordTitleLabel).width(30%)
-                flex.addItem(passwordTextField).width(70%)
-            }
+            flex.addItem(passwordTextFieldContainer).grow(1)
             
             flex.addItem().direction(.row).height(30).marginTop(padding*3).marginVertical(padding).define { flex in
                 flex.addItem(loginButton).grow(1)

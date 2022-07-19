@@ -16,7 +16,7 @@ class SignInCategoryViewController: UIViewController {
     private let naverLoginButton = SingInLoginButton(loginType: .naver)
     private let kakaoLoginButton = SingInLoginButton(loginType: .kakao)
     private let githubLoginButton = SingInLoginButton(loginType: .github)
-    private let defaultLoginButton = SingInLoginButton(loginType: .normal("일반회원가입"))
+    private let defaultLoginButton = SingInLoginButton(loginType: .normal("일반 회원가입"))
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
@@ -37,31 +37,34 @@ class SignInCategoryViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.backButtonTitle = nil
         view.backgroundColor = .systemBackground
-        view.addSubview(descriptionLabel)
         view.addSubview(loginButtonContainer)
         
-        loginButtonContainer.flex.direction(.column).margin(padding).define { flex in
-            flex.addItem(naverLoginButton).margin(padding).height(22%)
-            flex.addItem(kakaoLoginButton).margin(padding).height(22%)
-            flex.addItem(githubLoginButton).margin(padding).height(22%)
-            flex.addItem(defaultLoginButton).margin(padding).height(22%)
+        loginButtonContainer.flex.define { flex in
+            
+            flex.addItem().height(5%)
+            flex.addItem(descriptionLabel)
+            flex.addItem().grow(1)
+            
+            flex.addItem().height(60%).justifyContent(.spaceBetween).define { flex in
+                flex.addItem(defaultLoginButton).height(23%)
+                flex.addItem(SeparatorLineView()).height(1)
+                flex.addItem(githubLoginButton).height(23%)
+                flex.addItem(SeparatorLineView()).height(1)
+                flex.addItem(kakaoLoginButton).height(23%)
+                flex.addItem(SeparatorLineView()).height(1)
+                flex.addItem(naverLoginButton).height(23%)
+            }
         }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        descriptionLabel.snp.makeConstraints {
-            $0.horizontalEdges.top.equalTo(self.view.safeAreaLayoutGuide)
-            $0.height.greaterThanOrEqualTo(150)
-        }
-        
         loginButtonContainer.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(padding)
-            $0.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.top.equalTo(self.view.safeAreaLayoutGuide).offset(16)
+            $0.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(16)
         }
         
-        view.setNeedsDisplay()
         view.layoutIfNeeded()
         
         loginButtonContainer.flex.layout()
@@ -69,30 +72,55 @@ class SignInCategoryViewController: UIViewController {
 }
 
 class SingInLoginButton: UIButton {
+    
+    let symbolImageView = UIImageView()
+    let nameLabel = UILabel()
+    let containerView = UIView()
+    
     convenience init(loginType: LoginType?) {
         self.init(type: .custom)
         
-        imageView?.contentMode = .scaleAspectFit
-        layer.cornerRadius = 3.0
+        symbolImageView.contentMode = .scaleAspectFit
+        addSubview(containerView)
         
         switch loginType {
         case .naver:
-            setBackgroundImage(UIImage(named: "login_category_naver"), for: .normal)
+            symbolImageView.image = UIImage(named: "login_icon_naver")
+            nameLabel.text = "네이버 로그인"
+            backgroundColor = UIColor(named: "login_naver_color")
         case .kakao:
-            setBackgroundImage(UIImage(named: "login_category_kakao"), for: .normal)
+            backgroundColor = UIColor(named: "login_kakao_color")
+            symbolImageView.image = UIImage(named: "login_icon_kakao")
+            nameLabel.text = "카카오 로그인"
         case .github:
-            setBackgroundImage(UIImage(named: "login_category_github"), for: .normal)
+            backgroundColor = UIColor(named: "login_github_color")
+            symbolImageView.image = UIImage(named: "login_octocat")
+            nameLabel.text = "깃허브 로그인"
         case .normal(let title):
-            setTitle(title, for: .normal)
-            setTitleColor(.label, for: .normal)
             backgroundColor = UIColor.systemGray5
-            layer.borderWidth = 2
-            layer.borderColor = UIColor.gray.cgColor
-            layer.shadowRadius = 1
-            layer.shadowOffset = frame.offsetBy(dx: 0, dy: 3).size
+            symbolImageView.image = UIImage(systemName: "key.fill")
+            nameLabel.text = title
         default:
             return
         }
+        
+        containerView.flex.direction(.row).margin(8).define { flex in
+            flex.addItem(symbolImageView).width(27%)
+            flex.addItem().width(5%).marginVertical(8)
+            flex.addItem(nameLabel).width(62%)
+        }
+        
+        layer.cornerRadius = 8.0
+        layer.borderColor = UIColor.opaqueSeparator.cgColor
+        layer.borderWidth = 2
+        layer.masksToBounds = true
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layoutIfNeeded()
+        containerView.frame = bounds
+        containerView.flex.layout()
     }
 }
 

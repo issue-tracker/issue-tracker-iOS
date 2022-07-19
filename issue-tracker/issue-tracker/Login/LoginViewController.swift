@@ -36,11 +36,14 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
         
-        infoFlexContainer.flex.direction(.column).margin(padding).define { flex in
-            flex.addItem(idTextFieldContainer).grow(1)
-            flex.addItem().height(1).width(100%).marginVertical(padding).backgroundColor(.systemGray5)
-            flex.addItem(passwordTextFieldContainer).paddingBottom(padding).grow(1)
-            flex.addItem(horizontalButtons).grow(1)
+        infoFlexContainer.flex.marginHorizontal(padding).define { flex in
+            flex.addItem().height(65%).define { flex in
+                flex.addItem().grow(1)
+                flex.addItem(idTextFieldContainer)
+                flex.addItem(SeparatorLineView()).marginVertical(padding)
+                flex.addItem(passwordTextFieldContainer)
+            }
+            flex.addItem(horizontalButtons).paddingTop(padding)
         }
     }
     
@@ -52,9 +55,7 @@ class LoginViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         infoFlexContainer.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(160)
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         view.layoutIfNeeded()

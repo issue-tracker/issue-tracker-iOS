@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import FlexLayout
 
-class LoginViewController: UIViewController {
+class LoginViewController: CommonProxyViewController {
     
     private let padding: CGFloat = 8
     
@@ -27,7 +27,8 @@ class LoginViewController: UIViewController {
             self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
         }))
         HorizontalButtonsComponents(title: "로그인", handler: UIAction(handler: { _ in
-            self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.switchScreen(type: .main)
+//            self.navigationController?.pushViewController(IssueListViewController(), animated: true)
         }))
     }
     

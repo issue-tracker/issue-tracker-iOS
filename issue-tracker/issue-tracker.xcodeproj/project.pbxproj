@@ -14,6 +14,15 @@
 		1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A932886184000432728 /* SeparatorLineView.swift */; };
 		1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */; };
 		1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A972886DD5200432728 /* SignInLoginButton.swift */; };
+		1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A992887CE0300432728 /* IssueListViewController.swift */; };
+		1B8E4AA02887DAAA00432728 /* SettingProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */; };
+		1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
+		1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA328890E4500432728 /* MainTabBarController.swift */; };
+		1B8E4AA6288910E200432728 /* IssueListNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA5288910E200432728 /* IssueListNavigationController.swift */; };
+		1B8E4AA8288910FF00432728 /* MyPageNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA7288910FF00432728 /* MyPageNavigationController.swift */; };
+		1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA92889110900432728 /* SettingsNavigationController.swift */; };
+		1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AAD2889114A00432728 /* MyPageViewController.swift */; };
+		1B8E4AB02889115200432728 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AAF2889115200432728 /* SettingsViewController.swift */; };
 		1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */; };
 		1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */; };
 		1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */; };
@@ -33,6 +42,15 @@
 		1B8E4A932886184000432728 /* SeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLineView.swift; sourceTree = "<group>"; };
 		1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueLoadingView.swift; sourceTree = "<group>"; };
 		1B8E4A972886DD5200432728 /* SignInLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInLoginButton.swift; sourceTree = "<group>"; };
+		1B8E4A992887CE0300432728 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
+		1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProxyViewController.swift; sourceTree = "<group>"; };
+		1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonProxyViewController.swift; sourceTree = "<group>"; };
+		1B8E4AA328890E4500432728 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		1B8E4AA5288910E200432728 /* IssueListNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListNavigationController.swift; sourceTree = "<group>"; };
+		1B8E4AA7288910FF00432728 /* MyPageNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNavigationController.swift; sourceTree = "<group>"; };
+		1B8E4AA92889110900432728 /* SettingsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationController.swift; sourceTree = "<group>"; };
+		1B8E4AAD2889114A00432728 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		1B8E4AAF2889115200432728 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCategoryViewController.swift; sourceTree = "<group>"; };
 		1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalTitleTextField.swift; sourceTree = "<group>"; };
@@ -77,7 +95,11 @@
 			children = (
 				1BBA3E9F287D6A8500DC57A0 /* UIComponents */,
 				1B3C0661287BE096006A36CF /* Resources */,
+				1B8E4A9E2887D94200432728 /* Proxy */,
 				1B3C0662287BE09C006A36CF /* Login */,
+				1B8E4A9B2887CE0800432728 /* IssueList */,
+				1B8E4AAC2889111400432728 /* MyPage */,
+				1B8E4AAB2889110E00432728 /* Settings */,
 			);
 			path = "issue-tracker";
 			sourceTree = "<group>";
@@ -103,6 +125,43 @@
 				1B8E4A972886DD5200432728 /* SignInLoginButton.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		1B8E4A9B2887CE0800432728 /* IssueList */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AA328890E4500432728 /* MainTabBarController.swift */,
+				1B8E4AA5288910E200432728 /* IssueListNavigationController.swift */,
+				1B8E4A992887CE0300432728 /* IssueListViewController.swift */,
+			);
+			path = IssueList;
+			sourceTree = "<group>";
+		};
+		1B8E4A9E2887D94200432728 /* Proxy */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */,
+				1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */,
+			);
+			path = Proxy;
+			sourceTree = "<group>";
+		};
+		1B8E4AAB2889110E00432728 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AA92889110900432728 /* SettingsNavigationController.swift */,
+				1B8E4AAF2889115200432728 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		1B8E4AAC2889111400432728 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AA7288910FF00432728 /* MyPageNavigationController.swift */,
+				1B8E4AAD2889114A00432728 /* MyPageViewController.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 		1BBA3E9F287D6A8500DC57A0 /* UIComponents */ = {
@@ -250,13 +309,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */,
+				1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */,
+				1B8E4AB02889115200432728 /* SettingsViewController.swift in Sources */,
 				1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */,
+				1B8E4AA6288910E200432728 /* IssueListNavigationController.swift in Sources */,
+				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
 				1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */,
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
+				1B8E4AA8288910FF00432728 /* MyPageNavigationController.swift in Sources */,
 				1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */,
+				1B8E4AA02887DAAA00432728 /* SettingProxyViewController.swift in Sources */,
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */,
+				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
 				1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */,
+				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
 				1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */,
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,
 				1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */,

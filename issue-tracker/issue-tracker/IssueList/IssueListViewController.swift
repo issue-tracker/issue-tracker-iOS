@@ -10,15 +10,44 @@ import SnapKit
 
 class IssueListViewController: CommonProxyViewController {
     
-    private(set) var label = UILabel()
+    private var tableView = UITableView()
+    
+    private lazy var plusButton: UIButton = {
+        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 44, height: 44)), primaryAction: UIAction(handler: { action in
+            self.navigationController?.pushViewController(IssueEditViewController(), animated: true)
+        }))
+        
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(label)
-        label.text = "issue"
         
-        label.snp.makeConstraints { make in
+        defer {
+            view.bringSubviewToFront(plusButton)
+        }
+        
+        view.addSubview(tableView)
+        view.addSubview(plusButton)
+        
+        tableView.snp.makeConstraints { make in
             make.center.equalTo(self.view.snp.center)
         }
+        
+        plusButton.snp.makeConstraints { make in
+            make.bottom.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(16)
+        }
+        
+        view.layoutIfNeeded()
+    }
+}
+
+extension IssueListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        UITableViewCell()
     }
 }

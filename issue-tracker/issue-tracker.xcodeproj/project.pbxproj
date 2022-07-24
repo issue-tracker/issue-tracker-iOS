@@ -59,6 +59,7 @@
 		1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListTableViewCell.swift; sourceTree = "<group>"; };
 		1B8E4AB528892F0B00432728 /* ViewBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBindable.swift; sourceTree = "<group>"; };
 		1B8E4AB728892F0F00432728 /* ViewBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBinding.swift; sourceTree = "<group>"; };
+		1B8E4AB9288A6E4D00432728 /* issue-tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "issue-tracker.entitlements"; sourceTree = "<group>"; };
 		1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCategoryViewController.swift; sourceTree = "<group>"; };
 		1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalTitleTextField.swift; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		1B3C0647287BDD15006A36CF /* issue-tracker */ = {
 			isa = PBXGroup;
 			children = (
+				1B8E4AB9288A6E4D00432728 /* issue-tracker.entitlements */,
 				1BBA3E9F287D6A8500DC57A0 /* UIComponents */,
 				1B3C0661287BE096006A36CF /* Resources */,
 				1B8E4A9E2887D94200432728 /* Proxy */,
@@ -471,11 +473,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "issue-tracker/issue-tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L3ZPWB4HNK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "issue-tracker/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "issue-tracker";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -485,7 +489,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanghwiback.issue-tracker";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanghwiback.issuetracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -499,11 +503,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "issue-tracker/issue-tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L3ZPWB4HNK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "issue-tracker/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "issue-tracker";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -513,7 +519,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sanghwiback.issue-tracker";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanghwiback.issuetracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

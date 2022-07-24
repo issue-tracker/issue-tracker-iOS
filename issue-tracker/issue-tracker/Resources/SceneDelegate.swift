@@ -65,5 +65,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         return tabBar
     }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        print(URLContexts.first?.url.absoluteString ?? "Deep Link Detected!")
+    }
 }
-

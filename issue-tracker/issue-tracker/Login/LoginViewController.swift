@@ -37,14 +37,15 @@ class LoginViewController: CommonProxyViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
         
-        infoFlexContainer.flex.marginHorizontal(padding).define { flex in
-            flex.addItem().height(65%).define { flex in
+        infoFlexContainer.flex.marginHorizontal(padding).justifyContent(.end).define { flex in
+            flex.addItem().define { flex in
                 flex.addItem().grow(1)
                 flex.addItem(idTextFieldContainer)
                 flex.addItem(SeparatorLineView()).marginVertical(padding)
                 flex.addItem(passwordTextFieldContainer)
             }
             flex.addItem(horizontalButtons).paddingTop(padding)
+            flex.addItem().height(30%)
         }
     }
     

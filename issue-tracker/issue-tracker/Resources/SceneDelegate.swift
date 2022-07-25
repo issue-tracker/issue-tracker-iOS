@@ -67,6 +67,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        print(URLContexts.first?.url.absoluteString ?? "Deep Link Detected!")
+        
+        guard
+            let url = URLContexts.first?.url,
+            let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true),
+            urlComponents.host == "login"
+        else {
+            return
+        }
+        
+        let path = urlComponents.path.lowercased()
+        var loginParameters: [String: String] = [:]
+        
+        if path.contains("kakao") {
+            loginParameters["vendor"] = "kakao"
+        } else if path.contains("naver") {
+            loginParameters["vendor"] = "naver"
+        } else if path.contains("github") {
+            loginParameters["vendor"] = "github"
+        }
+        
+        if let typeItem = urlComponents.queryItems?.first(where: {$0.name == "type"}), typeItem.value?.lowercased() == "success" {
+            
+            (window?.rootViewController as? UINavigationController)?.pushViewController(SignInViewController(), animated: true)
+            
+        } else {
+            
+            let alert = UIAlertController(title: "\(URLContexts.first?.url.query ?? "Unknown") 로그인 실패", message: "인증 과정 중 오류가 발생하였습니다. 재시도 바랍니다.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "닫기", style: .destructive)
+            alert.addAction(action)
+            
+            window?.rootViewController?.present(alert, animated: true)
+        }
     }
 }

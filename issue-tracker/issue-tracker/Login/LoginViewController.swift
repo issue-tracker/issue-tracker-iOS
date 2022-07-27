@@ -28,15 +28,17 @@ class LoginViewController: CommonProxyViewController {
         }))
         HorizontalButtonsComponents(title: "로그인", handler: UIAction(handler: { _ in
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.switchScreen(type: .main)
-//            self.navigationController?.pushViewController(IssueListViewController(), animated: true)
         }))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(resignKeyboard)))
+        
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
-        
+        view.addSubview(CommonTextField(frame: CGRect(origin: CGPoint(x: 20, y: 700), size: CGSize(width: view.frame.width-20, height: 60))))
         infoFlexContainer.flex.marginHorizontal(padding).justifyContent(.end).define { flex in
             flex.addItem().define { flex in
                 flex.addItem().grow(1)
@@ -51,6 +53,15 @@ class LoginViewController: CommonProxyViewController {
     
     @objc func pushSignInCategoryScreen(_ sender: Any?) {
         navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+    }
+    
+    @objc func resignKeyboard() {
+        for subview in view.subviews {
+            if subview.isFirstResponder {
+                subview.resignFirstResponder()
+                break
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {

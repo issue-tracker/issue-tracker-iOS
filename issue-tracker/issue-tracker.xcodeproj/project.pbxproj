@@ -14,6 +14,7 @@
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
 		1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C065F287BE02D006A36CF /* LoginViewController.swift */; };
 		1B66B236288FB2610062860F /* CommonInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B66B235288FB2610062860F /* CommonInputView.swift */; };
+		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
 		1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A932886184000432728 /* SeparatorLineView.swift */; };
 		1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */; };
 		1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A972886DD5200432728 /* SignInLoginButton.swift */; };
@@ -49,6 +50,7 @@
 		1B3C0656287BDD17006A36CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1B66B235288FB2610062860F /* CommonInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInputView.swift; sourceTree = "<group>"; };
+		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		1B8E4A932886184000432728 /* SeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLineView.swift; sourceTree = "<group>"; };
 		1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueLoadingView.swift; sourceTree = "<group>"; };
 		1B8E4A972886DD5200432728 /* SignInLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInLoginButton.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				1B8E4AB528892F0B00432728 /* ViewBindable.swift */,
 				1B8E4AB728892F0F00432728 /* ViewBinding.swift */,
 				1B20F799288EC195004EBE9F /* CommonTextField.swift */,
+				1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */,
 				1B66B235288FB2610062860F /* CommonInputView.swift */,
 			);
 			path = UIComponents;
@@ -353,6 +356,7 @@
 				1B8E4AB228892AEF00432728 /* IssueEditViewController.swift in Sources */,
 				1B8E4AA8288910FF00432728 /* MyPageNavigationController.swift in Sources */,
 				1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */,
+				1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */,
 				1B8E4AA02887DAAA00432728 /* SettingProxyViewController.swift in Sources */,
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */,

@@ -56,12 +56,7 @@ class LoginViewController: CommonProxyViewController {
     }
     
     @objc func resignKeyboard() {
-        for subview in view.subviews {
-            if subview.isFirstResponder {
-                subview.resignFirstResponder()
-                break
-            }
-        }
+        self.view.endEditing(true)
     }
     
     override func viewDidLayoutSubviews() {

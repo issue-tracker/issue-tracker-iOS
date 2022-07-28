@@ -38,6 +38,7 @@ class CommonTextField: UITextField {
                 return
             }
             
+            isSecureTextEntry = markerType == .lock
             leadingSpaceView.image = UIImage(systemName: imageName)
         }
     }
@@ -48,12 +49,18 @@ class CommonTextField: UITextField {
     private var sceneDelegate: SceneDelegate? {
         UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
     }
+    private var topMostView: UIView? {
+        sceneDelegate?.topViewController?.view
+    }
     
     convenience init(frame: CGRect, input type: UIKeyboardType, placeholder: String?, markerType: CommonTextMarkerType = .none) {
         self.init(frame: frame)
         self.keyboardType = type
-        self.placeholder = placeholder
         self.markerType = markerType
+        
+        if let placeholder = placeholder {
+            self.attributedPlaceholder = NSAttributedString.blackOpaqueString(placeholder)
+        }
     }
     
     override init(frame: CGRect) {
@@ -69,10 +76,13 @@ class CommonTextField: UITextField {
     private func makeUI() {
         delegate = self
         
+        if self.attributedPlaceholder == nil {
+            self.attributedPlaceholder = NSAttributedString.blackOpaqueString("문자를 입력하세요.")
+        }
+        
+        leftViewMode = .always
         leadingSpaceView.frame.size = CGSize(width: frame.height, height: frame.height)
         leftView = leadingSpaceView
-        leftViewMode = .always
-        rightViewMode = .always
         textColor = .black
         
         backgroundColor = UIColor(named: "Common_TF_BG")
@@ -89,11 +99,17 @@ class CommonTextField: UITextField {
             object: nil,
             queue: OperationQueue.main)
         { notification in
-            let keyboardSize = notification.userInfo?[UITextField.keyboardFrameEndUserInfoKey] as? CGRect
+            guard
+                self.isFirstResponder,
+                let topMostView = self.topMostView,
+                topMostView.bounds.origin.y == 0,
+                let keyboardSize = notification.userInfo?[UITextField.keyboardFrameEndUserInfoKey] as? CGRect
+            else {
+                return
+            }
             
             UIView.animate(withDuration: 0.3) {
-                self.sceneDelegate?.topViewController?.view.bounds.origin.y += keyboardSize?.height ?? 0
-//                self.frame.origin.y -= keyboardSize?.height ?? 0
+                topMostView.bounds.origin.y += keyboardSize.height
             }
         }
         
@@ -102,29 +118,32 @@ class CommonTextField: UITextField {
             object: nil,
             queue: OperationQueue.main)
         { notification in
-            let keyboardSize = notification.userInfo?[UITextField.keyboardFrameEndUserInfoKey] as? CGRect
+            guard
+                let topMostView = self.topMostView,
+                topMostView.bounds.origin.y != 0
+            else {
+                return
+            }
+            
             UIView.animate(withDuration: 0.3) {
-                self.sceneDelegate?.topViewController?.view.bounds.origin.y -= keyboardSize?.height ?? 0
-//                self.frame.origin.y += keyboardSize?.height ?? 0
+                topMostView.bounds.origin.y = 0
             }
         }
     }
     
-    func setNext(textField: CommonTextField) {
-        returnKeyType = .next
-        nextField = textField
-    }
-    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIEdgeInsets(top: 4, left: leftView?.frame.width ?? 4, bottom: 4, right: rightView?.frame.width ?? 4))
-    }
-
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIEdgeInsets(top: 4, left: leftView?.frame.width ?? 4, bottom: 4, right: rightView?.frame.width ?? 4))
+        let padding = frame.height / 5
+        return bounds.inset(by: UIEdgeInsets(top: 4, left: padding, bottom: 4, right: padding))
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIEdgeInsets(top: 4, left: leftView?.frame.width ?? 4, bottom: 4, right: rightView?.frame.width ?? 4))
+        let padding = frame.height / 5
+        return bounds.inset(by: UIEdgeInsets(top: 4, left: padding, bottom: 4, right: padding))
+    }
+    
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        let padding = frame.height / 5
+        return bounds.inset(by: UIEdgeInsets(top: 4, left: padding, bottom: 4, right: padding))
     }
     
     deinit {

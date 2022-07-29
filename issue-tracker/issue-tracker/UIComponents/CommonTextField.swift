@@ -107,8 +107,6 @@ class CommonTextField: UITextField {
         textColor = .black
         
         backgroundColor = UIColor(named: "Common_TF_BG")
-        layer.cornerRadius = frame.height/4
-        clipsToBounds = true
         layoutIfNeeded()
         
         setNotification()
@@ -150,6 +148,13 @@ class CommonTextField: UITextField {
                 topMostView.bounds.origin.y = 0
             }
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        layer.cornerRadius = frame.height/4
+        clipsToBounds = true
     }
     
     deinit {

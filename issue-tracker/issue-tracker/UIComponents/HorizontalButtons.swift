@@ -14,10 +14,9 @@ fileprivate typealias Handler = (String)->Void
 class HorizontalButtons: UIView {
     
     private let padding: CGFloat = 8
-    private let _rootContainer = UIView()
-    private(set) var subButtons = [UIButton]()
-    
     private var completionHandler: (()->Void)?
+    
+    private(set) var subButtons = [UIButton]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,26 +34,28 @@ class HorizontalButtons: UIView {
         self.completionHandler = completionHandler
         let components = content()
         
-        addSubview(_rootContainer)
-        
-        for (index, component) in components.enumerated() {
+        for component in components {
+            
             let button = UIButton(type: .custom, primaryAction: component.handler)
-            button.setTitle(component.title, for: .normal)
-            button.setTitleColor(UIColor.secondaryLabel, for: .normal)
+            button.frame.size = CGSize(width: bounds.height, height: bounds.height)
+            if let title = component.title {
+                button.setTitle(title, for: .normal)
+                button.setTitleColor(UIColor.secondaryLabel, for: .normal)
+            } else if let imageName = component.imageName {
+                button.setImage(UIImage(named: imageName), for: .normal)
+                button.contentMode = .scaleAspectFit
+            }
+            
             subButtons.append(button)
-            _rootContainer.flex.direction(.row).define { flex in
-                flex.addItem(button).grow(1)
-                
-                if index != components.count - 1 {
-                    flex.addItem().width(padding)
-                }
+            flex.direction(.row).alignContent(.center).define { flex in
+                flex.addItem(button)
             }
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        _rootContainer.flex.layout(mode: .adjustHeight)
+        flex.layout()
         completionHandler?()
     }
 }
@@ -71,6 +72,13 @@ public struct HorizontalButtonsBuilder {
 }
 
 public struct HorizontalButtonsComponents {
-    let title: String
-    let handler: UIAction
+    let title: String?
+    let imageName: String?
+    let handler: UIAction?
+    
+    init(title: String? = nil, imageName: String? = nil, handler: UIAction? = nil) {
+        self.title = title
+        self.imageName = imageName
+        self.handler = handler
+    }
 }

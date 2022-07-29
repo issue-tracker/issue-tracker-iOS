@@ -38,7 +38,6 @@ class LoginViewController: CommonProxyViewController {
         
         view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
-        view.addSubview(CommonTextField(frame: CGRect(origin: CGPoint(x: 20, y: 700), size: CGSize(width: view.frame.width-20, height: 60))))
         infoFlexContainer.flex.marginHorizontal(padding).justifyContent(.end).define { flex in
             flex.addItem().define { flex in
                 flex.addItem().grow(1)

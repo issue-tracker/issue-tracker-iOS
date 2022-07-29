@@ -20,7 +20,7 @@ class CommonTextField: UITextField {
     private lazy var subBackgroundView = UIView(frame: bounds.insetBy(dx: 4, dy: 4))
     private var nextField: CommonTextField?
     
-    private let leadingSpaceView = UIImageView()
+    private let leftButton = UIButton()
     var markerType: CommonTextMarkerType = .none {
         didSet {
             var imageName = ""
@@ -39,7 +39,10 @@ class CommonTextField: UITextField {
             }
             
             isSecureTextEntry = markerType == .lock
-            leadingSpaceView.image = UIImage(systemName: imageName)
+            leftButton.setImage(UIImage(systemName: imageName), for: .normal)
+            leftButton.tintColor = .black
+            leftView = leftButton
+            leftViewMode = .always
         }
     }
     
@@ -49,8 +52,28 @@ class CommonTextField: UITextField {
     private var sceneDelegate: SceneDelegate? {
         UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
     }
+    
     private var topMostView: UIView? {
         sceneDelegate?.topViewController?.view
+    }
+    
+    private lazy var textFieldRect: (CGRect) -> CGRect = { [weak self] in
+        
+        guard let self = self else { return CGRect.zero }
+        
+        let padding = self.frame.height / 5
+        return $0.inset(by: UIEdgeInsets(top: padding, left: self.leftViewRect(forBounds: $0).maxX+padding, bottom: padding, right: 0))
+    }
+    
+    private lazy var textFieldWithClearButton: (CGRect) -> CGRect = { [weak self] in
+        guard let self = self else { return .zero }
+        
+        var textFieldRect = self.textFieldRect($0)
+        
+        guard textFieldRect != .zero else { return .zero}
+        
+        textFieldRect.size.width -= self.clearButtonRect(forBounds: $0).width + (self.frame.height / 5)
+        return textFieldRect
     }
     
     convenience init(frame: CGRect, input type: UIKeyboardType, placeholder: String?, markerType: CommonTextMarkerType = .none) {
@@ -80,9 +103,7 @@ class CommonTextField: UITextField {
             self.attributedPlaceholder = NSAttributedString.blackOpaqueString("문자를 입력하세요.")
         }
         
-        leftViewMode = .always
-        leadingSpaceView.frame.size = CGSize(width: frame.height, height: frame.height)
-        leftView = leadingSpaceView
+        clearButtonMode = .whileEditing
         textColor = .black
         
         backgroundColor = UIColor(named: "Common_TF_BG")
@@ -131,21 +152,6 @@ class CommonTextField: UITextField {
         }
     }
     
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = frame.height / 5
-        return bounds.inset(by: UIEdgeInsets(top: 4, left: padding, bottom: 4, right: padding))
-    }
-    
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = frame.height / 5
-        return bounds.inset(by: UIEdgeInsets(top: 4, left: padding, bottom: 4, right: padding))
-    }
-    
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        let padding = frame.height / 5
-        return bounds.inset(by: UIEdgeInsets(top: 4, left: padding, bottom: 4, right: padding))
-    }
-    
     deinit {
         if let showNotification = showNotification {
             NotificationCenter.default.removeObserver(showNotification)
@@ -153,6 +159,32 @@ class CommonTextField: UITextField {
         if let hideNotification = hideNotification {
             NotificationCenter.default.removeObserver(hideNotification)
         }
+    }
+}
+
+extension CommonTextField {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return textFieldRect(bounds)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return textFieldWithClearButton(bounds)
+    }
+    
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return textFieldWithClearButton(bounds)
+    }
+    
+    override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        var padding = super.leftViewRect(forBounds: bounds)
+        padding.origin.x += 12
+        return padding
+    }
+    
+    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+        var padding = super.rightViewRect(forBounds: bounds)
+        padding.origin.x -= frame.height/5
+        return padding
     }
 }
 

@@ -51,12 +51,13 @@ class HorizontalButtons: UIView {
                 flex.addItem(button)
             }
         }
+        
+        flex.layout()
+        completionHandler?()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        flex.layout()
-        completionHandler?()
     }
 }
 

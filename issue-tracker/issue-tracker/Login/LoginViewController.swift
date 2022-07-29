@@ -62,10 +62,7 @@ class LoginViewController: CommonProxyViewController {
         view.addSubview(infoFlexContainer)
         
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
-        idTextField.frame.size.height = 120
         let passwordTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "패스워드", markerType: .lock)
-        passwordTextField.frame.size.height = 120
-        loginButton.frame.size.height = 120
         loginButton.layer.cornerRadius = 4
         loginButton.clipsToBounds = true
         
@@ -75,26 +72,33 @@ class LoginViewController: CommonProxyViewController {
             }
         }
         
-        infoFlexContainer.flex.marginHorizontal(padding).justifyContent(.end).define { flex in
+        infoFlexContainer.flex.justifyContent(.end).define { flex in
             flex.addItem(idTextField)
-            flex.addItem().height(padding)
+                .height(60).marginBottom(padding)
             flex.addItem(passwordTextField)
-            flex.addItem().height(padding)
+                .height(60).marginBottom(padding)
             flex.addItem(loginButton)
-            flex.addItem().height(padding)
-            flex.addItem(editUserInformationButtons)
-            flex.addItem().height(padding*4)
+                .height(60).marginBottom(padding)
+            flex.addItem(editUserInformationButtons).justifyContent(.center)
+                .height(20).marginBottom(padding*4)
             flex.addItem(signInNotifyLabel).alignContent(.center)
-            flex.addItem().height(padding*2)
-            flex.addItem(signInButtons)
+                .height(20).marginBottom(padding*2)
+            flex.addItem(signInButtons).justifyContent(.center)
+                .height(60).marginBottom(padding*4)
+            signInButtons.subButtons.forEach { button in
+                button.flex.aspectRatio(1)
+            }
         }
         
-        editUserInformationButtons.flex.justifyContent(.center)
-        
-        signInButtons.flex.height(120).justifyContent(.center)
-        signInButtons.subButtons.forEach { button in
-            button.flex.aspectRatio(1)
+        infoFlexContainer.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
+            make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
+        view.layoutIfNeeded()
+        
+        infoFlexContainer.flex.layout()
     }
     
     @objc func pushSignInCategoryScreen(_ sender: Any?) {
@@ -103,15 +107,5 @@ class LoginViewController: CommonProxyViewController {
     
     @objc func resignKeyboard() {
         self.view.endEditing(true)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        infoFlexContainer.snp.makeConstraints { make in
-            make.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
-        
-        view.layoutIfNeeded()
-        infoFlexContainer.flex.layout()
     }
 }

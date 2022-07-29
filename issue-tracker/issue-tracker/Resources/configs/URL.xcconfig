@@ -1,0 +1,17 @@
+//
+//  Config.xcconfig
+//  issue-tracker
+//
+//  Created by 백상휘 on 2022/07/29.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include "../../../Pods/Target Support Files/Pods-issue-tracker/Pods-issue-tracker.debug.xcconfig"
+#include "../../../Pods/Target Support Files/Pods-issue-tracker/Pods-issue-tracker.release.xcconfig"
+
+GITHUB_OAUTH_URL = https:/$()/github.com/login/oauth/authorize?client_id=1b3426be6211740a5720&scope=read:user,user:email
+
+NAVER_OAUTH_URL = https:/$()/nid.naver.com/oauth2.0/authorize?response_type=code&client_id=x_z8o_Klq1rt_uDB1T3_&redirect_uri=http:/$()/localhost:3000/redirect-auth?provider=naver&state=123414124214
+
+KAKAO_OAUTH_URL = https:/$()/kauth.kakao.com/oauth/authorize?client_id=bde572c05def916107072c359986f9bc&redirect_uri=http:/$()/localhost:3000/redirect-auth?provider=kakao&response_type=code

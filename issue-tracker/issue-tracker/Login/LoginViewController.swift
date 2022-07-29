@@ -43,13 +43,16 @@ class LoginViewController: CommonProxyViewController {
     
     private lazy var signInButtons = HorizontalButtons {
         HorizontalButtonsComponents(imageName: "login_octocat", handler: UIAction(handler: { _ in
-            print("Hello GitHub")
+            guard let url = URL.githubOauthURL else { return }
+            UIApplication.shared.open(url)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_kakao", handler: UIAction(handler: { _ in
-            print("Hello Kakao")
+            guard let url = URL.kakaoOauthURL else { return }
+            UIApplication.shared.open(url)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_naver", handler: UIAction(handler: { _ in
-            print("Hello Naver")
+            guard let url = URL.naverOauthURL else { return }
+            UIApplication.shared.open(url)
         }))
     }
     
@@ -91,7 +94,6 @@ class LoginViewController: CommonProxyViewController {
         }
         
         infoFlexContainer.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
             make.verticalEdges.equalToSuperview()
             make.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide)
         }

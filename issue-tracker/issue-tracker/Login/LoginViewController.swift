@@ -19,16 +19,17 @@ class LoginViewController: CommonProxyViewController {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "login_button_color")
         button.setTitle("아이디로 로그인", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel?.font.pointSize ?? 16)
         return button
     }()
     
     private lazy var editUserInformationButtons = HorizontalButtons {
         HorizontalButtonsComponents(title: "비밀번호 재설정", handler: UIAction(handler: { _ in
-            self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+            self.present(UIAlertController.messageDeveloping, animated: true)
         }))
         HorizontalButtonsComponents(title: "   ")
         HorizontalButtonsComponents(title: "회원가입", handler: UIAction(handler: { _ in
-            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.switchScreen(type: .main)
+            self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
         }))
     }
     
@@ -43,15 +44,24 @@ class LoginViewController: CommonProxyViewController {
     
     private lazy var signInButtons = HorizontalButtons {
         HorizontalButtonsComponents(imageName: "login_octocat", handler: UIAction(handler: { _ in
-            guard let url = URL.githubOauthURL else { return }
+            guard let url = URL.githubOauthURL else {
+                self.present(UIAlertController.messageFailed, animated: true)
+                return
+            }
             UIApplication.shared.open(url)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_kakao", handler: UIAction(handler: { _ in
-            guard let url = URL.kakaoOauthURL else { return }
+            guard let url = URL.kakaoOauthURL else {
+                self.present(UIAlertController.messageFailed, animated: true)
+                return
+            }
             UIApplication.shared.open(url)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_naver", handler: UIAction(handler: { _ in
-            guard let url = URL.naverOauthURL else { return }
+            guard let url = URL.naverOauthURL else {
+                self.present(UIAlertController.messageFailed, animated: true)
+                return
+            }
             UIApplication.shared.open(url)
         }))
     }
@@ -66,7 +76,7 @@ class LoginViewController: CommonProxyViewController {
         
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
         let passwordTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "패스워드", markerType: .lock)
-        loginButton.layer.cornerRadius = 4
+        
         loginButton.clipsToBounds = true
         
         editUserInformationButtons.subButtons.forEach { button in
@@ -81,9 +91,9 @@ class LoginViewController: CommonProxyViewController {
             flex.addItem(passwordTextField)
                 .height(60).marginBottom(padding)
             flex.addItem(loginButton)
-                .height(60).marginBottom(padding)
+                .height(60).marginBottom(padding*3)
             flex.addItem(editUserInformationButtons).justifyContent(.center)
-                .height(20).marginBottom(padding*4)
+                .height(20).marginBottom(padding*5)
             flex.addItem(signInNotifyLabel).alignContent(.center)
                 .height(20).marginBottom(padding*2)
             flex.addItem(signInButtons).justifyContent(.center)
@@ -101,6 +111,8 @@ class LoginViewController: CommonProxyViewController {
         view.layoutIfNeeded()
         
         infoFlexContainer.flex.layout()
+        
+        loginButton.layer.cornerRadius = loginButton.frame.height/4
     }
     
     @objc func pushSignInCategoryScreen(_ sender: Any?) {

@@ -75,5 +75,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) { }
     
     // React Universal Link
-    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) { }
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard
+            let userURL = userActivity.webpageURL,
+            let allURLs = URL.allAuthenticationURLs,
+            let service = userURL.getService()
+        else {
+            topViewController?.present(UIAlertController.messageFailed, animated: true)
+            return
+        }
+        
+        // 1. access_token 받아옴.
+        
+        // 2. signInMember가 올 경우는 이미 가입된 회원.
+        
+        // 3. signUpFormData가 올 경우는 가입해야 되는 회원.
+        
+        "http://localhost/api/auth/"
+    }
+}
+
+struct OAuthSignin: Encodable {
+    let email: String
+    let nickname: String
+    let profileImage: String
+    let authProviderType: String
+    let resourceOwnerId: String
 }

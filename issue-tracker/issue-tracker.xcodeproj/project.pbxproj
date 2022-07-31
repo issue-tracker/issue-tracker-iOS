@@ -43,7 +43,7 @@
 
 /* Begin PBXFileReference section */
 		0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_issue_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B0808812893DDC2001704C2 /* URL.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = URL.xcconfig; sourceTree = "<group>"; };
+		1B0808812893DDC2001704C2 /* RELEASE.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = RELEASE.xcconfig; sourceTree = "<group>"; };
 		1B0808822893E1B2001704C2 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 		1B0808802893DDB1001704C2 /* configs */ = {
 			isa = PBXGroup;
 			children = (
-				1B0808812893DDC2001704C2 /* URL.xcconfig */,
+				1B0808812893DDC2001704C2 /* RELEASE.xcconfig */,
 			);
 			path = configs;
 			sourceTree = "<group>";
@@ -511,7 +511,7 @@
 		};
 		1B3C065A287BDD17006A36CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B0808812893DDC2001704C2 /* URL.xcconfig */;
+			baseConfigurationReference = 1B0808812893DDC2001704C2 /* RELEASE.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -542,7 +542,7 @@
 		};
 		1B3C065B287BDD17006A36CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B0808812893DDC2001704C2 /* URL.xcconfig */;
+			baseConfigurationReference = 1B0808812893DDC2001704C2 /* RELEASE.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

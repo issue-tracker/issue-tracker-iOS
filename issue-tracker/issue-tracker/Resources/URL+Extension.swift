@@ -10,7 +10,7 @@ import Foundation
 // Get URL from xcconfig
 extension URL {
     
-    enum URLServices: String {
+    enum URLServices: String, CaseIterable {
         case github = "Github_Oauth_URL"
         case naver = "Naver_Oauth_URL"
         case kakao = "Kakao_Oauth_URL"
@@ -43,5 +43,21 @@ extension URL {
         }
         
         return URL(string: urlString)
+    }
+    
+    static var allAuthenticationURLs: [URL]? {
+        [githubOauthURL, naverOauthURL, kakaoOauthURL] as? [URL]
+    }
+    
+    func getService() -> URLServices? {
+        let host = self.host
+        
+        for service in URLServices.allCases {
+            if String(describing: service).uppercased() == host?.uppercased() {
+                return service
+            }
+        }
+        
+        return nil
     }
 }

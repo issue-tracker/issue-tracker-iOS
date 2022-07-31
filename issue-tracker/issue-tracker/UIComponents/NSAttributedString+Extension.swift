@@ -15,9 +15,4 @@ extension NSAttributedString {
     static func blackOpaqueString(_ string: String) -> NSAttributedString {
         return NSAttributedString(string: string, attributes: [.foregroundColor: UIColor.black.withAlphaComponent(0.5)])
     }
-    
-    static func boldString(_ string: String) -> NSAttributedString {
-        UIFont.boldSystemFont(ofSize: <#T##CGFloat#>)
-        return NSAttributedString(string: string, attributes: [.font: boldFont])
-    }
 }

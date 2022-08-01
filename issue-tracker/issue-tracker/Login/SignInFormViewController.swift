@@ -13,7 +13,7 @@ class SignInFormViewController: CommonProxyViewController {
     
     private let padding: CGFloat = 8
     
-    private let _containerView = UIView()
+    private let _containerView = UIScrollView()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -42,28 +42,31 @@ class SignInFormViewController: CommonProxyViewController {
         
         view.addSubview(_containerView)
         
-        _containerView.flex.define { flex in
-            flex.addItem(titleLabel).height(60)
+        _containerView.flex.alignContent(.stretch).define { flex in
+            flex.addItem(titleLabel).maxHeight(60)
             flex.addItem().define { flex in
                 flex.addItem(idArea)
                 flex.addItem(passwordArea)
                 flex.addItem(passwordConfirmedArea)
                 flex.addItem(emailArea)
                 flex.addItem(nicknameArea)
-            }.markDirty()
-            flex.addItem(acceptButton).height(60)
+            }
+            
+            flex.addItem(acceptButton).maxHeight(60)
         }
         
         _containerView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
+        _containerView.layoutIfNeeded()
+        _containerView.flex.layout()
+        _containerView.contentSize.height = _containerView.subviews.max(by: {$0.frame.maxY < $1.frame.maxY})?.frame.maxY ?? 0
+        _containerView.contentSize.height += 20
+        
         acceptButton.layer.cornerRadius = acceptButton.frame.height/4
         acceptButton.clipsToBounds = true
-        
-        _containerView.layoutIfNeeded()
-        
-        _containerView.flex.layout()
+        acceptButton.setNeedsDisplay()
     }
     
     func getCommonTextFieldArea(title: String, subTitle: String? = nil, placeHolderString: String? = nil, description: String? = nil) -> UIView {
@@ -81,7 +84,7 @@ class SignInFormViewController: CommonProxyViewController {
         
         let descriptionLabel = UILabel()
         descriptionLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        descriptionLabel.text = description
+        descriptionLabel.text = description ?? " "
         descriptionLabel.minimumScaleFactor = 0.2
         
         view.addSubview(areaView)

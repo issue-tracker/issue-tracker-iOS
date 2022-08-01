@@ -10,6 +10,7 @@
 		1B0808832893E1B2001704C2 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
 		1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */; };
 		1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08088628979768001704C2 /* SignInFormViewController.swift */; };
+		1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B080888289809E6001704C2 /* UIScrollView+Extension.swift */; };
 		1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F799288EC195004EBE9F /* CommonTextField.swift */; };
 		1B20F79D288FA34E004EBE9F /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F79C288FA34E004EBE9F /* LoginModel.swift */; };
 		1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C0648287BDD15006A36CF /* AppDelegate.swift */; };
@@ -48,6 +49,7 @@
 		1B0808822893E1B2001704C2 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		1B08088628979768001704C2 /* SignInFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormViewController.swift; sourceTree = "<group>"; };
+		1B080888289809E6001704C2 /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		1B20F79C288FA34E004EBE9F /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		1B3C0645287BDD15006A36CF /* issue-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "issue-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +226,7 @@
 				1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */,
 				1B66B235288FB2610062860F /* CommonInputView.swift */,
 				1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */,
+				1B080888289809E6001704C2 /* UIScrollView+Extension.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				1B8E4AA6288910E200432728 /* IssueListNavigationController.swift in Sources */,
 				1B0808832893E1B2001704C2 /* URL+Extension.swift in Sources */,
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
+				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
 				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
 				1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */,
 				1B8E4AB428892EF200432728 /* IssueListTableViewCell.swift in Sources */,

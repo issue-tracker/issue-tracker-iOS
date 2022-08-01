@@ -61,8 +61,7 @@ class SignInFormViewController: CommonProxyViewController {
         
         _containerView.layoutIfNeeded()
         _containerView.flex.layout()
-        _containerView.contentSize.height = _containerView.subviews.max(by: {$0.frame.maxY < $1.frame.maxY})?.frame.maxY ?? 0
-        _containerView.contentSize.height += 20
+        _containerView.reloadContentSizeHeight()
         
         acceptButton.layer.cornerRadius = acceptButton.frame.height/4
         acceptButton.clipsToBounds = true
@@ -97,6 +96,4 @@ class SignInFormViewController: CommonProxyViewController {
         
         return areaView
     }
-    
-    
 }

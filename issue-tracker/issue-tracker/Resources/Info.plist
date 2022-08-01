@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Kakao_Oauth_URL</key>
-	<string>$(KAKAO_OAUTH_URL)</string>
-	<key>Naver_Oauth_URL</key>
-	<string>$(NAVER_OAUTH_URL)</string>
-	<key>Github_Oauth_URL</key>
-	<string>$(GITHUB_OAUTH_URL)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -17,10 +11,16 @@
 			<string>com.sanghwiback.issue-tracker</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>issue-tracker</string>
+				<string>localhost:3000</string>
 			</array>
 		</dict>
 	</array>
+	<key>Github_Oauth_URL</key>
+	<string>$(GITHUB_OAUTH_URL)</string>
+	<key>Kakao_Oauth_URL</key>
+	<string>$(KAKAO_OAUTH_URL)</string>
+	<key>Naver_Oauth_URL</key>
+	<string>$(NAVER_OAUTH_URL)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

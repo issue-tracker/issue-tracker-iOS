@@ -29,7 +29,7 @@ class LoginViewController: CommonProxyViewController {
         }))
         HorizontalButtonsComponents(title: "   ")
         HorizontalButtonsComponents(title: "회원가입", handler: UIAction(handler: { _ in
-            self.navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
+            self.navigationController?.pushViewController(SignInFormViewController(), animated: true)
         }))
     }
     
@@ -69,9 +69,6 @@ class LoginViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(resignKeyboard)))
-        
-        view.backgroundColor = .systemBackground
         view.addSubview(infoFlexContainer)
         
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
@@ -117,9 +114,5 @@ class LoginViewController: CommonProxyViewController {
     
     @objc func pushSignInCategoryScreen(_ sender: Any?) {
         navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
-    }
-    
-    @objc func resignKeyboard() {
-        self.view.endEditing(true)
     }
 }

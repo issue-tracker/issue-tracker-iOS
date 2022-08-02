@@ -109,7 +109,7 @@ class LoginViewController: CommonProxyViewController {
         
         infoFlexContainer.flex.layout()
         
-        loginButton.layer.cornerRadius = loginButton.frame.height/4
+        loginButton.setCornerRadius()
     }
     
     @objc func pushSignInCategoryScreen(_ sender: Any?) {

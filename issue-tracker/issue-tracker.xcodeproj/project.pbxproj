@@ -17,6 +17,7 @@
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
 		1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C065F287BE02D006A36CF /* LoginViewController.swift */; };
+		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B66B236288FB2610062860F /* CommonInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B66B235288FB2610062860F /* CommonInputView.swift */; };
 		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
 		1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A932886184000432728 /* SeparatorLineView.swift */; };
@@ -58,6 +59,7 @@
 		1B3C0651287BDD17006A36CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B3C0656287BDD17006A36CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B66B235288FB2610062860F /* CommonInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInputView.swift; sourceTree = "<group>"; };
 		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		1B8E4A932886184000432728 /* SeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLineView.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				1B66B235288FB2610062860F /* CommonInputView.swift */,
 				1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */,
 				1B080888289809E6001704C2 /* UIScrollView+Extension.swift */,
+				1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */,
 				1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */,
 				1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */,
 				1B8E4AB02889115200432728 /* SettingsViewController.swift in Sources */,

@@ -153,8 +153,7 @@ class CommonTextField: UITextField {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        layer.cornerRadius = frame.height/4
-        clipsToBounds = true
+        self.setCornerRadius()
     }
     
     deinit {

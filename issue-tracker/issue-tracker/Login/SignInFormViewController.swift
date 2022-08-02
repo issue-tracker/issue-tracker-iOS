@@ -18,8 +18,8 @@ class SignInFormViewController: CommonProxyViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "회원가입"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
-        label.font = label.font.withSize(label.font.pointSize * 1.2)
+        let font = UIFont.preferredFont(forTextStyle: .title1)
+        label.font = UIFont.boldSystemFont(ofSize: font.pointSize * 0.9)
         return label
     }()
     
@@ -27,7 +27,8 @@ class SignInFormViewController: CommonProxyViewController {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "login_button_color")
         button.setTitle("가입하기", for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: font.pointSize)
         return button
     }()
     
@@ -42,8 +43,8 @@ class SignInFormViewController: CommonProxyViewController {
         
         view.addSubview(_containerView)
         
-        _containerView.flex.alignContent(.stretch).define { flex in
-            flex.addItem(titleLabel).maxHeight(60)
+        _containerView.flex.alignContent(.stretch).paddingHorizontal(padding).define { flex in
+            flex.addItem(titleLabel).height(60)
             flex.addItem().define { flex in
                 flex.addItem(idArea)
                 flex.addItem(passwordArea)
@@ -52,7 +53,7 @@ class SignInFormViewController: CommonProxyViewController {
                 flex.addItem(nicknameArea)
             }
             
-            flex.addItem(acceptButton).maxHeight(60)
+            flex.addItem(acceptButton).height(60)
         }
         
         _containerView.snp.makeConstraints { make in
@@ -63,35 +64,35 @@ class SignInFormViewController: CommonProxyViewController {
         _containerView.flex.layout()
         _containerView.reloadContentSizeHeight()
         
-        acceptButton.layer.cornerRadius = acceptButton.frame.height/4
-        acceptButton.clipsToBounds = true
-        acceptButton.setNeedsDisplay()
+        acceptButton.setCornerRadius()
     }
     
-    func getCommonTextFieldArea(title: String, subTitle: String? = nil, placeHolderString: String? = nil, description: String? = nil) -> UIView {
+    private func getCommonTextFieldArea(title: String, subTitle: String? = nil, placeHolderString: String? = nil, description: String? = nil) -> UIView {
         let areaView = UIView()
         
         let titleLabel = UILabel()
         titleLabel.attributedText = NSAttributedString(string: title, attributes: [.font: UIFont.preferredFont(forTextStyle: .headline, compatibleWith: nil)])
         
         let subTitleLabel = UILabel()
-        subTitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        let subTitleFont = UIFont.preferredFont(forTextStyle: .subheadline)
+        subTitleLabel.font = UIFont.boldSystemFont(ofSize: subTitleFont.pointSize)
         subTitleLabel.text = subTitle
-        subTitleLabel.minimumScaleFactor = 0.2
+        subTitleLabel.adjustsFontSizeToFitWidth = true
         
         let commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: placeHolderString)
         
         let descriptionLabel = UILabel()
-        descriptionLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        let descriptionFont = UIFont.preferredFont(forTextStyle: .subheadline)
+        descriptionLabel.font = UIFont.boldSystemFont(ofSize: descriptionFont.pointSize)
         descriptionLabel.text = description ?? " "
-        descriptionLabel.minimumScaleFactor = 0.2
+        subTitleLabel.adjustsFontSizeToFitWidth = true
         
         view.addSubview(areaView)
         areaView.flex.define { flex in
             flex.addItem(titleLabel).paddingVertical(padding)
-            flex.addItem(subTitleLabel).paddingBottom(padding)
-            flex.addItem(commonTextField).minHeight(40).paddingBottom(padding)
-            flex.addItem(descriptionLabel).paddingBottom(padding)
+            flex.addItem(subTitleLabel).marginBottom(padding)
+            flex.addItem(commonTextField).minHeight(40).marginBottom(padding)
+            flex.addItem(descriptionLabel)
         }
         
         return areaView

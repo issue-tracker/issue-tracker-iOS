@@ -35,11 +35,11 @@ class SignInFormViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let idArea = getCommonTextFieldArea(title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", description: "멋진 아이디에요!")
+        let idArea = getCommonTextFieldArea(title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", requestURLString: "http://localhost:3000/api/members/login-id/", description: "멋진 아이디에요!")
         let passwordArea = getCommonTextFieldArea(title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
         let passwordConfirmedArea = getCommonTextFieldArea(title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
-        let emailArea = getCommonTextFieldArea(title: "이메일", placeHolderString: "이메일")
-        let nicknameArea = getCommonTextFieldArea(title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임")
+        let emailArea = getCommonTextFieldArea(title: "이메일", placeHolderString: "이메일", requestURLString: "http://localhost:3000/api/members/email/")
+        let nicknameArea = getCommonTextFieldArea(title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", requestURLString: "http://localhost:3000/api/members/nickname/")
         
         view.addSubview(_containerView)
         
@@ -67,7 +67,13 @@ class SignInFormViewController: CommonProxyViewController {
         acceptButton.setCornerRadius()
     }
     
-    private func getCommonTextFieldArea(title: String, subTitle: String? = nil, placeHolderString: String? = nil, description: String? = nil) -> UIView {
+    private func getCommonTextFieldArea(
+        title: String,
+        subTitle: String? = nil,
+        placeHolderString: String? = nil,
+        requestURLString: String? = nil,
+        description: String? = nil
+    ) -> UIView {
         let areaView = UIView()
         
         let titleLabel = UILabel()
@@ -79,7 +85,13 @@ class SignInFormViewController: CommonProxyViewController {
         subTitleLabel.text = subTitle
         subTitleLabel.adjustsFontSizeToFitWidth = true
         
-        let commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: placeHolderString)
+        var commonTextField: CommonTextField!
+        if let requestURLString = requestURLString {
+            commonTextField = RequestTextField(frame: .zero, input: .default, placeholder: placeHolderString)
+            (commonTextField as? RequestTextField)?.requestURLString = requestURLString
+        } else {
+            commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: placeHolderString)
+        }
         
         let descriptionLabel = UILabel()
         let descriptionFont = UIFont.preferredFont(forTextStyle: .subheadline)

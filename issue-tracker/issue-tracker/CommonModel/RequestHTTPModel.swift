@@ -9,8 +9,7 @@ import Foundation
 
 enum HTTPError: Error {
     case noData
-    case noResponse
-    case noURL
+    case urlError
 }
 
 class RequestHTTPModel {
@@ -24,12 +23,22 @@ class RequestHTTPModel {
     func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         
         guard let request = requestBuilder.getRequest() else {
-            completionHandler(.failure(HTTPError.noURL), nil)
+            completionHandler(.failure(HTTPError.urlError), nil)
             return
         }
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            
-        }
+            guard let data = data else {
+                if let error = error {
+                    completionHandler(.failure(error), response)
+                } else {
+                    completionHandler(.failure(HTTPError.noData), response)
+                }
+                
+                return
+            }
+
+            completionHandler(.success(data), response)
+        }.resume()
     }
 }

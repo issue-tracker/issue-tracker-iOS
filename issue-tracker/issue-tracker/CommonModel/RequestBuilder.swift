@@ -18,7 +18,7 @@ struct RequestBuilder {
                                    "Proxy-Authenticate",
                                    "Proxy-Authorization",
                                    "WWW-Authenticate"]
-    let urlString: String
+    private(set) var urlString: String
     private let encoder = JSONEncoder()
     
     var bodyDictionary = [String: String]()
@@ -28,6 +28,15 @@ struct RequestBuilder {
     
     mutating func setBody(_ key: String, value: String) {
         bodyDictionary[key] = value
+    }
+    
+    mutating func setPath(_ path: String) {
+        guard var url = URL(string: urlString) else {
+            return
+        }
+        
+        url.appendPathComponent(path)
+        urlString = url.absoluteString
     }
     
     func getRequest() -> URLRequest? {

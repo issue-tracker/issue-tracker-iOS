@@ -15,7 +15,11 @@ enum LoadingViewType {
 
 extension UIView {
     func popLoadingView(type: LoadingViewType, willAutoResign: Bool = false) {
-        let backgroundView = OpaqueBackgroundView(frame: frame)
+        guard self.subviews.contains(where: {$0 is OpaqueBackgroundView}) == false else {
+            return
+        }
+        
+        let backgroundView = OpaqueBackgroundView(frame: CGRect(origin: .zero, size: frame.size))
         backgroundView.effect = UIBlurEffect(style: .regular)
         addSubview(backgroundView)
         let indicator = UIActivityIndicatorView()

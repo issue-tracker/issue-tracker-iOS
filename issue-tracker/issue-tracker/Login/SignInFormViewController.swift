@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import SnapKit
 
-class SignInFormViewController: CommonProxyViewController {
+class SignInFormViewController: CommonProxyViewController, ViewBinding {
     
     private let padding: CGFloat = 8
     
@@ -35,7 +35,7 @@ class SignInFormViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let checkURL = "http://localhost:3000/api/members"
+        let checkURL = "http://3.36.249.0:3000/api/members"
         
         let idArea = getCommonTextFieldArea(title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", requestURLString: "\(checkURL)/login-id/", description: "멋진 아이디에요!")
         let passwordArea = getCommonTextFieldArea(title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
@@ -69,6 +69,20 @@ class SignInFormViewController: CommonProxyViewController {
         acceptButton.setCornerRadius()
     }
     
+    var bindableHandler: ((Any?, ViewBindable) -> Void)? = { param, bindable in
+        if let param = param as? [String: Bool], let bindable = bindable as? RequestTextField {
+            DispatchQueue.main.async {
+                let descriptionLabel = bindable.superview?.subviews.first(where: { $0 is DescriptionLabel })
+                
+                if param["isRequesting"] ?? false {
+                    descriptionLabel?.popLoadingView(type: .small, willAutoResign: true)
+                } else {
+                    descriptionLabel?.dismissLoadingView()
+                }
+            }
+        }
+    }
+    
     private func getCommonTextFieldArea(
         title: String,
         subTitle: String? = nil,
@@ -91,8 +105,10 @@ class SignInFormViewController: CommonProxyViewController {
         if let requestURLString = requestURLString {
             commonTextField = commonTextField.toRequestType(urlString: requestURLString)
         }
+        commonTextField.binding = self
         
-        let descriptionLabel = UILabel()
+        let descriptionLabel = DescriptionLabel()
+        descriptionLabel.binding = self
         let descriptionFont = UIFont.preferredFont(forTextStyle: .subheadline)
         descriptionLabel.font = UIFont.boldSystemFont(ofSize: descriptionFont.pointSize)
         descriptionLabel.text = description ?? " "
@@ -108,4 +124,8 @@ class SignInFormViewController: CommonProxyViewController {
         
         return areaView
     }
+}
+
+class DescriptionLabel: UILabel, ViewBindable {
+    var binding: ViewBinding?
 }

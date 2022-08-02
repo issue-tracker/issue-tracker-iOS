@@ -41,7 +41,10 @@ class RequestTextField: CommonTextField {
         model.requestBuilder.setPath(path)
         model.requestBuilder.setPath("exists")
         
+        binding?.bindableHandler?(["isRequesting": true], self)
+        
         model.request { result, response in
+            self.binding?.bindableHandler?(["isRequesting": false], self)
             switch result {
             case .success(let data):
                 print("success \(data)")

@@ -15,10 +15,11 @@ enum CommonTextMarkerType {
     case none
 }
 
-class CommonTextField: UITextField {
+class CommonTextField: UITextField, ViewBindable {
     
     private lazy var subBackgroundView = UIView(frame: bounds.insetBy(dx: 4, dy: 4))
     private var nextField: CommonTextField?
+    var binding: ViewBinding?
     
     private let leftButton = UIButton()
     var markerType: CommonTextMarkerType = .none {

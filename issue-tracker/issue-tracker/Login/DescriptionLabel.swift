@@ -14,37 +14,42 @@ class DescriptionLabel: UILabel, ViewBindable {
             var color: UIColor?
             switch descriptionType {
             case .error:
-                color = .red
+                color = .systemRed
             case .warning:
-                color = .yellow
+                color = .systemYellow
             case .acceptable:
-                color = .green
+                color = .systemGreen
             case .none:
                 color = .clear
             }
             
-            textColor = color
-            setNeedsDisplay()
+            DispatchQueue.main.async {
+                self.textColor = color
+                self.setNeedsDisplay()
+            }
         }
     }
     
     func setResponseStatus(_ responseStatus: ResponseStatus?) {
         
         defer {
-            layoutIfNeeded() // text가 nil일 경우는 레이아웃까지도 변경될 가능성이 있음.
+            DispatchQueue.main.async {
+                self.layoutIfNeeded() // text가 nil일 경우는 레이아웃까지도 변경될 가능성이 있음.
+            }
         }
         
         guard let responseStatus = responseStatus else {
-            text = nil
+            DispatchQueue.main.async {
+                self.text = nil
+            }
+            
             return
         }
         
         self.descriptionType = responseStatus.status
         
-        if responseStatus.status == .none {
-            text = nil
-        } else {
-            text = responseStatus.message
+        DispatchQueue.main.async {
+            self.text = responseStatus.status == .none ? nil : responseStatus.message
         }
     }
 }
@@ -61,4 +66,5 @@ struct ResponseStatus {
     var result: Result<Data, Error>?
     var response: URLResponse?
     var message: String = ""
+    var isRequesting: Bool = true
 }

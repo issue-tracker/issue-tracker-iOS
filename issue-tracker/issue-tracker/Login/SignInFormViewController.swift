@@ -72,20 +72,18 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
     var bindableHandler: ((Any?, ViewBindable) -> Void)? = { param, bindable in
         guard let param = param as? [String: Any] else { return }
         
-        DispatchQueue.main.async {
+        if let descriptionLabel = bindable as? DescriptionLabel, let result = param["result"] as? ResponseStatus {
             
-            if let descriptionLabel = bindable as? DescriptionLabel {
-                
-                let isRequesting = param["isRequesting"] as? Bool
-                if let result = param["result"] as? ResponseStatus {
-                    descriptionLabel.setResponseStatus(result)
-                }
-                
-                if isRequesting ?? false {
+            DispatchQueue.main.async {
+                if result.isRequesting {
                     descriptionLabel.popLoadingView(type: .small, willAutoResign: true)
                 } else {
                     descriptionLabel.dismissLoadingView()
                 }
+            }
+            
+            if result.isRequesting == false {
+                descriptionLabel.setResponseStatus(result)
             }
         }
     }

@@ -82,7 +82,7 @@ class LoginViewController: CommonProxyViewController {
             }
         }
         
-        infoFlexContainer.flex.justifyContent(.end).define { flex in
+        infoFlexContainer.flex.paddingHorizontal(padding).justifyContent(.end).define { flex in
             flex.addItem(idTextField)
                 .height(60).marginBottom(padding)
             flex.addItem(passwordTextField)

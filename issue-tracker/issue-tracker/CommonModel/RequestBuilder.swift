@@ -20,6 +20,7 @@ struct RequestBuilder {
                                    "WWW-Authenticate"]
     private(set) var urlString: String
     private(set) var bodyDictionary = [String: String]()
+    private(set) var pathArray = [String]()
     
     private let encoder = JSONEncoder()
     
@@ -32,22 +33,25 @@ struct RequestBuilder {
     }
     
     mutating func setPath(_ path: String) {
-        guard var url = URL(string: urlString) else {
+        guard URL(string: urlString) != nil else {
             return
         }
         
-        url.appendPathComponent(path)
-        urlString = url.absoluteString
+        pathArray.append(path)
     }
     
-    func getRequest() -> URLRequest? {
-        guard let url = URL(string: urlString) else {
+    mutating func getRequest() -> URLRequest? {
+        guard var url = URL(string: urlString) else {
             return nil
         }
         
-        let request = URLRequest(url: url)
+        for path in pathArray {
+            url.appendPathComponent(path)
+        }
         
-        return request
+        pathArray.removeAll()
+        
+        return URLRequest(url: url)
     }
     
     func getReservedHeaderFieldKey(query: String) -> String? {

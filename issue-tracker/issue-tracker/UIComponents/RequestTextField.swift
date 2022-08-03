@@ -39,8 +39,9 @@ class RequestTextField: CommonTextField {
             var result = ResponseStatus()
             result.message = "\(validateStringCount)자 이상 입력해주시기 바랍니다."
             result.status = .warning
+            result.isRequesting = false
             
-            binding?.bindableHandler?(["isRequesting": false, "result": result], resultLabel ?? self)
+            binding?.bindableHandler?(["result": result], resultLabel ?? self)
         }
         
         return super.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
@@ -52,45 +53,39 @@ class RequestTextField: CommonTextField {
         requestModel?.requestBuilder.setPath(path)
         requestModel?.requestBuilder.setPath("exists")
         
-        binding?.bindableHandler?(["isRequesting": true], resultLabel ?? self)
+        binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)
         
         requestModel?.requestAsTimer { [weak self] result, response in
             
-            guard
-                let self = self,
-                let bindable = self.resultLabel
-            else {
+            guard let self = self, let bindable = self.resultLabel else {
                 return
             }
             
-            let validatedResult = self.validationModel.validate(for: result)
+            let result = self.validationModel.validate(for: result)
             
-            self.binding?.bindableHandler?(["isRequesting": false, "result": validatedResult], bindable)
+            self.binding?.bindableHandler?(["result": result], bindable)
         }
     }
 }
 
-class TextFieldValidationModel {
+private class TextFieldValidationModel {
     func validate(for response: Result<Data, Error>) -> ResponseStatus {
-        
         var result = ResponseStatus()
         result.result = response
+        result.isRequesting = false
         
-        switch response {
-        case .success(let data):
+        guard
+            let data = try? response.get(),
             let responseResult = try? JSONDecoder().decode(Bool.self, from: data)
+        else {
             
-            if let responseResult = responseResult {
-                result.status = responseResult ? .acceptable : .warning
-                result.message = responseResult ? "이상이 발견되지 않았습니다." : "입력값을 다시 확인해주시기 바랍니다."
-            } else {
-                result.status = .error
-                result.message = "서버와의 연결이 불안정합니다."
-            }
-        case .failure(_):
             result.status = .error
             result.message = "서버와의 연결이 불안정합니다."
+            return result
         }
+        
+        result.status = responseResult ? .warning : .acceptable
+        result.message = responseResult ? "입력값을 다시 확인해주시기 바랍니다." : "이상이 발견되지 않았습니다."
         
         return result
     }

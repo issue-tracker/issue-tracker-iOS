@@ -7,32 +7,41 @@
 
 import UIKit
 
-enum LoadingViewType {
-    case small
-    case large
-    case veryLarge
+enum LoadingViewType: Float {
+    case small = 1
+    case large = 2
+    case veryLarge = 3
 }
 
 extension UIView {
-    func popLoadingView(type: LoadingViewType, willAutoResign: Bool = false) {
-        guard self.subviews.contains(where: {$0 is OpaqueBackgroundView}) == false else {
+    
+    func popLoading(_ sholudTurnOn: Bool, type: LoadingViewType = .small, willAutoResign: Bool = false) {
+        
+        DispatchQueue.main.async { [weak self] in
+            if let backgroundView = self?.subviews.first(where: {$0 is OpaqueBackgroundView}) {
+                self?.dismissLoadingView(backgroundView)
+            }
+        }
+        
+        guard sholudTurnOn else {
+            dismissLoadingView()
             return
         }
         
-        let backgroundView = OpaqueBackgroundView(frame: CGRect(origin: .zero, size: frame.size))
+        popLoadingView(type: type, willAutoResign: willAutoResign)
+    }
+    
+    func popLoadingView(type: LoadingViewType, willAutoResign: Bool = false) {
+        
+        let backgroundView = OpaqueBackgroundView(frame: CGRect(origin: .zero, size: self.frame.size))
         backgroundView.effect = UIBlurEffect(style: .regular)
-        addSubview(backgroundView)
+        self.addSubview(backgroundView)
+        
         let indicator = UIActivityIndicatorView()
         backgroundView.contentView.addSubview(indicator)
         
-        switch type {
-        case .small:
-            indicator.transform = CGAffineTransform(scaleX: 1, y: 1)
-        case .large:
-            indicator.transform = CGAffineTransform(scaleX: 2, y: 2)
-        case .veryLarge:
-            indicator.transform = CGAffineTransform(scaleX: 3, y: 3)
-        }
+        let scaledValue = CGFloat(type.rawValue)
+        indicator.transform = CGAffineTransform(scaleX: scaledValue, y: scaledValue)
         
         indicator.center = backgroundView.center
         indicator.startAnimating()
@@ -45,15 +54,17 @@ extension UIView {
     }
     
     func dismissLoadingView() {
-        subviews.forEach {
-            if $0 is OpaqueBackgroundView {
-                $0.removeFromSuperview()
+        DispatchQueue.main.async { [weak self] in
+            self?.subviews.forEach {
+                if $0 is OpaqueBackgroundView {
+                    $0.removeFromSuperview()
+                }
             }
         }
     }
     
-    func dismissLoadingView(_ targetView: OpaqueBackgroundView) {
-        targetView.removeFromSuperview()
+    func dismissLoadingView(_ targetView: UIView) {
+        (targetView as? OpaqueBackgroundView)?.removeFromSuperview()
     }
 }
 

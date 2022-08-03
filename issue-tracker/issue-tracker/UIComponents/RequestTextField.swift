@@ -9,12 +9,8 @@ import UIKit
 
 class RequestTextField: CommonTextField {
     
+    var timeInterval: Double = 2.0
     var requestURLString: String = "" {
-        didSet {
-            requestModel = RequestHTTPTimerModel(timerInterval: timeInterval, requestURLString)
-        }
-    }
-    var timeInterval: Double = 2.0 {
         didSet {
             requestModel = RequestHTTPTimerModel(timerInterval: timeInterval, requestURLString)
         }
@@ -33,7 +29,9 @@ class RequestTextField: CommonTextField {
     
     override func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if let text = textField.text, (text.count + string.count) > validateStringCount {
+        let addtionalLength = (range.length == 0) ? string.count : (range.length * -1) + 1
+        
+        if (range.location + addtionalLength) >= validateStringCount {
             request()
         } else {
             var result = ResponseStatus()
@@ -50,6 +48,7 @@ class RequestTextField: CommonTextField {
     private func request() {
         guard let path = self.text else { return }
         
+        requestModel?.setTimerInterval(timeInterval)
         requestModel?.requestBuilder.setPath(path)
         requestModel?.requestBuilder.setPath("exists")
         

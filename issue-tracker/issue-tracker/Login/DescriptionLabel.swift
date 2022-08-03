@@ -34,7 +34,7 @@ class DescriptionLabel: UILabel, ViewBindable {
         
         defer {
             DispatchQueue.main.async {
-                self.layoutIfNeeded() // text가 nil일 경우는 레이아웃까지도 변경될 가능성이 있음.
+                self.setNeedsDisplay() // 레이아웃을 변경하기 위해 FlexLayout의 레이아웃을 변경하지는 않으므로 Display만 명시적으로 변경.
             }
         }
         
@@ -49,7 +49,7 @@ class DescriptionLabel: UILabel, ViewBindable {
         self.descriptionType = responseStatus.status
         
         DispatchQueue.main.async {
-            self.text = responseStatus.status == .none ? nil : responseStatus.message
+            self.text = (responseStatus.status == .none) ? nil : responseStatus.message
         }
     }
 }

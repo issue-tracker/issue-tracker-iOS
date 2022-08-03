@@ -7,12 +7,20 @@
 
 import UIKit
 
-enum CommonTextMarkerType {
-    case lock
-    case calendar
-    case person
-    case mail
-    case none
+enum CommonTextMarkerType: String {
+    case lock = "lock"
+    case calendar = "calendar"
+    case person = "person.wave.2.fill"
+    case mail = "mail"
+    case none = ""
+    
+    func getMarkerImage() -> UIImage? {
+        guard self != .none else {
+            return nil
+        }
+        
+        return UIImage(systemName: self.rawValue)
+    }
 }
 
 class CommonTextField: UITextField, ViewBindable {
@@ -24,23 +32,8 @@ class CommonTextField: UITextField, ViewBindable {
     private let leftButton = UIButton()
     var markerType: CommonTextMarkerType = .none {
         didSet {
-            var imageName = ""
-            
-            switch markerType {
-            case .lock:
-                imageName = "lock"
-            case .calendar:
-                imageName = "calendar"
-            case .person:
-                imageName = "person.wave.2.fill"
-            case .mail:
-                imageName = "mail"
-            default:
-                return
-            }
-            
             isSecureTextEntry = markerType == .lock
-            leftButton.setImage(UIImage(systemName: imageName), for: .normal)
+            leftButton.setImage(markerType.getMarkerImage(), for: .normal)
             leftButton.tintColor = .black
             leftView = leftButton
             leftViewMode = .always

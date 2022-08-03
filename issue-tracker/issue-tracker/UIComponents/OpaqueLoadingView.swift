@@ -15,20 +15,18 @@ enum LoadingViewType: Float {
 
 extension UIView {
     
-    func popLoading(_ sholudTurnOn: Bool, type: LoadingViewType = .small, willAutoResign: Bool = false) {
-        
+    func popLoading(_ sholudTurnOn: Bool, type: LoadingViewType = .small, willAutoResign: Bool = true) {
         DispatchQueue.main.async { [weak self] in
             if let backgroundView = self?.subviews.first(where: {$0 is OpaqueBackgroundView}) {
                 self?.dismissLoadingView(backgroundView)
             }
+            
+            if sholudTurnOn {
+                self?.dismissLoadingView()
+            } else {
+                self?.popLoadingView(type: type, willAutoResign: willAutoResign)
+            }
         }
-        
-        guard sholudTurnOn else {
-            dismissLoadingView()
-            return
-        }
-        
-        popLoadingView(type: type, willAutoResign: willAutoResign)
     }
     
     func popLoadingView(type: LoadingViewType, willAutoResign: Bool = false) {
@@ -54,11 +52,9 @@ extension UIView {
     }
     
     func dismissLoadingView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.subviews.forEach {
-                if $0 is OpaqueBackgroundView {
-                    $0.removeFromSuperview()
-                }
+        subviews.forEach {
+            if $0 is OpaqueBackgroundView {
+                $0.removeFromSuperview()
             }
         }
     }

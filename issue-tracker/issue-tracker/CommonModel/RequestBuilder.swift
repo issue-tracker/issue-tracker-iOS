@@ -19,9 +19,10 @@ struct RequestBuilder {
                                    "Proxy-Authorization",
                                    "WWW-Authenticate"]
     private(set) var urlString: String
+    private(set) var bodyDictionary = [String: String]()
+    
     private let encoder = JSONEncoder()
     
-    var bodyDictionary = [String: String]()
     var httpBody: Data? {
         try? encoder.encode(bodyDictionary)
     }

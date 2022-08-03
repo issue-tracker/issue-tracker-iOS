@@ -21,6 +21,8 @@
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
 		1B5D699528990BB000AE9495 /* RequestTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D699428990BB000AE9495 /* RequestTextField.swift */; };
+		1B5D6997289A3E0600AE9495 /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */; };
+		1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */; };
 		1B66B236288FB2610062860F /* CommonInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B66B235288FB2610062860F /* CommonInputView.swift */; };
 		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
 		1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A932886184000432728 /* SeparatorLineView.swift */; };
@@ -66,6 +68,8 @@
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B5D69922898DF6500AE9495 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 		1B5D699428990BB000AE9495 /* RequestTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTextField.swift; sourceTree = "<group>"; };
+		1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionLabel.swift; sourceTree = "<group>"; };
+		1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPTimerModel.swift; sourceTree = "<group>"; };
 		1B66B235288FB2610062860F /* CommonInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInputView.swift; sourceTree = "<group>"; };
 		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		1B8E4A932886184000432728 /* SeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLineView.swift; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				1B3C065F287BE02D006A36CF /* LoginViewController.swift */,
 				1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */,
 				1B08088628979768001704C2 /* SignInFormViewController.swift */,
+				1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */,
 				1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */,
 				1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */,
 				1B8E4A972886DD5200432728 /* SignInLoginButton.swift */,
@@ -198,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */,
+				1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */,
 				1B5D69922898DF6500AE9495 /* RequestBuilder.swift */,
 			);
 			path = CommonModel;
@@ -420,7 +426,9 @@
 				1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */,
 				1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */,
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
+				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */,
+				1B5D6997289A3E0600AE9495 /* DescriptionLabel.swift in Sources */,
 				1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */,
 				1B8E4AB628892F0B00432728 /* ViewBindable.swift in Sources */,
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,

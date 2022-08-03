@@ -37,8 +37,9 @@ class RequestHTTPModel {
                 
                 return
             }
-
+            
             completionHandler(.success(data), response)
+            
         }.resume()
     }
 }

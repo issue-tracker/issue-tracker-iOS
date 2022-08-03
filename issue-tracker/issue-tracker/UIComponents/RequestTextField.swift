@@ -9,8 +9,23 @@ import UIKit
 
 class RequestTextField: CommonTextField {
     
-    private var timerRunning = false
-    var requestURLString: String?
+    var requestURLString: String = "" {
+        didSet {
+            requestModel = RequestHTTPTimerModel(timerInterval: timeInterval, requestURLString)
+        }
+    }
+    var timeInterval: Double = 2.0 {
+        didSet {
+            requestModel = RequestHTTPTimerModel(timerInterval: timeInterval, requestURLString)
+        }
+    }
+    
+    private var requestModel: RequestHTTPTimerModel?
+    private var validationModel = TextFieldValidationModel()
+    
+    /// 해당 값 이상의 문자에 대해서만 validation을 진행합니다.
+    var validateStringCount: UInt = 2
+    var resultLabel: ViewBindable?
     
     override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         super.textFieldShouldReturn(textField)
@@ -18,39 +33,65 @@ class RequestTextField: CommonTextField {
     
     override func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if timerRunning == false {
+        if let text = textField.text, (text.count + string.count) > validateStringCount {
+            request()
+        } else {
+            var result = ResponseStatus()
+            result.message = "\(validateStringCount)자 이상 입력해주시기 바랍니다."
+            result.status = .warning
             
-            Timer.scheduledTimer(
-                timeInterval: 2.0, target: self, selector: #selector(request(_:)), userInfo: nil, repeats: false
-            )
-            timerRunning.toggle()
+            binding?.bindableHandler?(["isRequesting": false, "result": result], resultLabel ?? self)
         }
         
         return super.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
     }
     
-    @objc func request(_ sender: Any) {
+    private func request() {
+        guard let path = self.text else { return }
         
-        timerRunning = false
+        requestModel?.requestBuilder.setPath(path)
+        requestModel?.requestBuilder.setPath("exists")
         
-        guard let path = self.text, let urlString = requestURLString else {
-            return
-        }
+        binding?.bindableHandler?(["isRequesting": true], resultLabel ?? self)
         
-        let model = RequestHTTPModel(urlString)
-        model.requestBuilder.setPath(path)
-        model.requestBuilder.setPath("exists")
-        
-        binding?.bindableHandler?(["isRequesting": true], self)
-        
-        model.request { result, response in
-            self.binding?.bindableHandler?(["isRequesting": false], self)
-            switch result {
-            case .success(let data):
-                print("success \(data)")
-            case .failure(let error):
-                print("failed \(error)")
+        requestModel?.requestAsTimer { [weak self] result, response in
+            
+            guard
+                let self = self,
+                let bindable = self.resultLabel
+            else {
+                return
             }
+            
+            let validatedResult = self.validationModel.validate(for: result)
+            
+            self.binding?.bindableHandler?(["isRequesting": false, "result": validatedResult], bindable)
         }
+    }
+}
+
+class TextFieldValidationModel {
+    func validate(for response: Result<Data, Error>) -> ResponseStatus {
+        
+        var result = ResponseStatus()
+        result.result = response
+        
+        switch response {
+        case .success(let data):
+            let responseResult = try? JSONDecoder().decode(Bool.self, from: data)
+            
+            if let responseResult = responseResult {
+                result.status = responseResult ? .acceptable : .warning
+                result.message = responseResult ? "이상이 발견되지 않았습니다." : "입력값을 다시 확인해주시기 바랍니다."
+            } else {
+                result.status = .error
+                result.message = "서버와의 연결이 불안정합니다."
+            }
+        case .failure(_):
+            result.status = .error
+            result.message = "서버와의 연결이 불안정합니다."
+        }
+        
+        return result
     }
 }

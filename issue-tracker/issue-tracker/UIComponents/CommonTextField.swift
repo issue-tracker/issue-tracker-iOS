@@ -151,7 +151,7 @@ class CommonTextField: UITextField, ViewBindable {
         }
     }
     
-    func toRequestType(urlString: String? = nil) -> RequestTextField {
+    func toRequestType(urlString: String) -> RequestTextField {
         let textField = RequestTextField(frame: frame, input: keyboardType, placeholder: placeholder, markerType: markerType)
         textField.requestURLString = urlString
         return textField

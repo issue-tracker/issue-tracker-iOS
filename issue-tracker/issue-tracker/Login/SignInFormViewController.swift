@@ -35,7 +35,7 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let checkURL = "http://3.36.249.0:3000/api/members"
+        let checkURL = "http://3.36.249.0:8080/api/members"
         
         let idArea = getCommonTextFieldArea(title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", requestURLString: "\(checkURL)/login-id/", description: "멋진 아이디에요!")
         let passwordArea = getCommonTextFieldArea(title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
@@ -70,14 +70,21 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
     }
     
     var bindableHandler: ((Any?, ViewBindable) -> Void)? = { param, bindable in
-        if let param = param as? [String: Bool], let bindable = bindable as? RequestTextField {
-            DispatchQueue.main.async {
-                let descriptionLabel = bindable.superview?.subviews.first(where: { $0 is DescriptionLabel })
+        guard let param = param as? [String: Any] else { return }
+        
+        DispatchQueue.main.async {
+            
+            if let descriptionLabel = bindable as? DescriptionLabel {
                 
-                if param["isRequesting"] ?? false {
-                    descriptionLabel?.popLoadingView(type: .small, willAutoResign: true)
+                let isRequesting = param["isRequesting"] as? Bool
+                if let result = param["result"] as? ResponseStatus {
+                    descriptionLabel.setResponseStatus(result)
+                }
+                
+                if isRequesting ?? false {
+                    descriptionLabel.popLoadingView(type: .small, willAutoResign: true)
                 } else {
-                    descriptionLabel?.dismissLoadingView()
+                    descriptionLabel.dismissLoadingView()
                 }
             }
         }
@@ -114,6 +121,8 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
         descriptionLabel.text = description ?? " "
         subTitleLabel.adjustsFontSizeToFitWidth = true
         
+        (commonTextField as? RequestTextField)?.resultLabel = descriptionLabel
+        
         view.addSubview(areaView)
         areaView.flex.define { flex in
             flex.addItem(titleLabel).paddingVertical(padding)
@@ -124,8 +133,4 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
         
         return areaView
     }
-}
-
-class DescriptionLabel: UILabel, ViewBindable {
-    var binding: ViewBinding?
 }

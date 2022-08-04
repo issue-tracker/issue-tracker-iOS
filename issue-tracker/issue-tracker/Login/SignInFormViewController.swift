@@ -35,13 +35,11 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let checkURL = "http://3.36.249.0:8080/api/members"
-        
-        let idArea = getCommonTextFieldArea(title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", requestURLString: "\(checkURL)/login-id/", description: "멋진 아이디에요!")
+        let idArea = getCommonTextFieldArea(title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", urlPath: "login-id", description: "멋진 아이디에요!")
         let passwordArea = getCommonTextFieldArea(title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
         let passwordConfirmedArea = getCommonTextFieldArea(title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
-        let emailArea = getCommonTextFieldArea(title: "이메일", placeHolderString: "이메일", requestURLString: "\(checkURL)/email/")
-        let nicknameArea = getCommonTextFieldArea(title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", requestURLString: "\(checkURL)/nickname/")
+        let emailArea = getCommonTextFieldArea(title: "이메일", placeHolderString: "이메일", urlPath: "email")
+        let nicknameArea = getCommonTextFieldArea(title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname")
         
         view.addSubview(_containerView)
         
@@ -83,7 +81,7 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
         title: String,
         subTitle: String? = nil,
         placeHolderString: String? = nil,
-        requestURLString: String? = nil,
+        urlPath: String? = nil,
         description: String? = nil
     ) -> UIView {
         let areaView = UIView()
@@ -98,8 +96,8 @@ class SignInFormViewController: CommonProxyViewController, ViewBinding {
         subTitleLabel.adjustsFontSizeToFitWidth = true
         
         var commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: placeHolderString)
-        if let requestURLString = requestURLString {
-            commonTextField = commonTextField.toRequestType(urlString: requestURLString)
+        if let urlPath = urlPath {
+            commonTextField = commonTextField.toRequestType(url: URL.membersApiURL?.appendingPathComponent(urlPath))
         }
         commonTextField.binding = self
         

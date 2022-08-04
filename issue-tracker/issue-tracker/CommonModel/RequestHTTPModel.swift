@@ -16,8 +16,16 @@ class RequestHTTPModel {
     
     var requestBuilder: RequestBuilder
     
-    init(_ urlString: String) {
-        self.requestBuilder = RequestBuilder(urlString: urlString)
+    init(_ url: URL) {
+        self.requestBuilder = RequestBuilder(requestURL: url)
+    }
+    
+    func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void, pathArray: [String]) {
+        for path in pathArray {
+            requestBuilder.setPath(path)
+        }
+        
+        request(completionHandler)
     }
     
     func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {

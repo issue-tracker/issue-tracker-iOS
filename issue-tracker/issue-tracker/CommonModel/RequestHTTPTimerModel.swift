@@ -10,11 +10,10 @@ import Foundation
 class RequestHTTPTimerModel: RequestHTTPModel {
     private(set) var timer: Timer?
     private var timerInterval: TimeInterval
-    private var completionHandler: ((Result<Data, Error>, URLResponse?)->Void)?
     
-    init(timerInterval: Double, _ urlString: String) {
+    init(timerInterval: Double, _ url: URL) {
         self.timerInterval = timerInterval
-        super.init(urlString)
+        super.init(url)
     }
     
     func setTimerInterval(_ timerInterval: Double) {
@@ -23,13 +22,12 @@ class RequestHTTPTimerModel: RequestHTTPModel {
     
     func requestAsTimer(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: self.timerInterval, target: self, selector: #selector(requestHTTP(_:)), userInfo: nil, repeats: false)
-        self.completionHandler = completionHandler
-    }
-    
-    @objc func requestHTTP(_ sender: Any) {
-        if let completionHandler = completionHandler {
-            request(completionHandler)
+        
+        let pathArray = requestBuilder.pathArray
+        requestBuilder.removeAllPath()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: self.timerInterval, repeats: false) { _ in
+            self.request(completionHandler, pathArray: pathArray)
         }
     }
 }

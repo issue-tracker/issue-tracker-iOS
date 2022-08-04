@@ -18,11 +18,17 @@ struct RequestBuilder {
                                    "Proxy-Authenticate",
                                    "Proxy-Authorization",
                                    "WWW-Authenticate"]
-    private(set) var urlString: String
+    private var urlContainer: URL
+    private(set) var requestURL: URL
     private(set) var bodyDictionary = [String: String]()
     private(set) var pathArray = [String]()
     
     private let encoder = JSONEncoder()
+    
+    init(requestURL: URL) {
+        self.requestURL = requestURL
+        self.urlContainer = requestURL
+    }
     
     var httpBody: Data? {
         try? encoder.encode(bodyDictionary)
@@ -33,25 +39,25 @@ struct RequestBuilder {
     }
     
     mutating func setPath(_ path: String) {
-        guard URL(string: urlString) != nil else {
-            return
-        }
-        
         pathArray.append(path)
     }
     
     mutating func getRequest() -> URLRequest? {
-        guard var url = URL(string: urlString) else {
-            return nil
+        
+        defer {
+            requestURL = urlContainer
+            pathArray.removeAll()
         }
         
         for path in pathArray {
-            url.appendPathComponent(path)
+            requestURL.appendPathComponent(path)
         }
         
+        return URLRequest(url: requestURL)
+    }
+    
+    mutating func removeAllPath() {
         pathArray.removeAll()
-        
-        return URLRequest(url: url)
     }
     
     func getReservedHeaderFieldKey(query: String) -> String? {

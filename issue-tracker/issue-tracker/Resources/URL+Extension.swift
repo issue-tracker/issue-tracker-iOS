@@ -20,6 +20,14 @@ extension URL {
         }
     }
     
+    static var apiURL: URL? {
+        guard let urlString = Bundle.main.object(forInfoDictionaryKey: "API_URL") as? String else {
+            return nil
+        }
+        
+        return URL(string: urlString)
+    }
+    
     static var githubOauthURL: URL? {
         
         guard let urlString = URLServices.github.getURLString() else {
@@ -59,5 +67,21 @@ extension URL {
         }
         
         return nil
+    }
+    
+    static var membersApiURL: URL? {
+        guard let url = URL.apiURL else {
+            return nil
+        }
+        
+        return url.appendingPathComponent("members")
+    }
+    
+    static var authApiURL: URL? {
+        guard let url = URL.apiURL else {
+            return nil
+        }
+        
+        return url.appendingPathComponent("auth")
     }
 }

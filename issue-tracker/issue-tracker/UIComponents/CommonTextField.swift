@@ -51,6 +51,20 @@ class CommonTextField: UITextField, ViewBindable {
         sceneDelegate?.topViewController?.view
     }
     
+    private lazy var underneathKeyboard: (CGRect) -> Bool = { [weak self] keyboardRect in
+        guard let self = self, let topMostView = self.topMostView else {
+            return false
+        }
+        
+        var textFieldPosition: CGPoint = self.frame.origin
+        
+        if let scrollView = topMostView.subviews.first(where: { $0 is UIScrollView}) as? UIScrollView { // ScrollView에 포함된 경우
+            textFieldPosition = scrollView.absolutePosition(of: self)
+        }
+        
+        return (textFieldPosition.y + self.frame.height + 20) > keyboardRect.minY // 현재 사용자가 보는 화면의 텍스트필드 맨 아래쪽이 화면을 가리는지 확인.
+    }
+    
     private lazy var textFieldRect: (CGRect) -> CGRect = { [weak self] in
         
         guard let self = self else { return CGRect.zero }
@@ -116,13 +130,13 @@ class CommonTextField: UITextField, ViewBindable {
                 self.isFirstResponder,
                 let topMostView = self.topMostView,
                 topMostView.bounds.origin.y == 0,
-                let keyboardSize = notification.userInfo?[UITextField.keyboardFrameEndUserInfoKey] as? CGRect
+                let keyboardRect = notification.userInfo?[UITextField.keyboardFrameEndUserInfoKey] as? CGRect,
+                self.underneathKeyboard(keyboardRect)
             else {
                 return
             }
-            
             UIView.animate(withDuration: 0.3) {
-                topMostView.bounds.origin.y += keyboardSize.height
+                topMostView.bounds.origin.y += keyboardRect.height
             }
         }
         
@@ -132,6 +146,7 @@ class CommonTextField: UITextField, ViewBindable {
             queue: OperationQueue.main)
         { notification in
             guard
+                self.isFirstResponder,
                 let topMostView = self.topMostView,
                 topMostView.bounds.origin.y != 0
             else {

@@ -19,3 +19,28 @@ extension UIScrollView {
         self.setNeedsLayout()
     }
 }
+
+extension CGPoint: AdditiveArithmetic {
+    
+    public static func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        CGPoint(x: lhs.x-rhs.x, y: lhs.y-rhs.y)
+    }
+    
+    public static func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        CGPoint(x: lhs.x+rhs.x, y: lhs.y+rhs.y)
+    }
+}
+
+extension UIScrollView {
+    func absolutePosition(of view: UIView) -> CGPoint {
+        var superViewContainer = view.superview
+        var result = view.frame.origin
+        
+        while superViewContainer != self, superViewContainer != nil {
+            result += superViewContainer!.frame.origin
+            superViewContainer = superViewContainer?.superview
+        }
+        
+        return result
+    }
+}

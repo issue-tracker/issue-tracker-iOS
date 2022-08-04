@@ -92,3 +92,7 @@ iOSInjectionProject/
 # AppCode
 
 .idea/
+
+# xcconfig
+
+RELEASE.xcconfig

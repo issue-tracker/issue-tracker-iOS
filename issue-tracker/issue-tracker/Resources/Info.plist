@@ -13,7 +13,7 @@
 			<string>com.sanghwiback.issue-tracker</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>localhost:3000</string>
+				<string>issue-tracker</string>
 			</array>
 		</dict>
 	</array>

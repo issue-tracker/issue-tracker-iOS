@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:localhost:3000</string>
+		<string>applinks:3.36.249.0:8080/</string>
 	</array>
 </dict>
 </plist>

@@ -8,21 +8,25 @@
 import XCTest
 
 class issue_trackerUnitTest: XCTestCase {
+    
     func testRequest() throws {
         let validation = LoginValidationRequest()
         let sentences = ["aaaa", "eaa", "12345","a", "aaa"]
-        let expect = XCTestExpectation()
+        let simpleTestExpectation = XCTestExpectation()
+        let timerTestExpectation = XCTestExpectation()
         
         for sentence in sentences {
             validation.testValidate(category: .email, sentence) { result in
-                print(result)
-                
                 if sentence == sentences.last {
-                    expect.fulfill()
+                    simpleTestExpectation.fulfill()
                 }
             }
         }
         
-        wait(for: [expect], timeout: 5.0)
+        validation.randomInputTest(sentences) { result in
+            timerTestExpectation.fulfill()
+        }
+        
+        wait(for: [simpleTestExpectation, timerTestExpectation], timeout: 5.0)
     }
 }

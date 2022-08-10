@@ -24,6 +24,9 @@
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
 		1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C065F287BE02D006A36CF /* LoginViewController.swift */; };
 		1B4F488828A3712900C4B33A /* ModelProducingObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488728A3712900C4B33A /* ModelProducingObservable.swift */; };
+		1B4F488A28A3DEDF00C4B33A /* ModelTestableReactively.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */; };
+		1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488728A3712900C4B33A /* ModelProducingObservable.swift */; };
+		1B4F488C28A3DF4E00C4B33A /* ModelTestableReactively.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -96,6 +99,7 @@
 		1B3C0656287BDD17006A36CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1B4F488728A3712900C4B33A /* ModelProducingObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProducingObservable.swift; sourceTree = "<group>"; };
+		1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestableReactively.swift; sourceTree = "<group>"; };
 		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B5D69922898DF6500AE9495 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
@@ -271,6 +275,7 @@
 			children = (
 				1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */,
 				1B4F488728A3712900C4B33A /* ModelProducingObservable.swift */,
+				1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */,
 				1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */,
 				1B5D69922898DF6500AE9495 /* RequestBuilder.swift */,
 			);
@@ -646,6 +651,7 @@
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
 				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
+				1B4F488A28A3DEDF00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1B5D699528990BB000AE9495 /* RequestTextField.swift in Sources */,
 				1BBA3E9C287D2A5800DC57A0 /* SignInCategoryViewController.swift in Sources */,
 				1B8E4AB428892EF200432728 /* IssueListTableViewCell.swift in Sources */,
@@ -682,9 +688,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */,
+				1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1B232B1C28A0DB78007ED022 /* LoginValidationRequest.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
+				1B4F488C28A3DF4E00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,
 			);

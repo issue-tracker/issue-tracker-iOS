@@ -24,23 +24,17 @@ class issue_trackerUnitTest: XCTestCase {
     func testRequest() throws {
         let validation = LoginValidationRequest()
         let expect = XCTestExpectation()
+        let decoder = JSONDecoder()
         expect.expectedFulfillmentCount = 2
         
-        validation.testValidate(category: .email, "asdfas") { result in
-            expect.fulfill()
+        validation.nextHandler = { data in
+            if (try? decoder.decode(Bool.self, from: data)) != nil {
+                expect.fulfill()
+            }
         }
         
-        validation.testValidate(category: .email, "asiodf")
-            .subscribe(onNext: { result in
-                print("result is \(result.count)")
-            }, onError: { error in
-                print(error)
-            }, onCompleted: {
-                expect.fulfill()
-            }, onDisposed: {
-                print("disposed")
-            })
-            .disposed(by: disposeBag)
+        validation.doTest()
+        validation.doTest()
         
         wait(for: [expect], timeout: 5.0)
     }

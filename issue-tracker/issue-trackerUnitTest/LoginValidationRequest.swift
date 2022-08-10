@@ -13,9 +13,42 @@ enum LoginValidationCategory: String, CaseIterable {
     case email = "email"
 }
 
-class LoginValidationRequest {
-    private let requestModel: RequestHTTPModel?
-    private let requestTimerModel: RequestHTTPTimerModel?
+class LoginValidationRequest: ModelTestableReactively {
+    
+    var disposables: [Disposable] = []
+    let disposableLimitCount: Int = 2
+    var disposeBag: DisposeBag = DisposeBag()
+    
+    var nextHandler: ((Data) -> Void)?
+    var errorHandler: ((Error) -> Void)?
+    var completedHandler: (() -> Void)?
+    var disposeHandler: (() -> Void)?
+    
+    lazy var requestModelData: ((String, AnyObserver<Data>) -> Void)? = { param, observer in
+        guard var requestBuilder = self.requestModel?.requestBuilder else { return }
+        
+        requestBuilder.setPath(LoginValidationCategory.allCases.randomElement()?.rawValue ?? "")
+        requestBuilder.setPath(param)
+        requestBuilder.setPath("exists")
+        
+        guard let request = requestBuilder.getRequest() else { return }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                observer.onError(error ?? HTTPError.noData)
+                return
+            }
+            
+            observer.onNext(data)
+            observer.onCompleted()
+        }.resume()
+    }
+    
+    typealias ReactiveResult = Data
+    typealias RequestParameter = String
+    
+    let requestModel: RequestHTTPModel?
+    let requestTimerModel: RequestHTTPTimerModel?
     
     init() {
         if let requestURL = URL.membersApiURL {
@@ -27,75 +60,12 @@ class LoginValidationRequest {
         }
     }
     
-    func testValidate(category: LoginValidationCategory, _ sentence: String, _ completionHandler: @escaping (Bool?) -> Void) {
-        
-        requestModel?.requestBuilder.setPath(category.rawValue)
-        requestModel?.requestBuilder.setPath(sentence)
-        requestModel?.requestBuilder.setPath("exists")
-        
-        requestModel?.request({ result, response in
-            if let data = try? result.get() {
-                completionHandler(try? JSONDecoder().decode(Bool.self, from: data))
-            } else {
-                completionHandler(nil)
-            }
-        })
-    }
-    
-    func testValidate(category: LoginValidationCategory, _ sentence: String) -> Observable<Data> {
-        
-        guard let requestModel = requestModel else {
-            return Observable.just(Data())
+    func doTest(_ param: RequestParameter? = nil) {
+        guard requestModelData != nil else {
+            return
         }
         
-        requestModel.requestBuilder.setPath(category.rawValue)
-        requestModel.requestBuilder.setPath(sentence)
-        requestModel.requestBuilder.setPath("exists")
-        
-        return requestModel.requestObservable()
-    }
-    
-    func testValidate(category: LoginValidationCategory, _ sentence: String, _ onNextHandler: @escaping (Any)->Void ) -> Disposable {
-        testValidate(category: category, sentence)
-            .subscribe(onNext: { result in
-                onNextHandler(result)
-            })
-    }
-    
-    func randomInputTest(_ input: [String], _ completionHandler: @escaping (Bool?) -> Void) {
-        var sentence = ""
-        var count = 0
-        
-        var interval: Double {
-            Double.random(in: 0.0...3.0)
-        }
-        
-        let customTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
-            count += 1
-            
-            sentence += input.randomElement() ?? ""
-            
-            self?.requestTimerModel?.requestBuilder.setPath(LoginValidationCategory.allCases.randomElement()?.rawValue ?? "")
-            self?.requestTimerModel?.requestBuilder.setPath(sentence)
-            self?.requestTimerModel?.requestBuilder.setPath("exists")
-            
-            print(sentence, Date())
-            
-            self?.requestTimerModel?.requestAsTimer({ result, response in
-                print("success", sentence)
-                sentence = ""
-                if let data = try? result.get() {
-                    completionHandler(try? JSONDecoder().decode(Bool.self, from: data))
-                } else {
-                    completionHandler(nil)
-                }
-            })
-            
-            if count == input.count {
-                timer.invalidate()
-            }
-        }
-        
-        customTimer.fire()
+        let disposable = requestReactive(param ?? "testParameter")
+        setDisposableCount(disposable)
     }
 }

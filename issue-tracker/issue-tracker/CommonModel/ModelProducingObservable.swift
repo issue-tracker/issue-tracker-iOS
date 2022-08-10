@@ -12,16 +12,16 @@ import RxSwift
 /// 1. Observable 생산
 /// 2. next, error, completed Event 방출 시 실행할 handler 저장해둠.
 /// 3. Disposable 생산. 이 메소드는 자동으로 각 handler 를 작동시킴. 이 메소드를 실행할 때 만약 handler 를 넘겨주면 새로운 handler 로 인식하고 교체한다.
-protocol ModelProducingObservable {
+protocol ModelProducingObservable: AnyObject {
     /// 모델이 next Event 방출 시 반환하는 데이터 타입
     associatedtype ReactiveResult
     /// 모델이 데이터를 얻기 위해 호출하는 함수의 파라미터
     associatedtype RequestParameter
     
     // 각 Event에 대한 Handler들
-    var nextHandler: (ReactiveResult) -> Void { get set }
-    var errorHandler: (Error) -> Void { get set }
-    var completedHandler: () -> Void { get set }
+    var nextHandler: ((ReactiveResult) -> Void)? { get set }
+    var errorHandler: ((Error) -> Void)? { get set }
+    var completedHandler: (() -> Void)? { get set }
     
     /// 모델이 데이터를 얻기 위한 function.
     ///
@@ -30,7 +30,7 @@ protocol ModelProducingObservable {
     var requestModelData: ((RequestParameter, AnyObserver<ReactiveResult>) -> Void)? { get set }
     var disposeHandler: (() -> Void)? { get set }
     /// requestModelData를 실행하고 결과값을 방출하는 Observable을 반환한다.
-    func getObservable() -> Observable<ReactiveResult>
+    func getObservable(_ parameter: RequestParameter) -> Observable<ReactiveResult>
     /// Observable을 이용해서 request 한 결과물에 대한 각 handler를 실행하도록 구독까지 진행한다. override 는 권장되지 않습니다.
     /// - Returns: Disposable. DisposeBag 처리 필요.
     func requestReactive(_ parameter: RequestParameter) -> Disposable
@@ -45,23 +45,25 @@ protocol ModelProducingObservable {
 extension ModelProducingObservable {
     
     func getObservable(_ parameter: RequestParameter) -> Observable<ReactiveResult> {
-        Observable<ReactiveResult>.create { observer in
-            self.requestModelData?(parameter, observer)
-            return Disposables.create {
-                self.disposeHandler?()
+        Observable<ReactiveResult>
+            .create { [weak self] observer in
+                self?.requestModelData?(parameter, observer)
+                return Disposables.create {
+                    self?.disposeHandler?()
+                }
             }
-        }
     }
     
-    func requestReactive() -> Disposable {
-        getObservable().subscribe(
-            onNext: nextHandler,
-            onError: errorHandler,
-            onCompleted: completedHandler
-        )
+    func requestReactive(_ parameter: RequestParameter) -> Disposable {
+        getObservable(parameter)
+            .subscribe(
+                onNext: nextHandler,
+                onError: errorHandler,
+                onCompleted: completedHandler
+            )
     }
     
-    mutating func requestReactive(_ parameter: RequestParameter, _ nextHandler: ((ReactiveResult)->Void)? = nil, _ errorHandler: ((Error)->Void)? = nil, _ completedHandler: (()->Void)? = nil) -> Disposable {
+    func requestReactive(_ parameter: RequestParameter, _ nextHandler: ((ReactiveResult)->Void)? = nil, _ errorHandler: ((Error)->Void)? = nil, _ completedHandler: (()->Void)? = nil) -> Disposable {
         if let nextHandler = nextHandler {
             self.nextHandler = nextHandler
         }

@@ -25,8 +25,10 @@ protocol ModelProducingObservable {
     
     /// 모델이 데이터를 얻기 위한 function.
     ///
-    /// RequestParameter 타입을 넘겨주어야 한다.
-    func requestModelData(_ parameter: RequestParameter, _ observer: AnyObserver<ReactiveResult>)
+    /// - Parameter #1: 데이터를 얻기 위한 파라미터.
+    /// - Parameter #2: 전달되는 observer. observer가 구독자에게 어떤 방식으로 이벤트를 전달할지 정하기 위해 존재한다.
+    var requestModelData: ((RequestParameter, AnyObserver<ReactiveResult>) -> Void)? { get set }
+    var disposeHandler: (() -> Void)? { get set }
     /// requestModelData를 실행하고 결과값을 방출하는 Observable을 반환한다.
     func getObservable() -> Observable<ReactiveResult>
     /// Observable을 이용해서 request 한 결과물에 대한 각 handler를 실행하도록 구독까지 진행한다. override 는 권장되지 않습니다.
@@ -41,6 +43,15 @@ protocol ModelProducingObservable {
 }
 
 extension ModelProducingObservable {
+    
+    func getObservable(_ parameter: RequestParameter) -> Observable<ReactiveResult> {
+        Observable<ReactiveResult>.create { observer in
+            self.requestModelData?(parameter, observer)
+            return Disposables.create {
+                self.disposeHandler?()
+            }
+        }
+    }
     
     func requestReactive() -> Disposable {
         getObservable().subscribe(

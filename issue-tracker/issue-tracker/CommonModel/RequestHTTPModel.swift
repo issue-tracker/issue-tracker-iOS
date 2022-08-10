@@ -5,7 +5,7 @@
 //  Created by 백상휘 on 2022/08/02.
 //
 
-import Foundation
+import RxSwift
 
 enum HTTPError: Error {
     case noData
@@ -49,5 +49,31 @@ class RequestHTTPModel {
             completionHandler(.success(data), response)
             
         }.resume()
+    }
+    
+    func requestObservable() -> Observable<Data> {
+        return Observable.create { observable in
+            
+            guard let request = self.requestBuilder.getRequest() else {
+                observable.onError(HTTPError.urlError)
+                return Disposables.create()
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    observable.onError(error ?? HTTPError.noData)
+                    return
+                }
+                
+                observable.onNext(data)
+                observable.onCompleted()
+            }
+            
+            task.resume()
+            
+            return Disposables.create {
+                task.cancel()
+            }
+        }
     }
 }

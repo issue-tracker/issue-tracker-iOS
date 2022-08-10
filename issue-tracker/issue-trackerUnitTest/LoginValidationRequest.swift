@@ -5,7 +5,7 @@
 //  Created by 백상휘 on 2022/08/08.
 //
 
-import Foundation
+import RxSwift
 
 enum LoginValidationCategory: String, CaseIterable {
     case nickName = "nickname"
@@ -40,6 +40,26 @@ class LoginValidationRequest {
                 completionHandler(nil)
             }
         })
+    }
+    
+    func testValidate(category: LoginValidationCategory, _ sentence: String) -> Observable<Data> {
+        
+        guard let requestModel = requestModel else {
+            return Observable.just(Data())
+        }
+        
+        requestModel.requestBuilder.setPath(category.rawValue)
+        requestModel.requestBuilder.setPath(sentence)
+        requestModel.requestBuilder.setPath("exists")
+        
+        return requestModel.requestObservable()
+    }
+    
+    func testValidate(category: LoginValidationCategory, _ sentence: String, _ onNextHandler: @escaping (Any)->Void ) -> Disposable {
+        testValidate(category: category, sentence)
+            .subscribe(onNext: { result in
+                onNextHandler(result)
+            })
     }
     
     func randomInputTest(_ input: [String], _ completionHandler: @escaping (Bool?) -> Void) {

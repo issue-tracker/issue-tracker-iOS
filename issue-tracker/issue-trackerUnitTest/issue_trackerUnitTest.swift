@@ -6,27 +6,60 @@
 //
 
 import XCTest
+import RxSwift
 
 class issue_trackerUnitTest: XCTestCase {
     
+    var disposeBag = DisposeBag()
+    
+    func releaseDisposeBag() {
+        disposeBag = DisposeBag()
+    }
+    
+    override class func setUp() {
+        super.setUp()
+        
+    }
+    
     func testRequest() throws {
         let validation = LoginValidationRequest()
-        let sentences = ["aaaa", "eaa", "12345","a", "aaa"]
-        let simpleTestExpectation = XCTestExpectation()
-        let timerTestExpectation = XCTestExpectation()
+        let expect = XCTestExpectation()
+        expect.expectedFulfillmentCount = 2
         
-        for sentence in sentences {
-            validation.testValidate(category: .email, sentence) { result in
-                if sentence == sentences.last {
-                    simpleTestExpectation.fulfill()
-                }
-            }
+        validation.testValidate(category: .email, "asdfas") { result in
+            expect.fulfill()
         }
         
-        validation.randomInputTest(sentences) { result in
-            timerTestExpectation.fulfill()
+        validation.testValidate(category: .email, "asiodf")
+            .subscribe(onNext: { result in
+                print("result is \(result.count)")
+            }, onError: { error in
+                print(error)
+            }, onCompleted: {
+                expect.fulfill()
+            }, onDisposed: {
+                print("disposed")
+            })
+            .disposed(by: disposeBag)
+        
+        wait(for: [expect], timeout: 5.0)
+    }
+    
+    func singleRequestTest(completionHandler: @escaping () -> Void) {
+        print("[Unit Test] Start")
+        completionHandler()
+        print("[Unit Test] Ends")
+        releaseDisposeBag()
+    }
+    
+    /// - Parameter completionHandler: 전달하는 Integer 파라미터는 실행한 순서
+    func multipleRequestOneResponseTest(requestCount: Int = 5, completionHandler: @escaping (Int) -> Void) {
+        for i in 0..<requestCount {
+            print("[Unit Test] \(i)# Start")
+            completionHandler(i+1)
+            print("[Unit Test] \(i)# Ends")
         }
         
-        wait(for: [simpleTestExpectation, timerTestExpectation], timeout: 5.0)
+        releaseDisposeBag()
     }
 }

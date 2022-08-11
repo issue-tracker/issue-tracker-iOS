@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class IssueListViewController: CommonProxyViewController {
+class IssueListViewController: CommonProxyViewController, ViewBinding {
     
     private var tableView = UITableView()
     
@@ -19,6 +19,13 @@ class IssueListViewController: CommonProxyViewController {
         
         return button
     }()
+    
+    private var issueListEntity = [IssueListEntity]()
+    lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { modelResult, bindable in
+        if bindable is IssueListRequestModel {
+            self.tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

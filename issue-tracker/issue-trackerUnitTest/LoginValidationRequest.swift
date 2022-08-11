@@ -24,26 +24,6 @@ class LoginValidationRequest: ModelTestableReactively {
     var completedHandler: (() -> Void)?
     var disposeHandler: (() -> Void)?
     
-    lazy var requestModelData: ((String, AnyObserver<Data>) -> Void)? = { param, observer in
-        guard var requestBuilder = self.requestModel?.requestBuilder else { return }
-        
-        requestBuilder.setPath(LoginValidationCategory.allCases.randomElement()?.rawValue ?? "")
-        requestBuilder.setPath(param)
-        requestBuilder.setPath("exists")
-        
-        guard let request = requestBuilder.getRequest() else { return }
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                observer.onError(error ?? HTTPError.noData)
-                return
-            }
-            
-            observer.onNext(data)
-            observer.onCompleted()
-        }.resume()
-    }
-    
     typealias ReactiveResult = Data
     typealias RequestParameter = String
     
@@ -60,11 +40,27 @@ class LoginValidationRequest: ModelTestableReactively {
         }
     }
     
-    func doTest(_ param: Any? = nil) {
-        guard requestModelData != nil else {
-            return
-        }
+    func requestModelData(_ parameter: String, _ observer: AnyObserver<Data>) {
+        guard var requestBuilder = self.requestModel?.requestBuilder else { return }
         
+        requestBuilder.setPath(LoginValidationCategory.allCases.randomElement()?.rawValue ?? "")
+        requestBuilder.setPath(parameter)
+        requestBuilder.setPath("exists")
+        
+        guard let request = requestBuilder.getRequest() else { return }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                observer.onError(error ?? HTTPError.noData)
+                return
+            }
+            
+            observer.onNext(data)
+            observer.onCompleted()
+        }.resume()
+    }
+    
+    func doTest(_ param: Any? = nil) {
         let parameter = param as? RequestParameter
         let disposable = requestReactive(parameter ?? "testParameter")
         setDisposableCount(disposable)

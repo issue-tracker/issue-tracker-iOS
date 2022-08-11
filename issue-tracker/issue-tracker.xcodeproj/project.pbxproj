@@ -41,6 +41,7 @@
 		1B4F489C28A4E2ED00C4B33A /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
 		1B4F489E28A4E2F600C4B33A /* IssueEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB128892AEF00432728 /* IssueEditViewController.swift */; };
 		1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */; };
+		1B4F48A328A4EF8900C4B33A /* OpaqueLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -285,6 +286,34 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		1B4F48A028A4E59300C4B33A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AA328890E4500432728 /* MainTabBarController.swift */,
+				1B4F48A128A4E59E00C4B33A /* IssueList */,
+				1B4F48A228A4E5A600C4B33A /* IssueEdit */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1B4F48A128A4E59E00C4B33A /* IssueList */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AA5288910E200432728 /* IssueListNavigationController.swift */,
+				1B8E4A992887CE0300432728 /* IssueListViewController.swift */,
+				1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */,
+			);
+			path = IssueList;
+			sourceTree = "<group>";
+		};
+		1B4F48A228A4E5A600C4B33A /* IssueEdit */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AB128892AEF00432728 /* IssueEditViewController.swift */,
+			);
+			path = IssueEdit;
+			sourceTree = "<group>";
+		};
 		1B5D698C2898D7A200AE9495 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,11 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				1B4F489028A4A38400C4B33A /* Model */,
-				1B8E4AA328890E4500432728 /* MainTabBarController.swift */,
-				1B8E4AA5288910E200432728 /* IssueListNavigationController.swift */,
-				1B8E4A992887CE0300432728 /* IssueListViewController.swift */,
-				1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */,
-				1B8E4AB128892AEF00432728 /* IssueEditViewController.swift */,
+				1B4F48A028A4E59300C4B33A /* View */,
 			);
 			path = IssueList;
 			sourceTree = "<group>";
@@ -732,6 +757,7 @@
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1B4F489B28A4E2D300C4B33A /* IssueListViewController.swift in Sources */,
+				1B4F48A328A4EF8900C4B33A /* OpaqueLoadingView.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,

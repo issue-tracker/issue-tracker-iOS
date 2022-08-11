@@ -17,7 +17,7 @@ final class IssueListRequestModel: RequestHTTPModel, ModelProducingObservable, V
             return
         }
         
-        self.issueList = resultList
+        self.issueList.append(contentsOf: resultList)
         self.binding?.bindableHandler?(resultList, self)
     }
     

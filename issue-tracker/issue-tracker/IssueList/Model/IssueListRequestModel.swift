@@ -69,7 +69,7 @@ final class IssueListRequestModel: RequestHTTPModel, ModelProducingObservable, V
 
 extension IssueListRequestModel: Testable {
     func doTest(_ param: Any?) {
-        
+        requestIssueList()
     }
 }
 

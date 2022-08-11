@@ -31,6 +31,16 @@
 		1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488D28A49F2F00C4B33A /* Testable.swift */; };
 		1B4F489228A4A39C00C4B33A /* IssueListRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F489128A4A39C00C4B33A /* IssueListRequestModel.swift */; };
 		1B4F489428A4BE4700C4B33A /* IssueListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */; };
+		1B4F489528A4E1FF00C4B33A /* IssueListRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F489128A4A39C00C4B33A /* IssueListRequestModel.swift */; };
+		1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */; };
+		1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB528892F0B00432728 /* ViewBindable.swift */; };
+		1B4F489828A4E2B600C4B33A /* ViewBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB528892F0B00432728 /* ViewBindable.swift */; };
+		1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB728892F0F00432728 /* ViewBinding.swift */; };
+		1B4F489A28A4E2BB00C4B33A /* ViewBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB728892F0F00432728 /* ViewBinding.swift */; };
+		1B4F489B28A4E2D300C4B33A /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A992887CE0300432728 /* IssueListViewController.swift */; };
+		1B4F489C28A4E2ED00C4B33A /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
+		1B4F489E28A4E2F600C4B33A /* IssueEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB128892AEF00432728 /* IssueEditViewController.swift */; };
+		1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -709,13 +719,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */,
+				1B4F489C28A4E2ED00C4B33A /* CommonProxyViewController.swift in Sources */,
+				1B4F489528A4E1FF00C4B33A /* IssueListRequestModel.swift in Sources */,
 				1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */,
+				1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */,
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1B232B1C28A0DB78007ED022 /* LoginValidationRequest.swift in Sources */,
+				1B4F489E28A4E2F600C4B33A /* IssueEditViewController.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
 				1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */,
 				1B4F488C28A3DF4E00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
+				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
+				1B4F489B28A4E2D300C4B33A /* IssueListViewController.swift in Sources */,
+				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
+				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -724,7 +742,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B4F489828A4E2B600C4B33A /* ViewBindable.swift in Sources */,
 				1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */,
+				1B4F489A28A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
 				1B89AF5928A0D4FC0057C6D5 /* issue_trackerUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

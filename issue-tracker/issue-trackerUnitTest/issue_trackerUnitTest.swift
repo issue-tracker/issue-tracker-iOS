@@ -27,6 +27,25 @@ class issue_trackerUnitTest: XCTestCase {
         wait(for: [expect], timeout: 5.0)
     }
     
+    func testIssueList() throws {
+        let issueListModel = URL.apiURL == nil ? nil : IssueListRequestModel(URL.apiURL!)
+        let expect = XCTestExpectation()
+        let decoder = JSONDecoder()
+        expect.expectedFulfillmentCount = 3
+        
+        issueListModel?.nextHandler = { data in
+            if (try? decoder.decode([IssueListEntity].self, from: data)) != nil {
+                expect.fulfill()
+            }
+        }
+        
+        issueListModel?.doTest(nil)
+        issueListModel?.doTest(nil)
+        issueListModel?.doTest(nil)
+        
+        wait(for: [expect], timeout: 5.0)
+    }
+    
     func singleRequestTest(_ testable: Testable) {
         testable.doTest(nil)
     }

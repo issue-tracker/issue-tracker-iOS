@@ -27,6 +27,8 @@
 		1B4F488A28A3DEDF00C4B33A /* ModelTestableReactively.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */; };
 		1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488728A3712900C4B33A /* ModelProducingObservable.swift */; };
 		1B4F488C28A3DF4E00C4B33A /* ModelTestableReactively.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */; };
+		1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488D28A49F2F00C4B33A /* Testable.swift */; };
+		1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488D28A49F2F00C4B33A /* Testable.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -100,6 +102,7 @@
 		1B3C065F287BE02D006A36CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1B4F488728A3712900C4B33A /* ModelProducingObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProducingObservable.swift; sourceTree = "<group>"; };
 		1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestableReactively.swift; sourceTree = "<group>"; };
+		1B4F488D28A49F2F00C4B33A /* Testable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testable.swift; sourceTree = "<group>"; };
 		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B5D69922898DF6500AE9495 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
@@ -278,6 +281,7 @@
 				1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */,
 				1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */,
 				1B5D69922898DF6500AE9495 /* RequestBuilder.swift */,
+				1B4F488D28A49F2F00C4B33A /* Testable.swift */,
 			);
 			path = CommonModel;
 			sourceTree = "<group>";
@@ -665,6 +669,7 @@
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */,
 				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
+				1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */,
 				1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */,
 				1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */,
 				1B4F488828A3712900C4B33A /* ModelProducingObservable.swift in Sources */,
@@ -692,6 +697,7 @@
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1B232B1C28A0DB78007ED022 /* LoginValidationRequest.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
+				1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */,
 				1B4F488C28A3DF4E00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,

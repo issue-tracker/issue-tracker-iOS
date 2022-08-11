@@ -7,11 +7,10 @@
 
 import RxSwift
 
-protocol ModelTestableReactively: ModelProducingObservable {
+protocol ModelTestableReactively: ModelProducingObservable, Testable {
     var disposables: [Disposable] { get set }
     var disposableLimitCount: Int { get }
     var disposeBag: DisposeBag { get set }
-    func doTest(_ param: RequestParameter?)
 }
 
 extension ModelTestableReactively {

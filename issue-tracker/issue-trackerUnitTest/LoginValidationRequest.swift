@@ -60,12 +60,13 @@ class LoginValidationRequest: ModelTestableReactively {
         }
     }
     
-    func doTest(_ param: RequestParameter? = nil) {
+    func doTest(_ param: Any? = nil) {
         guard requestModelData != nil else {
             return
         }
         
-        let disposable = requestReactive(param ?? "testParameter")
+        let parameter = param as? RequestParameter
+        let disposable = requestReactive(parameter ?? "testParameter")
         setDisposableCount(disposable)
     }
 }

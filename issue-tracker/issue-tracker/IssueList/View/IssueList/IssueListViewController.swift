@@ -5,7 +5,6 @@
 //  Created by 백상휘 on 2022/07/20.
 //
 
-import UIKit
 import SnapKit
 
 class IssueListViewController: CommonProxyViewController, ViewBinding {
@@ -64,8 +63,7 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
             view.bringSubviewToFront(plusButton)
         }
         
-        tableView.separatorStyle = .singleLine
-        tableView.separatorColor = UIColor.opaqueSeparator
+        tableView.separatorStyle = .none
         view.addSubview(tableView)
         view.addSubview(plusButton)
         
@@ -79,6 +77,8 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         }
         
         view.layoutIfNeeded()
+        
+        tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         model?.requestIssueList()
@@ -91,20 +91,30 @@ extension IssueListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        let label = UILabel()
-        label.text = "test"
-        cell.contentView.addSubview(label)
-        label.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: IssueListTableViewCell.reuseIdentifier, for: indexPath) as? IssueListTableViewCell else {
+            
+            let normalCell = UITableViewCell()
+            let label = UILabel()
+            label.text = "test"
+            normalCell.contentView.addSubview(label)
+            label.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+            return normalCell
         }
+        
+        if let entity = model?.issueList[indexPath.row] {
+            cell.bindableHandler?(entity, self)
+        }
+        
+        cell.setLayout()
+        
         return cell
     }
 }
 
 extension IssueListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        tableView.cellForRow(at: indexPath)?.layoutIfNeeded()
-        return 80
+        return tableView.frame.height/4.5
     }
 }

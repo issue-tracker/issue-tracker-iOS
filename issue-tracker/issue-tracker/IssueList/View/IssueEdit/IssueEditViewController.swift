@@ -12,7 +12,7 @@ enum IssueEditType {
     case update
 }
 
-class IssueEditViewController: UIViewController {
+class IssueEditViewController: CommonProxyViewController {
 
     var editType: IssueEditType = .add
     

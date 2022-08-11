@@ -25,13 +25,13 @@ final class IssueListRequestModel: RequestHTTPModel, ModelProducingObservable, V
     var completedHandler: (() -> Void)?
     var disposeHandler: (() -> Void)?
     
-    var requestModelData: ((IssueListParameter, AnyObserver<Data>) -> Void)?
+    private var requestModelData: ((IssueListParameter, AnyObserver<Data>) -> Void)?
     
     typealias ReactiveResult = Data
     typealias RequestParameter = IssueListParameter
     
-    var issueList = [IssueListEntity]()
-    var disposeBag = DisposeBag()
+    private(set) var issueList = [IssueListEntity]()
+    private var disposeBag = DisposeBag()
     
     var binding: ViewBinding?
     
@@ -40,15 +40,25 @@ final class IssueListRequestModel: RequestHTTPModel, ModelProducingObservable, V
             requestBuilder.setPath(queryString)
         }
         
-        request { result, response in
-            switch result {
-            case .success(let data):
-                observer.onNext(data)
-            case .failure(let error):
-                observer.onError(error)
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: DispatchTime.now()+Double.random(in: 1.5...2.0)) {
+            if let issueListData = try? JSONEncoder().encode(Array(repeating: IssueListEntity.mockData(), count: Int.random(in: 1...8))) {
+                observer.onNext(issueListData)
+            } else {
+                observer.onNext(Data())
             }
             observer.onCompleted()
         }
+        
+//        request { result, response in
+//            switch result {
+//            case .success(let data):
+//                observer.onNext(data)
+//            case .failure(let error):
+//                observer.onError(error)
+//            }
+//            
+//            observer.onCompleted()
+//        }
     }
     
     func requestIssueList() {
@@ -63,8 +73,10 @@ extension IssueListRequestModel: Testable {
     }
 }
 
-struct IssueListEntity: Decodable {
-    let key: UUID
+private extension IssueListEntity {
+    static func mockData() -> IssueListEntity {
+        IssueListEntity(key: UUID(), title: "title text in mock", contents: "contentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontentscontents")
+    }
 }
 
 struct IssueListParameter: Encodable {

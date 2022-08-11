@@ -30,6 +30,7 @@
 		1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488D28A49F2F00C4B33A /* Testable.swift */; };
 		1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F488D28A49F2F00C4B33A /* Testable.swift */; };
 		1B4F489228A4A39C00C4B33A /* IssueListRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F489128A4A39C00C4B33A /* IssueListRequestModel.swift */; };
+		1B4F489428A4BE4700C4B33A /* IssueListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -105,6 +106,7 @@
 		1B4F488928A3DEDF00C4B33A /* ModelTestableReactively.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestableReactively.swift; sourceTree = "<group>"; };
 		1B4F488D28A49F2F00C4B33A /* Testable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testable.swift; sourceTree = "<group>"; };
 		1B4F489128A4A39C00C4B33A /* IssueListRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListRequestModel.swift; sourceTree = "<group>"; };
+		1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListEntity.swift; sourceTree = "<group>"; };
 		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B5D69922898DF6500AE9495 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				1B4F489128A4A39C00C4B33A /* IssueListRequestModel.swift */,
+				1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				1B66B236288FB2610062860F /* CommonInputView.swift in Sources */,
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
 				1B8E4AB228892AEF00432728 /* IssueEditViewController.swift in Sources */,
+				1B4F489428A4BE4700C4B33A /* IssueListEntity.swift in Sources */,
 				1B8E4AA8288910FF00432728 /* MyPageNavigationController.swift in Sources */,
 				1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */,
 				1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */,

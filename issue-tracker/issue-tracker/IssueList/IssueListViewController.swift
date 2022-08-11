@@ -20,7 +20,14 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         return button
     }()
     
-    private var issueListEntity = [IssueListEntity]()
+    private var model: IssueListRequestModel? = {
+        guard let url = URL.apiURL else {
+            return nil
+        }
+        
+        return IssueListRequestModel(url)
+    }()
+    
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { modelResult, bindable in
         if bindable is IssueListRequestModel {
             self.tableView.reloadData()
@@ -29,6 +36,8 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        model?.binding = self
         
         defer {
             view.bringSubviewToFront(plusButton)
@@ -46,12 +55,13 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         }
         
         view.layoutIfNeeded()
+        tableView.dataSource = self
     }
 }
 
 extension IssueListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        model?.issueList.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

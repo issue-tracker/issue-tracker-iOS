@@ -51,8 +51,13 @@ class IssueListTableViewCell: UITableViewCell {
     private func makeUI() {
         
         contentsLabel.numberOfLines = 2
-        [titleLabel, statusLabel, dateLabel].forEach {
-            $0.textAlignment = .center
+        if ["13","12","11","X"].reduce(false, { $0 || (UIDevice.modelName.contains($1)) }) {
+            contentsLabel.numberOfLines = 3
+        }
+        
+        statusLabel.textAlignment = .center
+        [titleLabel, dateLabel, contentsLabel].forEach {
+            $0.textAlignment = .natural
         }
         
         contentView.addSubview(paddingView)
@@ -62,12 +67,12 @@ class IssueListTableViewCell: UITableViewCell {
         paddingView.addSubview(contentsLabel)
         
         paddingView.flex.define { flex in
-            flex.addItem().direction(.row).height(25%).paddingTop(padding).define { flex in
-                flex.addItem(titleLabel).width(65%).paddingHorizontal(padding)
-                flex.addItem(statusLabel).width(35%).paddingHorizontal(padding)
+            flex.addItem().direction(.row).height(25%).margin(padding).define { flex in
+                flex.addItem(titleLabel).width(65%).marginRight(padding)
+                flex.addItem(statusLabel).width(35%)
             }
-            flex.addItem(dateLabel).height(15%).padding(padding)
-            flex.addItem(contentsLabel).height(60%).paddingHorizontal(padding)
+            flex.addItem(dateLabel).height(15%).marginHorizontal(padding)
+            flex.addItem(contentsLabel).vertically(padding).marginHorizontal(padding)
         }
         
         paddingView.snp.makeConstraints { make in

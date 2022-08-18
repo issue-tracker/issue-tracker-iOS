@@ -108,6 +108,9 @@ extension IssueListViewController: UITableViewDataSource {
         }
         
         cell.setLayout()
+        cell.profileView.touchHandler = {
+            // TODO: Define touch action.
+        }
         
         return cell
     }

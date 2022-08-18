@@ -6,6 +6,7 @@
 //
 
 import FlexLayout
+import UIKit
 
 class IssueListTableViewCell: UITableViewCell {
     
@@ -14,7 +15,7 @@ class IssueListTableViewCell: UITableViewCell {
     var bindableHandler: ((Any, ViewBinding) -> Void)?
     
     private(set) var titleLabel = CommonLabel(1.3)
-    private(set) var statusLabel = CommonLabel(0.75)
+    private(set) var profileView = ProfileImageButton()
     private(set) var dateLabel = CommonLabel(0.7)
     private(set) var contentsLabel = CommonLabel(1.1)
     
@@ -54,20 +55,22 @@ class IssueListTableViewCell: UITableViewCell {
         contentsLabel.numberOfLines = isBigSizeScreen ? 3 : 2
         
         [titleLabel, dateLabel, contentsLabel].forEach({ label in label.textAlignment = .natural })
-        statusLabel.textAlignment = .center
         
         contentView.addSubview(paddingView)
         paddingView.addSubview(titleLabel)
-        paddingView.addSubview(statusLabel)
+        paddingView.addSubview(profileView)
         paddingView.addSubview(dateLabel)
         paddingView.addSubview(contentsLabel)
         
         paddingView.flex.define { flex in
-            flex.addItem().direction(.row).height(25%).margin(padding).define { flex in
-                flex.addItem(titleLabel).width(65%).marginRight(padding)
-                flex.addItem(statusLabel).width(35%)
+            flex.addItem().direction(.row).height(40%).marginHorizontal(padding).define { flex in
+                flex.addItem().width(65%).define { flex in
+                    flex.addItem(titleLabel).height(85%)
+                    flex.addItem(dateLabel).height(15%)
+                }
+                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding)
             }
-            flex.addItem(dateLabel).height(15%).marginHorizontal(padding)
+            
             flex.addItem(contentsLabel).vertically(padding).marginHorizontal(padding)
         }
         
@@ -84,11 +87,11 @@ class IssueListTableViewCell: UITableViewCell {
         
         switch entity.status {
         case .opened:
-            statusLabel.text = "열림"
+            profileView.setTitle("열림")
         case .closed:
-            statusLabel.text = "닫힘"
+            profileView.setTitle("닫힘")
         case .standby:
-            statusLabel.text = "대기"
+            profileView.setTitle("대기")
         }
         
         dateLabel.text = DateFormatter.localizedString(from: entity.getDateCreated() ?? Date(), dateStyle: .short, timeStyle: .short)

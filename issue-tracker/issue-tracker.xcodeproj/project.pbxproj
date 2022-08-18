@@ -21,6 +21,8 @@
 		1B232B2128A0E70F007ED022 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */; };
 		1B308D3B28ADFC010073640A /* SignInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3A28ADFC000073640A /* SignInBuilder.swift */; };
+		1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */; };
+		1B308D3E28AE287B0073640A /* ProfileImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */; };
 		1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C0648287BDD15006A36CF /* AppDelegate.swift */; };
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
@@ -117,6 +119,7 @@
 		1B232B1B28A0DB78007ED022 /* LoginValidationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidationRequest.swift; sourceTree = "<group>"; };
 		1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSignInViewController.swift; sourceTree = "<group>"; };
 		1B308D3A28ADFC000073640A /* SignInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInBuilder.swift; sourceTree = "<group>"; };
+		1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
 		1B3C0645287BDD15006A36CF /* issue-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "issue-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3C0648287BDD15006A36CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B3C064A287BDD15006A36CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -421,6 +424,7 @@
 				1B5D699428990BB000AE9495 /* RequestTextField.swift */,
 				1B66B235288FB2610062860F /* CommonInputView.swift */,
 				1B4F48A428A51D6E00C4B33A /* CommonLabel.swift */,
+				1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -744,6 +748,7 @@
 				1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */,
 				1B4F488828A3712900C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
+				1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */,
 				1B5D6997289A3E0600AE9495 /* DescriptionLabel.swift in Sources */,
@@ -780,6 +785,7 @@
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1B4F489B28A4E2D300C4B33A /* IssueListViewController.swift in Sources */,
+				1B308D3E28AE287B0073640A /* ProfileImageButton.swift in Sources */,
 				1B4F48A328A4EF8900C4B33A /* OpaqueLoadingView.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,

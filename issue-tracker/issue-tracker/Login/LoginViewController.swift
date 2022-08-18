@@ -32,6 +32,10 @@ class LoginViewController: CommonProxyViewController {
             self.navigationController?.pushViewController(SignInFormViewController(), animated: true)
         }))
         HorizontalButtonsComponents(title: "   ")
+        HorizontalButtonsComponents(title: "간편회원가입", handler: UIAction(handler: { _ in
+            self.navigationController?.pushViewController(ServiceSignInViewController(), animated: true)
+        }))
+        HorizontalButtonsComponents(title: "   ")
         HorizontalButtonsComponents(title: "테스트페이지", handler: UIAction(handler: { _ in
             ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.switchScreen(type: .main)
 //            self.navigationController?.pushViewController(MainTabBarController(), animated: true)

@@ -50,15 +50,11 @@ class IssueListTableViewCell: UITableViewCell {
     
     private func makeUI() {
         
-        contentsLabel.numberOfLines = 2
-        if ["13","12","11","X"].reduce(false, { $0 || (UIDevice.modelName.contains($1)) }) {
-            contentsLabel.numberOfLines = 3
-        }
+        let isBigSizeScreen = ["13","12","11","X"].reduce(false, { $0 || (UIDevice.modelName.contains($1)) })
+        contentsLabel.numberOfLines = isBigSizeScreen ? 3 : 2
         
+        [titleLabel, dateLabel, contentsLabel].forEach({ label in label.textAlignment = .natural })
         statusLabel.textAlignment = .center
-        [titleLabel, dateLabel, contentsLabel].forEach {
-            $0.textAlignment = .natural
-        }
         
         contentView.addSubview(paddingView)
         paddingView.addSubview(titleLabel)

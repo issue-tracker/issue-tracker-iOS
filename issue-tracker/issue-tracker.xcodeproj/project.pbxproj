@@ -19,6 +19,8 @@
 		1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
 		1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
 		1B232B2128A0E70F007ED022 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
+		1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */; };
+		1B308D3B28ADFC010073640A /* SignInBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3A28ADFC000073640A /* SignInBuilder.swift */; };
 		1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C0648287BDD15006A36CF /* AppDelegate.swift */; };
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
@@ -113,6 +115,8 @@
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		1B20F79C288FA34E004EBE9F /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		1B232B1B28A0DB78007ED022 /* LoginValidationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidationRequest.swift; sourceTree = "<group>"; };
+		1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSignInViewController.swift; sourceTree = "<group>"; };
+		1B308D3A28ADFC000073640A /* SignInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInBuilder.swift; sourceTree = "<group>"; };
 		1B3C0645287BDD15006A36CF /* issue-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "issue-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3C0648287BDD15006A36CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B3C064A287BDD15006A36CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -276,6 +280,8 @@
 				1B20F79B288FA33E004EBE9F /* Model */,
 				1B3C065F287BE02D006A36CF /* LoginViewController.swift */,
 				1BBA3E9B287D2A5800DC57A0 /* SignInCategoryViewController.swift */,
+				1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */,
+				1B308D3A28ADFC000073640A /* SignInBuilder.swift */,
 				1B08088628979768001704C2 /* SignInFormViewController.swift */,
 				1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */,
 				1BBA3E9D287D30F600DC57A0 /* SignInViewController.swift */,
@@ -703,6 +709,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */,
 				1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */,
 				1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */,
 				1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */,
@@ -729,6 +736,7 @@
 				1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */,
 				1B8E4AA02887DAAA00432728 /* SettingProxyViewController.swift in Sources */,
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
+				1B308D3B28ADFC010073640A /* SignInBuilder.swift in Sources */,
 				1BBA3E9E287D30F600DC57A0 /* SignInViewController.swift in Sources */,
 				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
 				1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */,

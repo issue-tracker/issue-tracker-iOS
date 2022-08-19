@@ -37,6 +37,7 @@ class HorizontalButtons: UIView {
         for component in components {
             
             let button = UIButton(type: .custom, primaryAction: component.handler)
+            button.accessibilityIdentifier = component.title
             button.frame.size = CGSize(width: bounds.height, height: bounds.height)
             if let title = component.title {
                 button.setTitle(title, for: .normal)

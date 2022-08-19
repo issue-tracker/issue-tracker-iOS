@@ -20,12 +20,10 @@ target 'issue-tracker' do
   
   target 'issue-trackerUnitTests' do
     inherit! :search_paths
-    logic_pods
   end
   
   target 'issue-trackerUITests' do
-    inherit! :search_paths
-    ui_pods
+    inherit! :complete
   end
   
 end

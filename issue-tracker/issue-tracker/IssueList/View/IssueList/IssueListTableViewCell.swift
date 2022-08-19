@@ -68,7 +68,7 @@ class IssueListTableViewCell: UITableViewCell {
                     flex.addItem(titleLabel).height(85%)
                     flex.addItem(dateLabel).height(15%)
                 }
-                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding)
+                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding).markDirty()
             }
             
             flex.addItem(contentsLabel).vertically(padding).marginHorizontal(padding)

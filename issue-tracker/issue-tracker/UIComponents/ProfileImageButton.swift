@@ -8,11 +8,13 @@
 import SnapKit
 import FlexLayout
 
+/// Title 라벨을 추가하면 높이가 늘어날 수 있으므로, 오토레이아웃이나 FlexLayout의 추가 작업이 필요합니다.
 class ProfileImageButton: UIView {
     
     private var httpModel: RequestHTTPModel?
-    private var titleLabel = UILabel()
+    private var titleLabel: UILabel?
     private var profileImageView = UIImageView(image: UIImage(systemName: "p.square.fill"))
+    private var flexContainer: Flex?
     
     var profileImageURL: String = ""
     
@@ -40,38 +42,46 @@ class ProfileImageButton: UIView {
     }
     
     func setTitle(_ title: String) {
-        titleLabel.text = title
+        if titleLabel == nil {
+            setTitleLabel()
+        }
+        
+        titleLabel?.text = title
+    }
+    
+    private func setTitleLabel() {
+        let label = UILabel()
+        titleLabel = label
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        titleLabel?.textAlignment = .center
+        
+        addSubview(label)
+        flexContainer?.define { flex in
+            flex.height(80%)
+            flex.addItem(label).height(20%)
+        }
+        flex.layout()
     }
     
     private func makeUI() {
         getProfileImage()
         
         addSubview(profileImageView)
-        addSubview(titleLabel)
-        titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.textAlignment = .center
-        
         profileImageView.tintColor = .label
         
         isUserInteractionEnabled = true
-        
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(touchSelector(_:))))
         
-        flex.alignItems(.center).define { flex in
-            flex.addItem(profileImageView).aspectRatio(1).height(80%)
-            flex.addItem(titleLabel).height(20%)
+        flexContainer = flex.alignItems(.center).define { flex in
+            flex.addItem(profileImageView).aspectRatio(1).height(100%)
         }
         
-        setLayout()
+        layoutIfNeeded()
+        flex.layout()
     }
     
     @objc func touchSelector(_ target: Any) {
         touchHandler?()
-    }
-    
-    func setLayout() {
-        layoutIfNeeded()
-        flex.layout()
     }
     
     func getProfileImage(with url: URL) {

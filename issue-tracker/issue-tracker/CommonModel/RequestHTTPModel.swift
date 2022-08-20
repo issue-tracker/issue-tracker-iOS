@@ -30,11 +30,13 @@ class RequestHTTPModel {
     
     func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         
-        guard let request = requestBuilder.getRequest() else {
+        guard var request = requestBuilder.getRequest() else {
             completionHandler(.failure(HTTPError.urlError), nil)
             return
         }
         
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 if let error = error {

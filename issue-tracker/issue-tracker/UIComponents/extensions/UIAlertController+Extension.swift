@@ -18,6 +18,10 @@ extension UIAlertController {
         let message = "현재 작업중인 기능입니다."
         return message.getDefaultAlertController()
     }
+    
+    static func getCommonAlert(_ message: String = "") -> UIAlertController {
+        return message.getDefaultAlertController()
+    }
 }
 
 extension UIAlertController {

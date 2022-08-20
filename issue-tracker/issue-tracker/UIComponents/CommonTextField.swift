@@ -217,6 +217,7 @@ extension CommonTextField: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        binding?.bindableHandler?(textField.text, self)
         return true
     }
 }

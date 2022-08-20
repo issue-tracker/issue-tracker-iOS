@@ -22,6 +22,7 @@ struct RequestBuilder {
     private(set) var requestURL: URL
     private(set) var bodyDictionary = [String: String]()
     private(set) var pathArray = [String]()
+    private(set) var httpMethod: String?
     
     private let encoder = JSONEncoder()
     
@@ -30,16 +31,35 @@ struct RequestBuilder {
         self.urlContainer = requestURL
     }
     
-    var httpBody: Data? {
-        try? encoder.encode(bodyDictionary)
-    }
+    var httpBody: Data?
     
     mutating func setBody(_ key: String, value: String) {
         bodyDictionary[key] = value
     }
     
+    mutating func setBody(_ body: [String: String]) {
+        for item in body {
+            bodyDictionary[item.key] = item.value
+        }
+    }
+    
+    
     mutating func setPath(_ path: String) {
         pathArray.append(path)
+    }
+    
+    mutating func setPath(_ paths: [String]) {
+        for path in paths {
+            pathArray.append(path)
+        }
+    }
+    
+    mutating func setHTTPMethod(_ method: String) {
+        ["GET", "POST"].forEach { methodName in
+            if methodName.lowercased() == method.lowercased() {
+                self.httpMethod = methodName
+            }
+        }
     }
     
     mutating func getRequest() -> URLRequest? {
@@ -53,7 +73,11 @@ struct RequestBuilder {
             requestURL.appendPathComponent(path)
         }
         
-        return URLRequest(url: requestURL)
+        var request = URLRequest(url: requestURL)
+        request.httpBody = httpBody
+        request.httpMethod = httpMethod
+        
+        return request
     }
     
     mutating func removeAllPath() {

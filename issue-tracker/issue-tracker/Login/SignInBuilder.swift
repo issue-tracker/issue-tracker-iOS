@@ -10,6 +10,7 @@ import FlexLayout
 class SignInFormBuilder: CommonProxyViewController, ViewBinding {
     
     private let padding: CGFloat = 8
+    private(set) var commonTextFieldDict = [String: CommonTextField]()
     
     var bindableHandler: ((Any?, ViewBindable) -> Void)? = { param, bindable in
         guard let param = param as? [String: Any] else { return }
@@ -22,6 +23,7 @@ class SignInFormBuilder: CommonProxyViewController, ViewBinding {
     }
     
     func getCommonTextFieldArea(
+        key: String,
         title: String,
         subTitle: String? = nil,
         placeHolderString: String? = nil,
@@ -44,6 +46,7 @@ class SignInFormBuilder: CommonProxyViewController, ViewBinding {
             commonTextField = commonTextField.toRequestType(url: URL.membersApiURL?.appendingPathComponent(urlPath))
         }
         commonTextField.binding = self
+        commonTextFieldDict[key] = commonTextField
         
         let descriptionLabel = DescriptionLabel()
         descriptionLabel.binding = self

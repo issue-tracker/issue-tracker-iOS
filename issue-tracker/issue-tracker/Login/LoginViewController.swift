@@ -11,6 +11,8 @@ import FlexLayout
 
 class LoginViewController: CommonProxyViewController {
     
+    private var requestModel: RequestHTTPModel?
+    
     private let padding: CGFloat = 8
     
     private let infoFlexContainer = UIView()
@@ -83,7 +85,40 @@ class LoginViewController: CommonProxyViewController {
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
         let passwordTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "패스워드", markerType: .lock)
         
+        if let url = URL.apiURL {
+            requestModel = RequestHTTPModel(url)
+        }
+        
         loginButton.clipsToBounds = true
+        loginButton.addAction(
+            UIAction(handler: { _ in
+                guard
+                    let id = idTextField.text,
+                    let password = passwordTextField.text,
+                    let body = try? JSONEncoder().encode(LoginParameter(id: id, password: password))
+                else {
+                    return
+                }
+                
+                self.requestModel?.requestBuilder.httpBody = body
+                self.requestModel?.requestBuilder.setHTTPMethod("post")
+                self.requestModel?.request({ result, response in
+                    switch result {
+                    case .success(let data):
+                        let loginData = try? JSONDecoder().decode(LoginResponse.self, from: data)
+                        UserDefaults.standard.setValue(loginData?.accessToken.token, forKey: "accessToken")
+                        
+                        DispatchQueue.main.async {
+                            ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.switchScreen(type: .main)
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }, pathArray: ["members","signin"])
+                
+            }),
+            for: .touchUpInside
+        )
         
         editUserInformationButtons.subButtons.forEach { button in
             if let font = button.titleLabel?.font {
@@ -124,4 +159,25 @@ class LoginViewController: CommonProxyViewController {
     @objc func pushSignInCategoryScreen(_ sender: Any?) {
         navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
     }
+}
+
+struct LoginParameter: Encodable {
+    var id: String
+    var password: String
+}
+
+struct LoginResponse: Decodable {
+    var memberResponse: MemberResponse
+    var accessToken: AccessToken
+}
+
+struct MemberResponse: Decodable {
+    var id: Int
+    var email: String
+    var nickname: String
+    var profileImage: String
+}
+
+struct AccessToken: Decodable {
+    var token: String
 }

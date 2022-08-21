@@ -29,18 +29,11 @@ class LoginViewController: CommonProxyViewController {
         HorizontalButtonsComponents(title: "비밀번호 재설정", handler: UIAction(handler: { _ in
             self.present(UIAlertController.messageDeveloping, animated: true)
         }))
-        HorizontalButtonsComponents(title: "   ")
         HorizontalButtonsComponents(title: "회원가입", handler: UIAction(handler: { _ in
             self.navigationController?.pushViewController(SignInFormViewController(), animated: true)
         }))
-        HorizontalButtonsComponents(title: "   ")
         HorizontalButtonsComponents(title: "간편회원가입", handler: UIAction(handler: { _ in
-            self.navigationController?.pushViewController(ServiceSignInViewController(), animated: true)
-        }))
-        HorizontalButtonsComponents(title: "   ")
-        HorizontalButtonsComponents(title: "테스트페이지", handler: UIAction(handler: { _ in
-            ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.switchScreen(type: .main)
-//            self.navigationController?.pushViewController(MainTabBarController(), animated: true)
+            self.present(UIAlertController.messageDeveloping, animated: true)
         }))
     }
     
@@ -55,25 +48,19 @@ class LoginViewController: CommonProxyViewController {
     
     private lazy var signInButtons = HorizontalButtons {
         HorizontalButtonsComponents(imageName: "login_octocat", handler: UIAction(handler: { _ in
-            guard let url = URL.githubOauthURL else {
-                self.present(UIAlertController.messageFailed, animated: true)
-                return
-            }
-            UIApplication.shared.open(url)
+//            guard let url = URL.githubOauthURL else { self.present(UIAlertController.messageFailed, animated: true); return; }
+//            UIApplication.shared.open(url)
+            self.present(UIAlertController.messageDeveloping, animated: true)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_kakao", handler: UIAction(handler: { _ in
-            guard let url = URL.kakaoOauthURL else {
-                self.present(UIAlertController.messageFailed, animated: true)
-                return
-            }
-            UIApplication.shared.open(url)
+//            guard let url = URL.kakaoOauthURL else { self.present(UIAlertController.messageFailed, animated: true); return; }
+//            UIApplication.shared.open(url)
+            self.present(UIAlertController.messageDeveloping, animated: true)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_naver", handler: UIAction(handler: { _ in
-            guard let url = URL.naverOauthURL else {
-                self.present(UIAlertController.messageFailed, animated: true)
-                return
-            }
-            UIApplication.shared.open(url)
+//            guard let url = URL.naverOauthURL else { self.present(UIAlertController.messageFailed, animated: true); return; }
+//            UIApplication.shared.open(url)
+            self.present(UIAlertController.messageDeveloping, animated: true)
         }))
     }
     
@@ -133,7 +120,7 @@ class LoginViewController: CommonProxyViewController {
                 .height(60).marginBottom(padding)
             flex.addItem(loginButton)
                 .height(60).marginBottom(padding*3)
-            flex.addItem(editUserInformationButtons).justifyContent(.center)
+            flex.addItem(editUserInformationButtons)
                 .height(20).marginBottom(padding*5)
             flex.addItem(signInNotifyLabel).alignContent(.center)
                 .height(20).marginBottom(padding*2)

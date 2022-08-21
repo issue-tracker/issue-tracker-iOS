@@ -15,11 +15,7 @@ enum CommonTextMarkerType: String {
     case none = ""
     
     func getMarkerImage() -> UIImage? {
-        guard self != .none else {
-            return nil
-        }
-        
-        return UIImage(systemName: self.rawValue)
+        UIImage(systemName: self.rawValue)
     }
 }
 
@@ -29,14 +25,10 @@ class CommonTextField: UITextField, ViewBindable {
     private var nextField: CommonTextField?
     var binding: ViewBinding?
     
-    private let leftButton = UIButton()
+    private var leftButton: UIButton?
     var markerType: CommonTextMarkerType = .none {
         didSet {
-            isSecureTextEntry = markerType == .lock
-            leftButton.setImage(markerType.getMarkerImage(), for: .normal)
-            leftButton.tintColor = .black
-            leftView = leftButton
-            leftViewMode = .always
+            setMarkerType(markerType)
         }
     }
     
@@ -88,6 +80,7 @@ class CommonTextField: UITextField, ViewBindable {
         self.init(frame: frame)
         self.keyboardType = type
         self.markerType = markerType
+        self.setMarkerType(markerType)
         
         if let placeholder = placeholder {
             self.attributedPlaceholder = NSAttributedString.blackOpaqueString(placeholder)
@@ -107,10 +100,6 @@ class CommonTextField: UITextField, ViewBindable {
     private func makeUI() {
         delegate = self
         
-        if self.attributedPlaceholder == nil {
-            self.attributedPlaceholder = NSAttributedString.blackOpaqueString("문자를 입력하세요.")
-        }
-        
         clearButtonMode = .whileEditing
         textColor = .black
         
@@ -118,6 +107,19 @@ class CommonTextField: UITextField, ViewBindable {
         layoutIfNeeded()
         
         setNotification()
+    }
+    
+    private func setMarkerType(_ type: CommonTextMarkerType) {
+        
+        if markerType != .none, leftButton == nil {
+            leftButton = UIButton()
+        }
+        
+        isSecureTextEntry = type == .lock
+        leftButton?.setImage(type.getMarkerImage(), for: .normal)
+        leftButton?.tintColor = .black
+        leftView = leftButton
+        leftViewMode = .always
     }
     
     private func setNotification() {
@@ -162,6 +164,7 @@ class CommonTextField: UITextField, ViewBindable {
     func toRequestType(url: URL?) -> RequestTextField {
         let textField = RequestTextField(frame: frame, input: keyboardType, placeholder: placeholder, markerType: markerType)
         textField.requestURL = url
+        textField.delegate = self
         return textField
     }
     

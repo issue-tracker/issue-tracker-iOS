@@ -48,7 +48,7 @@ class HorizontalButtons: UIView {
             }
             
             subButtons.append(button)
-            flex.direction(.row).alignContent(.center).define { flex in
+            flex.direction(.row).justifyContent(.spaceEvenly).define { flex in
                 flex.addItem(button)
             }
         }

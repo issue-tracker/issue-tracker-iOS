@@ -22,6 +22,9 @@ class RequestTextField: CommonTextField {
     private var requestModel: RequestHTTPTimerModel?
     private var validationModel = TextFieldValidationModel()
     
+    /// path components로 설정된 URL에서 맨 마지막에 넣을 문자열
+    var optionalTrailingPathComponent: String?
+    
     /// 해당 값 이상의 문자에 대해서만 validation을 진행합니다.
     var validateStringCount: UInt = 2
     var resultLabel: ViewBindable?
@@ -51,7 +54,10 @@ class RequestTextField: CommonTextField {
         
         requestModel?.setTimerInterval(timeInterval)
         requestModel?.requestBuilder.setPath(path)
-        requestModel?.requestBuilder.setPath("exists")
+        
+        if let optionalTrailingPathComponent = optionalTrailingPathComponent {
+            requestModel?.requestBuilder.setPath(optionalTrailingPathComponent)
+        }
         
         binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)
         

@@ -48,8 +48,8 @@ class SignInFormViewController: SignInFormBuilder {
                     var isInError = false
                     
                     self.view.subviews.compactMap({ $0 as? DescriptionLabel }).forEach { descLabel in
-                        if descLabel.descriptionType == .error {
-                            isInError = true
+                        if descLabel.descriptionType == .error, isInError == false {
+                            isInError = descLabel.descriptionType == .error
                         }
                     }
                     
@@ -58,45 +58,35 @@ class SignInFormViewController: SignInFormBuilder {
                         return
                     }
                     
-                    let model = self.requestModel
-                    let textFieldArea = self.commonTextFieldDict
+                    let allTexts = self.getAllTextFieldValues()
                     
                     guard
-                        let id = textFieldArea["signInId"]?.text,
-                        let password = textFieldArea["password"]?.text,
-                        let email = textFieldArea["email"]?.text,
-                        let nickname = textFieldArea["nickname"]?.text
+                        let id = allTexts["signInId"],
+                        let password = allTexts["password"],
+                        let email = allTexts["email"],
+                        let nickname = allTexts["nickname"]
                     else {
                         return
                     }
                     
-                    let body = SignInParameter(signInId: id, password: password, email: email, nickname: nickname, profileImage: "")
-                    model?.requestBuilder.httpBody = try? JSONEncoder().encode(body)
-                    model?.requestBuilder.setHTTPMethod("post")
+                    self.requestModel?.builder.setBody(SignInParameter(signInId: id, password: password, email: email, nickname: nickname, profileImage: ""))
+                    self.requestModel?.builder.setHTTPMethod("post")
                     
-                    model?.request({ result, respnse in
+                    self.requestModel?.request({ result, respnse in
                         switch result {
                         case .success(let data):
-                            let decoder = JSONDecoder()
+                            let responseModel = HTTPResponseModel()
                             
-                            if let data = try? decoder.decode(MessageResponse.self, from: data) {
-                                DispatchQueue.main.async {
-                                    self.present(UIAlertController.getCommonAlert(data.message), animated: true)
+                            guard let data = responseModel.getDecoded(from: data, as: SignInResponse.self) else {
+                                if let message = responseModel.getMessageResponse(from: data) {
+                                    self.commonAlert(message)
                                 }
+                                
                                 return
                             }
                             
-                            guard let data = try? JSONDecoder().decode(SignInResponse.self, from: data) else {
-                                return
-                            }
-                            
-                            let alert = UIAlertController(title: "회원가입이 완료되었습니다.", message: "\(data.nickname) 환영합니다!", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+                            self.commonAlert(title: "회원가입이 완료되었습니다.", "\(data.nickname) 환영합니다!") { _ in
                                 self.navigationController?.popViewController(animated: true)
-                            }))
-                            
-                            DispatchQueue.main.async {
-                                self.present(alert, animated: true)
                             }
                         case .failure(let error):
                             print(error)

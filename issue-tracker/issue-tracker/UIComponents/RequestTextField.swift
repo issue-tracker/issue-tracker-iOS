@@ -53,10 +53,10 @@ class RequestTextField: CommonTextField {
         guard let path = self.text else { return }
         
         requestModel?.setTimerInterval(timeInterval)
-        requestModel?.requestBuilder.setPath(path)
+        requestModel?.builder.pathArray = [path]
         
         if let optionalTrailingPathComponent = optionalTrailingPathComponent {
-            requestModel?.requestBuilder.setPath(optionalTrailingPathComponent)
+            requestModel?.builder.pathArray.append(optionalTrailingPathComponent)
         }
         
         binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)

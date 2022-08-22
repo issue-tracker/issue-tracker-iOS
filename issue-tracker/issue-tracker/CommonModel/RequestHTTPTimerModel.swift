@@ -23,8 +23,8 @@ class RequestHTTPTimerModel: RequestHTTPModel {
     func requestAsTimer(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         timer?.invalidate()
         
-        let pathArray = requestBuilder.pathArray
-        requestBuilder.removeAllPath()
+        let pathArray = builder.pathArray
+        builder.pathArray.removeAll()
         
         timer = Timer.scheduledTimer(withTimeInterval: self.timerInterval, repeats: false) { _ in
             self.request(completionHandler, pathArray: pathArray)

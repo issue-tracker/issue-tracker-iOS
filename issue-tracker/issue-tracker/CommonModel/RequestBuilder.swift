@@ -18,57 +18,39 @@ struct RequestBuilder {
                                    "Proxy-Authenticate",
                                    "Proxy-Authorization",
                                    "WWW-Authenticate"]
-    private var urlContainer: URL
-    private(set) var requestURL: URL
-    private(set) var bodyDictionary = [String: String]()
-    private(set) var pathArray = [String]()
-    private(set) var httpMethod: String?
-    
+    private let allHTTPMethods = ["GET", "POST", "PUT", "DELETE"]
     private let encoder = JSONEncoder()
+    private let baseURL: URL
     
-    init(requestURL: URL) {
-        self.requestURL = requestURL
-        self.urlContainer = requestURL
-    }
+    private(set) var httpMethod: String?
+    private var customHeaderField = [String: String]()
     
+    var pathArray = [String]()
     var httpBody: Data?
     
-    mutating func setBody(_ key: String, value: String) {
-        bodyDictionary[key] = value
+    init(baseURL: URL) {
+        self.baseURL = baseURL
+    }
+    
+    mutating func setBody<T: Encodable>(_ body: T)  { // 참조 : 
+        self.httpBody = try? JSONEncoder().encode(body)
     }
     
     mutating func setBody(_ body: [String: String]) {
-        for item in body {
-            bodyDictionary[item.key] = item.value
-        }
-    }
-    
-    
-    mutating func setPath(_ path: String) {
-        pathArray.append(path)
-    }
-    
-    mutating func setPath(_ paths: [String]) {
-        for path in paths {
-            pathArray.append(path)
-        }
+        self.httpBody = try? JSONSerialization.data(withJSONObject: body)
     }
     
     mutating func setHTTPMethod(_ method: String) {
-        ["GET", "POST"].forEach { methodName in
-            if methodName.lowercased() == method.lowercased() {
+        let query = method.lowercased()
+        allHTTPMethods.forEach { methodName in
+            if methodName.lowercased() == query {
                 self.httpMethod = methodName
             }
         }
     }
     
     mutating func getRequest() -> URLRequest? {
-        
-        defer {
-            requestURL = urlContainer
-            pathArray.removeAll()
-        }
-        
+        var requestURL = baseURL
         for path in pathArray {
             requestURL.appendPathComponent(path)
         }
@@ -77,14 +59,16 @@ struct RequestBuilder {
         request.httpBody = httpBody
         request.httpMethod = httpMethod
         
+        pathArray.removeAll()
+        
+        for field in customHeaderField {
+            request.setValue(field.value, forHTTPHeaderField: field.key)
+        }
+        
         return request
     }
     
-    mutating func removeAllPath() {
-        pathArray.removeAll()
-    }
-    
-    func getReservedHeaderFieldKey(query: String) -> String? {
+    private func getReservedHeaderFieldKey(query: String) -> String? {
         let queryString = query.lowercased()
         let index = allHeaderFields.firstIndex(where: { $0.lowercased() == queryString})
         
@@ -94,6 +78,14 @@ struct RequestBuilder {
         
         return nil
     }
+    
+    @discardableResult
+    mutating func setContentTypeToJson() -> Bool {
+        guard let headerFieldKey = getReservedHeaderFieldKey(query: "content-type") else {
+            return false
+        }
+        
+        customHeaderField[headerFieldKey] = "application/json; charset=utf-8"
+        return true
+    }
 }
-
-

@@ -67,4 +67,15 @@ class SignInFormBuilder: CommonProxyViewController, ViewBinding {
         
         return areaView
     }
+    
+    func getAllTextFieldValues() -> [String: String] {
+        var result = [String: String]()
+        for item in commonTextFieldDict {
+            if let text = item.value.text {
+                result[item.key] = text
+            }
+        }
+        
+        return result
+    }
 }

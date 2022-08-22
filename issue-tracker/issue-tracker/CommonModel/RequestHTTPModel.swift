@@ -14,23 +14,20 @@ enum HTTPError: Error {
 
 class RequestHTTPModel {
     
-    var requestBuilder: RequestBuilder
+    var builder: RequestBuilder
     
-    init(_ url: URL) {
-        self.requestBuilder = RequestBuilder(requestURL: url)
+    init(_ baseURL: URL) {
+        self.builder = RequestBuilder(baseURL: baseURL)
     }
     
     func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void, pathArray: [String]) {
-        for path in pathArray {
-            requestBuilder.setPath(path)
-        }
-        
+        builder.pathArray = pathArray
         request(completionHandler)
     }
     
     func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         
-        guard var request = requestBuilder.getRequest() else {
+        guard var request = builder.getRequest() else {
             completionHandler(.failure(HTTPError.urlError), nil)
             return
         }
@@ -56,7 +53,7 @@ class RequestHTTPModel {
     func requestObservable() -> Observable<Data> {
         return Observable.create { observable in
             
-            guard let request = self.requestBuilder.getRequest() else {
+            guard let request = self.builder.getRequest() else {
                 observable.onError(HTTPError.urlError)
                 return Disposables.create()
             }

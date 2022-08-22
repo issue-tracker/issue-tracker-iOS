@@ -41,13 +41,10 @@ class LoginValidationRequest: ModelTestableReactively {
     }
     
     func requestModelData(_ parameter: String, _ observer: AnyObserver<Data>) {
-        guard var requestBuilder = self.requestModel?.requestBuilder else { return }
         
-        requestBuilder.setPath(LoginValidationCategory.allCases.randomElement()?.rawValue ?? "")
-        requestBuilder.setPath(parameter)
-        requestBuilder.setPath("exists")
+        self.requestModel?.builder.pathArray = [LoginValidationCategory.allCases.randomElement()?.rawValue ?? "", parameter, "exists"]
         
-        guard let request = requestBuilder.getRequest() else { return }
+        guard let request = self.requestModel?.builder.getRequest() else { return }
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {

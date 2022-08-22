@@ -36,9 +36,7 @@ final class IssueListRequestModel: RequestHTTPModel, ModelProducingObservable, V
     var binding: ViewBinding?
     
     func requestModelData(_ parameter: RequestParameter, _ observer: AnyObserver<Data>) {
-        for queryString in parameter.queryString {
-            requestBuilder.setPath(queryString)
-        }
+        builder.pathArray = parameter.queryString
         
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: DispatchTime.now()+Double.random(in: 1.5...2.0)) {
             if let issueListData = try? JSONEncoder().encode(Array(repeating: IssueListEntity.mockData(), count: Int.random(in: 1...8))) {

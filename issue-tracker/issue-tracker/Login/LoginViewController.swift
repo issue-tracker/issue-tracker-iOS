@@ -79,25 +79,24 @@ class LoginViewController: CommonProxyViewController {
         loginButton.clipsToBounds = true
         loginButton.addAction(
             UIAction(handler: { _ in
-                guard
-                    let id = idTextField.text,
-                    let password = passwordTextField.text,
-                    let body = try? JSONEncoder().encode(LoginParameter(id: id, password: password))
-                else {
+                guard let id = idTextField.text, let password = passwordTextField.text else {
                     return
                 }
                 
-                self.requestModel?.requestBuilder.httpBody = body
-                self.requestModel?.requestBuilder.setHTTPMethod("post")
+                self.requestModel?.builder.setBody(["id":id,"password":password])
+                self.requestModel?.builder.setHTTPMethod("post")
                 self.requestModel?.request({ result, response in
                     switch result {
                     case .success(let data):
-                        let loginData = try? JSONDecoder().decode(LoginResponse.self, from: data)
-                        UserDefaults.standard.setValue(loginData?.accessToken.token, forKey: "accessToken")
                         
-                        DispatchQueue.main.async {
-                            ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.switchScreen(type: .main)
+                        let responseModel = HTTPResponseModel()
+                        guard let loginData = responseModel.getDecoded(from: data, as: LoginResponse.self) else {
+                            self.commonAlert(responseModel.getMessageResponse(from: data) ?? "로그인에 실패하였습니다.")
+                            return
                         }
+                        
+                        UserDefaults.standard.setValue(loginData.accessToken.token, forKey: "accessToken")
+                        self.switchScreen(type: .main)
                     case .failure(let error):
                         print(error)
                     }
@@ -142,15 +141,6 @@ class LoginViewController: CommonProxyViewController {
         
         loginButton.setCornerRadius()
     }
-    
-    @objc func pushSignInCategoryScreen(_ sender: Any?) {
-        navigationController?.pushViewController(SignInCategoryViewController(), animated: true)
-    }
-}
-
-struct LoginParameter: Encodable {
-    var id: String
-    var password: String
 }
 
 struct LoginResponse: Decodable {

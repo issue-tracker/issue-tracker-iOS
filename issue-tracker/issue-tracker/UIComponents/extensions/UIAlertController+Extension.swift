@@ -19,8 +19,8 @@ extension UIAlertController {
         return message.getDefaultAlertController()
     }
     
-    static func getCommonAlert(_ message: String = "") -> UIAlertController {
-        return message.getDefaultAlertController()
+    static func getCommonAlert(title: String? = "경고", _ message: String = "", actionTitle: String? = "확인", handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertController {
+        return message.getDefaultAlertController(title: title, actionTitle: actionTitle, handler: handler)
     }
 }
 
@@ -32,11 +32,9 @@ extension UIAlertController {
 
 // String --> message
 private extension String {
-    func getDefaultAlertController(title: String? = "경고", actionTitle: String? = "확인") -> UIAlertController {
+    func getDefaultAlertController(title: String? = "경고", actionTitle: String? = "확인", handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: self, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: actionTitle, style: .cancel, handler: { _ in
-            alertController.dismiss(animated: true)
-        }))
+        alertController.addAction(UIAlertAction(title: actionTitle, style: .cancel, handler: handler))
         return alertController
     }
 }

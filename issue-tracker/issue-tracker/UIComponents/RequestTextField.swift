@@ -9,7 +9,7 @@ import UIKit
 
 class RequestTextField: CommonTextField {
     
-    var timeInterval: Double = 2.0
+    var timeInterval: Int = 2
     var requestURL: URL? {
         didSet {
             if let requestURL = requestURL {
@@ -23,7 +23,7 @@ class RequestTextField: CommonTextField {
     private var validationModel = TextFieldValidationModel()
     
     /// path components로 설정된 URL에서 맨 마지막에 넣을 문자열
-    var optionalTrailingPathComponent: String?
+    var optionalTrailingPath: String?
     
     /// 해당 값 이상의 문자에 대해서만 validation을 진행합니다.
     var validateStringCount: UInt = 2
@@ -33,9 +33,19 @@ class RequestTextField: CommonTextField {
         super.textFieldShouldReturn(textField)
     }
     
-    override func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    override func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        var result = ResponseStatus()
+        result.status = .none
+        result.isRequesting = true
         
-        if (textField.text?.count ?? 0) >= validateStringCount {
+        binding?.bindableHandler?(["result": result], resultLabel ?? self)
+        
+        return super.textFieldShouldBeginEditing(textField)
+    }
+    
+    override func textFieldDidChangeSelection(_ textField: UITextField) {
+        super.textFieldDidChangeSelection(textField)
+        if (textField.text?.count ?? 0) > validateStringCount {
             request()
         } else {
             var result = ResponseStatus()
@@ -45,23 +55,20 @@ class RequestTextField: CommonTextField {
             
             binding?.bindableHandler?(["result": result], resultLabel ?? self)
         }
-        
-        return super.textField(textField, shouldChangeCharactersIn: range, replacementString: string)
     }
     
     private func request() {
         guard let path = self.text else { return }
         
         requestModel?.setTimerInterval(timeInterval)
-        requestModel?.builder.pathArray = [path]
         
-        if let optionalTrailingPathComponent = optionalTrailingPathComponent {
+        if let optionalTrailingPathComponent = optionalTrailingPath {
             requestModel?.builder.pathArray.append(optionalTrailingPathComponent)
         }
         
         binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)
         
-        requestModel?.requestAsTimer { [weak self] result, response in
+        requestModel?.requestAsTimer(pathArray: [path]) { [weak self] result, response in
             
             guard let self = self, let bindable = self.resultLabel else {
                 return

@@ -89,11 +89,11 @@ class SignInFormViewController: SignInFormBuilder {
             for: .touchUpInside
         )
         
-        let idArea = getCommonTextFieldArea(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", urlPath: "login-id", description: "멋진 아이디에요!")
-        let passwordArea = getCommonTextFieldArea(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
-        let passwordConfirmedArea = getCommonTextFieldArea(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
-        let emailArea = getCommonTextFieldArea(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email")
-        let nicknameArea = getCommonTextFieldArea(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname")
+        let idArea = getCommonTextFieldArea(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", urlPath: "signin-id", optionalTrailingPath: "exists", description: "멋진 아이디에요!")
+        let passwordArea = getCommonTextFieldArea(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호", optionalTrailingPath: "exists")
+        let passwordConfirmedArea = getCommonTextFieldArea(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인", optionalTrailingPath: "exists")
+        let emailArea = getCommonTextFieldArea(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email", optionalTrailingPath: "exists")
+        let nicknameArea = getCommonTextFieldArea(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname", optionalTrailingPath: "exists")
         
         commonTextFieldDict["password"]?.isSecureTextEntry = true
         commonTextFieldDict["passwordConfirmed"]?.isSecureTextEntry = true

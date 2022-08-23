@@ -28,6 +28,7 @@ class SignInFormBuilder: CommonProxyViewController, ViewBinding {
         subTitle: String? = nil,
         placeHolderString: String? = nil,
         urlPath: String? = nil,
+        optionalTrailingPath: String? = nil,
         description: String? = nil
     ) -> UIView {
         let areaView = UIView()
@@ -43,7 +44,7 @@ class SignInFormBuilder: CommonProxyViewController, ViewBinding {
         
         var commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: placeHolderString)
         if let urlPath = urlPath {
-            commonTextField = commonTextField.toRequestType(url: URL.membersApiURL?.appendingPathComponent(urlPath))
+            commonTextField = commonTextField.toRequestType(url: URL.membersApiURL?.appendingPathComponent(urlPath), optionalTrailingPath: optionalTrailingPath)
         }
         commonTextField.binding = self
         commonTextFieldDict[key] = commonTextField

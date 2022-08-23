@@ -25,6 +25,11 @@ class RequestHTTPModel {
         request(completionHandler)
     }
     
+    func requestObservable(pathArray: [String]) -> Observable<Data> {
+        builder.pathArray = pathArray
+        return requestObservable()
+    }
+    
     func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         
         guard var request = builder.getRequest() else {

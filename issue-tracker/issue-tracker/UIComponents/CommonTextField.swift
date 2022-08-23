@@ -161,10 +161,11 @@ class CommonTextField: UITextField, ViewBindable {
         }
     }
     
-    func toRequestType(url: URL?) -> RequestTextField {
+    func toRequestType(url: URL?, optionalTrailingPath: String? = nil) -> RequestTextField {
         let textField = RequestTextField(frame: frame, input: keyboardType, placeholder: placeholder, markerType: markerType)
         textField.requestURL = url
-        textField.delegate = self
+        textField.delegate = textField
+        textField.optionalTrailingPath = optionalTrailingPath
         return textField
     }
     
@@ -220,8 +221,15 @@ extension CommonTextField: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        binding?.bindableHandler?(textField.text, self)
         return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        binding?.bindableHandler?(textField.text, self)
     }
 }
 

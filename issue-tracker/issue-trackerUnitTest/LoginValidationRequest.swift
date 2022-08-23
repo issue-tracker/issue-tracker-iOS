@@ -33,7 +33,7 @@ class LoginValidationRequest: ModelTestableReactively {
     init() {
         if let requestURL = URL.membersApiURL {
             requestModel = RequestHTTPModel(requestURL)
-            requestTimerModel = RequestHTTPTimerModel(timerInterval: 2.0, requestURL)
+            requestTimerModel = RequestHTTPTimerModel(timerInterval: 2, requestURL)
         } else {
             requestModel = nil
             requestTimerModel = nil

@@ -60,27 +60,19 @@ class SignInFormViewController: SignInFormBuilder {
                     
                     let allTexts = self.getAllTextFieldValues()
                     
-                    guard
-                        let id = allTexts["signInId"],
-                        let password = allTexts["password"],
-                        let email = allTexts["email"],
-                        let nickname = allTexts["nickname"]
-                    else {
+                    guard let id = allTexts["signInId"], let password = allTexts["password"], let email = allTexts["email"], let nickname = allTexts["nickname"] else {
                         return
                     }
                     
                     self.requestModel?.builder.setBody(SignInParameter(signInId: id, password: password, email: email, nickname: nickname, profileImage: ""))
                     self.requestModel?.builder.setHTTPMethod("post")
-                    
-                    self.requestModel?.request({ result, respnse in
+                    self.requestModel?.request(pathArray: ["members", "new", "general"], { result, respnse in
                         switch result {
                         case .success(let data):
                             let responseModel = HTTPResponseModel()
-                            
                             guard let data = responseModel.getDecoded(from: data, as: SignInResponse.self) else {
-                                if let message = responseModel.getMessageResponse(from: data) {
-                                    self.commonAlert(message)
-                                }
+                                let errorMessage = responseModel.getMessageResponse(from: data) ?? "에러가 발생하였습니다. 재시도 바랍니다."
+                                self.commonAlert(errorMessage)
                                 
                                 return
                             }
@@ -91,7 +83,7 @@ class SignInFormViewController: SignInFormBuilder {
                         case .failure(let error):
                             print(error)
                         }
-                    }, pathArray: ["members", "new", "general"])
+                    })
                 }
             }),
             for: .touchUpInside

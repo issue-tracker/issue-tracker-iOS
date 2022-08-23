@@ -27,7 +27,7 @@ class RequestHTTPTimerModel: RequestHTTPModel {
         builder.pathArray.removeAll()
         
         timer = Timer.scheduledTimer(withTimeInterval: self.timerInterval, repeats: false) { _ in
-            self.request(completionHandler, pathArray: pathArray)
+            self.request(pathArray: pathArray, completionHandler)
         }
     }
 }

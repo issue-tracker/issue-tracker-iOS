@@ -20,7 +20,7 @@ class RequestHTTPModel {
         self.builder = RequestBuilder(baseURL: baseURL)
     }
     
-    func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void, pathArray: [String]) {
+    func request(pathArray: [String], _ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         builder.pathArray = pathArray
         request(completionHandler)
     }
@@ -36,12 +36,7 @@ class RequestHTTPModel {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                if let error = error {
-                    completionHandler(.failure(error), response)
-                } else {
-                    completionHandler(.failure(HTTPError.noData), response)
-                }
-                
+                completionHandler(.failure(error ?? HTTPError.noData), response)
                 return
             }
             
@@ -58,7 +53,7 @@ class RequestHTTPModel {
                 return Disposables.create()
             }
             
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data else {
                     observable.onError(error ?? HTTPError.noData)
                     return
@@ -66,13 +61,9 @@ class RequestHTTPModel {
                 
                 observable.onNext(data)
                 observable.onCompleted()
-            }
+            }.resume()
             
-            task.resume()
-            
-            return Disposables.create {
-                task.cancel()
-            }
+            return Disposables.create()
         }
     }
 }

@@ -59,15 +59,16 @@ class RequestTextField: CommonTextField {
     private func request() {
         guard let path = self.text else { return }
         
+        binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)
         requestModel?.setTimerInterval(timeInterval)
         
+        var pathArray = [path]
+        
         if let optionalTrailingPathComponent = optionalTrailingPath {
-            requestModel?.builder.pathArray.append(optionalTrailingPathComponent)
+            pathArray.append(optionalTrailingPathComponent)
         }
         
-        binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)
-        
-        requestModel?.requestAsTimer(pathArray: [path]) { result, response in
+        requestModel?.requestAsTimer(pathArray: pathArray) { result, response in
             
             let model = HTTPResponseModel(response: response)
             guard let bindable = self.resultLabel else { return }
@@ -81,7 +82,7 @@ class RequestTextField: CommonTextField {
                 status.message = validationSuccess ? "입력값을 다시 확인해주시기 바랍니다." : "이상이 발견되지 않았습니다."
             }
             
-            self.binding?.bindableHandler?(["result": result], bindable)
+            self.binding?.bindableHandler?(["result": status], bindable)
         }
     }
 }

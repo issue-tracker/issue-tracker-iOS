@@ -9,7 +9,7 @@ import SnapKit
 import FlexLayout
 import CoreGraphics
 
-class ServiceSignInViewController: SignInFormBuilder {
+class ServiceSignInViewController: CommonProxyViewController {
     
     private let padding: CGFloat = 8
     private let _containerView = UIScrollView()
@@ -31,16 +31,18 @@ class ServiceSignInViewController: SignInFormBuilder {
         return button
     }()
     
+    let emailArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email")
+    }
+    let nicknameArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let emailArea = getCommonTextFieldArea(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email")
-        let nicknameArea = getCommonTextFieldArea(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname")
-        
-        emailArea.subviews.filter({$0 is CommonTextField}).forEach {
-            ($0 as? CommonTextField)?.isUserInteractionEnabled = false
-            ($0 as? CommonTextField)?.backgroundColor = .lightGray
-        }
+        emailArea.textField?.isUserInteractionEnabled = false
+        emailArea.textField?.backgroundColor = .lightGray
         
         view.addSubview(_containerView)
         

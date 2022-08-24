@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import SnapKit
 
-class SignInFormViewController: SignInFormBuilder {
+class SignInFormViewController: CommonProxyViewController {
     
     private let padding: CGFloat = 8
     
@@ -33,6 +33,32 @@ class SignInFormViewController: SignInFormBuilder {
         return button
     }()
     
+    var commonTextFieldStatus: [HTTPResultStatus] {
+        [
+            idArea.descriptionLabel?.descriptionType,
+            passwordArea.descriptionLabel?.descriptionType,
+            emailArea.descriptionLabel?.descriptionType,
+            nicknameArea.descriptionLabel?.descriptionType
+        ].compactMap({$0})
+    }
+    
+    let idArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디", urlPath: "signin-id", optionalTrailingPath: "exists", description: "멋진 아이디에요!")
+    }
+    let passwordArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호", optionalTrailingPath: "exists")
+    }
+    
+    let passwordConfirmedArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인", optionalTrailingPath: "exists")
+    }
+    let emailArea = CommonTextFieldArea{
+        CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email", optionalTrailingPath: "exists")
+    }
+    let nicknameArea = CommonTextFieldArea{
+        CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname", optionalTrailingPath: "exists")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,22 +71,12 @@ class SignInFormViewController: SignInFormBuilder {
                 guard let self = self else { return }
                 
                 DispatchQueue.main.async {
-                    var isInError = false
-                    
-                    self.view.subviews.compactMap({ $0 as? DescriptionLabel }).forEach { descLabel in
-                        if descLabel.descriptionType == .error, isInError == false {
-                            isInError = descLabel.descriptionType == .error
-                        }
-                    }
-                    
-                    if isInError {
+                    guard self.commonTextFieldStatus.contains(.error) == false else {
                         self.present(UIAlertController.messageFailed, animated: true)
                         return
                     }
                     
-                    let allTexts = self.getAllTextFieldValues()
-                    
-                    guard let id = allTexts["signInId"], let password = allTexts["password"], let email = allTexts["email"], let nickname = allTexts["nickname"] else {
+                    guard let id = self.idArea.textField?.text, let password = self.passwordArea.textField?.text, let email = self.emailArea.textField?.text, let nickname = self.nicknameArea.textField?.text else {
                         return
                     }
                     
@@ -84,15 +100,9 @@ class SignInFormViewController: SignInFormBuilder {
             for: .touchUpInside
         )
         
-        let idArea = getCommonTextFieldArea(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요.(4~12자)", placeHolderString: "아이디", urlPath: "signin-id", optionalTrailingPath: "exists", description: "멋진 아이디에요!")
-        let passwordArea = getCommonTextFieldArea(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호", optionalTrailingPath: "exists")
-        let passwordConfirmedArea = getCommonTextFieldArea(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인", optionalTrailingPath: "exists")
-        let emailArea = getCommonTextFieldArea(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email", optionalTrailingPath: "exists")
-        let nicknameArea = getCommonTextFieldArea(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname", optionalTrailingPath: "exists")
-        
-        commonTextFieldDict["password"]?.isSecureTextEntry = true
-        commonTextFieldDict["passwordConfirmed"]?.isSecureTextEntry = true
-        commonTextFieldDict["email"]?.keyboardType = .emailAddress
+        passwordArea.textField?.isSecureTextEntry = true
+        passwordConfirmedArea.textField?.isSecureTextEntry = true
+        emailArea.textField?.keyboardType = .emailAddress
         
         view.addSubview(_containerView)
         

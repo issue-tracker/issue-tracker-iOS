@@ -21,10 +21,11 @@ class RequestHTTPTimerModel: RequestHTTPModel {
         self.timerInterval = timerInterval
     }
     
-    func requestAsTimer(pathArray: [String], _ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
+    func requestAsTimer(pathArray: [String]? = nil, _ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         timer?.invalidate()
         
         timer = Timer.scheduledTimer(withTimeInterval: Double(timerInterval), repeats: false) { _ in
+            let pathArray = pathArray ?? self.builder.pathArray
             self.request(pathArray: pathArray, completionHandler)
         }
     }

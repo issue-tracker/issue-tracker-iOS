@@ -20,17 +20,17 @@ class RequestHTTPModel {
         self.builder = RequestBuilder(baseURL: baseURL)
     }
     
-    func request(pathArray: [String], _ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
+    func request(pathArray: [String] = [], _ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         builder.pathArray = pathArray
         request(completionHandler)
     }
     
-    func requestObservable(pathArray: [String]) -> Observable<Data> {
+    func requestObservable(pathArray: [String] = []) -> Observable<Data> {
         builder.pathArray = pathArray
         return requestObservable()
     }
     
-    func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
+    private func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         
         guard var request = builder.getRequest() else {
             completionHandler(.failure(HTTPError.urlError), nil)
@@ -50,7 +50,7 @@ class RequestHTTPModel {
         }.resume()
     }
     
-    func requestObservable() -> Observable<Data> {
+    private func requestObservable() -> Observable<Data> {
         return Observable.create { observable in
             
             guard let request = self.builder.getRequest() else {

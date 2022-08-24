@@ -67,21 +67,16 @@ class SignInFormViewController: SignInFormBuilder {
                     self.requestModel?.builder.setBody(SignInParameter(signInId: id, password: password, email: email, nickname: nickname, profileImage: ""))
                     self.requestModel?.builder.setHTTPMethod("post")
                     self.requestModel?.request(pathArray: ["members", "new", "general"], { result, respnse in
-                        switch result {
-                        case .success(let data):
-                            let responseModel = HTTPResponseModel()
-                            guard let data = responseModel.getDecoded(from: data, as: SignInResponse.self) else {
-                                let errorMessage = responseModel.getMessageResponse(from: data) ?? "에러가 발생하였습니다. 재시도 바랍니다."
-                                self.commonAlert(errorMessage)
-                                
-                                return
-                            }
-                            
-                            self.commonAlert(title: "회원가입이 완료되었습니다.", "\(data.nickname) 환영합니다!") { _ in
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                        case .failure(let error):
-                            print(error)
+                        
+                        let model = HTTPResponseModel()
+                        
+                        guard let signInResponseData = model.getDecoded(from: result, as: SignInResponse.self) else {
+                            self.commonAlert(model.getMessageResponse(from: result) ?? "에러가 발생하였습니다. 재시도 바랍니다.")
+                            return
+                        }
+                        
+                        self.commonAlert(title: "회원가입이 완료되었습니다.", "\(signInResponseData.nickname) 환영합니다!") { _ in
+                            self.navigationController?.popViewController(animated: true)
                         }
                     })
                 }

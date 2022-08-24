@@ -20,7 +20,6 @@ class RequestTextField: CommonTextField {
     }
     
     private var requestModel: RequestHTTPTimerModel?
-    private var validationModel = TextFieldValidationModel()
     
     /// path components로 설정된 URL에서 맨 마지막에 넣을 문자열
     var optionalTrailingPath: String?
@@ -68,38 +67,21 @@ class RequestTextField: CommonTextField {
         
         binding?.bindableHandler?(["result": ResponseStatus()], resultLabel ?? self)
         
-        requestModel?.requestAsTimer(pathArray: [path]) { [weak self] result, response in
+        requestModel?.requestAsTimer(pathArray: [path]) { result, response in
             
-            guard let self = self, let bindable = self.resultLabel else {
-                return
+            let model = HTTPResponseModel(response: response)
+            guard let bindable = self.resultLabel else { return }
+            
+            var status = ResponseStatus(status: .error, message: "서버와의 연결이 불안정합니다.")
+            status.result = result
+            status.isRequesting = false
+            
+            if let validationSuccess = model.getDecoded(from: result, as: Bool.self) {
+                status.status = validationSuccess ? .warning : .acceptable
+                status.message = validationSuccess ? "입력값을 다시 확인해주시기 바랍니다." : "이상이 발견되지 않았습니다."
             }
-            
-            let result = self.validationModel.validate(for: result)
             
             self.binding?.bindableHandler?(["result": result], bindable)
         }
-    }
-}
-
-private class TextFieldValidationModel {
-    func validate(for response: Result<Data, Error>) -> ResponseStatus {
-        var result = ResponseStatus()
-        result.result = response
-        result.isRequesting = false
-        
-        guard
-            let data = try? response.get(),
-            let responseResult = try? JSONDecoder().decode(Bool.self, from: data)
-        else {
-            
-            result.status = .error
-            result.message = "서버와의 연결이 불안정합니다."
-            return result
-        }
-        
-        result.status = responseResult ? .warning : .acceptable
-        result.message = responseResult ? "입력값을 다시 확인해주시기 바랍니다." : "이상이 발견되지 않았습니다."
-        
-        return result
     }
 }

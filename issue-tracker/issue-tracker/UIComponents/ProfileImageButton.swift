@@ -96,13 +96,12 @@ class ProfileImageButton: UIView {
     
     private func getProfileImage() {
         httpModel?.request({ result, response in
-            switch result {
-            case .success(let data):
-                self.profileImageView.image = UIImage(data: data)
-            case .failure(let error):
-                print(error)
+            
+            guard let data = try? result.get(), let image = UIImage(data: data) else {
+                return
             }
             
+            self.profileImageView.image = image
             self.profileImageView.contentMode = .scaleAspectFill
             self.profileImageView.setNeedsDisplay()
         })

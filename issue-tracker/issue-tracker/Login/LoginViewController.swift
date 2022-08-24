@@ -86,19 +86,16 @@ class LoginViewController: CommonProxyViewController {
                 self.requestModel?.builder.setBody(["id":id,"password":password])
                 self.requestModel?.builder.setHTTPMethod("post")
                 self.requestModel?.request(pathArray: ["members","signin"], { result, response in
-                    switch result {
-                    case .success(let data):
-                        let responseModel = HTTPResponseModel()
-                        guard let loginData = responseModel.getDecoded(from: data, as: LoginResponse.self) else {
-                            self.commonAlert(responseModel.getMessageResponse(from: data) ?? "로그인에 실패하였습니다.")
-                            return
-                        }
-                        
-                        UserDefaults.standard.setValue(loginData.accessToken.token, forKey: "accessToken")
-                        self.switchScreen(type: .main)
-                    case .failure(let error):
-                        print(error)
+                    
+                    let model = HTTPResponseModel()
+                    
+                    guard let loginResponseData = model.getDecoded(from: result, as: LoginResponse.self) else {
+                        self.commonAlert(model.getMessageResponse(from: result) ?? "로그인에 실패하였습니다.")
+                        return
                     }
+                    
+                    UserDefaults.standard.setValue(loginResponseData.accessToken.token, forKey: "accessToken")
+                    self.switchScreen(type: .main)
                 })
                 
             }),

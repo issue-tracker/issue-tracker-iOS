@@ -26,7 +26,19 @@ class HTTPResponseModel {
         return (jsonObject as? [String: String])?["message"]
     }
     
+    func getMessageResponse(from result: Result<Data, Error>) -> String? {
+        guard let data = try? result.get() else {
+            return nil
+        }
+        
+        return getMessageResponse(from: data)
+    }
+    
     func getDecoded<T: Decodable>(from data: Data, as type: T.Type) -> T? {
         try? decoder.decode(type, from: data)
+    }
+    
+    func getDecoded<T: Decodable>(from result: Result<Data, Error>, as type: T.Type) -> T? {
+        try? result.flatMap({ .success(self.getDecoded(from: $0, as: type)) }).get()
     }
 }

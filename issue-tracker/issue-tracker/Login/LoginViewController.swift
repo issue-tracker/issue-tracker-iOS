@@ -48,18 +48,12 @@ class LoginViewController: CommonProxyViewController {
     
     private lazy var signInButtons = HorizontalButtons {
         HorizontalButtonsComponents(imageName: "login_octocat", handler: UIAction(handler: { _ in
-//            guard let url = URL.githubOauthURL else { self.present(UIAlertController.messageFailed, animated: true); return; }
-//            UIApplication.shared.open(url)
             self.present(UIAlertController.messageDeveloping, animated: true)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_kakao", handler: UIAction(handler: { _ in
-//            guard let url = URL.kakaoOauthURL else { self.present(UIAlertController.messageFailed, animated: true); return; }
-//            UIApplication.shared.open(url)
             self.present(UIAlertController.messageDeveloping, animated: true)
         }))
         HorizontalButtonsComponents(imageName: "login_icon_naver", handler: UIAction(handler: { _ in
-//            guard let url = URL.naverOauthURL else { self.present(UIAlertController.messageFailed, animated: true); return; }
-//            UIApplication.shared.open(url)
             self.present(UIAlertController.messageDeveloping, animated: true)
         }))
     }
@@ -79,11 +73,11 @@ class LoginViewController: CommonProxyViewController {
         loginButton.clipsToBounds = true
         loginButton.addAction(
             UIAction(handler: { _ in
-                guard let id = idTextField.text, let password = passwordTextField.text else {
+                guard let body = ["id": idTextField.text, "password": passwordTextField.text] as? [String: String] else {
                     return
                 }
                 
-                self.requestModel?.builder.setBody(["id":id,"password":password])
+                self.requestModel?.builder.setBody(body)
                 self.requestModel?.builder.setHTTPMethod("post")
                 self.requestModel?.request(pathArray: ["members","signin"], { result, response in
                     

@@ -44,7 +44,7 @@ class RequestTextField: CommonTextField {
     
     override func textFieldDidChangeSelection(_ textField: UITextField) {
         super.textFieldDidChangeSelection(textField)
-        if (textField.text?.count ?? 0) > validateStringCount {
+        if (textField.text?.count ?? 0) >= validateStringCount {
             request()
         } else {
             var result = ResponseStatus()

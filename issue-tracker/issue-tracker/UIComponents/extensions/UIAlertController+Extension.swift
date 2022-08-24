@@ -22,6 +22,16 @@ extension UIAlertController {
     static func getCommonAlert(title: String? = "경고", _ message: String = "", actionTitle: String? = "확인", handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertController {
         return message.getDefaultAlertController(title: title, actionTitle: actionTitle, handler: handler)
     }
+    
+    static func willProceed(title: String? = "경고", _ message: String = "", actionTitle: String? = "확인", handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "예", style: .default, handler: handler))
+        alert.addAction(UIAlertAction(title: "아니오", style: .destructive, handler: { _ in
+            alert.dismiss(animated: true)
+        }))
+        
+        return alert
+    }
 }
 
 extension UIAlertController {

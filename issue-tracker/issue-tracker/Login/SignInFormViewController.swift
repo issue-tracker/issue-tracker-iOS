@@ -24,15 +24,6 @@ class SignInFormViewController: CommonProxyViewController {
         return label
     }()
     
-    private let acceptButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor(named: "login_button_color")
-        button.setTitle("가입하기", for: .normal)
-        let font = UIFont.preferredFont(forTextStyle: .title2)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: font.pointSize)
-        return button
-    }()
-    
     var commonTextFieldStatus: [HTTPResultStatus] {
         [
             idArea.descriptionLabel?.descriptionType,
@@ -42,22 +33,37 @@ class SignInFormViewController: CommonProxyViewController {
         ].compactMap({$0})
     }
     
-    let idArea = CommonTextFieldArea {
-        CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디", urlPath: "signin-id", optionalTrailingPath: "exists", description: "멋진 아이디에요!")
+    private let idArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디", description: "멋진 아이디에요!")
+            .toRequestType(URL.membersApiURL?.appendingPathComponent("signin-id"), optionalTrailingPath: "exists")
+            .setValidateStringCount(4)
     }
-    let passwordArea = CommonTextFieldArea {
-        CommonTextFieldComponents(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호", optionalTrailingPath: "exists")
+    private let passwordArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
+            .setValidateStringCount(8)
+    }
+    private let passwordConfirmedArea = CommonTextFieldArea {
+        CommonTextFieldComponents(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
+            .setValidateStringCount(8)
+    }
+    private let emailArea = CommonTextFieldArea{
+        CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일")
+            .toRequestType(URL.membersApiURL?.appendingPathComponent("email"), optionalTrailingPath: "exists")
+    }
+    private let nicknameArea = CommonTextFieldArea{
+        CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임")
+            .toRequestType(URL.membersApiURL?.appendingPathComponent("nickname"), optionalTrailingPath: "exists")
+            .setValidateStringCount(2)
     }
     
-    let passwordConfirmedArea = CommonTextFieldArea {
-        CommonTextFieldComponents(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인", optionalTrailingPath: "exists")
-    }
-    let emailArea = CommonTextFieldArea{
-        CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일", urlPath: "email", optionalTrailingPath: "exists")
-    }
-    let nicknameArea = CommonTextFieldArea{
-        CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임", urlPath: "nickname", optionalTrailingPath: "exists")
-    }
+    private let acceptButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(named: "login_button_color")
+        button.setTitle("가입하기", for: .normal)
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: font.pointSize)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,35 +73,24 @@ class SignInFormViewController: CommonProxyViewController {
         }
         
         acceptButton.addAction(
-            UIAction(handler: { [weak self] action in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.async {
-                    guard self.commonTextFieldStatus.contains(.error) == false else {
-                        self.present(UIAlertController.messageFailed, animated: true)
-                        return
-                    }
+            UIAction(handler: { _ in
+                if self.commonTextFieldStatus.contains(.error) || self.requestModel == nil {
                     
-                    guard let id = self.idArea.textField?.text, let password = self.passwordArea.textField?.text, let email = self.emailArea.textField?.text, let nickname = self.nicknameArea.textField?.text else {
-                        return
-                    }
-                    
-                    self.requestModel?.builder.setBody(SignInParameter(signInId: id, password: password, email: email, nickname: nickname, profileImage: ""))
-                    self.requestModel?.builder.setHTTPMethod("post")
-                    self.requestModel?.request(pathArray: ["members", "new", "general"], { result, respnse in
-                        
-                        let model = HTTPResponseModel()
-                        
-                        guard let signInResponseData = model.getDecoded(from: result, as: SignInResponse.self) else {
-                            self.commonAlert(model.getMessageResponse(from: result) ?? "에러가 발생하였습니다. 재시도 바랍니다.")
-                            return
-                        }
-                        
-                        self.commonAlert(title: "회원가입이 완료되었습니다.", "\(signInResponseData.nickname) 환영합니다!") { _ in
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    })
+                    self.present(UIAlertController.messageFailed, animated: true)
+                    return
                 }
+                else if self.commonTextFieldStatus.contains(.warning) {
+                    
+                    self.present(
+                        UIAlertController.willProceed("입력란의 문제가 발견되었습니다. 그래도 진행하시겠습니까?", handler: { _ in
+                            self.requestLogin()
+                        }),
+                        animated: true
+                    )
+                    return
+                }
+                
+                self.requestLogin()
             }),
             for: .touchUpInside
         )
@@ -129,14 +124,38 @@ class SignInFormViewController: CommonProxyViewController {
         
         acceptButton.setCornerRadius()
     }
-}
-
-struct SignInParameter: Encodable {
-    var signInId: String
-    var password: String
-    var email: String
-    var nickname: String
-    var profileImage: String
+    
+    func requestLogin() {
+        guard
+            let body = [
+                "signInId": idArea.textField?.text,
+                "password": passwordArea.textField?.text,
+                "email": emailArea.textField?.text,
+                "nickname": nicknameArea.textField?.text,
+                "profileImage": ""
+            ] as? [String: String]
+        else {
+            return
+        }
+        
+        requestModel?.builder.setBody(body)
+        requestModel?.builder.setHTTPMethod("post")
+        requestModel?.request(pathArray: ["members", "new", "general"], { result, respnse in
+            
+            let model = HTTPResponseModel()
+            
+            DispatchQueue.main.async {
+                guard let signInResponseData = model.getDecoded(from: result, as: SignInResponse.self) else {
+                    self.commonAlert(model.getMessageResponse(from: result) ?? "에러가 발생하였습니다. 재시도 바랍니다.")
+                    return
+                }
+                
+                self.commonAlert(title: "회원가입이 완료되었습니다.", "\(signInResponseData.nickname) 환영합니다!") { _ in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        })
+    }
 }
 
 struct SignInResponse: Decodable {
@@ -144,8 +163,4 @@ struct SignInResponse: Decodable {
     var email: String
     var nickname: String
     var profileImage: String
-}
-
-struct MessageResponse: Decodable {
-    var message: String
 }

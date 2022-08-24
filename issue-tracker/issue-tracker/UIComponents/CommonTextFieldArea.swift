@@ -38,31 +38,41 @@ class CommonTextFieldArea: UIView, ViewBinding {
         self.init()
         self.completionHandler = completionHandler
         
-        guard let component = content() else {
-            return
-        }
+        guard let component = content() else { return }
         
         let titleLabel = UILabel()
-        titleLabel.attributedText = NSAttributedString(string: component.title, attributes: [.font: UIFont.preferredFont(forTextStyle: .headline, compatibleWith: nil)])
+        titleLabel.attributedText = NSAttributedString(
+            string: component.title,
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .headline, compatibleWith: nil)]
+        )
         
         let subTitleLabel = UILabel()
-        let subTitleFont = UIFont.preferredFont(forTextStyle: .subheadline)
-        subTitleLabel.font = UIFont.boldSystemFont(ofSize: subTitleFont.pointSize)
-        subTitleLabel.text = component.subTitle
+        subTitleLabel.attributedText = NSAttributedString(
+            string: component.subTitle ?? "",
+            attributes: [.font: UIFont.italicSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .subheadline).pointSize)]
+        )
         subTitleLabel.adjustsFontSizeToFitWidth = true
         
-        var commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: component.placeHolderString)
-        if let urlPath = component.urlPath {
-            commonTextField = commonTextField.toRequestType(url: URL.membersApiURL?.appendingPathComponent(urlPath), optionalTrailingPath: component.optionalTrailingPath)
+        var commonTextField: CommonTextField!
+        if let url = component.url {
+            let requestTextfield = RequestTextField(frame: .zero, input: .default, placeholder: component.placeHolderString, markerType: .none)
+            requestTextfield.requestURL = url
+            requestTextfield.optionalTrailingPath = component.optionalTrailingPath
+            requestTextfield.validateStringCount = component.validateStringCount
+            commonTextField = requestTextfield
+        } else {
+            commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: component.placeHolderString)
         }
+        
+        commonTextField.delegate = commonTextField
         commonTextField.binding = self
         
         let descriptionLabel = DescriptionLabel()
         descriptionLabel.binding = self
-        let descriptionFont = UIFont.preferredFont(forTextStyle: .subheadline)
-        descriptionLabel.font = UIFont.boldSystemFont(ofSize: descriptionFont.pointSize)
-        descriptionLabel.text = component.description ?? " "
-        subTitleLabel.adjustsFontSizeToFitWidth = true
+        descriptionLabel.attributedText = NSAttributedString(
+            string: component.description ?? "",
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)]
+        )
         
         (commonTextField as? RequestTextField)?.resultLabel = descriptionLabel
         
@@ -70,7 +80,7 @@ class CommonTextFieldArea: UIView, ViewBinding {
             flex.addItem(titleLabel).paddingVertical(padding)
             flex.addItem(subTitleLabel).marginBottom(padding)
             flex.addItem(commonTextField).minHeight(40).marginBottom(padding)
-            flex.addItem(descriptionLabel)
+            flex.addItem(descriptionLabel).minHeight(20)
         }
         
         textField = commonTextField
@@ -114,7 +124,27 @@ struct CommonTextFieldComponents {
     var title: String
     var subTitle: String?
     var placeHolderString: String?
-    var urlPath: String?
-    var optionalTrailingPath: String?
     var description: String?
+    
+    var url: URL?
+    var optionalTrailingPath: String?
+    
+    var validateStringCount: UInt = 2
+}
+
+extension CommonTextFieldComponents {
+    func toRequestType(_ url: URL?, optionalTrailingPath: String? = nil) -> CommonTextFieldComponents {
+        var component = self
+        component.url = url
+        component.optionalTrailingPath = optionalTrailingPath
+        
+        return component
+    }
+    
+    func setValidateStringCount(_ count: UInt) -> CommonTextFieldComponents {
+        var component = self
+        component.validateStringCount = count
+        
+        return component
+    }
 }

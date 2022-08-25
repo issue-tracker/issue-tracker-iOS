@@ -34,7 +34,7 @@ class SignInFormViewController: CommonProxyViewController {
     }
     
     private let idArea = CommonTextFieldArea {
-        CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디", description: "멋진 아이디에요!")
+        CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("signin-id"), optionalTrailingPath: "exists")
             .setValidateStringCount(4)
     }

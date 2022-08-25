@@ -53,45 +53,21 @@ class CommonTextFieldArea: UIView, ViewBinding {
         )
         subTitleLabel.adjustsFontSizeToFitWidth = true
         
-        
-        var commonTextField: CommonTextField!
+        var commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: component.placeHolderString)
         if let url = component.url {
-            let requestTextfield = RequestTextField(frame: .zero, input: .default, placeholder: component.placeHolderString, markerType: .none)
+            
+            let requestTextfield = commonTextField.toRequestType(url: url, optionalTrailingPath: component.optionalTrailingPath)
             requestTextfield.requestURL = url
-            requestTextfield.optionalTrailingPath = component.optionalTrailingPath
             requestTextfield.validateStringCount = component.validateStringCount
             commonTextField = requestTextfield
-        } else {
-            commonTextField = CommonTextField(frame: .zero, input: .default, placeholder: component.placeHolderString)
         }
         
-        commonTextField.delegate = commonTextField
-        commonTextField.binding = self
-        
-        var area: CommonTextFieldAreaInputField?
-        if let validationHandler = component.validationHandler, let completionHandler = component.completionHandler {
-            area = CommonTextFieldAreaInputField(commonTextField, validationHandler: validationHandler, completionHandler: completionHandler)
-            commonTextField.delegate = area
-        }
-        
-        let descriptionLabel = DescriptionLabel()
-        descriptionLabel.binding = self
-        descriptionLabel.attributedText = NSAttributedString(
-            string: component.description ?? "",
-            attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)]
-        )
-        
-        (commonTextField as? RequestTextField)?.resultLabel = descriptionLabel
+        let inputField = CommonTextFieldAreaInputField(commonTextField, validationHandler: component.validationHandler, completionHandler: component.completionHandler)
         
         flex.define { flex in
             flex.addItem(titleLabel).paddingVertical(padding)
             flex.addItem(subTitleLabel).marginBottom(padding)
-            if let area = area {
-                flex.addItem(area)
-            } else {
-                flex.addItem(commonTextField).minHeight(40).marginBottom(padding)
-                flex.addItem(descriptionLabel).minHeight(20)
-            }
+            flex.addItem(inputField)
         }
         
         textField = commonTextField
@@ -135,7 +111,7 @@ struct CommonTextFieldComponents {
     var title: String
     var subTitle: String?
     var placeHolderString: String?
-    var description: String?
+    var description: Bool = true
     
     private(set) var url: URL?
     private(set) var optionalTrailingPath: String?

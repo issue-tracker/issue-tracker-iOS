@@ -218,5 +218,9 @@ extension CommonTextField: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         binding?.bindableHandler?(textField.text, self)
     }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true
+    }
 }
 

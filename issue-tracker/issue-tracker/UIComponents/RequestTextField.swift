@@ -25,8 +25,13 @@ class RequestTextField: CommonTextField {
     var optionalTrailingPath: String?
     
     /// 해당 값 이상의 문자에 대해서만 validation을 진행합니다.
-    var validateStringCount: UInt = 2
+    var validateStringCount: UInt = 0
     var resultLabel: ViewBindable?
+    
+    override func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        (resultLabel as? DescriptionLabel)?.setResponseStatus(ResponseStatus(status: .none, message: "", isRequesting: false))
+        return super.textFieldShouldClear(textField)
+    }
     
     override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         super.textFieldShouldReturn(textField)

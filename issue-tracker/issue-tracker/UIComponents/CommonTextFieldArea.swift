@@ -53,6 +53,7 @@ class CommonTextFieldArea: UIView, ViewBinding {
         )
         subTitleLabel.adjustsFontSizeToFitWidth = true
         
+        
         var commonTextField: CommonTextField!
         if let url = component.url {
             let requestTextfield = RequestTextField(frame: .zero, input: .default, placeholder: component.placeHolderString, markerType: .none)
@@ -67,6 +68,12 @@ class CommonTextFieldArea: UIView, ViewBinding {
         commonTextField.delegate = commonTextField
         commonTextField.binding = self
         
+        var area: CommonTextFieldAreaInputField?
+        if let validationHandler = component.validationHandler, let completionHandler = component.completionHandler {
+            area = CommonTextFieldAreaInputField(commonTextField, validationHandler: validationHandler, completionHandler: completionHandler)
+            commonTextField.delegate = area
+        }
+        
         let descriptionLabel = DescriptionLabel()
         descriptionLabel.binding = self
         descriptionLabel.attributedText = NSAttributedString(
@@ -79,8 +86,12 @@ class CommonTextFieldArea: UIView, ViewBinding {
         flex.define { flex in
             flex.addItem(titleLabel).paddingVertical(padding)
             flex.addItem(subTitleLabel).marginBottom(padding)
-            flex.addItem(commonTextField).minHeight(40).marginBottom(padding)
-            flex.addItem(descriptionLabel).minHeight(20)
+            if let area = area {
+                flex.addItem(area)
+            } else {
+                flex.addItem(commonTextField).minHeight(40).marginBottom(padding)
+                flex.addItem(descriptionLabel).minHeight(20)
+            }
         }
         
         textField = commonTextField
@@ -126,13 +137,24 @@ struct CommonTextFieldComponents {
     var placeHolderString: String?
     var description: String?
     
-    var url: URL?
-    var optionalTrailingPath: String?
+    private(set) var url: URL?
+    private(set) var optionalTrailingPath: String?
     
-    var validateStringCount: UInt = 2
+    private(set) var validateStringCount: UInt = 2
+    
+    private(set) var validationHandler: ((UITextField) -> Bool)?
+    private(set) var completionHandler: ((DescriptionLabel, Bool) -> Void)?
 }
 
 extension CommonTextFieldComponents {
+    func toCommonValidationType(validationHandler: @escaping (UITextField) -> Bool, completionHandler: @escaping (DescriptionLabel, Bool) -> Void) -> CommonTextFieldComponents {
+        var component = self
+        component.validationHandler = validationHandler
+        component.completionHandler = completionHandler
+        
+        return component
+    }
+    
     func toRequestType(_ url: URL?, optionalTrailingPath: String? = nil) -> CommonTextFieldComponents {
         var component = self
         component.url = url

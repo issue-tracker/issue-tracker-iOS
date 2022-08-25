@@ -40,17 +40,35 @@ class SignInFormViewController: CommonProxyViewController {
     }
     private let passwordArea = CommonTextFieldArea {
         CommonTextFieldComponents(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
-            .setValidateStringCount(8)
+            .toCommonValidationType { textField in
+                return ((textField.text?.count ?? 0) >= 8)
+            } completionHandler: { label, isAcceptable in
+                
+                label.descriptionType = isAcceptable ? .acceptable : .error
+                label.text = isAcceptable ? "이상이 발견되지 않았습니다." : "8자 이상 입력 부탁드립니다."
+            }
+
     }
-    private let passwordConfirmedArea = CommonTextFieldArea {
+    private lazy var passwordConfirmedArea = CommonTextFieldArea {
         CommonTextFieldComponents(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
-            .setValidateStringCount(8)
+            .toCommonValidationType { textField in
+                guard let originText = self.passwordArea.textField?.text, let text = textField.text else {
+                    return false
+                }
+                
+                return originText == text
+            } completionHandler: { label, isAcceptable in
+                
+                label.descriptionType = isAcceptable ? .acceptable : .error
+                label.text = isAcceptable ? "이상이 발견되지 않았습니다." : "같은 비밀번호를 입력해주시기 바랍니다."
+            }
     }
-    private let emailArea = CommonTextFieldArea{
+    private let emailArea = CommonTextFieldArea {
         CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("email"), optionalTrailingPath: "exists")
+            .setValidateStringCount(4)
     }
-    private let nicknameArea = CommonTextFieldArea{
+    private let nicknameArea = CommonTextFieldArea {
         CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("nickname"), optionalTrailingPath: "exists")
             .setValidateStringCount(2)

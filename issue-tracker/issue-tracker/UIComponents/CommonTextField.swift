@@ -21,35 +21,32 @@ enum CommonTextMarkerType: String {
 
 class CommonTextField: UITextField, ViewBindable {
     
-    private lazy var subBackgroundView = UIView(frame: bounds.insetBy(dx: 4, dy: 4))
     private var nextField: CommonTextField?
-    var binding: ViewBinding?
-    
     private var leftButton: UIButton?
+    private var subBackgroundView: UIView {
+        UIView(frame: bounds.insetBy(dx: 4, dy: 4))
+    }
     var markerType: CommonTextMarkerType = .none {
         didSet {
             setMarkerType(markerType)
         }
     }
+    var binding: ViewBinding?
     
     private var showNotification: NSObjectProtocol?
     private var hideNotification: NSObjectProtocol?
     
-    private var sceneDelegate: SceneDelegate? {
-        UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-    }
-    
     private var topMostView: UIView? {
-        sceneDelegate?.topViewController?.view
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.topViewController?.view
     }
     
-    private lazy var underneathKeyboard: (CGRect) -> Bool = { [weak self] keyboardRect in
+    /// keyboard 에 의해 자신이 가려질지 확인.
+    private lazy var willCoveredWithKeyboard: (CGRect) -> Bool = { [weak self] keyboardRect in
         guard let self = self, let topMostView = self.topMostView else {
             return false
         }
         
-        var textFieldPosition: CGPoint = self.frame.origin
-        
+        var textFieldPosition = self.frame.origin
         if let scrollView = topMostView.subviews.first(where: { $0 is UIScrollView}) as? UIScrollView { // ScrollView에 포함된 경우
             textFieldPosition = scrollView.absolutePosition(of: self)
         }
@@ -57,22 +54,28 @@ class CommonTextField: UITextField, ViewBindable {
         return (textFieldPosition.y + self.frame.height + 20) > keyboardRect.minY // 현재 사용자가 보는 화면의 텍스트필드 맨 아래쪽이 화면을 가리는지 확인.
     }
     
+    /// 자신의 크기 중 텍스트가 입력될 크기만을 반환.
     private lazy var textFieldRect: (CGRect) -> CGRect = { [weak self] in
-        
-        guard let self = self else { return CGRect.zero }
-        
+        guard let self = self else { return .zero }
         let padding = self.frame.height / 5
-        return $0.inset(by: UIEdgeInsets(top: padding, left: self.leftViewRect(forBounds: $0).maxX+padding, bottom: padding, right: 0))
+        return $0.inset(by: UIEdgeInsets(
+            top: padding,
+            left: self.leftViewRect(forBounds: $0).maxX+padding,
+            bottom: padding,
+            right: 0)
+        )
     }
     
-    private lazy var textFieldWithClearButton: (CGRect) -> CGRect = { [weak self] in
+    /// 텍스트가 입력될 크기 중 우측의 Clear 버튼 크기를 제외한 폭.
+    private lazy var textFieldRectExceptClearButton: (CGRect) -> CGRect = { [weak self] in
         guard let self = self else { return .zero }
         
         var textFieldRect = self.textFieldRect($0)
-        
-        guard textFieldRect != .zero else { return .zero}
-        
-        textFieldRect.size.width -= self.clearButtonRect(forBounds: $0).width + (self.frame.height / 5)
+        guard textFieldRect != .zero else {
+            return .zero
+        }
+        let padding = (self.frame.height / 5)
+        textFieldRect.size.width -= self.clearButtonRect(forBounds: $0).width + padding
         return textFieldRect
     }
     
@@ -98,8 +101,6 @@ class CommonTextField: UITextField, ViewBindable {
     }
     
     private func makeUI() {
-        delegate = self
-        
         clearButtonMode = .whileEditing
         textColor = .black
         
@@ -110,12 +111,9 @@ class CommonTextField: UITextField, ViewBindable {
     }
     
     private func setMarkerType(_ type: CommonTextMarkerType) {
+        guard markerType != .none else { return }
         
-        if markerType != .none, leftButton == nil {
-            leftButton = UIButton()
-        }
-        
-        isSecureTextEntry = type == .lock
+        leftButton = UIButton()
         leftButton?.setImage(type.getMarkerImage(), for: .normal)
         leftButton?.tintColor = .black
         leftView = leftButton
@@ -128,15 +126,15 @@ class CommonTextField: UITextField, ViewBindable {
             object: nil,
             queue: OperationQueue.main)
         { notification in
+            guard self.isFirstResponder else { return }
             guard
-                self.isFirstResponder,
-                let topMostView = self.topMostView,
-                topMostView.bounds.origin.y == 0,
+                let topMostView = self.topMostView, topMostView.bounds.origin.y == 0,
                 let keyboardRect = notification.userInfo?[UITextField.keyboardFrameEndUserInfoKey] as? CGRect,
-                self.underneathKeyboard(keyboardRect)
+                self.willCoveredWithKeyboard(keyboardRect)
             else {
                 return
             }
+            
             UIView.animate(withDuration: 0.3) {
                 topMostView.bounds.origin.y += keyboardRect.height
             }
@@ -147,11 +145,8 @@ class CommonTextField: UITextField, ViewBindable {
             object: nil,
             queue: OperationQueue.main)
         { notification in
-            guard
-                self.isFirstResponder,
-                let topMostView = self.topMostView,
-                topMostView.bounds.origin.y != 0
-            else {
+            guard self.isFirstResponder else { return }
+            guard let topMostView = self.topMostView, topMostView.bounds.origin.y != 0 else {
                 return
             }
             
@@ -190,11 +185,11 @@ extension CommonTextField {
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return textFieldWithClearButton(bounds)
+        return textFieldRectExceptClearButton(bounds)
     }
     
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return textFieldWithClearButton(bounds)
+        return textFieldRectExceptClearButton(bounds)
     }
     
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
@@ -217,14 +212,6 @@ extension CommonTextField: UITextFieldDelegate {
             self.resignFirstResponder()
         }
         
-        return true
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return true
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
     

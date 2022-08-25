@@ -32,16 +32,6 @@ class RequestTextField: CommonTextField {
         super.textFieldShouldReturn(textField)
     }
     
-    override func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        var result = ResponseStatus()
-        result.status = .none
-        result.isRequesting = true
-        
-        binding?.bindableHandler?(["result": result], resultLabel ?? self)
-        
-        return super.textFieldShouldBeginEditing(textField)
-    }
-    
     override func textFieldDidChangeSelection(_ textField: UITextField) {
         super.textFieldDidChangeSelection(textField)
         if (textField.text?.count ?? 0) >= validateStringCount {

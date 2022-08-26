@@ -84,18 +84,8 @@ class IssueListTableViewCell: UITableViewCell {
     
     private func setEntity(_ entity: IssueListEntity) {
         titleLabel.text = entity.title
-        
-        switch entity.status {
-        case .opened:
-            profileView.setTitle("열림")
-        case .closed:
-            profileView.setTitle("닫힘")
-        case .standby:
-            profileView.setTitle("대기")
-        }
-        
         dateLabel.text = DateFormatter.localizedString(from: entity.getDateCreated() ?? Date(), dateStyle: .short, timeStyle: .short)
-        contentsLabel.text = entity.contents
+        contentsLabel.text = entity.comments.first?.content
     }
     
     func setLayout() {

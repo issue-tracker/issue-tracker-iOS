@@ -32,23 +32,24 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         if bindable is IssueListRequestModel, let result = modelResult as? [IssueListEntity] {
             
             DispatchQueue.main.async {
-                let cellCount: Int = (self.model?.issueList.count ?? 0)
+                var cellCount: Int { self.model?.issueList.count ?? 0 }
                 
                 if cellCount <= 20 {
                     self.model?.requestIssueList()
                 }
                 
-                if cellCount - result.count == 0 {
+                guard cellCount - result.count != 0 else {
                     self.tableView.reloadData()
-                } else {
-                    var indexPaths = [IndexPath]()
-                    for i in 0..<result.count {
-                        indexPaths.append(IndexPath(row: cellCount-result.count+i, section: 0))
-                    }
-                    
-                    self.tableView.performBatchUpdates {
-                        self.tableView.insertRows(at: indexPaths, with: .none)
-                    }
+                    return
+                }
+                
+                var indexPaths = [IndexPath]()
+                for i in 0..<result.count {
+                    indexPaths.append(IndexPath(row: cellCount-result.count+i, section: 0))
+                }
+                
+                self.tableView.performBatchUpdates {
+                    self.tableView.insertRows(at: indexPaths, with: .none)
                 }
             }
         }
@@ -81,7 +82,6 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        model?.requestIssueList()
     }
 }
 

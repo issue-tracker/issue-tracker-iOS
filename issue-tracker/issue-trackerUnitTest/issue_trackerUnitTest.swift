@@ -12,23 +12,6 @@ class issue_trackerUnitTest: XCTestCase {
     
     var bag = DisposeBag()
     
-    func testLogin() throws {
-        let validation = LoginValidationRequest()
-        let expect = XCTestExpectation()
-        let decoder = JSONDecoder()
-        expect.expectedFulfillmentCount = 2
-        
-        validation.nextHandler = { data in
-            if (try? decoder.decode(Bool.self, from: data)) != nil {
-                expect.fulfill()
-            }
-        }
-        
-        multipleRequestOneResponseTest(requestCount: 2, validation)
-        
-        wait(for: [expect], timeout: 5.0)
-    }
-    
     func testSingleRequestModel() throws {
         let expect = XCTestExpectation()
         expect.expectedFulfillmentCount = 2
@@ -88,20 +71,26 @@ class issue_trackerUnitTest: XCTestCase {
     }
     
     func testIssueList() throws {
-        let issueListModel = URL.apiURL == nil ? nil : IssueListRequestModel(URL.apiURL!)
         let expect = XCTestExpectation()
-        let decoder = JSONDecoder()
+        var issueListModel: IssueListRequestModel? {
+            guard let url = URL.apiURL else {
+                return nil
+            }
+            
+            return IssueListRequestModel(url)
+        }
+        
         expect.expectedFulfillmentCount = 3
         
-        issueListModel?.nextHandler = { data in
-            if (try? decoder.decode([IssueListEntity].self, from: data)) != nil {
+        issueListModel?.nextHandler = { _, list in
+            if list != nil {
                 expect.fulfill()
             }
         }
         
-        issueListModel?.doTest(nil)
-        issueListModel?.doTest(nil)
-        issueListModel?.doTest(nil)
+        issueListModel?.requestIssueList(1)
+        issueListModel?.requestIssueList(2)
+        issueListModel?.requestIssueList(3)
         
         wait(for: [expect], timeout: 5.0)
     }

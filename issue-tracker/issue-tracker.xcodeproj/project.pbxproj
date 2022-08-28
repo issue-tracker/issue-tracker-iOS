@@ -13,7 +13,6 @@
 		1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B080888289809E6001704C2 /* UIScrollView+Extension.swift */; };
 		1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F799288EC195004EBE9F /* CommonTextField.swift */; };
 		1B20F79D288FA34E004EBE9F /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F79C288FA34E004EBE9F /* LoginModel.swift */; };
-		1B232B1C28A0DB78007ED022 /* LoginValidationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B232B1B28A0DB78007ED022 /* LoginValidationRequest.swift */; };
 		1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */; };
 		1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
@@ -82,6 +81,7 @@
 		1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD102C228B7656700A056BF /* CommonTextFieldAreaInputField.swift */; };
 		1BE01DFE28A618D700929163 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE01DFD28A618D700929163 /* UIDevice+Extension.swift */; };
 		1BE01DFF28A6192000929163 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE01DFD28A618D700929163 /* UIDevice+Extension.swift */; };
+		1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */; };
 		2B2E5FAD22BBF93D904719C5 /* Pods_issue_tracker_issue_trackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2969F389934C3BBF654291EF /* Pods_issue_tracker_issue_trackerUITests.framework */; };
@@ -115,7 +115,6 @@
 		1B080888289809E6001704C2 /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		1B20F79C288FA34E004EBE9F /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
-		1B232B1B28A0DB78007ED022 /* LoginValidationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidationRequest.swift; sourceTree = "<group>"; };
 		1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSignInViewController.swift; sourceTree = "<group>"; };
 		1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
 		1B3C0645287BDD15006A36CF /* issue-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "issue-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -370,7 +369,6 @@
 			isa = PBXGroup;
 			children = (
 				1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */,
-				1B232B1B28A0DB78007ED022 /* LoginValidationRequest.swift */,
 			);
 			path = "issue-trackerUnitTest";
 			sourceTree = "<group>";
@@ -767,7 +765,7 @@
 				1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */,
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
-				1B232B1C28A0DB78007ED022 /* LoginValidationRequest.swift in Sources */,
+				1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */,
 				1B4F489E28A4E2F600C4B33A /* IssueEditViewController.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
 				1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */,

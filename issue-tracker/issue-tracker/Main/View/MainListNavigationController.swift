@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IssueListNavigationController: UINavigationController {
+class MainListNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }

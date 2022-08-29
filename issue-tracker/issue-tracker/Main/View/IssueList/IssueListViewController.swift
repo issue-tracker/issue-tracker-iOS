@@ -11,15 +11,6 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
     
     private var tableView = UITableView()
     
-    private lazy var plusButton: UIButton = {
-        let button = UIButton(primaryAction: UIAction(handler: { action in
-            self.navigationController?.pushViewController(IssueEditViewController(), animated: true)
-        }))
-        button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-        
-        return button
-    }()
-    
     private var model: IssueListRequestModel? = {
         guard let url = URL.apiURL else {
             return nil
@@ -60,21 +51,11 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         
         model?.binding = self
         
-        defer {
-            view.bringSubviewToFront(plusButton)
-        }
-        
         tableView.separatorStyle = .none
         view.addSubview(tableView)
-        view.addSubview(plusButton)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        
-        plusButton.snp.makeConstraints { make in
-            make.bottom.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16)
-            make.size.equalTo(CGSize(width: 44, height: 44))
         }
         
         view.layoutIfNeeded()

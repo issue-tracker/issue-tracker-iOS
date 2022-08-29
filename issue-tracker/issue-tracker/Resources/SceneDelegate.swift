@@ -34,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = getLoginNavigationView()
             window?.makeKeyAndVisible()
         case .main:
-            window?.rootViewController = getIssueListTabBarView()
+            window?.rootViewController = getTabBarView()
             window?.makeKeyAndVisible()
         }
         
@@ -53,11 +53,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func getIssueListTabBarView() -> UITabBarController {
         let tabBar = MainTabBarController()
         
-        let issueListNav = IssueListNavigationController(rootViewController: IssueListViewController())
+        let issueListNav = MainListNavigationController(rootViewController: IssueListViewController())
         let myPageNav = MyPageNavigationController(rootViewController: MyPageViewController())
         let settingsNav = SettingsNavigationController(rootViewController: SettingsViewController())
         
         issueListNav.tabBarItem.title = "List"
+        issueListNav.tabBarItem.image = UIImage(systemName: "list.dash")
+        
+        myPageNav.tabBarItem.title = "MyPage"
+        myPageNav.tabBarItem.image = UIImage(systemName: "person.crop.circle")
+        
+        settingsNav.tabBarItem.title = "Settings"
+        settingsNav.tabBarItem.image = UIImage(systemName: "gear")
+        
+        tabBar.viewControllers = [issueListNav, myPageNav, settingsNav]
+        
+        return tabBar
+    }
+    
+    private func getTabBarView() -> UITabBarController {
+        let tabBar = MainTabBarController()
+        
+        let issueListNav = MainListNavigationController(rootViewController: MainListViewController())
+        let myPageNav = MyPageNavigationController(rootViewController: MyPageViewController())
+        let settingsNav = SettingsNavigationController(rootViewController: SettingsViewController())
+        
+        issueListNav.tabBarItem.title = "Main"
         issueListNav.tabBarItem.image = UIImage(systemName: "list.dash")
         
         myPageNav.tabBarItem.title = "MyPage"

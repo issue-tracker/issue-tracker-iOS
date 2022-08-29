@@ -89,6 +89,11 @@
 		1BF1D0C728BC9A6900393294 /* LabelListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */; };
 		1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */; };
 		1BF1D0CB28BC9A7B00393294 /* MilestoneEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */; };
+		1BF1D0CF28BC9C3B00393294 /* IssueListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CE28BC9C3B00393294 /* IssueListProtocol.swift */; };
+		1BF1D0D028BCA16B00393294 /* IssueListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CE28BC9C3B00393294 /* IssueListProtocol.swift */; };
+		1BF1D0D228BCD40F00393294 /* Issues.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D128BCD40F00393294 /* Issues.json */; };
+		1BF1D0D428BCE0BE00393294 /* Labels.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D328BCE0BE00393294 /* Labels.json */; };
+		1BF1D0D628BCE0C200393294 /* Milestones.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D528BCE0C200393294 /* Milestones.json */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */; };
 		2B2E5FAD22BBF93D904719C5 /* Pods_issue_tracker_issue_trackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2969F389934C3BBF654291EF /* Pods_issue_tracker_issue_trackerUITests.framework */; };
@@ -179,6 +184,10 @@
 		1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListEntity.swift; sourceTree = "<group>"; };
 		1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneRequestModel.swift; sourceTree = "<group>"; };
 		1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneEntity.swift; sourceTree = "<group>"; };
+		1BF1D0CE28BC9C3B00393294 /* IssueListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListProtocol.swift; sourceTree = "<group>"; };
+		1BF1D0D128BCD40F00393294 /* Issues.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Issues.json; sourceTree = "<group>"; };
+		1BF1D0D328BCE0BE00393294 /* Labels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Labels.json; sourceTree = "<group>"; };
+		1BF1D0D528BCE0C200393294 /* Milestones.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Milestones.json; sourceTree = "<group>"; };
 		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldArea.swift; sourceTree = "<group>"; };
 		1DCED08835DB7D711A931569 /* Pods-issue-trackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-trackerUITests.release.xcconfig"; path = "Target Support Files/Pods-issue-trackerUITests/Pods-issue-trackerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -473,6 +482,8 @@
 			children = (
 				1B4F489128A4A39C00C4B33A /* IssueListRequestModel.swift */,
 				1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */,
+				1BF1D0CE28BC9C3B00393294 /* IssueListProtocol.swift */,
+				1BF1D0D128BCD40F00393294 /* Issues.json */,
 			);
 			path = IssueList;
 			sourceTree = "<group>";
@@ -482,6 +493,7 @@
 			children = (
 				1BF1D0C428BC9A6000393294 /* LabelListReuqestModel.swift */,
 				1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */,
+				1BF1D0D328BCE0BE00393294 /* Labels.json */,
 			);
 			path = LabelList;
 			sourceTree = "<group>";
@@ -491,6 +503,7 @@
 			children = (
 				1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */,
 				1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */,
+				1BF1D0D528BCE0C200393294 /* Milestones.json */,
 			);
 			path = MilestoneList;
 			sourceTree = "<group>";
@@ -632,7 +645,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */,
+				1BF1D0D628BCE0C200393294 /* Milestones.json in Resources */,
 				1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */,
+				1BF1D0D428BCE0BE00393294 /* Labels.json in Resources */,
+				1BF1D0D228BCD40F00393294 /* Issues.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +811,7 @@
 				1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */,
 				1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */,
 				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
+				1BF1D0CF28BC9C3B00393294 /* IssueListProtocol.swift in Sources */,
 				1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */,
 				1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */,
 				1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */,
@@ -841,6 +858,7 @@
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1B4F489B28A4E2D300C4B33A /* IssueListViewController.swift in Sources */,
+				1BF1D0D028BCA16B00393294 /* IssueListProtocol.swift in Sources */,
 				1B308D3E28AE287B0073640A /* ProfileImageButton.swift in Sources */,
 				1B4F48A328A4EF8900C4B33A /* OpaqueLoadingView.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,

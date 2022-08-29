@@ -70,27 +70,27 @@ class issue_trackerUnitTest: XCTestCase {
         wait(for: [expect], timeout: 9.0)
     }
     
-    func testIssueList() throws {
-        let expect = XCTestExpectation()
-        var issueListModel: IssueListRequestModel? {
-            guard let url = URL.apiURL else {
-                return nil
-            }
-            
-            return IssueListRequestModel(url)
+    func testMainPageListDecoding() throws {
+        guard let issueListURLString = Bundle.main.path(forResource: "Issues", ofType: "json"), let url = URL(string: issueListURLString) else {
+            XCTFail()
+            return
         }
+        
+        
+        let expect = XCTestExpectation()
+        let issueListModel = IssueListRequestModel(url)
         
         expect.expectedFulfillmentCount = 3
         
-        issueListModel?.nextHandler = { _, list in
+        issueListModel.nextHandler = { _, list in
             if list != nil {
                 expect.fulfill()
             }
         }
         
-        issueListModel?.requestIssueList(1)
-        issueListModel?.requestIssueList(2)
-        issueListModel?.requestIssueList(3)
+        issueListModel.doTest(nil)
+        issueListModel.doTest(nil)
+        issueListModel.doTest(nil)
         
         wait(for: [expect], timeout: 5.0)
     }

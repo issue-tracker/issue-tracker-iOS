@@ -15,14 +15,14 @@ struct IssueListEntity: Codable {
     let comments: [IssueListComment]
     let issueAssignees: [IssueAssignee]
     let issueLabels: [IssueLabel]
-    let milestone: [IssueMilestone]
+    let milestone: IssueMilestone
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try values.decode(Int.self, forKey: .id)
         title = try values.decode(String.self, forKey: .title)
-        createdAt = try values.decode(String.self, forKey: .createAt)
+        createdAt = try values.decode(String.self, forKey: .createdAt)
         author = try values.decode(IssueListAuthor.self, forKey: .author)
         comments = try values.decode([IssueListComment].self, forKey: .comments)
         
@@ -32,13 +32,13 @@ struct IssueListEntity: Codable {
             issueAssignees = try values.decode([IssueAssignee].self, forKey: .issueAssignees)
         }
         
-        if let labelsContainer = try? values.nestedContainer(keyedBy: LabelsCodingKeys.self, forKey: .issueAssignees) {
+        if let labelsContainer = try? values.nestedContainer(keyedBy: LabelsCodingKeys.self, forKey: .issueLabels) {
             issueLabels = try labelsContainer.decode([IssueLabel].self, forKey: .issueLabels)
         } else {
             issueLabels = try values.decode([IssueLabel].self, forKey: .issueLabels)
         }
         
-        milestone = try values.decode([IssueMilestone].self, forKey: .milestone)
+        milestone = try values.decode(IssueMilestone.self, forKey: .milestone)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -46,7 +46,7 @@ struct IssueListEntity: Codable {
         
         try container.encode(id, forKey: .id)
         try container.encode(title, forKey: .title)
-        try container.encode(createdAt, forKey: .createAt)
+        try container.encode(createdAt, forKey: .createdAt)
         try container.encode(author, forKey: .author)
         try container.encode(comments, forKey: .comments)
         try container.encode(issueAssignees, forKey: .issueAssignees)
@@ -63,7 +63,7 @@ struct IssueListEntity: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case id, title, createAt, author, comments, issueAssignees, issueLabels, milestone
+        case id, title, createdAt, author, comments, issueAssignees, issueLabels, milestone
     }
     
     enum AssigneesCodingKeys: String, CodingKey {
@@ -76,11 +76,19 @@ struct IssueListEntity: Codable {
 }
 
 struct IssueListComment: Codable {
-    let id: String
+    let id: Int
     let author: IssueListAuthor
     let content: String
     let createdAt: String?
     let issueCommentReactionsResponse: [IssueCommentReactionsResponse]
+}
+
+struct IssueListAuthor: Codable {
+    let id: Int
+    let email: String
+    let nickname: String
+    /// image's URL
+    let profileImage: String
 }
 
 struct IssueCommentReactionsResponse: Codable {
@@ -92,14 +100,6 @@ struct IssueCommentReactionsResponse: Codable {
 struct IssueCommentReactorResponse: Codable {
     let id: Int
     let nickname: String
-}
-
-struct IssueListAuthor: Codable {
-    let id: Int
-    let email: String
-    let nickname: String
-    /// image's URL
-    let profileImage: String
 }
 
 struct IssueAssignee: Codable {
@@ -117,6 +117,19 @@ struct IssueLabel: Codable {
     let backgroundColorCode: String
     let description: String
     let textColor: String
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        backgroundColorCode = try container.decode(String.self, forKey: .backgroundColorCode)
+        description = try container.decode(String.self, forKey: .description)
+        textColor = try container.decode(String.self, forKey: .textColor)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+    case id,title,backgroundColorCode,description,textColor
+    }
 }
 
 struct IssueMilestone: Codable {
@@ -124,5 +137,5 @@ struct IssueMilestone: Codable {
     let title: String
     let description: String?
     let dueDate: String?
-    let closed: String?
+    let closed: Bool
 }

@@ -22,12 +22,12 @@ class issue_trackerUnitTest: XCTestCase {
         }
         
         let model = RequestHTTPModel(url)
-        model.request(pathArray: ["nickname","test","exists"]) { result, _ in
+        model.request(pathArray: ["nickname","testSingleRequestModel","exists"]) { result, _ in
             switch result {
             case .success(_):
                 expect.fulfill()
-            case .failure(_):
-                XCTFail("Request Failed")
+            case .failure(let error):
+                XCTFail("Request Failed \(error)")
             }
         }
         model.requestObservable(pathArray: ["nickname","test","exists"])
@@ -71,11 +71,10 @@ class issue_trackerUnitTest: XCTestCase {
     }
     
     func testMainPageListDecoding() throws {
-        guard let issueListURLString = Bundle.main.path(forResource: "Issues", ofType: "json"), let url = URL(string: issueListURLString) else {
+        guard let urlString = Bundle.main.path(forResource: "Issues", ofType: "json"), let url = URL(string: urlString) else {
             XCTFail()
             return
         }
-        
         
         let expect = XCTestExpectation()
         let issueListModel = IssueListRequestModel(url)
@@ -88,11 +87,13 @@ class issue_trackerUnitTest: XCTestCase {
             }
         }
         
+        URLProtocol.registerClass(IssueListProtocol.self)
         issueListModel.doTest(nil)
         issueListModel.doTest(nil)
         issueListModel.doTest(nil)
         
         wait(for: [expect], timeout: 5.0)
+        URLProtocol.unregisterClass(IssueListProtocol.self)
     }
     
     func singleRequestTest(_ testable: Testable) {

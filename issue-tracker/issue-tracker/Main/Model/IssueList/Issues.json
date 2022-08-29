@@ -1,0 +1,436 @@
+[
+  {
+    "id": 0,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  },
+  {
+    "id": 1,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  },
+  {
+    "id": 2,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  },
+  {
+    "id": 3,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  },
+  {
+    "id": 4,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  },
+  {
+    "id": 5,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  },
+  {
+    "id": 6,
+    "title": "string",
+    "createdAt": "2022-08-29T08:57:44.778Z",
+    "author": {
+      "id": 0,
+      "email": "ader@gmail.com",
+      "nickname": "string",
+      "profileImage": "string"
+    },
+    "comments": [
+      {
+        "id": 0,
+        "author": {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        },
+        "content": "string",
+        "createdAt": "2022-08-29T08:57:44.778Z",
+        "issueCommentReactionsResponse": [
+          {
+            "id": 0,
+            "emoji": "string",
+            "issueCommentReactorResponse": {
+              "id": 0,
+              "nickname": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "issueAssignees": {
+      "issueAssignees": [
+        {
+          "id": 0,
+          "email": "ader@gmail.com",
+          "nickname": "string",
+          "profileImage": "string"
+        }
+      ]
+    },
+    "issueLabels": {
+      "issueLabels": [
+        {
+          "id": 0,
+          "title": "string",
+          "backgroundColorCode": "string",
+          "description": "string",
+          "textColor": "BLACK"
+        }
+      ]
+    },
+    "milestone": {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  }
+]

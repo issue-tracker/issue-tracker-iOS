@@ -69,22 +69,13 @@ extension IssueListRequestModel: Testable {
             return
         }
         
-        URLProtocol.registerClass(IssueListProtocol.self)
-        URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, response, error in
-            guard
-                let data = data,
-                let self = self
-            else {
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let self = self, let data = data else {
                 return
             }
 
-            let model = HTTPResponseModel()
-            let list = model.getDecoded(from: data, as: [IssueListEntity].self)
-
+            let list = HTTPResponseModel().getDecoded(from: data, as: [IssueListEntity].self)
             self.nextHandler?(0, list)
-            if let list = list {
-                self.issueList.append(contentsOf: list)
-            }
-        }).resume()
+        }.resume()
     }
 }

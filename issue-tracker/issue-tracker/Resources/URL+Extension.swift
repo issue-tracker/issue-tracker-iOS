@@ -70,18 +70,26 @@ extension URL {
     }
     
     static var membersApiURL: URL? {
-        guard let url = URL.apiURL else {
-            return nil
-        }
-        
-        return url.appendingPathComponent("members")
+        URL.apiURL?.appendingPathComponent("members")
     }
     
     static var authApiURL: URL? {
-        guard let url = URL.apiURL else {
-            return nil
-        }
-        
-        return url.appendingPathComponent("auth")
+        URL.apiURL?.appendingPathComponent("auth")
+    }
+    
+    static var issueApiURL: URL? {
+        URL.apiURL?.appendingPathComponent("issues")
+    }
+    
+    static var labelApiURL: URL? {
+        URL.apiURL?.appendingPathComponent("labels")
+    }
+    
+    static var milestoneApiURL: URL? {
+        URL.apiURL?.appendingPathComponent("milestones")
+    }
+    
+    static var imageApiURL: URL? {
+        URL.apiURL?.appendingPathComponent("images")
     }
 }

@@ -8,19 +8,39 @@
 import Foundation
 
 enum ProtocolError: Error {
-case jsonSerializingError
+    case jsonSerializingError(String)
+    case urlConfirmationError(String)
 }
 
 class IssueListProtocol: URLProtocol {
     
+    static var url: URL? {
+        
+        guard let urlString = Bundle.main.path(forResource: "Issues", ofType: "json") else {
+            return nil
+        }
+        
+        return URL(string: urlString)
+    }
+    /**중략**/
     var protocolClient: URLProtocolClient?
     var filePathURL: URL?
     var response: Result<Data, ProtocolError> {
-        guard let url = filePathURL, let data = FileManager.default.contents(atPath: url.absoluteString) else {
-            return .failure(.jsonSerializingError)
+        guard var url = Self.url else {
+            return .failure(.urlConfirmationError("filePathURL is nil"))
         }
-        
-        return .success(data)
+
+        while url.lastPathComponent.lowercased().contains("json") == false {
+            url = url.deletingLastPathComponent()
+        }
+
+        for urlString in [url.absoluteString, url.relativePath, url.relativeString] {
+            if let data = FileManager.default.contents(atPath: urlString) {
+                return .success(data)
+            }
+        }
+
+        return .failure(.jsonSerializingError("no file at '\(url.relativePath)'"))
     }
     
     convenience init(task: URLSessionTask,
@@ -48,16 +68,14 @@ class IssueListProtocol: URLProtocol {
         DispatchQueue.global(qos: .default).async {
             switch self.response {
             case .success(let data):
-                self.protocolClient?.urlProtocol(self, didReceive: URLResponse(), cacheStoragePolicy: .notAllowed)
                 self.protocolClient?.urlProtocol(self, didLoad: data)
-                self.protocolClient?.urlProtocolDidFinishLoading(self)
             case .failure(let error):
                 self.protocolClient?.urlProtocol(self, didFailWithError: error)
             }
+            
+            self.protocolClient?.urlProtocolDidFinishLoading(self)
         }
     }
     
-    override func stopLoading() {
-        
-    }
+    override func stopLoading() {}
 }

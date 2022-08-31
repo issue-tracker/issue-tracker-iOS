@@ -86,6 +86,7 @@
 		1BF1D0D228BCD40F00393294 /* Issues.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D128BCD40F00393294 /* Issues.json */; };
 		1BF1D0D428BCE0BE00393294 /* Labels.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D328BCE0BE00393294 /* Labels.json */; };
 		1BF1D0D628BCE0C200393294 /* Milestones.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D528BCE0C200393294 /* Milestones.json */; };
+		1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */; };
 		2B2E5FAD22BBF93D904719C5 /* Pods_issue_tracker_issue_trackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2969F389934C3BBF654291EF /* Pods_issue_tracker_issue_trackerUITests.framework */; };
@@ -180,6 +181,7 @@
 		1BF1D0D128BCD40F00393294 /* Issues.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Issues.json; sourceTree = "<group>"; };
 		1BF1D0D328BCE0BE00393294 /* Labels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Labels.json; sourceTree = "<group>"; };
 		1BF1D0D528BCE0C200393294 /* Milestones.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Milestones.json; sourceTree = "<group>"; };
+		1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_Issue.swift; sourceTree = "<group>"; };
 		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldArea.swift; sourceTree = "<group>"; };
 		1DCED08835DB7D711A931569 /* Pods-issue-trackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-trackerUITests.release.xcconfig"; path = "Target Support Files/Pods-issue-trackerUITests/Pods-issue-trackerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */,
+				1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */,
 			);
 			path = "issue-trackerUnitTest";
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */,
 				1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */,
 				1B4F489C28A4E2ED00C4B33A /* CommonProxyViewController.swift in Sources */,
 				1B4F489528A4E1FF00C4B33A /* IssueListRequestModel.swift in Sources */,

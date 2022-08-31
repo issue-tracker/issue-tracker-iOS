@@ -11,21 +11,34 @@ import RxSwift
 class issue_trackerUnitTest: XCTestCase {
     
     var bag = DisposeBag()
+    var expect: XCTestExpectation!
+    var model: RequestHTTPModel?
+    var timerModel: RequestHTTPTimerModel?
+    var url: URL? = URL.membersApiURL
+    
+    override func setUp() {
+        expect = XCTestExpectation()
+        
+        if let url = url {
+            model = RequestHTTPModel(url)
+            timerModel = RequestHTTPTimerModel(timerInterval: 2, url)
+        }
+    }
+    
+    override func tearDown() { }
     
     func testSingleRequestModel() throws {
-        let expect = XCTestExpectation()
         expect.expectedFulfillmentCount = 2
         
-        guard let url = URL.membersApiURL else {
+        guard let model = model else {
             XCTFail("URL membersApiURL not defined Error.")
             return
         }
         
-        let model = RequestHTTPModel(url)
         model.request(pathArray: ["nickname","testSingleRequestModel","exists"]) { result, _ in
             switch result {
             case .success(_):
-                expect.fulfill()
+                self.expect.fulfill()
             case .failure(let error):
                 XCTFail("Request Failed \(error)")
             }
@@ -33,7 +46,7 @@ class issue_trackerUnitTest: XCTestCase {
         model.requestObservable(pathArray: ["nickname","test","exists"])
             .subscribe { result in
                 if result.element != nil {
-                    expect.fulfill()
+                    self.expect.fulfill()
                 }
             }
             .disposed(by: bag)
@@ -42,19 +55,17 @@ class issue_trackerUnitTest: XCTestCase {
     }
     
     func testSingleRequestTimerModel() throws {
-        let expect = XCTestExpectation()
         expect.expectedFulfillmentCount = 2
         
-        guard let url = URL.membersApiURL else {
+        guard let model = timerModel else {
             XCTFail("URL membersApiURL not defined Error.")
             return
         }
         
-        let model = RequestHTTPTimerModel(timerInterval: 2, url)
         model.requestAsTimer(pathArray: ["nickname","test","exists"]) { result, _ in
             switch result {
             case .success(_):
-                expect.fulfill()
+                self.expect.fulfill()
             case .failure(_):
                 XCTFail("Request Failed")
             }
@@ -62,48 +73,11 @@ class issue_trackerUnitTest: XCTestCase {
         model.requestAsDelayedObservable(pathArray: ["nickname","test","exists"])
             .subscribe { result in
                 if result.element != nil {
-                    expect.fulfill()
+                    self.expect.fulfill()
                 }
             }
             .disposed(by: bag)
         
         wait(for: [expect], timeout: 9.0)
-    }
-    
-    func testMainPageListDecoding() throws {
-        guard let urlString = Bundle.main.path(forResource: "Issues", ofType: "json"), let url = URL(string: urlString) else {
-            XCTFail()
-            return
-        }
-        
-        let expect = XCTestExpectation()
-        let issueListModel = IssueListRequestModel(url)
-        
-        expect.expectedFulfillmentCount = 3
-        
-        issueListModel.nextHandler = { _, list in
-            if list != nil {
-                expect.fulfill()
-            }
-        }
-        
-        URLProtocol.registerClass(IssueListProtocol.self)
-        issueListModel.doTest(nil)
-        issueListModel.doTest(nil)
-        issueListModel.doTest(nil)
-        
-        wait(for: [expect], timeout: 5.0)
-        URLProtocol.unregisterClass(IssueListProtocol.self)
-    }
-    
-    func singleRequestTest(_ testable: Testable) {
-        testable.doTest(nil)
-    }
-    
-    /// - Parameter completionHandler: 전달하는 Integer 파라미터는 실행한 순서
-    func multipleRequestOneResponseTest(requestCount: Int = 5, _ testable: Testable) {
-        for _ in 0..<requestCount {
-            testable.doTest(nil)
-        }
     }
 }

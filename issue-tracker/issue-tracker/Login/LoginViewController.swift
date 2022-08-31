@@ -60,7 +60,7 @@ class LoginViewController: CommonProxyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.switchScreen(type: .main)
+//        self.switchScreen(type: .main)
         view.addSubview(infoFlexContainer)
         
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)

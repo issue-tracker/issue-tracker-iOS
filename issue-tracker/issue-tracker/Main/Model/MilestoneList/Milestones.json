@@ -1,0 +1,20 @@
+{
+  "openedMilestones": [
+    {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": false
+    }
+  ],
+  "closedMilestones": [
+    {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "dueDate": "string",
+      "closed": true
+    }
+  ]
+}

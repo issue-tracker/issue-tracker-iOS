@@ -18,10 +18,7 @@ final class IssueListRequestModel: RequestHTTPModel, ViewBindable {
     var errorHandler: ((Error?) -> Void)?
     var binding: ViewBinding?
     
-    func requestIssueList(
-        _ pageNumber: UInt = 0,
-        requestHandler: ((Int, [IssueListEntity]?) -> Void)? = nil
-    ) {
+    func requestIssueList(_ pageNumber: UInt = 0, requestHandler: ((Int, [IssueListEntity]?) -> Void)? = nil) {
         let pageNumberInteger = Int(pageNumber)
         let pathArray = ["\(pageNumberInteger)"]
         requestObservable(pathArray: pathArray)
@@ -46,36 +43,9 @@ final class IssueListRequestModel: RequestHTTPModel, ViewBindable {
             .disposed(by: disposeBag)
     }
     
-    func reloadIssueList(reloadHandler: (([IssueListEntity])->Void)? = nil) {
-        requestIssueList(0) { [weak self] _, list in
-            guard let self = self, let list = list else {
-                return
-            }
-            
-            self.issueList = list
-            
-            if let reloadHandler = reloadHandler {
-                reloadHandler(list)
-            } else {
-                self.nextHandler?(0, list)
-            }
+    func reloadIssueList(reloadHandler: (([IssueListEntity]?)->Void)? = nil) {
+        request(pathArray: []) { result, response in
+            reloadHandler?(HTTPResponseModel().getDecoded(from: result, as: [IssueListEntity].self))
         }
-    }
-}
-
-extension IssueListRequestModel: Testable {
-    func doTest(_ param: Any?) {
-        guard let request = builder.getRequest() else {
-            return
-        }
-        
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            guard let self = self, let data = data else {
-                return
-            }
-
-            let list = HTTPResponseModel().getDecoded(from: data, as: [IssueListEntity].self)
-            self.nextHandler?(0, list)
-        }.resume()
     }
 }

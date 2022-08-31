@@ -11,19 +11,23 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
     
     private var tableView = UITableView()
     
-    private var model: IssueListRequestModel? = {
+    private var model: MainViewRequestModel<IssueListEntity>? = {
         guard let url = URL.apiURL else {
             return nil
         }
         
-        return IssueListRequestModel(url)
+        return MainViewRequestModel(url)
     }()
     
+    private var entities: [IssueListEntity]? {
+        self.model?.entityList
+    }
+    
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { modelResult, bindable in
-        if bindable is IssueListRequestModel, let result = modelResult as? [IssueListEntity] {
+        if bindable is MainViewRequestModel<IssueListEntity>, let result = modelResult as? [IssueListEntity] {
             
             DispatchQueue.main.async {
-                var cellCount: Int { self.model?.issueList.count ?? 0 }
+                var cellCount: Int { self.entities?.count ?? 0 }
                 
                 if cellCount <= 20 {
                     self.model?.requestIssueList()
@@ -68,7 +72,7 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
 
 extension IssueListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        model?.issueList.count ?? 0
+        entities?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,7 +88,7 @@ extension IssueListViewController: UITableViewDataSource {
             return normalCell
         }
         
-        if let entity = model?.issueList[indexPath.row] {
+        if let entity = entities?[indexPath.row] {
             cell.bindableHandler?(entity, self)
         }
         

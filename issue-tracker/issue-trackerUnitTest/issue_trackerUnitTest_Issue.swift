@@ -8,77 +8,61 @@
 import XCTest
 
 class issue_trackerUnitTest_Issue: XCTestCase {
+    var expectation: XCTestExpectation!
     
-    var issueModel: IssueListRequestModel!
-    var issueJSONFileURL: URL!
-    let issueExpectation = XCTestExpectation()
+    var issueModel: MainViewRequestModel<IssueListEntity>?
+    var labelModel: MainViewRequestModel<LabelListEntity>?
+    var milestoneModel: MainViewSingleRequestModel<AllMilestoneEntity>?
 
     override func setUp() {
-        URLProtocol.registerClass(IssueListProtocol.self)
+        URLProtocol.registerClass(MainViewProtocol.self)
+        expectation = XCTestExpectation()
         
-        guard let issueURL = IssueListProtocol.url else {
-            XCTFail("[Error] \(#file) get URL failed.")
-            return
-        }
-        
-        issueJSONFileURL = issueURL
-        issueModel = IssueListRequestModel(issueURL)
+        issueModel = MainViewRequestModel<IssueListEntity>(URL(string: Bundle.main.path(forResource: "Issues", ofType: "json") ?? ""))
+        labelModel = MainViewRequestModel<LabelListEntity>(URL(string: Bundle.main.path(forResource: "Labels", ofType: "json") ?? ""))
+        milestoneModel = MainViewSingleRequestModel<AllMilestoneEntity>(URL(string: Bundle.main.path(forResource: "Milestones", ofType: "json") ?? ""))
     }
     override func tearDown() {
-        URLProtocol.unregisterClass(IssueListProtocol.self)
+        URLProtocol.unregisterClass(MainViewProtocol.self)
     }
 
     func testIssueList() throws {
+        expectation.expectedFulfillmentCount = 3
         
-        issueExpectation.expectedFulfillmentCount = 3
-        issueModel.requestIssueList(0) { _, list in
-            self.issueExpectation.fulfill()
+        issueModel?.requestIssueList(0) { _, list in
+            self.expectation.fulfill()
         }
-        issueModel.requestIssueList(1) { _, list in
-            self.issueExpectation.fulfill()
+        issueModel?.requestIssueList(1) { _, list in
+            self.expectation.fulfill()
         }
-        issueModel.reloadIssueList { list in
-            self.issueExpectation.fulfill()
+        issueModel?.reloadIssueList { _ in
+            self.expectation.fulfill()
         }
         
-        wait(for: [issueExpectation], timeout: (Double(issueExpectation.expectedFulfillmentCount) * 1.5))
+        wait(for: [expectation], timeout: (3 * 1.5))
     }
     
-//    func testIssueEdit() throws {
-//
-//    }
-//
-//    func testIssueDelete() throws {
-//
-//    }
-//
-//    func testLabelList() throws {
-//
-//    }
-//
-//    func testLabelEdit() throws {
-//
-//    }
-//
-//    func testLabelDelete() throws {
-//
-//    }
-//
-//    func testMilestoneList() throws {
-//
-//    }
-//
-//    func testMilestoneEdit() throws {
-//
-//    }
-//
-//    func testMilestoneDelete() throws {
-//
-//    }
-//
-//    func testPerformanceExample() throws {
-//        self.measure {
-//        }
-//    }
-
+    func testLabelList() throws {
+        expectation.expectedFulfillmentCount = 3
+        
+        labelModel?.requestIssueList(0) { _, list in
+            self.expectation.fulfill()
+        }
+        labelModel?.requestIssueList(1) { _, list in
+            self.expectation.fulfill()
+        }
+        labelModel?.reloadIssueList { list in
+            self.expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: (3 * 1.5))
+    }
+    
+    func testMilestoneList() throws {
+        milestoneModel?.requestIssueList { list in
+            self.expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.5)
+    }
 }

@@ -16,6 +16,14 @@ class RequestHTTPModel {
     
     var builder: RequestBuilder
     
+    convenience init?(_ baseURL: URL?) {
+        guard let url = baseURL else {
+            return nil
+        }
+        
+        self.init(url)
+    }
+    
     init(_ baseURL: URL) {
         self.builder = RequestBuilder(baseURL: baseURL)
     }

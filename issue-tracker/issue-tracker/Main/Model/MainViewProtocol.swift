@@ -1,5 +1,5 @@
 //
-//  IssueListProtocol.swift
+//  MainViewProtocol.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/08/29.
@@ -12,32 +12,20 @@ enum ProtocolError: Error {
     case urlConfirmationError(String)
 }
 
-class IssueListProtocol: URLProtocol {
-    
-    static var url: URL? {
-        
-        guard let urlString = Bundle.main.path(forResource: "Issues", ofType: "json") else {
-            return nil
-        }
-        
-        return URL(string: urlString)
-    }
-    /**중략**/
+class MainViewProtocol: URLProtocol {
     var protocolClient: URLProtocolClient?
     var filePathURL: URL?
     var response: Result<Data, ProtocolError> {
-        guard var url = Self.url else {
+        guard var url = filePathURL else {
             return .failure(.urlConfirmationError("filePathURL is nil"))
         }
-
+        
         while url.lastPathComponent.lowercased().contains("json") == false {
             url = url.deletingLastPathComponent()
         }
 
-        for urlString in [url.absoluteString, url.relativePath, url.relativeString] {
-            if let data = FileManager.default.contents(atPath: urlString) {
-                return .success(data)
-            }
+        if let data = FileManager.default.contents(atPath: url.relativePath) {
+            return .success(data)
         }
 
         return .failure(.jsonSerializingError("no file at '\(url.relativePath)'"))

@@ -31,11 +31,11 @@ class ServiceSignInViewController: CommonProxyViewController {
         return button
     }()
     
-    let emailArea = CommonTextFieldArea {
+    let emailArea = CommonTextFieldArea(identifierAccessibility: "emailArea") {
         CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("email"), optionalTrailingPath: "exists")
     }
-    let nicknameArea = CommonTextFieldArea {
+    let nicknameArea = CommonTextFieldArea(identifierAccessibility: "nicknameArea") {
         CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임")
     }
     

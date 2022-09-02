@@ -32,11 +32,13 @@ class CommonTextFieldArea: UIView, ViewBinding {
     }
     
     convenience init(
+        identifierAccessibility: String? = nil,
         @CommonTextFieldAreaBuilder _ content: () -> CommonTextFieldComponents?,
         _ completionHandler: (()->Void)? = nil
     ) {
         self.init()
         self.completionHandler = completionHandler
+        self.accessibilityIdentifier = identifierAccessibility
         
         guard let component = content() else { return }
         

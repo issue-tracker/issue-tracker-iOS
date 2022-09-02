@@ -21,6 +21,7 @@ class SignInFormViewController: CommonProxyViewController {
         label.text = "회원가입"
         let font = UIFont.preferredFont(forTextStyle: .title1)
         label.font = UIFont.boldSystemFont(ofSize: font.pointSize * 0.9)
+        label.accessibilityIdentifier = "회원가입"
         return label
     }()
     
@@ -33,12 +34,12 @@ class SignInFormViewController: CommonProxyViewController {
         ].compactMap({$0})
     }
     
-    private let idArea = CommonTextFieldArea {
+    private let idArea = CommonTextFieldArea(identifierAccessibility: "idArea") {
         CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("signin-id"), optionalTrailingPath: "exists")
             .setValidateStringCount(4)
     }
-    private let passwordArea = CommonTextFieldArea {
+    private let passwordArea = CommonTextFieldArea(identifierAccessibility: "passwordArea") {
         CommonTextFieldComponents(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
             .toCommonValidationType { textField in
                 return ((textField.text?.count ?? 0) >= 8)
@@ -49,7 +50,7 @@ class SignInFormViewController: CommonProxyViewController {
             }
 
     }
-    private lazy var passwordConfirmedArea = CommonTextFieldArea {
+    private lazy var passwordConfirmedArea = CommonTextFieldArea(identifierAccessibility: "passwordConfirmedArea") {
         CommonTextFieldComponents(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
             .toCommonValidationType { textField in
                 guard let originText = self.passwordArea.textField?.text, let text = textField.text else {
@@ -63,12 +64,12 @@ class SignInFormViewController: CommonProxyViewController {
                 label.text = isAcceptable ? "이상이 발견되지 않았습니다." : "같은 비밀번호를 입력해주시기 바랍니다."
             }
     }
-    private let emailArea = CommonTextFieldArea {
+    private let emailArea = CommonTextFieldArea(identifierAccessibility: "emailArea") {
         CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("email"), optionalTrailingPath: "exists")
             .setValidateStringCount(4)
     }
-    private let nicknameArea = CommonTextFieldArea {
+    private let nicknameArea = CommonTextFieldArea(identifierAccessibility: "nicknameArea") {
         CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임")
             .toRequestType(URL.membersApiURL?.appendingPathComponent("nickname"), optionalTrailingPath: "exists")
             .setValidateStringCount(2)
@@ -80,6 +81,7 @@ class SignInFormViewController: CommonProxyViewController {
         button.setTitle("가입하기", for: .normal)
         let font = UIFont.preferredFont(forTextStyle: .title2)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: font.pointSize)
+        button.accessibilityIdentifier = "가입하기"
         return button
     }()
     

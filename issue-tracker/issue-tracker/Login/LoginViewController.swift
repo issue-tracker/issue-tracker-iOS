@@ -22,10 +22,11 @@ class LoginViewController: CommonProxyViewController {
         button.backgroundColor = UIColor(named: "login_button_color")
         button.setTitle("아이디로 로그인", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel?.font.pointSize ?? 16)
+        button.accessibilityIdentifier = "아이디로 로그인"
         return button
     }()
     
-    private lazy var editUserInformationButtons = HorizontalButtons {
+    private lazy var editUserInformationButtons = HorizontalButtons(identifierAccessibility: "editUserInformationButtons") {
         HorizontalButtonsComponents(title: "비밀번호 재설정", handler: UIAction(handler: { _ in
             self.present(UIAlertController.messageDeveloping, animated: true)
         }))
@@ -43,10 +44,11 @@ class LoginViewController: CommonProxyViewController {
         label.textColor = .secondaryLabel
         label.textAlignment = .center
         label.font = label.font.withSize(label.font.pointSize * 1.2)
+        label.accessibilityIdentifier = "간편하게 로그인/회원가입"
         return label
     }()
     
-    private lazy var signInButtons = HorizontalButtons {
+    private lazy var signInButtons = HorizontalButtons(identifierAccessibility: "signInButtons") {
         HorizontalButtonsComponents(imageName: "login_octocat", handler: UIAction(handler: { _ in
             self.present(UIAlertController.messageDeveloping, animated: true)
         }))

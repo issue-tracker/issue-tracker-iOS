@@ -27,11 +27,14 @@ class HorizontalButtons: UIView {
     }
     
     convenience init(
+        identifierAccessibility: String? = nil,
         @HorizontalButtonsBuilder _ content: () -> [HorizontalButtonsComponents],
         _ completionHandler: (()->Void)? = nil
     ) {
         self.init()
         self.completionHandler = completionHandler
+        self.accessibilityIdentifier = identifierAccessibility
+        
         let components = content()
         
         for component in components {

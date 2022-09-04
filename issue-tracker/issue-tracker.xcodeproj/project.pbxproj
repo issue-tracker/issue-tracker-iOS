@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		1B03E7A828BFA6FB0006FADD /* MainViewSingleRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */; };
 		1B03E7A928BFA71B0006FADD /* MainViewSingleRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */; };
+		1B03E7BD28C1F1950006FADD /* issue_trackerUITests_MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7BC28C1F1950006FADD /* issue_trackerUITests_MainView.swift */; };
+		1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */; };
+		1B03E7C128C2ED200006FADD /* XCUIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */; };
+		1B03E7C328C2ED570006FADD /* CommonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7C228C2ED570006FADD /* CommonTestCase.swift */; };
+		1B03E7C528C2ED5E0006FADD /* CommonUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7C428C2ED5E0006FADD /* CommonUITest.swift */; };
 		1B0808832893E1B2001704C2 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
 		1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */; };
 		1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08088628979768001704C2 /* SignInFormViewController.swift */; };
@@ -51,7 +56,6 @@
 		1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */; };
 		1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */; };
-		1B89AF5928A0D4FC0057C6D5 /* issue_trackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF5828A0D4FC0057C6D5 /* issue_trackerUITestsLaunchTests.swift */; };
 		1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A932886184000432728 /* SeparatorLineView.swift */; };
 		1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */; };
 		1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A972886DD5200432728 /* SignInLoginButton.swift */; };
@@ -119,6 +123,11 @@
 		0A1B3EB3BD4AA49D6B4DC9B7 /* Pods_issue_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_issue_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E335540012D14A392164AB1 /* Pods-issue-tracker-issue-trackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-tracker-issue-trackerUITests.release.xcconfig"; path = "Target Support Files/Pods-issue-tracker-issue-trackerUITests/Pods-issue-tracker-issue-trackerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewSingleRequestModel.swift; sourceTree = "<group>"; };
+		1B03E7BC28C1F1950006FADD /* issue_trackerUITests_MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_MainView.swift; sourceTree = "<group>"; };
+		1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_Login.swift; sourceTree = "<group>"; };
+		1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Extension.swift"; sourceTree = "<group>"; };
+		1B03E7C228C2ED570006FADD /* CommonTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTestCase.swift; sourceTree = "<group>"; };
+		1B03E7C428C2ED5E0006FADD /* CommonUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUITest.swift; sourceTree = "<group>"; };
 		1B0808822893E1B2001704C2 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		1B08088628979768001704C2 /* SignInFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +160,6 @@
 		1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest.swift; sourceTree = "<group>"; };
 		1B89AF5428A0D4FC0057C6D5 /* issue-trackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "issue-trackerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests.swift; sourceTree = "<group>"; };
-		1B89AF5828A0D4FC0057C6D5 /* issue_trackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1B8E4A932886184000432728 /* SeparatorLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLineView.swift; sourceTree = "<group>"; };
 		1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueLoadingView.swift; sourceTree = "<group>"; };
 		1B8E4A972886DD5200432728 /* SignInLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInLoginButton.swift; sourceTree = "<group>"; };
@@ -406,8 +414,12 @@
 		1B89AF5528A0D4FC0057C6D5 /* issue-trackerUITests */ = {
 			isa = PBXGroup;
 			children = (
+				1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */,
+				1B03E7C228C2ED570006FADD /* CommonTestCase.swift */,
+				1B03E7C428C2ED5E0006FADD /* CommonUITest.swift */,
 				1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */,
-				1B89AF5828A0D4FC0057C6D5 /* issue_trackerUITestsLaunchTests.swift */,
+				1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */,
+				1B03E7BC28C1F1950006FADD /* issue_trackerUITests_MainView.swift */,
 			);
 			path = "issue-trackerUITests";
 			sourceTree = "<group>";
@@ -870,8 +882,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B03E7C528C2ED5E0006FADD /* CommonUITest.swift in Sources */,
+				1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */,
 				1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */,
-				1B89AF5928A0D4FC0057C6D5 /* issue_trackerUITestsLaunchTests.swift in Sources */,
+				1B03E7BD28C1F1950006FADD /* issue_trackerUITests_MainView.swift in Sources */,
+				1B03E7C128C2ED200006FADD /* XCUIApplication+Extension.swift in Sources */,
+				1B03E7C328C2ED570006FADD /* CommonTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

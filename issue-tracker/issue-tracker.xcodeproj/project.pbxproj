@@ -13,7 +13,6 @@
 		1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */; };
 		1B03E7C128C2ED200006FADD /* XCUIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */; };
 		1B03E7C328C2ED570006FADD /* CommonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7C228C2ED570006FADD /* CommonTestCase.swift */; };
-		1B03E7C528C2ED5E0006FADD /* CommonUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7C428C2ED5E0006FADD /* CommonUITest.swift */; };
 		1B0808832893E1B2001704C2 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
 		1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */; };
 		1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08088628979768001704C2 /* SignInFormViewController.swift */; };
@@ -127,7 +126,6 @@
 		1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_Login.swift; sourceTree = "<group>"; };
 		1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Extension.swift"; sourceTree = "<group>"; };
 		1B03E7C228C2ED570006FADD /* CommonTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTestCase.swift; sourceTree = "<group>"; };
-		1B03E7C428C2ED5E0006FADD /* CommonUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUITest.swift; sourceTree = "<group>"; };
 		1B0808822893E1B2001704C2 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		1B08088628979768001704C2 /* SignInFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormViewController.swift; sourceTree = "<group>"; };
@@ -416,7 +414,6 @@
 			children = (
 				1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */,
 				1B03E7C228C2ED570006FADD /* CommonTestCase.swift */,
-				1B03E7C428C2ED5E0006FADD /* CommonUITest.swift */,
 				1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */,
 				1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */,
 				1B03E7BC28C1F1950006FADD /* issue_trackerUITests_MainView.swift */,
@@ -882,7 +879,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B03E7C528C2ED5E0006FADD /* CommonUITest.swift in Sources */,
 				1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */,
 				1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */,
 				1B03E7BD28C1F1950006FADD /* issue_trackerUITests_MainView.swift in Sources */,

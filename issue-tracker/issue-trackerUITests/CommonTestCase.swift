@@ -7,7 +7,7 @@
 
 import XCTest
 
-class CommonTestCase: XCTestCase, CommonUITest {
+class CommonTestCase: XCTestCase {
     var app: XCUIApplication!
     
     init(app: XCUIApplication) {
@@ -16,14 +16,8 @@ class CommonTestCase: XCTestCase, CommonUITest {
     }
     
     func prepareEachTest() { }
-    
     func tearDownEachTest() { }
     
-    func doVisibleTest() {
-        prepareEachTest()
-    }
-    
-    func doFunctionTest() {
-        prepareEachTest()
-    }
+    func doVisibleTest() { prepareEachTest() }
+    func doFunctionTest() { prepareEachTest() }
 }

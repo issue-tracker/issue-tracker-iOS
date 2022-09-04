@@ -35,8 +35,5 @@ class issue_trackerUITests_MainView: CommonTestCase {
         tearDownEachTest()
     }
     
-    override func doFunctionTest() {
-        super.doFunctionTest()
-        tearDownEachTest()
-    }
+    override func doFunctionTest() { }
 }

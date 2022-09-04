@@ -22,7 +22,5 @@ class issue_trackerUITests_Login: CommonTestCase {
         }
     }
     
-    override func doFunctionTest() {
-        
-    }
+    override func doFunctionTest() { }
 }

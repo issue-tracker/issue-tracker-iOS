@@ -13,21 +13,15 @@ extension XCUIApplication {
     }
     
     func isButtonExists(ids: [String]) -> [Bool] {
-        ids.map {
-            self.buttons[$0].firstMatch.exists
-        }
+        ids.map { self.buttons[$0].firstMatch.exists }
     }
     
     func isTextFieldExsits(id: String) -> Bool {
-        let query = self.descendants(matching: .textField)
-        return query[id].firstMatch.exists
+        self.descendants(matching: .textField).firstMatch.exists
     }
     
     func isTextFieldExsits(ids: [String]) -> [Bool] {
-        let query = self.descendants(matching: .textField)
-        return ids.map {
-            query[$0].firstMatch.exists
-        }
+        ids.map { _ in self.descendants(matching: .textField).firstMatch.exists }
     }
 }
 
@@ -63,8 +57,6 @@ extension XCUIApplication {
     }
     
     func isViewExists(ids: [String]) -> [Bool] {
-        ids.map {
-            self.otherElements[$0].exists
-        }
+        ids.map { self.otherElements[$0].exists }
     }
 }

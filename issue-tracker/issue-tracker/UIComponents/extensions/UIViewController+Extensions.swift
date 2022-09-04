@@ -10,7 +10,7 @@ import UIKit
 extension UIViewController {
     func commonAlert(title: String? = "경고", _ message: String = "", actionTitle: String? = "확인", handler: ((UIAlertAction) -> Void)? = nil) {
         DispatchQueue.main.async {
-            self.present(UIAlertController.getCommonAlert(message), animated: true)
+            self.present(UIAlertController.getCommonAlert(title: title, message, handler: handler), animated: true)
         }
     }
     

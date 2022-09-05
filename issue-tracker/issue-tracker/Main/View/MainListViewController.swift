@@ -88,6 +88,7 @@ class MainListViewController: CommonProxyViewController {
         
         view.layoutIfNeeded()
         
+        scrollView.delegate = self
         scrollView.contentSize.width = 0
         for (index, page) in pageList.enumerated() {
             scrollView.addSubview(page.view)
@@ -97,5 +98,12 @@ class MainListViewController: CommonProxyViewController {
         }
         
         listSegmentedControl.selectedSegmentIndex = 0
+    }
+}
+
+extension MainListViewController: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)
+        listSegmentedControl.selectedSegmentIndex = page
     }
 }

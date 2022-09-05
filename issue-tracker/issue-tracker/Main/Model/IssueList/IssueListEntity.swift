@@ -7,6 +7,39 @@
 
 import Foundation
 
+struct AllIssueEntity: Codable {
+    let openIssueCount: Int
+    let openIssues: [IssueListEntity]
+    let closedIssueCount: Int
+    let closedIssues: [IssueListEntity]
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        openIssueCount = try values.decode(Int.self, forKey: .openIssueCount)
+        closedIssueCount = try values.decode(Int.self, forKey: .closedIssueCount)
+        
+        if let container = try? values.nestedContainer(keyedBy: IssueContentCodingkeys.self, forKey: .openIssues) {
+            openIssues = try container.decode([IssueListEntity].self, forKey: .content)
+        } else {
+            openIssues = try values.decode([IssueListEntity].self, forKey: .openIssues)
+        }
+        
+        if let container = try? values.nestedContainer(keyedBy: IssueContentCodingkeys.self, forKey: .closedIssues) {
+            closedIssues = try container.decode([IssueListEntity].self, forKey: .content)
+        } else {
+            closedIssues = try values.decode([IssueListEntity].self, forKey: .closedIssues)
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case openIssueCount, openIssues, closedIssueCount, closedIssues
+    }
+    
+    enum IssueContentCodingkeys: String, CodingKey {
+        case content
+    }
+}
+
 struct IssueListEntity: Codable {
     let id: Int
     let title: String
@@ -14,15 +47,15 @@ struct IssueListEntity: Codable {
     let author: IssueListAuthor
     let comments: [IssueListComment]
     let issueAssignees: [IssueAssignee]
-    let issueLabels: [IssueLabel]
-    let milestone: IssueMilestone
+    let issueLabels: [LabelListEntity]
+    let milestone: MilestoneListEntity
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try values.decode(Int.self, forKey: .id)
         title = try values.decode(String.self, forKey: .title)
-        createdAt = try values.decode(String.self, forKey: .createdAt)
+        createdAt = try? values.decode(String.self, forKey: .createdAt)
         author = try values.decode(IssueListAuthor.self, forKey: .author)
         comments = try values.decode([IssueListComment].self, forKey: .comments)
         
@@ -33,12 +66,12 @@ struct IssueListEntity: Codable {
         }
         
         if let labelsContainer = try? values.nestedContainer(keyedBy: LabelsCodingKeys.self, forKey: .issueLabels) {
-            issueLabels = try labelsContainer.decode([IssueLabel].self, forKey: .issueLabels)
+            issueLabels = try labelsContainer.decode([LabelListEntity].self, forKey: .issueLabels)
         } else {
-            issueLabels = try values.decode([IssueLabel].self, forKey: .issueLabels)
+            issueLabels = try values.decode([LabelListEntity].self, forKey: .issueLabels)
         }
         
-        milestone = try values.decode(IssueMilestone.self, forKey: .milestone)
+        milestone = try values.decode(MilestoneListEntity.self, forKey: .milestone)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -110,32 +143,32 @@ struct IssueAssignee: Codable {
     let profileImage: String
 }
 
-struct IssueLabel: Codable {
-    let id: Int
-    let title: String
-    /// hex-color
-    let backgroundColorCode: String
-    let description: String
-    let textColor: String
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(Int.self, forKey: .id)
-        title = try container.decode(String.self, forKey: .title)
-        backgroundColorCode = try container.decode(String.self, forKey: .backgroundColorCode)
-        description = try container.decode(String.self, forKey: .description)
-        textColor = try container.decode(String.self, forKey: .textColor)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-    case id,title,backgroundColorCode,description,textColor
-    }
-}
+//struct IssueLabel: Codable {
+//    let id: Int
+//    let title: String
+//    /// hex-color
+//    let backgroundColorCode: String
+//    let description: String
+//    let textColor: String
+//
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        id = try container.decode(Int.self, forKey: .id)
+//        title = try container.decode(String.self, forKey: .title)
+//        backgroundColorCode = try container.decode(String.self, forKey: .backgroundColorCode)
+//        description = try container.decode(String.self, forKey: .description)
+//        textColor = try container.decode(String.self, forKey: .textColor)
+//    }
+//
+//    enum CodingKeys: String, CodingKey {
+//    case id,title,backgroundColorCode,description,textColor
+//    }
+//}
 
-struct IssueMilestone: Codable {
-    let id: Int
-    let title: String
-    let description: String?
-    let dueDate: String?
-    let closed: Bool
-}
+//struct IssueMilestone: Codable {
+//    let id: Int
+//    let title: String
+//    let description: String?
+//    let dueDate: String?
+//    let closed: Bool
+//}

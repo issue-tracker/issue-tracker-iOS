@@ -20,9 +20,12 @@ final class MainViewRequestModel<ResultType: Decodable>: RequestHTTPModel, ViewB
     var errorHandler: ((Error?) -> Void)?
     var binding: ViewBinding?
     
-    func requestIssueList(_ pageNumber: UInt = 0, requestHandler: ((Int, [Entity]?) -> Void)? = nil) {
-        let pageNumberInteger = Int(pageNumber)
-        let pathArray = ["\(pageNumberInteger)"]
+    func requestIssueList(_ pageNumber: UInt? = nil, requestHandler: ((Int, [Entity]?) -> Void)? = nil) {
+        var pathArray = [String]()
+        if let pageNumber = pageNumber {
+            pathArray.append("\(pageNumber)")
+        }
+        
         requestObservable(pathArray: pathArray)
             .subscribe(
                 onNext: { [weak self] data in
@@ -31,21 +34,22 @@ final class MainViewRequestModel<ResultType: Decodable>: RequestHTTPModel, ViewB
                     let list = HTTPResponseModel().getDecoded(from: data, as: [Entity].self) ?? []
                     
                     self.entityList.append(contentsOf: list)
-                    self.nextHandler?(Int(pageNumber), list)
-                    requestHandler?(Int(pageNumber), list)
+                    self.binding?.bindableHandler?(self.entityList, self) // ViewController 에 정의된 클로저.
+                    self.nextHandler?(Int(pageNumber ?? 0), list) // ViewController 가 주입하는 클로저.
+                    requestHandler?(Int(pageNumber ?? 0), list) // ViewController 가 reuqestIssueList 호출 시 파라미터로 전달한 클로저.
                 },
                 onError: errorHandler
             )
             .disposed(by: disposeBag)
     }
     
-    func reloadIssueList(reloadHandler: (([Entity])->Void)? = nil) {
+    func reloadIssueList(reloadHandler: (([Entity]?)->Void)? = nil) {
         request(pathArray: []) { [weak self] result, response in
             guard let self = self else { return }
             
-            let list = HTTPResponseModel().getDecoded(from: result, as: [Entity].self) ?? []
+            let list = HTTPResponseModel().getDecoded(from: result, as: [Entity].self)
             
-            self.entityList = list
+            self.entityList = list ?? []
             reloadHandler?(list)
         }
     }

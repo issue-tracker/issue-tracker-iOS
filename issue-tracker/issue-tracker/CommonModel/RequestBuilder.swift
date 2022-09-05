@@ -24,6 +24,7 @@ struct RequestBuilder {
     
     private(set) var httpMethod: String?
     private var customHeaderField = [String: String]()
+    private var urlQueries = [String: String]()
     
     var pathArray = [String]()
     var httpBody: Data?
@@ -49,8 +50,33 @@ struct RequestBuilder {
         }
     }
     
+    mutating func setURLQuery(_ queries: [String: String]) {
+        for query in queries {
+            urlQueries[query.key] = query.value
+        }
+    }
+    
     mutating func getRequest() -> URLRequest? {
         var requestURL = baseURL
+        
+//        if requestURL.absoluteString.contains("issues") {
+//
+//            var component = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)!
+//            component.queryItems = [URLQueryItem(name: "page", value: "0")]
+//            requestURL = component.url!
+//        }
+        
+        if urlQueries.count > 0, var comp = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) {
+            
+            comp.queryItems = urlQueries.map({
+                URLQueryItem(name: $0.key, value: $0.value)
+            })
+            
+            if let url = comp.url {
+                requestURL = url
+            }
+        }
+        
         for path in pathArray {
             requestURL.appendPathComponent(path)
         }

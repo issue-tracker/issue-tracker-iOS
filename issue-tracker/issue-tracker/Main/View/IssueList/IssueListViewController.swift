@@ -7,46 +7,35 @@
 
 import SnapKit
 
-class IssueListViewController: CommonProxyViewController, ViewBinding {
+class IssueListViewController: UIViewController, ViewBinding {
     
     private var tableView = UITableView()
     
-    private var model: MainViewRequestModel<IssueListEntity>? = {
-        guard let url = URL.apiURL else {
+    private var model: MainViewSingleRequestModel<AllIssueEntity>? = {
+        guard let url = URL.issueApiURL else {
             return nil
         }
         
-        return MainViewRequestModel(url)
+        return MainViewSingleRequestModel(url)
     }()
     
-    private var entities: [IssueListEntity]? {
-        self.model?.entityList
+    private var openIssues: [IssueListEntity] {
+        model?.entity?.openIssues ?? []
+    }
+    private var closedIssues: [IssueListEntity] {
+        model?.entity?.closedIssues ?? []
+    }
+    private var allIssues: [IssueListEntity] {
+        openIssues + closedIssues
     }
     
-    lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { modelResult, bindable in
-        if bindable is MainViewRequestModel<IssueListEntity>, let result = modelResult as? [IssueListEntity] {
-            
-            DispatchQueue.main.async {
-                var cellCount: Int { self.entities?.count ?? 0 }
-                
-                if cellCount <= 20 {
-                    self.model?.requestIssueList()
-                }
-                
-                guard cellCount - result.count != 0 else {
-                    self.tableView.reloadData()
-                    return
-                }
-                
-                var indexPaths = [IndexPath]()
-                for i in 0..<result.count {
-                    indexPaths.append(IndexPath(row: cellCount-result.count+i, section: 0))
-                }
-                
-                self.tableView.performBatchUpdates {
-                    self.tableView.insertRows(at: indexPaths, with: .none)
-                }
-            }
+    lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] _, bindable in
+        guard let self = self, bindable is MainViewSingleRequestModel<AllIssueEntity> else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
     
@@ -54,6 +43,8 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
         super.viewDidLoad()
         
         model?.binding = self
+        model?.builder.setURLQuery(["page":"0"])
+        model?.requestIssueList()
         
         tableView.separatorStyle = .none
         view.addSubview(tableView)
@@ -72,7 +63,7 @@ class IssueListViewController: CommonProxyViewController, ViewBinding {
 
 extension IssueListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        entities?.count ?? 0
+        allIssues.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,10 +79,7 @@ extension IssueListViewController: UITableViewDataSource {
             return normalCell
         }
         
-        if let entity = entities?[indexPath.row] {
-            cell.bindableHandler?(entity, self)
-        }
-        
+        cell.bindableHandler?(allIssues[indexPath.row], self)
         cell.setLayout()
         cell.profileView.touchHandler = {
             // TODO: Define touch action.

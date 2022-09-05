@@ -51,6 +51,9 @@
 		1B5D699528990BB000AE9495 /* RequestTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D699428990BB000AE9495 /* RequestTextField.swift */; };
 		1B5D6997289A3E0600AE9495 /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */; };
 		1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */; };
+		1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */; };
+		1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */; };
+		1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */; };
 		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
 		1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */; };
@@ -85,7 +88,7 @@
 		1BF1D0C528BC9A6000393294 /* LabelListReuqestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C428BC9A6000393294 /* LabelListReuqestModel.swift */; };
 		1BF1D0C728BC9A6900393294 /* LabelListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */; };
 		1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */; };
-		1BF1D0CB28BC9A7B00393294 /* MilestoneEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */; };
+		1BF1D0CB28BC9A7B00393294 /* MilestoneListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */; };
 		1BF1D0CF28BC9C3B00393294 /* MainViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CE28BC9C3B00393294 /* MainViewProtocol.swift */; };
 		1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CE28BC9C3B00393294 /* MainViewProtocol.swift */; };
 		1BF1D0D228BCD40F00393294 /* Issues.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D128BCD40F00393294 /* Issues.json */; };
@@ -93,7 +96,7 @@
 		1BF1D0D628BCE0C200393294 /* Milestones.json in Resources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D528BCE0C200393294 /* Milestones.json */; };
 		1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */; };
 		1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */; };
-		1BF1D0DA28BF685C00393294 /* MilestoneEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */; };
+		1BF1D0DA28BF685C00393294 /* MilestoneListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */; };
 		2B2E5FAD22BBF93D904719C5 /* Pods_issue_tracker_issue_trackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2969F389934C3BBF654291EF /* Pods_issue_tracker_issue_trackerUITests.framework */; };
@@ -152,6 +155,9 @@
 		1B5D699428990BB000AE9495 /* RequestTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTextField.swift; sourceTree = "<group>"; };
 		1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionLabel.swift; sourceTree = "<group>"; };
 		1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPTimerModel.swift; sourceTree = "<group>"; };
+		1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListTableViewCell.swift; sourceTree = "<group>"; };
+		1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListTableViewCell.swift; sourceTree = "<group>"; };
+		1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListTableViewCell.swift; sourceTree = "<group>"; };
 		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = RELEASE.xcconfig; sourceTree = "<group>"; };
 		1B89AF4728A0D4EF0057C6D5 /* issue-trackerUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "issue-trackerUnitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,7 +193,7 @@
 		1BF1D0C428BC9A6000393294 /* LabelListReuqestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListReuqestModel.swift; sourceTree = "<group>"; };
 		1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListEntity.swift; sourceTree = "<group>"; };
 		1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneRequestModel.swift; sourceTree = "<group>"; };
-		1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneEntity.swift; sourceTree = "<group>"; };
+		1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListEntity.swift; sourceTree = "<group>"; };
 		1BF1D0CE28BC9C3B00393294 /* MainViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewProtocol.swift; sourceTree = "<group>"; };
 		1BF1D0D128BCD40F00393294 /* Issues.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Issues.json; sourceTree = "<group>"; };
 		1BF1D0D328BCE0BE00393294 /* Labels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Labels.json; sourceTree = "<group>"; };
@@ -335,6 +341,7 @@
 				1B8E4AA328890E4500432728 /* MainTabBarController.swift */,
 				1B8E4AA5288910E200432728 /* MainListNavigationController.swift */,
 				1BF1D0BB28BC829A00393294 /* MainListViewController.swift */,
+				1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */,
 				1B4F48A128A4E59E00C4B33A /* IssueList */,
 				1BF1D0C128BC99DC00393294 /* LabelList */,
 				1BF1D0C228BC99E500393294 /* MilestoneList */,
@@ -477,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				1BF1D0BD28BC97BE00393294 /* LabelListViewController.swift */,
+				1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */,
 			);
 			path = LabelList;
 			sourceTree = "<group>";
@@ -485,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				1BF1D0BF28BC97D900393294 /* MilestoneListViewController.swift */,
+				1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */,
 			);
 			path = MilestoneList;
 			sourceTree = "<group>";
@@ -512,7 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */,
-				1BF1D0CA28BC9A7B00393294 /* MilestoneEntity.swift */,
+				1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */,
 				1BF1D0D528BCE0C200393294 /* Milestones.json */,
 			);
 			path = MilestoneList;
@@ -800,9 +809,11 @@
 				1B8E4AA6288910E200432728 /* MainListNavigationController.swift in Sources */,
 				1B0808832893E1B2001704C2 /* URL+Extension.swift in Sources */,
 				1B4F48A528A51D6E00C4B33A /* CommonLabel.swift in Sources */,
+				1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */,
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
 				1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */,
+				1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */,
 				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
 				1B4F488A28A3DEDF00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1BE01DFE28A618D700929163 /* UIDevice+Extension.swift in Sources */,
@@ -821,6 +832,7 @@
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */,
 				1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */,
+				1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */,
 				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
 				1BF1D0CF28BC9C3B00393294 /* MainViewProtocol.swift in Sources */,
 				1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */,
@@ -844,7 +856,7 @@
 				1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */,
 				1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */,
 				1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */,
-				1BF1D0CB28BC9A7B00393294 /* MilestoneEntity.swift in Sources */,
+				1BF1D0CB28BC9A7B00393294 /* MilestoneListEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,7 +879,7 @@
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
-				1BF1D0DA28BF685C00393294 /* MilestoneEntity.swift in Sources */,
+				1BF1D0DA28BF685C00393294 /* MilestoneListEntity.swift in Sources */,
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
 				1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */,
 				1B4F48A728A52CDE00C4B33A /* UIView+Extension.swift in Sources */,

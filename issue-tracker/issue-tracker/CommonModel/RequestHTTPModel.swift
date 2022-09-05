@@ -46,6 +46,10 @@ class RequestHTTPModel {
         }
         
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        
+//        if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
+//            request.setValue("Authentication", forHTTPHeaderField: accessToken)
+//        }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {

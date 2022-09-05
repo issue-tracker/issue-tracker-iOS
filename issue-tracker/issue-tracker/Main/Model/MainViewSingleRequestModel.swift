@@ -29,11 +29,23 @@ final class MainViewSingleRequestModel<ResultType: Decodable>: RequestHTTPModel,
                     let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self)
                     
                     self.entity = entity
+                    self.binding?.bindableHandler?(entity, self)
                     self.nextHandler?(entity)
                     requestHandler?(entity)
                 },
                 onError: errorHandler
             )
             .disposed(by: disposeBag)
+    }
+    
+    func reloadIssueList(reloadHandler: ((Entity?)->Void)? = nil) {
+        request(pathArray: []) { [weak self] result, response in
+            guard let self = self else { return }
+            
+            let entity = HTTPResponseModel().getDecoded(from: result, as: Entity.self)
+            
+            self.entity = entity
+            reloadHandler?(entity)
+        }
     }
 }

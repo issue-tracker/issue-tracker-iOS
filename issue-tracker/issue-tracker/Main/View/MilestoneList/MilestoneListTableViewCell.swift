@@ -1,15 +1,17 @@
 //
-//  IssueListTableViewCell.swift
+//  MilestoneListTableViewCell.swift
 //  issue-tracker
 //
-//  Created by 백상휘 on 2022/07/21.
+//  Created by 백상휘 on 2022/09/05.
 //
 
 import FlexLayout
 import UIKit
 
-class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListViewController> {
+class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity, MilestoneListViewController> {
     private let padding: CGFloat = 8
+    
+    private var entity: LabelListEntity?
     
     override func makeUI() {
         
@@ -44,9 +46,12 @@ class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListVi
         paddingView.layer.borderColor = UIColor.opaqueSeparator.cgColor
     }
     
-    override func setEntity(_ entity: IssueListEntity) {
+    override func setEntity(_ entity: MilestoneListEntity) {
         titleLabel.text = entity.title
-        dateLabel.text = DateFormatter.localizedString(from: entity.getDateCreated() ?? Date(), dateStyle: .short, timeStyle: .short)
-        contentsLabel.text = entity.comments.first?.content
+        contentsLabel.text = entity.description
+        
+        dateLabel.text = "Due by " + DateFormatter.localizedString(from: entity.getDateCreated() ?? Date(), dateStyle: .short, timeStyle: .short)
+        setNeedsDisplay()
     }
 }
+

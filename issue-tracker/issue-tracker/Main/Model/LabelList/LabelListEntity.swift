@@ -8,5 +8,9 @@
 import Foundation
 
 struct LabelListEntity: Codable {
-    
+    let id: Int
+    let title: String
+    let backgroundColorCode: String
+    let description: String
+    let textColor: String
 }

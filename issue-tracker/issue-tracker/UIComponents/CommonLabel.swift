@@ -24,7 +24,7 @@ class CommonLabel: UILabel {
         makeUI()
     }
     
-    convenience init(frame: CGRect = .zero, _ fontMultiplier: CGFloat) {
+    convenience init(frame: CGRect = .zero, fontMultiplier: CGFloat) {
         self.init(frame: frame)
         makeUI(fontMultiplier)
     }
@@ -33,7 +33,8 @@ class CommonLabel: UILabel {
         textColor = .label
         textAlignment = .center
         font = font.withSize(font.pointSize * fontMultiplier)
-        
+        adjustsFontSizeToFitWidth = true
+        minimumScaleFactor = 0.1
     }
     
     func adaptFamilyFont(with query: String) {

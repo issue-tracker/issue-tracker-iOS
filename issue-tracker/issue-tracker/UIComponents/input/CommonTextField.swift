@@ -102,6 +102,7 @@ class CommonTextField: UITextField, ViewBindable {
     
     private func makeUI() {
         accessibilityIdentifier = placeholder
+        autocapitalizationType = .none
         
         clearButtonMode = .whileEditing
         textColor = .black

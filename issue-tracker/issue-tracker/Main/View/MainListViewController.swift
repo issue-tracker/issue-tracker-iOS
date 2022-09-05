@@ -12,8 +12,25 @@ class MainListViewController: CommonProxyViewController {
     
     private let padding: CGFloat = 8
     
-    private var listSegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["Issue","Label","Milestone"])
+    private lazy var listSegmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: [
+            UIAction(title: "Issue", handler: { _ in
+                UIView.animate(withDuration: 0.3) {
+                    self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                }
+            }),
+            UIAction(title: "Label", handler: { _ in
+                UIView.animate(withDuration: 0.3) {
+                    self.scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.width, y: 0), animated: true)
+                }
+            }),
+            UIAction(title: "Milestone", handler: { _ in
+                UIView.animate(withDuration: 0.3) {
+                    self.scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.width * 2, y: 0), animated: true)
+                }
+            }),
+        ])
+        
         return control
     }()
     
@@ -78,22 +95,6 @@ class MainListViewController: CommonProxyViewController {
             page.view.frame.origin.x = CGFloat(index) * scrollView.frame.width
             scrollView.contentSize.width += scrollView.frame.width
         }
-        
-        listSegmentedControl.setAction(UIAction(handler: { _ in
-            UIView.animate(withDuration: 0.3) {
-                self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-            }
-        }), forSegmentAt: 0)
-        listSegmentedControl.setAction(UIAction(handler: { _ in
-            UIView.animate(withDuration: 0.3) {
-                self.scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.width, y: 0), animated: true)
-            }
-        }), forSegmentAt: 1)
-        listSegmentedControl.setAction(UIAction(handler: { _ in
-            UIView.animate(withDuration: 0.3) {
-                self.scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.width * 2, y: 0), animated: true)
-            }
-        }), forSegmentAt: 2)
         
         listSegmentedControl.selectedSegmentIndex = 0
     }

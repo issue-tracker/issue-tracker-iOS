@@ -85,6 +85,6 @@ extension LabelListViewController: UITableViewDataSource {
 
 extension LabelListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.frame.height/4.5
+        return tableView.frame.height/8.5
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import FlexLayout
+import SnapKit
 import UIKit
 
 class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity, MilestoneListViewController> {
@@ -16,30 +17,29 @@ class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity, Mil
     override func makeUI() {
         
         let isBigSizeScreen = ["13","12","11","X"].reduce(false, { $0 || (UIDevice.modelName.contains($1)) })
-        contentsLabel.numberOfLines = isBigSizeScreen ? 3 : 2
+        contentsLabel.numberOfLines = isBigSizeScreen ? 2 : 1
         
-        [titleLabel, dateLabel, contentsLabel].forEach({ label in label.textAlignment = .natural })
+        [titleLabel, contentsLabel].forEach({ label in label.textAlignment = .natural })
+        dateLabel.textAlignment = .center
         
         contentView.addSubview(paddingView)
         paddingView.addSubview(titleLabel)
-        paddingView.addSubview(profileView)
         paddingView.addSubview(dateLabel)
         paddingView.addSubview(contentsLabel)
         
         paddingView.flex.define { flex in
             flex.addItem().direction(.row).height(40%).marginHorizontal(padding).define { flex in
-                flex.addItem().width(65%).define { flex in
-                    flex.addItem(titleLabel).height(85%)
-                    flex.addItem(dateLabel).height(15%)
-                }
-                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding).markDirty()
+                flex.addItem(titleLabel).width(55%)
+                flex.addItem(dateLabel).width(45%)
             }
             
-            flex.addItem(contentsLabel).vertically(padding).marginHorizontal(padding)
+            flex.addItem(contentsLabel).height(60%).marginHorizontal(padding)
         }
         
         paddingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(padding)
+            make.edges.top.equalToSuperview().offset(8)
+            make.edges.bottom.equalToSuperview().inset(8)
+            make.edges.horizontalEdges.equalToSuperview()
         }
         
         paddingView.layer.borderWidth = 1.5

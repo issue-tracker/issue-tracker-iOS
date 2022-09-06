@@ -13,7 +13,7 @@ class MainListTableViewCell<T: Codable, VC: ViewBinding>: UITableViewCell {
     
     private(set) var titleLabel = CommonLabel(fontMultiplier: 1.2)
     private(set) var profileView = ProfileImageButton()
-    private(set) var dateLabel = CommonLabel(fontMultiplier: 0.7)
+    private(set) var dateLabel = CommonLabel(fontMultiplier: 0.9)
     private(set) var contentsLabel = CommonLabel()
     
     let paddingView = UIView()

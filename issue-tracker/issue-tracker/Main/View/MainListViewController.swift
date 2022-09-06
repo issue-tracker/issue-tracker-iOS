@@ -72,13 +72,13 @@ class MainListViewController: CommonProxyViewController {
         
         listSegmentedControl.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
-            $0.height.equalTo(50)
-            $0.bottom.equalTo(scrollView.snp.top)
+            $0.height.equalTo(view.frame.height*0.055)
         }
         
         scrollView.snp.makeConstraints {
+            $0.top.equalTo(listSegmentedControl.snp.bottom).offset(padding)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(padding)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         plusButton.snp.makeConstraints { make in

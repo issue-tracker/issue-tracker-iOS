@@ -95,6 +95,6 @@ extension MilestoneListViewController: UITableViewDataSource {
 
 extension MilestoneListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.frame.height/4.5
+        return tableView.frame.height/7
     }
 }

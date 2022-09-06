@@ -6,6 +6,7 @@
 //
 
 import FlexLayout
+import SnapKit
 import UIKit
 
 class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListViewController> {
@@ -25,19 +26,21 @@ class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListVi
         paddingView.addSubview(contentsLabel)
         
         paddingView.flex.define { flex in
-            flex.addItem().direction(.row).height(40%).marginHorizontal(padding).define { flex in
+            flex.addItem().direction(.row).height(50%).marginHorizontal(padding).define { flex in
                 flex.addItem().width(65%).define { flex in
                     flex.addItem(titleLabel).height(85%)
                     flex.addItem(dateLabel).height(15%)
                 }
-                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding).markDirty()
+                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding).justifyContent(.center).markDirty()
             }
             
             flex.addItem(contentsLabel).vertically(padding).marginHorizontal(padding)
         }
         
         paddingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(padding)
+            make.edges.top.equalToSuperview().offset(padding)
+            make.edges.bottom.equalToSuperview().inset(padding)
+            make.edges.horizontalEdges.equalToSuperview()
         }
         
         paddingView.layer.borderWidth = 1.5
@@ -48,5 +51,7 @@ class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListVi
         titleLabel.text = entity.title
         dateLabel.text = DateFormatter.localizedString(from: entity.getDateCreated() ?? Date(), dateStyle: .short, timeStyle: .short)
         contentsLabel.text = entity.comments.first?.content
+        
+        profileView.profileImageURL = entity.author.profileImage
     }
 }

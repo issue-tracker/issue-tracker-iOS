@@ -16,7 +16,13 @@ class ProfileImageButton: UIView {
     private var profileImageView = UIImageView(image: UIImage(systemName: "p.square.fill"))
     private var flexContainer: Flex?
     
-    var profileImageURL: String = ""
+    var profileImageURL: String = "" {
+        didSet {
+            if let url = URL(string: profileImageURL) {
+                getProfileImage(with: url)
+            }
+        }
+    }
     
     var touchHandler: (()->Void)?
     
@@ -101,9 +107,11 @@ class ProfileImageButton: UIView {
                 return
             }
             
-            self.profileImageView.image = image
-            self.profileImageView.contentMode = .scaleAspectFill
-            self.profileImageView.setNeedsDisplay()
+            DispatchQueue.main.async {
+                self.profileImageView.image = image
+                self.profileImageView.contentMode = .scaleAspectFill
+                self.profileImageView.setNeedsDisplay()
+            }
         })
     }
 }

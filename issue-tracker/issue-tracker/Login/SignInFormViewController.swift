@@ -141,6 +141,7 @@ class SignInFormViewController: CommonProxyViewController {
         _containerView.layoutIfNeeded()
         _containerView.flex.layout()
         _containerView.reloadContentSizeHeight()
+        _containerView.delegate = self
         
         acceptButton.setCornerRadius()
     }
@@ -175,6 +176,18 @@ class SignInFormViewController: CommonProxyViewController {
                 }
             }
         })
+    }
+}
+
+extension SignInFormViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        DispatchQueue.main.async {
+            for item in scrollView.subviews {
+                if item.isFirstResponder {
+                    item.resignFirstResponder()
+                }
+            }
+        }
     }
 }
 

@@ -25,6 +25,12 @@ class issue_trackerUITests: XCTestCase {
     }
     
     func test_SignIn() throws {
+        issue_trackerUITests_SignIn(app: app).doVisibleTest()
+        issue_trackerUITests_SignIn(app: app).doFunctionTest()
+    }
+    
+    func test_MainView() throws {
+        issue_trackerUITests_MainView(app: app).doFunctionTest()
         issue_trackerUITests_MainView(app: app).doVisibleTest()
     }
 }

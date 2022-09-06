@@ -9,31 +9,28 @@ import XCTest
 
 class issue_trackerUITests_MainView: CommonTestCase {
     
-    private let textFieldIds = ["idArea", "passwordArea", "passwordConfirmedArea", "emailArea", "nicknameArea"]
-    private let buttonIds = ["가입하기"]
-    
     override func prepareEachTest() {
-        app.descendants(matching: .button)["회원가입"].tap()
     }
     
     override func tearDownEachTest() {
-        app.navigationBars.firstMatch.buttons.firstMatch.tap()
+        sleep(2)
+        XCTAssertTrue(app.navigationBars.element.exists, "[Error] Screen Move Failed.") 
     }
     
     override func doVisibleTest() {
         super.doVisibleTest()
-        XCTAssertNotNil(app.children(matching: .window).firstMatch.exists)
-        
-        for (index, result) in app.isViewExists(ids: textFieldIds).enumerated() {
-            XCTAssertTrue(result, "[Error] \(textFieldIds[index]) not exsits")
-        }
-        
-        for (index, result) in app.isButtonExists(ids: buttonIds).enumerated() {
-            XCTAssertTrue(result, "[Error] \(buttonIds[index]) not exsits")
-        }
         
         tearDownEachTest()
     }
     
-    override func doFunctionTest() { }
+    override func doFunctionTest() {
+        let idField = app.descendants(matching: .textField)["아이디"]
+        let passwordField = app.descendants(matching: .textField)["패스워드"]
+        idField.tap()
+        idField.typeText("testios")
+        passwordField.tap()
+        passwordField.typeText("12341234")
+        app.descendants(matching: .button)["아이디로 로그인"].tap()
+        tearDownEachTest()
+    }
 }

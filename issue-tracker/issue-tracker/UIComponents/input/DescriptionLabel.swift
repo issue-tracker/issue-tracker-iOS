@@ -30,6 +30,18 @@ class DescriptionLabel: UILabel, ViewBindable {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func makeUI() {
+        accessibilityIdentifier = "desc"
+    }
+    
     func setResponseStatus(_ responseStatus: ResponseStatus?) {
         
         defer {

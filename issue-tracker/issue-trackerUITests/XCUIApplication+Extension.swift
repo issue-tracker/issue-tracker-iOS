@@ -43,19 +43,6 @@ extension XCUIApplication {
         return result
     }
     
-    func isViewExists(id: String) -> Bool {
-        self.getViewUsing(id: id).exists
-    }
-    
-    func isViewExists(ids: String...) -> Bool {
-        for id in ids {
-            if self.getViewUsing(id: id).exists == false {
-                return false
-            }
-        }
-        return true
-    }
-    
     func isViewExists(ids: [String]) -> [Bool] {
         ids.map { self.otherElements[$0].exists }
     }

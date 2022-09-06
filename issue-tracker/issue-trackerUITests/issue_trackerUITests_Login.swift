@@ -8,6 +8,11 @@
 import XCTest
 
 class issue_trackerUITests_Login: CommonTestCase {
+    
+    override func tearDownEachTest() {
+        sleep(2)
+    }
+    
     override func doVisibleTest() {
         XCTAssertNotNil(app.children(matching: .window).firstMatch.exists)
         
@@ -20,6 +25,8 @@ class issue_trackerUITests_Login: CommonTestCase {
         for (index, result) in app.isButtonExists(ids: buttonIds).enumerated() {
             XCTAssertTrue(result, "[Error] \(buttonIds[index]) not exsits")
         }
+        
+        tearDownEachTest()
     }
     
     override func doFunctionTest() { }

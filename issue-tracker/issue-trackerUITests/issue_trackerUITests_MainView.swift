@@ -31,6 +31,17 @@ class issue_trackerUITests_MainView: CommonTestCase {
         passwordField.tap()
         passwordField.typeText("12341234")
         app.descendants(matching: .button)["아이디로 로그인"].tap()
+        
+        if app.alerts.element.waitForExistence(timeout: 2.0) {
+            app.alerts.buttons.element.tap()
+            XCTFail("[Error] Login Failed.")
+            return
+        }
+        
+        XCTAssertTrue(app.segmentedControls.element.waitForExistence(timeout: 5.0))
+        app.segmentedControls.buttons.element(boundBy: 1).tap()
+        app.segmentedControls.buttons.element(boundBy: 2).tap()
+        
         tearDownEachTest()
     }
 }

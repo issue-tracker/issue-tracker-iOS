@@ -11,10 +11,10 @@ class MainListTableViewCell<T: Codable, VC: ViewBinding>: UITableViewCell {
     
     var bindableHandler: ((Any, ViewBinding) -> Void)?
     
-    private(set) var titleLabel = CommonLabel(fontMultiplier: 1.3)
+    private(set) var titleLabel = CommonLabel(fontMultiplier: 1.2)
     private(set) var profileView = ProfileImageButton()
     private(set) var dateLabel = CommonLabel(fontMultiplier: 0.7)
-    private(set) var contentsLabel = CommonLabel(fontMultiplier: 1.1)
+    private(set) var contentsLabel = CommonLabel()
     
     let paddingView = UIView()
 

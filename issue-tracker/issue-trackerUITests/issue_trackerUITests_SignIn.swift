@@ -60,9 +60,17 @@ class issue_trackerUITests_SignIn: CommonTestCase {
         
         app.scrollViews.element.swipeUp()
         
+        guard emailField.waitForExistence(timeout: 2.0) else {
+            XCTFail("[Error] emailField not exists")
+            return
+        }
         emailField.tap()
         emailField.typeText("testios@gmail.com")
         
+        guard nicknameField.waitForExistence(timeout: 2.0) else {
+            XCTFail("[Error] nicknameField not exists")
+            return
+        }
         nicknameField.tap()
         nicknameField.typeText("테스트아이오에스")
         

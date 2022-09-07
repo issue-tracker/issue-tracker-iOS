@@ -13,13 +13,16 @@ class ProfileImageButton: UIView {
     
     private var httpModel: RequestHTTPModel?
     private var titleLabel: UILabel?
-    private var profileImageView = UIImageView(image: UIImage(systemName: "p.square.fill"))
+    private var defaultImage = UIImage(systemName: "p.square.fill")
+    private var profileImageView = UIImageView()
     private var flexContainer: Flex?
     
     var profileImageURL: String = "" {
         didSet {
             if let url = URL(string: profileImageURL) {
                 getProfileImage(with: url)
+            } else if let image = defaultImage {
+                setProfileImage(image)
             }
         }
     }
@@ -90,7 +93,7 @@ class ProfileImageButton: UIView {
         touchHandler?()
     }
     
-    func getProfileImage(with url: URL) {
+    private func getProfileImage(with url: URL) {
         let modelContainer = httpModel
         defer {
             httpModel = modelContainer
@@ -107,11 +110,15 @@ class ProfileImageButton: UIView {
                 return
             }
             
-            DispatchQueue.main.async {
-                self.profileImageView.image = image
-                self.profileImageView.contentMode = .scaleAspectFill
-                self.profileImageView.setNeedsDisplay()
-            }
+            self.setProfileImage(image)
         })
+    }
+    
+    private func setProfileImage(_ image: UIImage?) {
+        DispatchQueue.main.async {
+            self.profileImageView.image = image
+            self.profileImageView.contentMode = .scaleAspectFill
+            self.profileImageView.setNeedsDisplay()
+        }
     }
 }

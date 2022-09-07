@@ -38,9 +38,9 @@ class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListVi
         }
         
         paddingView.snp.makeConstraints { make in
-            make.edges.top.equalToSuperview().offset(padding)
-            make.edges.bottom.equalToSuperview().inset(padding)
-            make.edges.horizontalEdges.equalToSuperview()
+            make.top.equalToSuperview().offset(padding)
+            make.bottom.equalToSuperview().inset(padding)
+            make.horizontalEdges.equalToSuperview()
         }
         
         paddingView.layer.borderWidth = 1.5

@@ -50,6 +50,18 @@ class MainListViewController: CommonProxyViewController {
         return view
     }()
     
+    private lazy var profileView: ProfileImageButton = {
+        let profileButtonWidth = navigationController?.navigationBar.frame.height ?? 44
+        let button = ProfileImageButton(frame: CGRect(x: 0, y: 0, width: profileButtonWidth, height: profileButtonWidth))
+        if let urlString = UserDefaults.standard.string(forKey: "profileImage") {
+            button.profileImageURL = urlString
+        }
+        
+        button.addInteraction(UIContextMenuInteraction(delegate: self))
+        
+        return button
+    }()
+    
     private lazy var plusButton: UIButton = {
         let button = UIButton(primaryAction: UIAction(handler: { action in
             self.navigationController?.pushViewController(IssueEditViewController(), animated: true)
@@ -86,6 +98,7 @@ class MainListViewController: CommonProxyViewController {
             make.size.equalTo(CGSize(width: 44, height: 44))
         }
         
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         view.layoutIfNeeded()
         
         scrollView.delegate = self
@@ -105,5 +118,20 @@ extension MainListViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)
         listSegmentedControl.selectedSegmentIndex = page
+    }
+}
+
+extension MainListViewController: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { elements in
+            UIMenu(title: "", options: .displayInline, children: [
+                UIAction(title: "logout") { _ in
+                    self.switchScreen(type: .login)
+                },
+            ])
+        }
     }
 }

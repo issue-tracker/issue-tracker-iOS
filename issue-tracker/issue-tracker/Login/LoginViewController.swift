@@ -91,6 +91,8 @@ class LoginViewController: CommonProxyViewController {
                     }
                     
                     UserDefaults.standard.setValue(loginResponseData.accessToken.token, forKey: "accessToken")
+                    UserDefaults.standard.setValue(loginResponseData.memberResponse.profileImage, forKey: "profileImage")
+                    
                     self.switchScreen(type: .main)
                 })
                 

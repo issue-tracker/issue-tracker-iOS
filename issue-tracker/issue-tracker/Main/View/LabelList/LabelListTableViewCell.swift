@@ -25,18 +25,18 @@ class LabelListTableViewCell: MainListTableViewCell<LabelListEntity, LabelListVi
         paddingView.addSubview(contentsLabel)
         
         paddingView.flex.define { flex in
-            flex.addItem().direction(.row).height(40%).marginHorizontal(padding).define { flex in
+            flex.addItem().direction(.row).height(45%).marginHorizontal(padding).define { flex in
                 flex.addItem(titleLabel).width(65%)
                 flex.addItem(dateLabel).width(35%)
             }
             
-            flex.addItem(contentsLabel).height(60%).marginHorizontal(padding)
+            flex.addItem(contentsLabel).height(55%).marginHorizontal(padding)
         }
         
         paddingView.snp.makeConstraints { make in
-            make.edges.top.equalToSuperview().offset(padding)
-            make.edges.bottom.equalToSuperview().inset(padding)
-            make.edges.horizontalEdges.equalToSuperview()
+            make.top.equalToSuperview().offset(padding)
+            make.bottom.equalToSuperview().inset(padding)
+            make.horizontalEdges.equalToSuperview()
         }
         
         paddingView.layer.borderWidth = 1.5
@@ -47,8 +47,11 @@ class LabelListTableViewCell: MainListTableViewCell<LabelListEntity, LabelListVi
         titleLabel.text = entity.title
         contentsLabel.text = entity.description
         contentsLabel.textColor = entity.textColor.lowercased() == "black" ? .black : .white
+        
+        let color = UIColor(hex: entity.backgroundColorCode)
         dateLabel.text = entity.backgroundColorCode
-        paddingView.backgroundColor = UIColor(hex: entity.backgroundColorCode)
+        dateLabel.textColor = color
+        paddingView.backgroundColor = color?.withAlphaComponent(0.5)
         setNeedsDisplay()
     }
 }

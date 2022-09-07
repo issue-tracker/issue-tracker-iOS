@@ -18,7 +18,6 @@
 		1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08088628979768001704C2 /* SignInFormViewController.swift */; };
 		1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B080888289809E6001704C2 /* UIScrollView+Extension.swift */; };
 		1B1E28DD28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */; };
-		1B1E28DF28C7061A00B91A6A /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6996289A3E0600AE9495 /* DescriptionLabel.swift */; };
 		1B1E28E028C7062700B91A6A /* ViewBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB728892F0F00432728 /* ViewBinding.swift */; };
 		1B1E28E128C7063000B91A6A /* ViewBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB528892F0B00432728 /* ViewBindable.swift */; };
 		1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F799288EC195004EBE9F /* CommonTextField.swift */; };
@@ -900,7 +899,6 @@
 				1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */,
 				1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */,
 				1B1E28E028C7062700B91A6A /* ViewBinding.swift in Sources */,
-				1B1E28DF28C7061A00B91A6A /* DescriptionLabel.swift in Sources */,
 				1B03E7BD28C1F1950006FADD /* issue_trackerUITests_MainView.swift in Sources */,
 				1B03E7C128C2ED200006FADD /* XCUIApplication+Extension.swift in Sources */,
 				1B1E28E128C7063000B91A6A /* ViewBindable.swift in Sources */,

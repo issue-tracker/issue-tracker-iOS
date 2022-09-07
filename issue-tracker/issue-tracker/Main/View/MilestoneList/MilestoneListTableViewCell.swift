@@ -37,9 +37,9 @@ class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity, Mil
         }
         
         paddingView.snp.makeConstraints { make in
-            make.edges.top.equalToSuperview().offset(8)
-            make.edges.bottom.equalToSuperview().inset(8)
-            make.edges.horizontalEdges.equalToSuperview()
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().inset(8)
+            make.horizontalEdges.equalToSuperview()
         }
         
         paddingView.layer.borderWidth = 1.5

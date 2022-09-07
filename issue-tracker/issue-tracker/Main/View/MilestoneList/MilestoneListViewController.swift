@@ -20,6 +20,14 @@ class MilestoneListViewController: UIViewController, ViewBinding {
         return MainViewSingleRequestModel(url)
     }()
     
+    var modelStatusCount: String {
+        if let entity = model?.entity {
+            return "\(entity.openedMilestones.count)/\(entity.openedMilestones.count+entity.closedMilestones.count)"
+        }
+        
+        return "0/0"
+    }
+    
     private var entities: AllMilestoneEntity? {
         self.model?.entity
     }

@@ -7,7 +7,7 @@
 
 import SnapKit
 
-class IssueListViewController: UIViewController, ViewBinding {
+class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     
     private var tableView = UITableView()
     
@@ -18,6 +18,12 @@ class IssueListViewController: UIViewController, ViewBinding {
         
         return MainViewSingleRequestModel(url)
     }()
+    var modelStatusCount: String {
+        if let entity = model?.entity {
+            return "\(entity.openIssues.count)/\(entity.openIssues.count+entity.closedIssues.count)"
+        }
+        return "0/0"
+    }
     
     private var openIssues: [IssueListEntity] {
         model?.entity?.openIssues ?? []
@@ -29,10 +35,14 @@ class IssueListViewController: UIViewController, ViewBinding {
         openIssues + closedIssues
     }
     
+    var binding: ViewBinding?
+    
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] _, bindable in
         guard let self = self, bindable is MainViewSingleRequestModel<AllIssueEntity> else {
             return
         }
+        
+        self.binding?.bindableHandler?(self.model?.entity, self)
         
         DispatchQueue.main.async {
             self.tableView.reloadData()

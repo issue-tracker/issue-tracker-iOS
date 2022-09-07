@@ -20,6 +20,13 @@ class LabelListViewController: UIViewController, ViewBinding {
         return MainViewRequestModel(url)
     }()
     
+    var modelStatusCount: String {
+        if let entityList = model?.entityList {
+            return "\(entityList.count)"
+        }
+        return "0"
+    }
+    
     private var entities: [LabelListEntity] {
         self.model?.entityList ?? []
     }

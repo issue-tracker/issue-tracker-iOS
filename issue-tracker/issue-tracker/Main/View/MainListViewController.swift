@@ -8,38 +8,47 @@
 import SnapKit
 import UIKit
 
-class MainListViewController: CommonProxyViewController {
+class MainListViewController: CommonProxyViewController, ViewBinding {
     
     private let padding: CGFloat = 8
     
     private lazy var listSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
-            UIAction(title: "Issue", handler: { _ in
-                UIView.animate(withDuration: 0.3) {
-                    self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-                }
+            UIAction(title: "Issue", handler: { [weak self] _ in
+                self?.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                self?.navigationItem.title = self?.issueListViewController.modelStatusCount ?? "0/0"
             }),
-            UIAction(title: "Label", handler: { _ in
-                UIView.animate(withDuration: 0.3) {
-                    self.scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.width, y: 0), animated: true)
-                }
+            UIAction(title: "Label", handler: { [weak self] _ in
+                self?.scrollView.setContentOffset(CGPoint(x: self?.scrollView.frame.width ?? 0, y: 0), animated: true)
+                self?.navigationItem.title = self?.labelListViewController.modelStatusCount ?? "0"
             }),
-            UIAction(title: "Milestone", handler: { _ in
-                UIView.animate(withDuration: 0.3) {
-                    self.scrollView.setContentOffset(CGPoint(x: self.scrollView.frame.width * 2, y: 0), animated: true)
-                }
+            UIAction(title: "Milestone", handler: { [weak self] _ in
+                self?.scrollView.setContentOffset(CGPoint(x: (self?.scrollView.frame.width ?? 0) * 2, y: 0), animated: true)
+                self?.navigationItem.title = self?.milestoneListViewController.modelStatusCount ?? "0/0"
             }),
         ])
         
         return control
     }()
     
+    lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] entity, bindable in
+        DispatchQueue.main.async {
+            guard let button = self?.listSegmentedControl else {
+                return
+            }
+            
+            if button.selectedSegmentIndex == 0 {
+                self?.navigationItem.title = self?.issueListViewController.modelStatusCount ?? "0/0"
+            }
+        }
+    }
+    
     private lazy var issueListViewController = IssueListViewController()
-    private lazy var myPageViewController = LabelListViewController()
-    private lazy var settingsViewController = MilestoneListViewController()
+    private lazy var labelListViewController = LabelListViewController()
+    private lazy var milestoneListViewController = MilestoneListViewController()
     
     lazy var pageList: [UIViewController] = [
-        issueListViewController, myPageViewController, settingsViewController
+        issueListViewController, labelListViewController, milestoneListViewController
     ]
     
     private var scrollView: UIScrollView = {
@@ -82,6 +91,8 @@ class MainListViewController: CommonProxyViewController {
         view.addSubview(scrollView)
         view.addSubview(plusButton)
         
+        issueListViewController.binding = self
+        
         listSegmentedControl.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
             $0.height.equalTo(view.frame.height*0.055)
@@ -93,9 +104,9 @@ class MainListViewController: CommonProxyViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        plusButton.snp.makeConstraints { make in
-            make.bottom.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16)
-            make.size.equalTo(CGSize(width: 44, height: 44))
+        plusButton.snp.makeConstraints {
+            $0.bottom.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16)
+            $0.size.equalTo(CGSize(width: 44, height: 44))
         }
         
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]

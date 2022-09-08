@@ -17,7 +17,8 @@ struct RequestBuilder {
                                    "Host",
                                    "Proxy-Authenticate",
                                    "Proxy-Authorization",
-                                   "WWW-Authenticate"]
+                                   "WWW-Authenticate",
+                                   "Content-Type"]
     private let allHTTPMethods = ["GET", "POST", "PUT", "DELETE"]
     private let encoder = JSONEncoder()
     private let baseURL: URL
@@ -59,13 +60,6 @@ struct RequestBuilder {
     mutating func getRequest() -> URLRequest? {
         var requestURL = baseURL
         
-//        if requestURL.absoluteString.contains("issues") {
-//
-//            var component = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)!
-//            component.queryItems = [URLQueryItem(name: "page", value: "0")]
-//            requestURL = component.url!
-//        }
-        
         if urlQueries.count > 0, var comp = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) {
             
             comp.queryItems = urlQueries.map({
@@ -87,9 +81,13 @@ struct RequestBuilder {
         
         pathArray.removeAll()
         
+        setHeader(key: "content-type", value: "application/json; charset=utf-8")
+        
         for field in customHeaderField {
             request.setValue(field.value, forHTTPHeaderField: field.key)
         }
+        
+        customHeaderField.removeAll()
         
         return request
     }
@@ -105,13 +103,21 @@ struct RequestBuilder {
         return nil
     }
     
-    @discardableResult
-    mutating func setContentTypeToJson() -> Bool {
-        guard let headerFieldKey = getReservedHeaderFieldKey(query: "content-type") else {
-            return false
+//    @discardableResult
+//    mutating func setContentTypeToJson() -> Bool {
+//        guard let headerFieldKey = getReservedHeaderFieldKey(query: "content-type") else {
+//            return false
+//        }
+//
+//        customHeaderField[headerFieldKey] = "application/json; charset=utf-8"
+//        return true
+//    }
+    
+    mutating func setHeader(key: String, value: String) {
+        guard let headerFieldKey = getReservedHeaderFieldKey(query: key) else {
+            return
         }
         
-        customHeaderField[headerFieldKey] = "application/json; charset=utf-8"
-        return true
+        customHeaderField[headerFieldKey] = value
     }
 }

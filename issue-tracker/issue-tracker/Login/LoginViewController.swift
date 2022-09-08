@@ -8,9 +8,11 @@
 import UIKit
 import SnapKit
 import FlexLayout
+import RxSwift
 
 class LoginViewController: CommonProxyViewController {
     
+    private var bag = DisposeBag()
     private var requestModel: RequestHTTPModel?
     
     private let padding: CGFloat = 8
@@ -62,7 +64,7 @@ class LoginViewController: CommonProxyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.switchScreen(type: .main)
+        
         view.addSubview(infoFlexContainer)
         
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
@@ -92,6 +94,7 @@ class LoginViewController: CommonProxyViewController {
                     
                     UserDefaults.standard.setValue(loginResponseData.accessToken.token, forKey: "accessToken")
                     UserDefaults.standard.setValue(loginResponseData.memberResponse.profileImage, forKey: "profileImage")
+                    UserDefaults.standard.setValue(loginResponseData.memberResponse.id, forKey: "memberId")
                     
                     self.switchScreen(type: .main)
                 })
@@ -134,6 +137,58 @@ class LoginViewController: CommonProxyViewController {
         infoFlexContainer.flex.layout()
         
         loginButton.setCornerRadius()
+        
+        view.popLoadingView(type: .veryLarge)
+        testAlreadyLogin()
+            .subscribe(onNext: { data in
+                if
+                    let id = data as? Int,
+                    let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int,
+                    id == memberId
+                {
+                    self.switchScreen(type: .main)
+                }
+                
+                if let message = data as? String {
+                    self.commonAlert(message)
+                }
+            })
+            .disposed(by: bag)
+    }
+    
+    private func testAlreadyLogin() -> Observable<Any> {
+        guard
+            let requestModel = requestModel,
+            let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int,
+            let token = UserDefaults.standard.value(forKey: "accessToken") as? String
+        else {
+            return Observable.just(false)
+        }
+        
+        requestModel.builder.setURLQuery(["memberId": "\(memberId)"])
+        requestModel.builder.setHeader(key: "Authorization", value: "Bearer " + token)
+        return requestModel
+            .requestObservable(pathArray: ["auth", "test"])
+            .map({ [weak self] data -> Any in
+                
+                DispatchQueue.main.async {
+                    self?.view.dismissLoadingView()
+                }
+                
+                let model = HTTPResponseModel()
+                
+                if let message = model.getDecoded(from: data, as: String.self) {
+                    return message
+                } else if let message = model.getMessageResponse(from: data) {
+                    return message
+                }
+                
+                if let id = model.getDecoded(from: data, as: Int.self) {
+                    return id
+                }
+                
+                return false
+            })
     }
 }
 

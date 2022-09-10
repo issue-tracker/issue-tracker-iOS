@@ -65,10 +65,12 @@ class LoginViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        makeSuperViewResignKeyboard()
         view.addSubview(infoFlexContainer)
         
         let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
         let passwordTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "패스워드", markerType: .lock)
+        passwordTextField.isSecureTextEntry = true
         
         if let url = URL.apiURL {
             requestModel = RequestHTTPModel(url)

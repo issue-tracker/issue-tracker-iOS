@@ -88,6 +88,7 @@ class SignInFormViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        makeSuperViewResignKeyboard()
         if let url = URL.apiURL {
             requestModel = RequestHTTPModel(url)
         }

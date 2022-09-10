@@ -12,12 +12,15 @@ class CommonProxyViewController: SettingProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(resignKeyboard)))
         callSetting()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+    }
+    
+    func makeSuperViewResignKeyboard() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(resignKeyboard)))
     }
     
     @objc func resignKeyboard() {

@@ -24,9 +24,9 @@ final class MainViewSingleRequestModel<ResultType: Decodable>: RequestHTTPModel,
         requestObservable()
             .subscribe(
                 onNext: { [weak self] data in
-                    guard let self = self else { return }
-                    
-                    let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self)
+                    guard let self = self, let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self) else {
+                        return
+                    }
                     
                     self.entity = entity
                     self.binding?.bindableHandler?(entity, self)

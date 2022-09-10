@@ -54,8 +54,6 @@ class LabelListViewController: UIViewController, ViewBinding {
             make.edges.equalToSuperview()
         }
         
-        view.layoutIfNeeded()
-        
         tableView.register(LabelListTableViewCell.self, forCellReuseIdentifier: LabelListTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
@@ -69,23 +67,11 @@ extension LabelListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LabelListTableViewCell.reuseIdentifier, for: indexPath) as? LabelListTableViewCell else {
-            
-            let normalCell = UITableViewCell()
-            let label = UILabel()
-            label.text = "test"
-            normalCell.contentView.addSubview(label)
-            label.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-            return normalCell
+            return UITableViewCell()
         }
         
-        cell.bindableHandler?(entities[indexPath.row], self)
+        cell.setEntity(entities[indexPath.row])
         cell.setLayout()
-        cell.profileView.touchHandler = {
-            // TODO: Define touch action.
-        }
-        
         return cell
     }
 }

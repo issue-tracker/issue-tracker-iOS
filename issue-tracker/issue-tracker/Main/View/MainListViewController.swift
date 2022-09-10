@@ -33,11 +33,13 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] entity, bindable in
         DispatchQueue.main.async {
-            guard let button = self?.listSegmentedControl else {
-                return
+            if let entity = entity as? IssueListEntity, bindable is IssueListViewController {
+                
+                self?.navigationController?.pushViewController(IssueListDetailViewController(entity), animated: true)
             }
             
-            if button.selectedSegmentIndex == 0 {
+            if let button = self?.listSegmentedControl, button.selectedSegmentIndex == 0 {
+                
                 self?.navigationItem.title = self?.issueListViewController.modelStatusCount ?? "0/0"
             }
         }
@@ -140,6 +142,7 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
         UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { elements in
             UIMenu(title: "", options: .displayInline, children: [
                 UIAction(title: "logout") { _ in
+                    UserDefaults.standard.removeObject(forKey: "memberId")
                     self.switchScreen(type: .login)
                 },
             ])

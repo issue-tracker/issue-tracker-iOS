@@ -65,8 +65,6 @@ class MilestoneListViewController: UIViewController, ViewBinding {
             make.edges.equalToSuperview()
         }
         
-        view.layoutIfNeeded()
-        
         tableView.register(MilestoneListTableViewCell.self, forCellReuseIdentifier: MilestoneListTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
@@ -81,22 +79,11 @@ extension MilestoneListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MilestoneListTableViewCell.reuseIdentifier, for: indexPath) as? MilestoneListTableViewCell else {
             
-            let normalCell = UITableViewCell()
-            let label = UILabel()
-            label.text = "test"
-            normalCell.contentView.addSubview(label)
-            label.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-            return normalCell
+            return UITableViewCell()
         }
         
-        cell.bindableHandler?(allMilestone[indexPath.row], self)
+        cell.setEntity(allMilestone[indexPath.row])
         cell.setLayout()
-        cell.profileView.touchHandler = {
-            // TODO: Define touch action.
-        }
-        
         return cell
     }
 }

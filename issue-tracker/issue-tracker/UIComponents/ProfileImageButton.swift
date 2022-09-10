@@ -27,8 +27,6 @@ class ProfileImageButton: UIView {
         }
     }
     
-    var touchHandler: (()->Void)?
-    
     convenience init(urlString: String = "", title: String = "") {
         self.init(frame: CGRect.zero)
         self.profileImageURL = urlString
@@ -79,7 +77,6 @@ class ProfileImageButton: UIView {
         profileImageView.tintColor = .label
         
         isUserInteractionEnabled = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(touchSelector(_:))))
         
         flexContainer = flex.alignItems(.center).define { flex in
             flex.addItem(profileImageView).aspectRatio(1).height(100%)
@@ -87,10 +84,6 @@ class ProfileImageButton: UIView {
         
         layoutIfNeeded()
         flex.layout()
-    }
-    
-    @objc func touchSelector(_ target: Any) {
-        touchHandler?()
     }
     
     private func getProfileImage(with url: URL) {

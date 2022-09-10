@@ -63,8 +63,6 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
             make.edges.equalToSuperview()
         }
         
-        view.layoutIfNeeded()
-        
         tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
@@ -78,23 +76,11 @@ extension IssueListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: IssueListTableViewCell.reuseIdentifier, for: indexPath) as? IssueListTableViewCell else {
-            
-            let normalCell = UITableViewCell()
-            let label = UILabel()
-            label.text = "test"
-            normalCell.contentView.addSubview(label)
-            label.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-            return normalCell
+            return UITableViewCell()
         }
         
-        cell.bindableHandler?(allIssues[indexPath.row], self)
+        cell.setEntity(allIssues[indexPath.row])
         cell.setLayout()
-        cell.profileView.touchHandler = {
-            // TODO: Define touch action.
-        }
-        
         return cell
     }
 }
@@ -102,5 +88,9 @@ extension IssueListViewController: UITableViewDataSource {
 extension IssueListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.frame.height/4.5
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        binding?.bindableHandler?(allIssues[indexPath.row], self)
     }
 }

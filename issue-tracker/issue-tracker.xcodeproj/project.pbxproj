@@ -48,6 +48,7 @@
 		1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */; };
 		1B4F48A528A51D6E00C4B33A /* CommonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F48A428A51D6E00C4B33A /* CommonLabel.swift */; };
 		1B4F48A728A52CDE00C4B33A /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
+		1B50B86028C9EA8600073AC9 /* IssueListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B50B85F28C9EA8600073AC9 /* IssueListDetailViewController.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -153,6 +154,7 @@
 		1B4F489128A4A39C00C4B33A /* MainViewRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewRequestModel.swift; sourceTree = "<group>"; };
 		1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListEntity.swift; sourceTree = "<group>"; };
 		1B4F48A428A51D6E00C4B33A /* CommonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonLabel.swift; sourceTree = "<group>"; };
+		1B50B85F28C9EA8600073AC9 /* IssueListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListDetailViewController.swift; sourceTree = "<group>"; };
 		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B5D69922898DF6500AE9495 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				1B8E4A992887CE0300432728 /* IssueListViewController.swift */,
 				1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */,
 				1B4F48A228A4E5A600C4B33A /* IssueEdit */,
+				1B50B85F28C9EA8600073AC9 /* IssueListDetailViewController.swift */,
 			);
 			path = IssueList;
 			sourceTree = "<group>";
@@ -848,6 +851,7 @@
 				1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */,
+				1B50B86028C9EA8600073AC9 /* IssueListDetailViewController.swift in Sources */,
 				1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */,
 				1B5D6997289A3E0600AE9495 /* DescriptionLabel.swift in Sources */,
 				1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */,

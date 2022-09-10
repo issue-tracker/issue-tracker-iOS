@@ -162,6 +162,7 @@ class LoginViewController: CommonProxyViewController {
             let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int,
             let token = UserDefaults.standard.value(forKey: "accessToken") as? String
         else {
+            DispatchQueue.main.async { self.view.dismissLoadingView() }
             return Observable.just(false)
         }
         

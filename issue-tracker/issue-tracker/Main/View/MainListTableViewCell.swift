@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FlexLayout
 
 class MainListTableViewCell<T: Codable, VC: ViewBinding>: UITableViewCell {
     
@@ -20,34 +21,21 @@ class MainListTableViewCell<T: Codable, VC: ViewBinding>: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        initialSetting()
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        initialSetting()
+        makeUI()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initialSetting()
-    }
-    
-    private func initialSetting() {
         makeUI()
-        defineBindableHandler()
     }
     
     func makeUI() { }
     func setEntity(_ entity: T) { }
-    
-    private func defineBindableHandler() {
-        bindableHandler = { entity, binding in
-            if let entity = entity as? T, binding is VC {
-                self.setEntity(entity)
-            }
-        }
-    }
     
     func setLayout() {
         paddingView.layoutIfNeeded()

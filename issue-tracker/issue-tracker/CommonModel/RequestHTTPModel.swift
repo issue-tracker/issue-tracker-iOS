@@ -38,6 +38,9 @@ class RequestHTTPModel {
         return requestObservable()
     }
     
+    /// 셋팅된 정보를 토대로 HTTP Request 를 한 후 응답이 오면 파라미터로 전달된 Clousre를 실행합니다.
+    ///
+    /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     private func request(_ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         
         guard let request = builder.getRequest() else {
@@ -56,6 +59,9 @@ class RequestHTTPModel {
         }.resume()
     }
     
+    /// 셋팅된 정보를 토대로 HTTP Request 를 한 후 응답이 오면 이벤트를 방출하는 Observable 을 생성하고 반환합니다.
+    ///
+    /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     private func requestObservable() -> Observable<Data> {
         return Observable.create { observable in
             

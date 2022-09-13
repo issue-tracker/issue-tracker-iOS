@@ -1,5 +1,5 @@
 //
-//  IssueListDetailViewController.swift
+//  IssueDetailViewController.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/09/08.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IssueListDetailViewController: UIViewController {
+class IssueDetailViewController: UIViewController {
     
     private var entity: IssueListEntity?
     

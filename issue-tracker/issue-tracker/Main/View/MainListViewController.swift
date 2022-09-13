@@ -35,7 +35,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         DispatchQueue.main.async {
             if let entity = entity as? IssueListEntity, bindable is IssueListViewController {
                 
-                self?.navigationController?.pushViewController(IssueListDetailViewController(entity), animated: true)
+                self?.navigationController?.pushViewController(IssueDetailViewController(entity), animated: true)
             }
             
             if let button = self?.listSegmentedControl, button.selectedSegmentIndex == 0 {

@@ -57,6 +57,9 @@ struct RequestBuilder {
         }
     }
     
+    /// 셋팅된 정보를 이용해 URLRequest 를 만듭니다.
+    ///
+    /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     mutating func getRequest() -> URLRequest? {
         var requestURL = baseURL
         
@@ -74,15 +77,17 @@ struct RequestBuilder {
         for path in pathArray {
             requestURL.appendPathComponent(path)
         }
-        
-        var request = URLRequest(url: requestURL)
-        request.httpBody = httpBody
-        request.httpMethod = httpMethod
-        
         pathArray.removeAll()
         
-        setHeader(key: "content-type", value: "application/json; charset=utf-8")
+        var request = URLRequest(url: requestURL)
         
+        request.httpBody = httpBody
+        httpBody = nil
+        
+        request.httpMethod = httpMethod
+        httpMethod = allHTTPMethods.first
+        
+        setHeader(key: "content-type", value: "application/json; charset=utf-8")
         for field in customHeaderField {
             request.setValue(field.value, forHTTPHeaderField: field.key)
         }

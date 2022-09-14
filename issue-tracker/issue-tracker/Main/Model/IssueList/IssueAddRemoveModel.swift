@@ -11,12 +11,18 @@ import RxSwift
 class IssueAddRemoveModel: RequestHTTPModel {
     
     func addIssue(_ param: IssueAddParameter) -> Observable<IssueListEntity?> {
-        guard let memberId = UserDefaults.standard.object(forKey: "memberId") as? Int else {
+//        guard let memberId = UserDefaults.standard.object(forKey: "memberId") as? Int, let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
+//            return Observable.just(nil)
+//        }
+//        builder.setURLQuery(["memberId": "\(memberId)"])
+        
+        guard let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
             return Observable.just(nil)
         }
         
-        builder.setURLQuery(["memberId": "\(memberId)"])
         builder.setBody(param)
+        builder.setHeader(key: "Authorization", value: "Bearer " + token)
+        builder.setHTTPMethod("post")
         
         return requestObservable()
             .map { HTTPResponseModel().getDecoded(from: $0, as: IssueListEntity.self) }

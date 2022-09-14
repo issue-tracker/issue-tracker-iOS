@@ -340,7 +340,6 @@
 				1BF1D0CE28BC9C3B00393294 /* MainViewProtocol.swift */,
 				1B4F489128A4A39C00C4B33A /* MainViewRequestModel.swift */,
 				1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */,
-				1B50EC2928D09073005E5B82 /* IssueAddRemoveModel.swift */,
 				1BF1D0C328BC9A5100393294 /* IssueList */,
 				1B50EC2028D044D6005E5B82 /* IssueDetail */,
 				1BF1D0CC28BC9A7F00393294 /* LabelList */,
@@ -533,6 +532,7 @@
 		1BF1D0C328BC9A5100393294 /* IssueList */ = {
 			isa = PBXGroup;
 			children = (
+				1B50EC2928D09073005E5B82 /* IssueAddRemoveModel.swift */,
 				1B4F489328A4BE4700C4B33A /* IssueListEntity.swift */,
 				1BF1D0D128BCD40F00393294 /* Issues.json */,
 			);

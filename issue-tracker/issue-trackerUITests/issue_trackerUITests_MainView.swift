@@ -25,7 +25,7 @@ class issue_trackerUITests_MainView: CommonTestCase {
     
     override func doFunctionTest() {
         let idField = app.descendants(matching: .textField)["아이디"]
-        let passwordField = app.descendants(matching: .textField)["패스워드"]
+        let passwordField = app.descendants(matching: .secureTextField)["패스워드"]
         idField.tap()
         idField.typeText("testios")
         passwordField.tap()

@@ -48,7 +48,7 @@ struct IssueListEntity: Codable {
     let comments: [IssueListComment]
     let issueAssignees: [IssueAssignee]
     let issueLabels: [LabelListEntity]
-    let milestone: MilestoneListEntity
+    let milestone: MilestoneListEntity?
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -71,7 +71,7 @@ struct IssueListEntity: Codable {
             issueLabels = try values.decode([LabelListEntity].self, forKey: .issueLabels)
         }
         
-        milestone = try values.decode(MilestoneListEntity.self, forKey: .milestone)
+        milestone = try? values.decode(MilestoneListEntity.self, forKey: .milestone)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -113,7 +113,7 @@ struct IssueListComment: Codable {
     let author: IssueListAuthor
     let content: String
     let createdAt: String?
-    let issueCommentReactionsResponse: [IssueCommentReactionsResponse]
+    let issueCommentReactionsResponse: [IssueCommentReactionsResponse]?
 }
 
 struct IssueListAuthor: Codable {

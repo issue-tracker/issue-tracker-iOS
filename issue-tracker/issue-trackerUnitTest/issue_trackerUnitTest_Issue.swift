@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import RxSwift
 
 class issue_trackerUnitTest_Issue: XCTestCase {
     var expectation: XCTestExpectation!
@@ -20,6 +21,7 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     override func setUp() {
         URLProtocol.registerClass(MainViewProtocol.self)
         expectation = XCTestExpectation()
+        expectation.expectedFulfillmentCount = 1
     }
     override func tearDown() {
         URLProtocol.unregisterClass(MainViewProtocol.self)
@@ -64,12 +66,50 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     }
     
     func testAddIssueDetail() throws {
-        let model = MainViewSingleRequestModel<IssueListEntity>(URL.issueApiURL ?? URL(string: ""))
-        IssueAddParameter(title: "testIssue", comment: "commentTesting", assigneeIds: [0], labelIds: [0], milestoneId: 0)
+        guard let url = URL.issueApiURL else {
+            XCTFail("Issue URL error. Not initialized.")
+            return
+        }
+        
+        IssueAddRemoveModel(url)?
+            .addIssue(IssueAddParameter(
+                title: "testIssues",
+                comment: "comment in testIssue",
+                assigneeIds: [0],
+                labelIds: [0],
+                milestoneId: 0
+            )).subscribe(onNext: { entity in
+                if let entity = entity {
+                    self.issueId = entity.id
+                    self.expectation.fulfill()
+                }
+            }).disposed(by: DisposeBag())
+        
+        wait(for: [expectation], timeout: 5.0)
     }
     
     func testDeleteIssueDetail() throws {
-        let model = MainViewSingleRequestModel<IssueListEntity>(URL.issueApiURL ?? URL(string: ""))
+        guard issueId > 0 else {
+            XCTFail("issueId Error")
+            return
+        }
         
+        guard let url = URL.issueApiURL else {
+            XCTFail("Issue URL error. Not initialized.")
+            return
+        }
+        
+        IssueAddRemoveModel(url)?
+            .removeIssue(issueId)
+            .subscribe(onNext: { message in
+                if let message = message {
+                    XCTFail(message)
+                } else {
+                    self.expectation.fulfill()
+                }
+            })
+            .disposed(by: DisposeBag())
+        
+        wait(for: [expectation], timeout: 5.0)
     }
 }

@@ -15,6 +15,11 @@ enum IssueDetailError: Error {
     case responseWithError
 }
 
+enum IssueDetailCellType {
+    case separator
+    case info
+}
+
 // RequestHTTPModel 을 상속하는 이유는 여러가지의 response 가 있을 수 있기 때문.
 // 다양한 HTTP Response Body 에 대응해야 한다.
 class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
@@ -40,13 +45,13 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     var binding: ViewBinding?
     
     // Entities for DetailView
-    private var issueDetail: IssueListEntity?
+    var issueDetail: IssueListEntity?
     
-    private var commentsOfIssue: [IssueListComment]? { issueDetail?.comments }
-    private var authorInfo: IssueListAuthor? { issueDetail?.author }
-    private var assigneeInfo: [IssueAssignee]? { issueDetail?.issueAssignees }
-    private var labelsInfo: [LabelListEntity]? { issueDetail?.issueLabels }
-    private var milestoneInfo: MilestoneListEntity? { issueDetail?.milestone }
+    var commentsOfIssue: [IssueListComment]? { issueDetail?.comments }
+    var authorInfo: IssueListAuthor? { issueDetail?.author }
+    var assigneeInfo: [IssueAssignee]? { issueDetail?.issueAssignees }
+    var labelsInfo: [LabelListEntity]? { issueDetail?.issueLabels }
+    var milestoneInfo: MilestoneListEntity? { issueDetail?.milestone }
     
     override init(_ baseURL: URL) {
         super.init(baseURL)
@@ -92,6 +97,21 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // MARK: - APIs
+    func getDetailEntity() throws -> Observable<IssueListEntity?> {
+        let param = try getParameter()
+        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+        return responseFlatten(requestObservable(pathArray: ["\(issueId)"]))
+    }
+    
+    func getCellEntity(_ indexPath: IndexPath) -> IssueListComment? {
+        let floatIndex = ceil(Float(indexPath.row/2))
+        return commentsOfIssue?[Int(floatIndex)]
+    }
+    
+    func getCellType(_ indexPath: IndexPath) -> IssueDetailCellType {
+        indexPath.row.isMultiple(of: 2) ? .separator : .info
+    }
+    
     // title, status, emojis
     func setTitle(_ title: String) throws -> Observable<IssueListEntity?> {
         let param = try getParameter()
@@ -262,6 +282,24 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
             "milestone",
             "\(milestoneId)"
         ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+    }
+}
+
+extension Array where Element == EmojiResponse {
+    func getEncodedEmojis() -> [String] {
+        
+        let emojis = self.reduce([String]()) { partialResult, emojiInfo in
+            let emojis = emojiInfo.unicode.split(separator: " ").map({String($0)})
+            return partialResult + emojis.filter({$0.isEmpty == false})
+        }
+        
+        return emojis.compactMap { emoji in
+            guard let hexValue = Int(emoji.replacingOccurrences(of: "U+", with: ""), radix: 16), let unicodeScalar = UnicodeScalar(hexValue) else {
+                return nil
+            }
+            
+            return String(unicodeScalar)
+        }
     }
 }
 

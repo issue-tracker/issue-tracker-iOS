@@ -56,7 +56,7 @@ class MilestoneListViewController: UIViewController, ViewBinding {
         super.viewDidLoad()
         
         model?.binding = self
-        model?.requestIssueList()
+//        model?.requestIssueList()
         
         tableView.separatorStyle = .none
         view.addSubview(tableView)

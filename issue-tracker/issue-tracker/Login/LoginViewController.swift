@@ -64,7 +64,7 @@ class LoginViewController: CommonProxyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        switchScreen(type: .main)
         makeSuperViewResignKeyboard()
         view.addSubview(infoFlexContainer)
         

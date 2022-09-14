@@ -27,6 +27,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
                 self?.navigationItem.title = self?.milestoneListViewController.modelStatusCount ?? "0/0"
             }),
         ])
+        control.accessibilityIdentifier = "listControl"
         
         return control
     }()
@@ -35,7 +36,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         DispatchQueue.main.async {
             if let entity = entity as? IssueListEntity, bindable is IssueListViewController {
                 
-                self?.navigationController?.pushViewController(IssueDetailViewController(entity), animated: true)
+                self?.navigationController?.pushViewController(IssueDetailViewController(entity.id, status: .open), animated: true)
             }
             
             if let button = self?.listSegmentedControl, button.selectedSegmentIndex == 0 {
@@ -58,6 +59,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         view.isPagingEnabled = true
         view.showsVerticalScrollIndicator = false
         view.showsHorizontalScrollIndicator = false
+        view.accessibilityIdentifier = "listScrollView"
         return view
     }()
     

@@ -33,4 +33,8 @@ class issue_trackerUITests: XCTestCase {
         issue_trackerUITests_MainView(app: app).doFunctionTest()
         issue_trackerUITests_MainView(app: app).doVisibleTest()
     }
+    
+    func test_IssueDetailView() throws {
+        issue_trackerUITests_IssueDetail(app: app).doVisibleTest()
+    }
 }

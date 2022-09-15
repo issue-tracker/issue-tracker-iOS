@@ -21,7 +21,7 @@ struct RequestBuilder {
                                    "Content-Type"]
     private let allHTTPMethods = ["GET", "POST", "PUT", "DELETE"]
     private let encoder = JSONEncoder()
-    private let baseURL: URL
+    let baseURL: URL
     
     private(set) var httpMethod: String?
     private var customHeaderField = [String: String]()
@@ -84,10 +84,10 @@ struct RequestBuilder {
         request.httpBody = httpBody
         httpBody = nil
         
-        request.httpMethod = httpMethod
-        httpMethod = allHTTPMethods.first
+        request.httpMethod = httpMethod ?? "GET"
+        httpMethod = nil
         
-        setHeader(key: "content-type", value: "application/json; charset=utf-8")
+        setHeader(key: "content-type", value: "application/json")
         for field in customHeaderField {
             request.setValue(field.value, forHTTPHeaderField: field.key)
         }
@@ -107,16 +107,6 @@ struct RequestBuilder {
         
         return nil
     }
-    
-//    @discardableResult
-//    mutating func setContentTypeToJson() -> Bool {
-//        guard let headerFieldKey = getReservedHeaderFieldKey(query: "content-type") else {
-//            return false
-//        }
-//
-//        customHeaderField[headerFieldKey] = "application/json; charset=utf-8"
-//        return true
-//    }
     
     mutating func setHeader(key: String, value: String) {
         guard let headerFieldKey = getReservedHeaderFieldKey(query: key) else {

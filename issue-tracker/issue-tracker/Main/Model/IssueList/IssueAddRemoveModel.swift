@@ -10,18 +10,26 @@ import RxSwift
 
 class IssueAddRemoveModel: RequestHTTPModel {
     
+    private var bagCount = 0
+    /// Model 에서 DisposeBag 을 관리하는 이유는 효율적인 메모리 관리(4 번 이상의 리퀘스트 이후에는 DisposeBag 을 초기화 ) 를 위함입니다.
+    ///
+    /// Model 의 DisposeBag 을 이용하시는 것을 권해드립니다.
+    var bag = DisposeBag() {
+        didSet {
+            bagCount += 1
+            if bagCount >= 4 {
+                bag = DisposeBag()
+            }
+        }
+    }
+    
     func addIssue(_ param: IssueAddParameter) -> Observable<IssueListEntity?> {
-//        guard let memberId = UserDefaults.standard.object(forKey: "memberId") as? Int, let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
-//            return Observable.just(nil)
-//        }
-//        builder.setURLQuery(["memberId": "\(memberId)"])
-        
         guard let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
             return Observable.just(nil)
         }
         
         builder.setBody(param)
-        builder.setHeader(key: "Authorization", value: "Bearer " + token)
+        builder.setHeader(key: "Authorization", value: "Bearer \(token)")
         builder.setHTTPMethod("post")
         
         return requestObservable()
@@ -29,21 +37,22 @@ class IssueAddRemoveModel: RequestHTTPModel {
     }
     
     func removeIssue(_ issueId: Int) -> Observable<String?> {
-        guard let memberId = UserDefaults.standard.object(forKey: "memberId") as? Int else {
+        guard let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
             return Observable.just(nil)
         }
         
-        builder.setURLQuery(["memberId": "\(memberId)"])
+        builder.setHeader(key: "Authorization", value: "Bearer \(token)")
+        builder.setHTTPMethod("delete")
         
         return requestObservable(pathArray: ["\(issueId)"])
             .map { HTTPResponseModel().getMessageResponse(from: $0) }
     }
 }
 
-struct IssueAddParameter: Encodable {
+struct IssueAddParameter: Codable {
     let title: String
     let comment: String
     var assigneeIds = [Int]()
     var labelIds = [Int]()
-    let milestoneId: Int
+    let milestoneId: Int?
 }

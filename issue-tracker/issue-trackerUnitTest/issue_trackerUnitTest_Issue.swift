@@ -16,8 +16,7 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     var milestoneModel: MainViewSingleRequestModel<AllMilestoneEntity>?
     
     var issueDetailModel: IssueDetailViewModel?
-    var issueId = -1
-
+    let model = IssueAddRemoveModel(URL.issueApiURL!)
     override func setUp() {
         URLProtocol.registerClass(MainViewProtocol.self)
         expectation = XCTestExpectation()
@@ -65,50 +64,34 @@ class issue_trackerUnitTest_Issue: XCTestCase {
         wait(for: [expectation], timeout: 1.5)
     }
     
-    func testAddIssueDetail() throws {
-        guard let url = URL.issueApiURL else {
-            XCTFail("Issue URL error. Not initialized.")
-            return
-        }
-        
-        IssueAddRemoveModel(url)?
-            .addIssue(IssueAddParameter(
+    func testAddAndRemoveIssueDetail() throws {
+        URLProtocol.unregisterClass(MainViewProtocol.self)
+        expectation.expectedFulfillmentCount = 2
+        model.addIssue(
+            IssueAddParameter(
                 title: "testIssues",
                 comment: "comment in testIssue",
-                assigneeIds: [0],
-                labelIds: [0],
-                milestoneId: 0
-            )).subscribe(onNext: { entity in
-                if let entity = entity {
-                    self.issueId = entity.id
-                    self.expectation.fulfill()
-                }
-            }).disposed(by: DisposeBag())
-        
-        wait(for: [expectation], timeout: 5.0)
-    }
-    
-    func testDeleteIssueDetail() throws {
-        guard issueId > 0 else {
-            XCTFail("issueId Error")
-            return
-        }
-        
-        guard let url = URL.issueApiURL else {
-            XCTFail("Issue URL error. Not initialized.")
-            return
-        }
-        
-        IssueAddRemoveModel(url)?
-            .removeIssue(issueId)
-            .subscribe(onNext: { message in
-                if let message = message {
-                    XCTFail(message)
-                } else {
-                    self.expectation.fulfill()
-                }
-            })
-            .disposed(by: DisposeBag())
+                assigneeIds: [],
+                labelIds: [],
+                milestoneId: nil
+            )
+        ).subscribe(onNext: { entity in
+            if let entity = entity {
+                self.expectation.fulfill()
+                
+                self.model
+                    .removeIssue(entity.id)
+                    .subscribe(onNext: { message in
+              if let message = message {
+                            XCTFail(message)
+                        } else {
+                            self.expectation.fulfill()
+                        }
+                    })
+                    .disposed(by: DisposeBag())
+            }
+        })
+        .disposed(by: model.bag)
         
         wait(for: [expectation], timeout: 5.0)
     }

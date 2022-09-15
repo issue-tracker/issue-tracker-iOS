@@ -33,7 +33,7 @@ class IssueDetailViewController: CommonProxyViewController {
     private let additionalInfoView = UIView()
     private let statusLabel: CommonLabel = {
         let label = CommonLabel(fontMultiplier: 0.9)
-        label.setCornerRadius()
+        label.setCornerRadius(8)
         label.textColor = .secondaryLabel
         return label
     }()
@@ -43,6 +43,7 @@ class IssueDetailViewController: CommonProxyViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = true
         scrollView.backgroundColor = .lightGray
+        scrollView.setCornerRadius(8)
         return scrollView
     }()
     
@@ -51,6 +52,7 @@ class IssueDetailViewController: CommonProxyViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .purple
+        
         return tableView
     }()
     
@@ -63,36 +65,36 @@ class IssueDetailViewController: CommonProxyViewController {
         contentsTableView.register(IssueDetailCommentTableViewCell.self, forCellReuseIdentifier: IssueDetailCommentTableViewCell.reuseIdentifier)
         
         view.addSubview(containerView)
-        
-        navigationItem.backButtonTitle = ""
         containerView.backgroundColor = .yellow
         
         let isOpened = issueStatus == .open
         statusLabel.backgroundColor = (isOpened ? UIColor.green : UIColor.purple).withAlphaComponent(0.8)
         statusLabel.text = (isOpened ? "open" : "closed")
         
-        containerView.flex.define { flex in
-            flex.addItem(additionalInfoView).height(12%).direction(.row).define { flex in
-                flex.addItem(statusLabel).width(25%).alignItems(.center).padding(8)
-                flex.addItem(additionalInfoScrollView).width(75%).padding(UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 8))
-            }
-            flex.addItem().height(8%)
-            flex.addItem(contentsTableView).minHeight(70%)
-        }
-        
         containerView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        containerView.flex.define { flex in
+            // 고정값으로 처리하는 이유는 나중에도 layout을 다시 정의하도록 하기 때문.
+            flex.addItem(additionalInfoView).height(60).direction(.row).padding(8).define { flex in
+                flex.addItem(statusLabel).height(100%).aspectRatio(1).marginRight(4)
+                flex.addItem(additionalInfoScrollView).grow(1)
+            }
+            flex.addItem(contentsTableView).grow(1).margin(UIEdgeInsets(top: 0, left: 8, bottom: 8, right: 8))
         }
         
         containerView.layoutIfNeeded()
         containerView.flex.layout()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     func setEntity() {
-        guard let id = issueId, let model = IssueDetailViewModel(issueId: id) else {
-            return
-        }
-        
+        guard let id = issueId, let model = IssueDetailViewModel(issueId: id) else { return }
         self.model = model
         
         do {
@@ -111,18 +113,19 @@ class IssueDetailViewController: CommonProxyViewController {
                     }
                     
                     DispatchQueue.main.async {
-                        for emoji in emojis {
-                            let label = UILabel(frame: CGRect(
-                                origin: .zero,
-                                size: CGSize(width: scrollView.frame.height, height: scrollView.frame.height))
-                            )
-                            
+                        for (index, emoji) in emojis.enumerated() {
+                            let label = CommonLabel()
                             label.text = emoji
                             
-                            scrollView.flex.direction(.row).addItem(label)
-                            scrollView.flex.layout()
-                            scrollView.reloadContentSizeWidth()
+                            scrollView.flex.direction(.row)
+                                .addItem(label)
+                                .width(scrollView.frame.height)
+                                .height(scrollView.frame.height)
+                                .marginLeft(index == 0 ? 8 : 4)
+                                .marginRight(index == emojis.index(before: emojis.endIndex) ? 8 : 4)
                         }
+                        scrollView.flex.layout()
+                        scrollView.reloadContentSizeWidth()
                     }
                 })
                 .disposed(by: model.bag)
@@ -144,7 +147,7 @@ extension IssueDetailViewController: UITableViewDelegate {
 
 extension IssueDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        80
+        12
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

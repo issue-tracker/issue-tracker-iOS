@@ -294,11 +294,12 @@ extension Array where Element == EmojiResponse {
         }
         
         return emojis.compactMap { emoji in
-            guard let hexValue = Int(emoji.replacingOccurrences(of: "U+", with: ""), radix: 16), let unicodeScalar = UnicodeScalar(hexValue) else {
+            guard let hexValue = Int(emoji.replacingOccurrences(of: "U+", with: ""), radix: 16), let unicodeScalar = UnicodeScalar(hexValue), unicodeScalar.value >= 100000 else {
                 return nil
             }
             
-            return String(unicodeScalar)
+            let result = String(unicodeScalar)
+            return result.isEmpty ? nil : result
         }
     }
 }

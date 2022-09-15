@@ -25,7 +25,7 @@ final class MainViewRequestModel<ResultType: Decodable>: RequestHTTPModel, ViewB
         if let pageNumber = pageNumber {
             pathArray.append("\(pageNumber)")
         }
-        
+        disposeBag = DisposeBag()
         requestObservable(pathArray: pathArray)
             .subscribe(
                 onNext: { [weak self] data in
@@ -44,6 +44,7 @@ final class MainViewRequestModel<ResultType: Decodable>: RequestHTTPModel, ViewB
     }
     
     func reloadIssueList(reloadHandler: (([Entity]?)->Void)? = nil) {
+        disposeBag = DisposeBag()
         request(pathArray: []) { [weak self] result, response in
             guard let self = self else { return }
             

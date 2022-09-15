@@ -21,6 +21,7 @@ final class MainViewSingleRequestModel<ResultType: Decodable>: RequestHTTPModel,
     var binding: ViewBinding?
     
     func requestIssueList(requestHandler: ((Entity?) -> Void)? = nil) {
+        disposeBag = DisposeBag()
         requestObservable()
             .subscribe(
                 onNext: { [weak self] data in
@@ -39,6 +40,7 @@ final class MainViewSingleRequestModel<ResultType: Decodable>: RequestHTTPModel,
     }
     
     func reloadIssueList(reloadHandler: ((Entity?)->Void)? = nil) {
+        disposeBag = DisposeBag()
         request(pathArray: []) { [weak self] result, response in
             guard let self = self else { return }
             

@@ -35,12 +35,11 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] entity, bindable in
         DispatchQueue.main.async {
             if let entity = entity as? IssueListEntity, bindable is IssueListViewController {
-                
+                self?.tabBarController?.tabBar.isHidden = true
                 self?.navigationController?.pushViewController(IssueDetailViewController(entity.id, status: .open), animated: true)
             }
             
             if let button = self?.listSegmentedControl, button.selectedSegmentIndex == 0 {
-                
                 self?.navigationItem.title = self?.issueListViewController.modelStatusCount ?? "0/0"
             }
         }

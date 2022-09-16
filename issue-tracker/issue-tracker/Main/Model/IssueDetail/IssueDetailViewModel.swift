@@ -13,6 +13,7 @@ enum IssueDetailError: Error {
     case memberIdError
     case tokenUnavailableError
     case responseWithError
+    case urlError
 }
 
 enum IssueDetailCellType {
@@ -37,6 +38,17 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         }
     }
     
+    private var _commonParameter: PrivateParameter?
+    private var commonParameter: PrivateParameter? {
+        get {
+            if let param = _commonParameter {
+                builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+                return param
+            }
+            return nil
+        }
+    }
+    
     private var responseModel: HTTPResponseModel {
         return HTTPResponseModel()
     }
@@ -57,14 +69,14 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         super.init(baseURL)
     }
     
-    convenience init?(issueId: Int) {
-        if let url = URL.issueApiURL {
-            self.init(url)
-        } else {
+    convenience init?(issueId: Int) throws {
+        guard let url = URL.issueApiURL else {
             return nil
         }
         
+        self.init(url)
         self.issueId = issueId
+        self._commonParameter = try setParameter()
     }
     
     // MARK: - Utils
@@ -82,7 +94,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         }
     }
     
-    private func getParameter() throws -> PrivateParameter {
+    private func setParameter() throws -> PrivateParameter {
         guard let memberId = UserDefaults.standard.object(forKey: "memberId") as? Int else {
             throw IssueDetailError.memberIdError
         }
@@ -97,9 +109,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // MARK: - APIs
-    func getDetailEntity() throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func getDetailEntity() -> Observable<IssueListEntity?> {
+        guard let _ = commonParameter else { return Observable.just(nil) }
         return responseFlatten(requestObservable(pathArray: ["\(issueId)"]))
     }
     
@@ -113,9 +124,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // title, status, emojis
-    func setTitle(_ title: String) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setTitle(_ title: String) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         builder.setBody( ["id": param.issueId] )
         
@@ -125,16 +135,15 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func setStatus(_ status: Bool) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setStatus(_ status: Bool) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         builder.setBody(StatusEncodable(status: status, ids: [param.issueId]))
         
         return responseFlatten(requestObservable(pathArray: ["update-status"]))
     }
     
-    func getEmojis() throws -> Observable<[EmojiResponse]?> {
+    func getEmojis() -> Observable<[EmojiResponse]?> {
         responseFlatten(requestObservable(pathArray: [
             "comments",
             "reactions",
@@ -143,9 +152,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // label
-    func setLabel(_ labelId: Int) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setLabel(_ labelId: Int) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return responseFlatten(requestObservable(pathArray: [
@@ -155,9 +163,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func deleteLabel(_ labelId: Int) throws -> Observable<String?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func deleteLabel(_ labelId: Int) -> Observable<String?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return requestObservable(pathArray: [
@@ -167,9 +174,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // comment
-    func setComment(_ content: String) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setComment(_ content: String) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         builder.setBody(["content": content])
         
@@ -179,9 +185,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func deleteComment(_ commentId: Int) throws -> Observable<String?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func deleteComment(_ commentId: Int) -> Observable<String?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return requestObservable(pathArray: [
@@ -191,9 +196,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
     }
     
-    func updateComment(_ commentId: Int, content: String) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func updateComment(_ commentId: Int, content: String) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         builder.setBody(["content": content])
         
@@ -204,9 +208,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func setReactionTo(commentId: Int, emojiName: String) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setReactionTo(commentId: Int, emojiName: String) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return responseFlatten(requestObservable(pathArray: [
@@ -218,9 +221,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func deleteReactionTo(commentId: Int, reactionId: Int) throws -> Observable<String?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func deleteReactionTo(commentId: Int, reactionId: Int) -> Observable<String?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return requestObservable(pathArray: [
@@ -233,9 +235,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // assignee
-    func setAssignee(_ assigneeId: Int) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setAssignee(_ assigneeId: Int) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId":"\(param.memberId)"])
         
         return responseFlatten(requestObservable(pathArray: [
@@ -244,9 +245,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func deleteAssignee(_ assigneeId: Int) throws -> Observable<String?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func deleteAssignee(_ assigneeId: Int) -> Observable<String?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery([
             "memberId": "\(param.memberId)",
             "assigneeId": "\(assigneeId)",
@@ -260,9 +260,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     // milestone
-    func setMilestone(_ milestoneId: Int) throws -> Observable<IssueListEntity?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func setMilestone(_ milestoneId: Int) -> Observable<IssueListEntity?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return responseFlatten(requestObservable(pathArray: [
@@ -272,9 +271,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         ]))
     }
     
-    func deleteMilestone(_ milestoneId: Int) throws -> Observable<String?> {
-        let param = try getParameter()
-        builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
+    func deleteMilestone(_ milestoneId: Int) -> Observable<String?> {
+        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery(["memberId": "\(param.memberId)"])
         
         return requestObservable(pathArray: [
@@ -282,6 +280,12 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
             "milestone",
             "\(milestoneId)"
         ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+    }
+    
+    func requestInfoViaURL(urlString: String, body: Any? = nil) -> Observable<Data?> {
+        guard let url = URL(string: urlString), let _ = commonParameter else { return Observable.just(nil) }
+        return requestObservable(URLRequest(url: url))
+            .map { Optional($0) }
     }
 }
 

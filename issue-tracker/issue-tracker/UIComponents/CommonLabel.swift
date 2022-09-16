@@ -16,20 +16,21 @@ enum CommonLabelFontStyle {
 class CommonLabel: UILabel {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        makeUI()
+        makeUI(1)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        makeUI()
+        makeUI(1)
     }
     
-    convenience init(frame: CGRect = .zero, fontMultiplier: CGFloat) {
+    convenience init(text: String? = nil, frame: CGRect = .zero, fontMultiplier: CGFloat = 1) {
         self.init(frame: frame)
+        self.text = text
         makeUI(fontMultiplier)
     }
     
-    private func makeUI(_ fontMultiplier: CGFloat = 1) {
+    private func makeUI(_ fontMultiplier: CGFloat) {
         textColor = .label
         textAlignment = .center
         font = font.withSize(font.pointSize * fontMultiplier)

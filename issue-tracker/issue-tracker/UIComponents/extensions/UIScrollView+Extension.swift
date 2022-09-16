@@ -17,12 +17,12 @@ extension UIView {
 }
 
 extension UIScrollView {
-    func reloadContentSizeHeight() {
-        self.contentSize.height = (self.mostUnderNeathView?.frame.maxY ?? 0) + 20
+    func reloadContentSizeHeight(bottomPadding: CGFloat = 20) {
+        self.contentSize.height = (self.mostUnderNeathView?.frame.maxY ?? 0) + bottomPadding
         self.setNeedsLayout()
     }
-    func reloadContentSizeWidth() {
-        self.contentSize.width = (self.mostFarthestView?.frame.maxX ?? 0) + 20
+    func reloadContentSizeWidth(rightPadding: CGFloat = 20) {
+        self.contentSize.width = (self.mostFarthestView?.frame.maxX ?? 0) + rightPadding
         self.setNeedsLayout()
     }
 }

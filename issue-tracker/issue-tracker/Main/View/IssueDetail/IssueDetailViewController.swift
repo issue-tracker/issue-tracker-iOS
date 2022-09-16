@@ -20,7 +20,7 @@ class IssueDetailViewController: CommonProxyViewController {
     private var entity: IssueListEntity?
     private var issueStatus: IssueStatus = .closed
     
-    private var model: IssueDetailViewModel?
+    private(set) var model: IssueDetailViewModel?
     
     convenience init(_ id: Int, status: IssueStatus) {
         self.init()
@@ -59,6 +59,10 @@ class IssueDetailViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let id = issueId {
+            model = try? IssueDetailViewModel(issueId: id)
+        }
+        
         setEntity()
         
         contentsTableView.register(IssueDetailTableViewCellSeparator.self, forCellReuseIdentifier: IssueDetailTableViewCellSeparator.reuseIdentifier)
@@ -81,7 +85,12 @@ class IssueDetailViewController: CommonProxyViewController {
                 flex.addItem(statusLabel).height(100%).aspectRatio(1).marginRight(4)
                 flex.addItem(additionalInfoScrollView).grow(1)
             }
-            flex.addItem(contentsTableView).grow(1).margin(UIEdgeInsets(top: 0, left: 8, bottom: 8, right: 8))
+        }
+        
+        view.addSubview(contentsTableView)
+        contentsTableView.snp.makeConstraints { make in
+            make.top.equalTo(additionalInfoView.snp.bottom)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         containerView.layoutIfNeeded()
@@ -94,44 +103,37 @@ class IssueDetailViewController: CommonProxyViewController {
     }
     
     func setEntity() {
-        guard let id = issueId, let model = IssueDetailViewModel(issueId: id) else { return }
-        self.model = model
+        guard let model = self.model else { return }
         
-        do {
-            try model.getDetailEntity()
-                .subscribe(onNext: { entity in
-                    self.entity = entity
-                    DispatchQueue.main.async {
-                        self.navigationItem.title = entity?.title
+        model.getDetailEntity()
+            .subscribe(onNext: { entity in
+                self.entity = entity
+                DispatchQueue.main.async {
+                    self.navigationItem.title = entity?.title
+                }
+            })
+            .disposed(by: model.bag)
+        model.getEmojis()
+            .subscribe(onNext: { [weak self] result in
+                guard let emojis = result?.getEncodedEmojis(), let scrollView = self?.additionalInfoScrollView else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    scrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
+                    for emoji in emojis {
+                        scrollView.flex.direction(.row)
+                            .addItem(CommonLabel(text: emoji))
+                            .aspectRatio(1)
+                            .height(scrollView.frame.height)
+                            .marginHorizontal(4)
                     }
-                })
-                .disposed(by: model.bag)
-            try model.getEmojis()
-                .subscribe(onNext: { [weak self] result in
-                    guard let emojis = result?.getEncodedEmojis(), let scrollView = self?.additionalInfoScrollView else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        for (index, emoji) in emojis.enumerated() {
-                            let label = CommonLabel()
-                            label.text = emoji
-                            
-                            scrollView.flex.direction(.row)
-                                .addItem(label)
-                                .width(scrollView.frame.height)
-                                .height(scrollView.frame.height)
-                                .marginLeft(index == 0 ? 8 : 4)
-                                .marginRight(index == emojis.index(before: emojis.endIndex) ? 8 : 4)
-                        }
-                        scrollView.flex.layout()
-                        scrollView.reloadContentSizeWidth()
-                    }
-                })
-                .disposed(by: model.bag)
-        } catch {
-            print(error)
-        }
+                    scrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
+                    scrollView.flex.layout()
+                    scrollView.reloadContentSizeWidth(rightPadding: 0)
+                }
+            })
+            .disposed(by: model.bag)
     }
 }
 

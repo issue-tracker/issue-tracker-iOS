@@ -23,12 +23,14 @@ class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommon, Vie
     
     private let authorLabel: CommonLabel = {
         let label = CommonLabel(text: "unknown")
+        label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: label.font.pointSize)
         return label
     }()
     
     private let descriptionLabel: CommonLabel = {
         let label = CommonLabel(text: "desc")
+        label.textAlignment = .left
         label.textColor = .lightGray
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 2
@@ -58,7 +60,7 @@ class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommon, Vie
     private func makeUI() {
         contentView.backgroundColor = .lightGray.withAlphaComponent(0.2)
         
-        contentView.flex.direction(.row).alignContent(.center).padding(8).define { flex in
+        contentView.flex.direction(.row).alignContent(.center).paddingHorizontal(4).define { flex in
             flex.addItem(personImageView).height(65%).aspectRatio(1).marginRight(4)
             flex.addItem(profileButton).height(65%).aspectRatio(1).marginRight(4)
             flex.addItem().direction(.row).height(65%).grow(1).define { flex in
@@ -70,14 +72,15 @@ class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommon, Vie
         reloadLayout()
     }
     
-    func reloadLayout() {
-        contentView.flex.layout()
+    private func reloadLayout() {
+        DispatchQueue.main.async {
+            self.contentView.flex.layout()
+        }
     }
     
     func setEntity(_ entity: IssueListComment) {
         profileButton.profileImageURL = entity.author.profileImage
         authorLabel.text = entity.author.nickname
         descriptionLabel.text = entity.content
-        contentView.setNeedsDisplay()
     }
 }

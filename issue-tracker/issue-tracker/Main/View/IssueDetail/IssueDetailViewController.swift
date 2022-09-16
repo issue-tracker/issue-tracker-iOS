@@ -19,6 +19,15 @@ class IssueDetailViewController: CommonProxyViewController {
     private var issueId: Int?
     private var entity: IssueListEntity?
     private var issueStatus: IssueStatus = .closed
+    private var countOnDeparture = 0 {
+        didSet {
+            if countOnDeparture == 2 {
+                DispatchQueue.main.async {
+                    self.contentsTableView.reloadData()
+                }
+            }
+        }
+    }
     
     private(set) var model: IssueDetailViewModel?
     
@@ -74,6 +83,8 @@ class IssueDetailViewController: CommonProxyViewController {
         statusLabel.backgroundColor = (isOpened ? UIColor.green : UIColor.purple).withAlphaComponent(0.8)
         statusLabel.text = (isOpened ? "open" : "closed")
         
+        additionalInfoScrollView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+        
         containerView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -110,29 +121,17 @@ class IssueDetailViewController: CommonProxyViewController {
                 DispatchQueue.main.async {
                     self.navigationItem.title = entity?.title
                 }
+            }, onCompleted: {
+                self.countOnDeparture += 1
             })
             .disposed(by: model.bag)
+        
         model.getEmojis()
             .subscribe(onNext: { [weak self] result in
-                guard let emojis = result?.getEncodedEmojis(), let scrollView = self?.additionalInfoScrollView else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    scrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
-                    for emoji in emojis {
-                        scrollView.flex.direction(.row)
-                            .addItem(CommonLabel(text: emoji))
-                            .aspectRatio(1)
-                            .height(scrollView.frame.height)
-                            .marginHorizontal(4)
-                    }
-                    scrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
-                    scrollView.flex.layout()
-                    scrollView.reloadContentSizeWidth(rightPadding: 0)
-                }
-                
+                guard let emojis = result?.getEncodedEmojis() else { return }
                 self?.model?.emojis = emojis
+            }, onCompleted: {
+                self.countOnDeparture += 1
             })
             .disposed(by: model.bag)
     }

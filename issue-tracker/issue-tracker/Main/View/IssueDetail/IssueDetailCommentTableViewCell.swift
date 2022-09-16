@@ -17,6 +17,7 @@ class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommon, ViewB
     
     private let authorLabel: CommonLabel = {
         let label = CommonLabel(text: "unknown")
+        label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: label.font.pointSize)
         return label
     }()
@@ -24,6 +25,7 @@ class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommon, ViewB
     private let descriptionLabel: CommonLabel = {
         let label = CommonLabel(text: "desc")
         label.textColor = .lightGray
+        label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 2
         return label
@@ -34,10 +36,12 @@ class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommon, ViewB
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = true
-        scrollView.backgroundColor = .lightGray
+        scrollView.backgroundColor = .lightGray.withAlphaComponent(0.2)
         scrollView.setCornerRadius(8)
         return scrollView
     }()
+    let memberLabel = CommonLabel(text: "MEMBER")
+    let ellipsisImageView = UIImageView(image: UIImage(systemName: "ellipsis.rectangle"))
     
     private let textView = UITextView()
     
@@ -46,7 +50,8 @@ class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommon, ViewB
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = true
-        scrollView.backgroundColor = .lightGray
+        scrollView.backgroundColor = .lightGray.withAlphaComponent(0.2)
+        scrollView.setCornerRadius()
         return scrollView
     }()
     
@@ -72,73 +77,57 @@ class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommon, ViewB
     }
     
     private func makeUI() {
-        contentView.flex.direction(.row).padding(4).define { flex in
+        contentView.backgroundColor = nil
+        ellipsisImageView.tintColor = .lightGray
+        
+        contentView.flex.direction(.row).padding(UIEdgeInsets(top: 4, left: 8, bottom: 8, right: 8)).define { flex in
             flex.addItem(profileButton).width(20).aspectRatio(1).marginRight(4)
             flex.addItem().grow(1).height(100%).define { flex in
-                flex.addItem().width(100%).height(20%).direction(.row).define { flex in
+                flex.addItem().direction(.row).width(100%).height(20%).marginBottom(4).define { flex in
                     flex.addItem(authorLabel).width(25%).marginRight(2)
-                    flex.addItem(descriptionLabel).width(20%).marginRight(2)
-                    flex.addItem(infoScrollView).grow(1).marginRight(0)
+                    flex.addItem(descriptionLabel).grow(1).marginRight(2)
+                    flex.addItem(infoScrollView).direction(.row).alignContent(.center).width(30%).marginRight(0).define { flex in
+                        flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
+                        flex.addItem(memberLabel).aspectRatio(1).height(100%).marginHorizontal(4)
+                        flex.addItem(ellipsisImageView).aspectRatio(1).height(100%).marginHorizontal(4)
+                        flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
+                        infoScrollView.reloadContentSizeWidth()
+                    }
                 }
+                
                 flex.addItem(textView).width(100%).grow(1)
-                flex.addItem(emojisScrollView).width(100%).height(20%)
+                flex.addItem(emojisScrollView).width(100%).height(22%).marginTop(4)
             }
         }
         
         reloadLayout()
     }
     
-    func reloadLayout() {
-        contentView.flex.layout()
+    private func reloadLayout() {
+        DispatchQueue.main.async {
+            self.contentView.flex.layout()
+        }
     }
     
     func setEntity(_ entity: IssueListComment) {
         profileButton.profileImageURL = entity.author.profileImage
-        DispatchQueue.main.async { [weak self] in
-            guard let scrollView = self?.infoScrollView, let emojis = self?.emojis else { return }
-            
-            let flex = scrollView.flex
-            
-            flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
-            
-            let memberLabel = CommonLabel(text: "member")
-            memberLabel.setCornerRadius()
-            flex.direction(.row)
-                .addItem(memberLabel)
-                .aspectRatio(1)
-                .height(scrollView.frame.height)
-                .marginHorizontal(4)
-            
-            let authorLabel = CommonLabel(text: "author")
-            authorLabel.setCornerRadius()
-            flex.direction(.row)
-                .addItem(authorLabel)
-                .aspectRatio(1)
-                .height(scrollView.frame.height)
-                .marginHorizontal(4)
-            
-            for emoji in emojis {
-                flex.direction(.row)
-                    .addItem(CommonLabel(text: emoji))
-                    .aspectRatio(1)
-                    .height(scrollView.frame.height)
-                    .marginHorizontal(4)
-            }
-            
-            flex.direction(.row)
-                .addItem(UIImageView(image: UIImage(systemName: "ellipsis.rectangle")))
-                .aspectRatio(1)
-                .height(scrollView.frame.height)
-                .marginHorizontal(4)
-            
-            scrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
-            scrollView.reloadContentSizeWidth(rightPadding: 0)
+        guard let emojis = self.viewModel?.emojis else {
+            return
         }
         
-        reloadLayout()
-    }
-    
-    private func setEmojis() {
+        authorLabel.text = entity.author.nickname
+        descriptionLabel.text = entity.createdAt
         
+        emojisScrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
+        for emoji in emojis {
+            emojisScrollView.flex.alignContent(.center).direction(.row)
+                .addItem(CommonLabel(text: emoji))
+                .height(emojisScrollView.frame.height)
+                .marginHorizontal(4)
+        }
+        emojisScrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
+        emojisScrollView.reloadContentSizeWidth(rightPadding: 0)
+        
+        self.reloadLayout()
     }
 }

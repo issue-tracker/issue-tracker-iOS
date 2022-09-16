@@ -32,7 +32,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     var bag = DisposeBag() {
         didSet {
             bagCount += 1
-            if bagCount >= 4 {
+            if bagCount >= 2 {
                 bag = DisposeBag()
             }
         }

@@ -8,6 +8,5 @@
 import Foundation
 
 protocol IssueDetailCommon {
-//    func getHeight() -> Float
     func setEntity(_ entity: IssueListComment)
 }

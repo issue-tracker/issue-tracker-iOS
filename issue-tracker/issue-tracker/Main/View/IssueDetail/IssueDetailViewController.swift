@@ -69,7 +69,6 @@ class IssueDetailViewController: CommonProxyViewController {
         contentsTableView.register(IssueDetailCommentTableViewCell.self, forCellReuseIdentifier: IssueDetailCommentTableViewCell.reuseIdentifier)
         
         view.addSubview(containerView)
-        containerView.backgroundColor = .yellow
         
         let isOpened = issueStatus == .open
         statusLabel.backgroundColor = (isOpened ? UIColor.green : UIColor.purple).withAlphaComponent(0.8)
@@ -132,6 +131,8 @@ class IssueDetailViewController: CommonProxyViewController {
                     scrollView.flex.layout()
                     scrollView.reloadContentSizeWidth(rightPadding: 0)
                 }
+                
+                self?.model?.emojis = emojis
             })
             .disposed(by: model.bag)
     }
@@ -139,11 +140,7 @@ class IssueDetailViewController: CommonProxyViewController {
 
 extension IssueDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let cell = tableView.cellForRow(at: indexPath) as? IssueDetailCellCommonHeight else {
-            return 120
-        }
-        
-        return CGFloat(cell.getHeight())
+        CGFloat(model?.getCellHeight(indexPath) ?? 120)
     }
 }
 
@@ -153,7 +150,11 @@ extension IssueDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let entity = model?.getCellEntity(indexPath), let cellType = model?.getCellType(indexPath) else {
+//        guard let entity = model?.getCellEntity(indexPath), let cellType = model?.getCellType(indexPath) else {
+//            return UITableViewCell()
+//        }
+        
+        guard let cellType = model?.getCellType(indexPath) else {
             return UITableViewCell()
         }
         
@@ -166,11 +167,10 @@ extension IssueDetailViewController: UITableViewDataSource {
             concreteCellType = IssueDetailCommentTableViewCell.self
         }
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: concreteCellType.reuseIdentifier, for: indexPath) as? IssueDetailCellCommonHeight else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: concreteCellType.reuseIdentifier, for: indexPath)
         
-        cell.setEntity(entity)
-        return cell as! UITableViewCell
+//        cell.setEntity(entity)
+        (cell as? IssueDetailCommon)?.setEntity(IssueListComment(id: indexPath.row, author: IssueListAuthor(id: indexPath.row, email: "authorEmail", nickname: "authornickname", profileImage: UserDefaults.standard.string(forKey: "profileImage") ?? ""), content: "commentContent", createdAt: "long long days ago", issueCommentReactionsResponse: []))
+        return cell as UITableViewCell
     }
 }

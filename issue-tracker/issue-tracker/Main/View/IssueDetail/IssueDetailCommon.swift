@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol IssueDetailCellCommonHeight {
-    func getHeight() -> Float
+protocol IssueDetailCommon {
+//    func getHeight() -> Float
     func setEntity(_ entity: IssueListComment)
 }

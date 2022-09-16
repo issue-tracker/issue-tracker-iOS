@@ -37,6 +37,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
             }
         }
     }
+    var emojis: [String] = []
     
     private var _commonParameter: PrivateParameter?
     private var commonParameter: PrivateParameter? {
@@ -121,6 +122,10 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     
     func getCellType(_ indexPath: IndexPath) -> IssueDetailCellType {
         indexPath.row.isMultiple(of: 2) ? .separator : .info
+    }
+    
+    func getCellHeight(_ indexPath: IndexPath) -> Float {
+        indexPath.row.isMultiple(of: 2) ? 30 : 120
     }
     
     // title, status, emojis

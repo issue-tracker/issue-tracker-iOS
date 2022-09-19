@@ -137,61 +137,45 @@ class LoginViewController: CommonProxyViewController {
         view.layoutIfNeeded()
         
         infoFlexContainer.flex.layout()
-        
         loginButton.setCornerRadius()
         
-        view.popLoadingView(type: .veryLarge)
         testAlreadyLogin()
-            .subscribe(onNext: { data in
-                if
-                    let id = data as? Int,
-                    let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int,
-                    id == memberId
-                {
-                    self.switchScreen(type: .main)
-                }
-                
-                if let message = data as? String {
-                    self.commonAlert(message)
-                }
-            })
-            .disposed(by: bag)
     }
     
-    private func testAlreadyLogin() -> Observable<Any> {
+    private func testAlreadyLogin() {
         guard
             let requestModel = requestModel,
             let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int,
             let token = UserDefaults.standard.value(forKey: "accessToken") as? String
         else {
             DispatchQueue.main.async { self.view.dismissLoadingView() }
-            return Observable.just(false)
+            return
         }
         
+        view.popLoadingView(type: .veryLarge)
         requestModel.builder.setURLQuery(["memberId": "\(memberId)"])
         requestModel.builder.setHeader(key: "Authorization", value: "Bearer " + token)
-        return requestModel
-            .requestObservable(pathArray: ["auth", "test"])
-            .map({ [weak self] data -> Any in
-                
-                DispatchQueue.main.async {
-                    self?.view.dismissLoadingView()
-                }
-                
-                let model = HTTPResponseModel()
-                
-                if let message = model.getDecoded(from: data, as: String.self) {
-                    return message
-                } else if let message = model.getMessageResponse(from: data) {
-                    return message
-                }
-                
-                if let id = model.getDecoded(from: data, as: Int.self) {
-                    return id
-                }
-                
-                return false
+        requestModel.requestObservable(pathArray: ["auth", "test"])
+            .observe(on: MainScheduler.instance)
+            .do(onCompleted: { [weak self] in
+                self?.view.dismissLoadingView()
             })
+            .subscribe(
+                onNext: { [weak self] data in
+                    guard self?.showErrorIfExists(data: data) == false else { return }
+                    
+                    if let id = HTTPResponseModel().getDecoded(from: data, as: Int.self), id == memberId {
+                        self?.switchScreen(type: .main)
+                        return
+                    }
+                    
+                    self?.commonAlert("자동 로그인 도중 에러가 발생하였습니다.")
+                },
+                onError: { [weak self] error in
+                    self?.commonAlert(error.localizedDescription)
+                }
+            )
+            .disposed(by: bag)
     }
 }
 

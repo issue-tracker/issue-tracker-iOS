@@ -52,9 +52,11 @@ extension UIView {
     }
     
     func dismissLoadingView() {
-        subviews.forEach {
-            if $0 is OpaqueBackgroundView {
-                $0.removeFromSuperview()
+        DispatchQueue.main.async { [weak self] in
+            self?.subviews.forEach {
+                if $0 is OpaqueBackgroundView {
+                    $0.removeFromSuperview()
+                }
             }
         }
     }

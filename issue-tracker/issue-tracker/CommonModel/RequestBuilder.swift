@@ -88,6 +88,10 @@ struct RequestBuilder {
         httpMethod = nil
         
         setHeader(key: "content-type", value: "application/json")
+        if let token = UserDefaults.standard.object(forKey: "accessToken") as? String {
+            setHeader(key: "Authorization", value: "Bearer \(token)")
+        }
+        
         for field in customHeaderField {
             request.setValue(field.value, forHTTPHeaderField: field.key)
         }

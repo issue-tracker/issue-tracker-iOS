@@ -24,12 +24,7 @@ class IssueAddRemoveModel: RequestHTTPModel {
     }
     
     func addIssue(_ param: IssueAddParameter) -> Observable<IssueListEntity?> {
-        guard let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
-            return Observable.just(nil)
-        }
-        
         builder.setBody(param)
-        builder.setHeader(key: "Authorization", value: "Bearer \(token)")
         builder.setHTTPMethod("post")
         
         return requestObservable()
@@ -37,11 +32,6 @@ class IssueAddRemoveModel: RequestHTTPModel {
     }
     
     func removeIssue(_ issueId: Int) -> Observable<String?> {
-        guard let token = UserDefaults.standard.object(forKey: "accessToken") as? String else {
-            return Observable.just(nil)
-        }
-        
-        builder.setHeader(key: "Authorization", value: "Bearer \(token)")
         builder.setHTTPMethod("delete")
         
         return requestObservable(pathArray: ["\(issueId)"])

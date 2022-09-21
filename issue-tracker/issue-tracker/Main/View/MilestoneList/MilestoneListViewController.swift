@@ -6,11 +6,15 @@
 //
 
 import SnapKit
+import RxSwift
+import RxCocoa
 import UIKit
 
 class MilestoneListViewController: UIViewController, ViewBinding {
     
+    private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
     private var tableView = UITableView()
+    private var disposeBag = DisposeBag()
     
     private var model: MainViewSingleRequestModel<AllMilestoneEntity>? = {
         guard let url = URL.milestoneApiURL else {
@@ -56,35 +60,49 @@ class MilestoneListViewController: UIViewController, ViewBinding {
         super.viewDidLoad()
         
         model?.binding = self
-//        model?.requestIssueList()
         
         tableView.separatorStyle = .none
         view.addSubview(tableView)
+        
+        tableView.refreshControl = self.refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadTableView(_:)), for: .valueChanged)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
+        tableView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
         tableView.register(MilestoneListTableViewCell.self, forCellReuseIdentifier: MilestoneListTableViewCell.reuseIdentifier)
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
-}
+        
+        model?.requestIssueList() { [weak self] entity in
+            guard let self = self, let entity = entity else {
+                return
+            }
 
-extension MilestoneListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        allMilestone.count
+            let cellType = MilestoneListTableViewCell.self
+            let identifier = cellType.reuseIdentifier
+            
+            DispatchQueue.main.async {
+                Observable<[MilestoneListEntity]>
+                    .just(entity.openedMilestones + entity.closedMilestones)
+                    .bind(to: self.tableView.rx.items(cellIdentifier: identifier, cellType: cellType)) { index, entity, cell in
+                        cell.setEntity(entity)
+                        cell.setLayout()
+                    }
+                    .disposed(by: self.disposeBag)
+            }
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MilestoneListTableViewCell.reuseIdentifier, for: indexPath) as? MilestoneListTableViewCell else {
-            
-            return UITableViewCell()
+    @objc func reloadTableView(_ sender: Any) {
+        model?.requestIssueList() { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.tableView.refreshControl?.endRefreshing()
+            }
         }
-        
-        cell.setEntity(allMilestone[indexPath.row])
-        cell.setLayout()
-        return cell
     }
 }
 

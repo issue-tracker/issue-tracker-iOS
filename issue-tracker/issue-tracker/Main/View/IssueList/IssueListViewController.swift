@@ -6,10 +6,13 @@
 //
 
 import SnapKit
+import RxSwift
 
 class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     
+    private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
     private var tableView = UITableView()
+    private var disposeBag = DisposeBag()
     
     private var model: MainViewSingleRequestModel<AllIssueEntity>? = {
         guard let url = URL.issueApiURL else {
@@ -54,34 +57,47 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
         
         model?.binding = self
         model?.builder.setURLQuery(["page":"0"])
-        model?.requestIssueList()
         
         tableView.separatorStyle = .none
         view.addSubview(tableView)
+        
+        tableView.refreshControl = self.refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadTableView(_:)), for: .valueChanged)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
         tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
-        tableView.dataSource = self
-        tableView.delegate = self
-    }
-}
-
-extension IssueListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        allIssues.count
+        tableView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        model?.requestIssueList({ [weak self] allEntity in
+            guard let self = self, let allEntity = allEntity else { return }
+            
+            let cellType = IssueListTableViewCell.self
+            let identifier = cellType.reuseIdentifier
+            
+            DispatchQueue.main.async {
+                Observable<[IssueListEntity]>
+                    .just(allEntity.openIssues + allEntity.closedIssues)
+                    .bind(to: self.tableView.rx.items(cellIdentifier: identifier, cellType: cellType)) { index, entity, cell in
+                        cell.setEntity(entity)
+                        cell.setLayout()
+                    }
+                    .disposed(by: self.disposeBag)
+            }
+        })
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: IssueListTableViewCell.reuseIdentifier, for: indexPath) as? IssueListTableViewCell else {
-            return UITableViewCell()
+    @objc func reloadTableView(_ sender: Any) {
+        model?.requestIssueList() { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.tableView.refreshControl?.endRefreshing()
+            }
         }
-        
-        cell.setEntity(allIssues[indexPath.row])
-        cell.setLayout()
-        return cell
     }
 }
 

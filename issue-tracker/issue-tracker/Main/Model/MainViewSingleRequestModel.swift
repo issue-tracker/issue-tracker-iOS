@@ -20,12 +20,12 @@ final class MainViewSingleRequestModel<ResultType: Decodable>: RequestHTTPModel,
     var errorHandler: ((Error?) -> Void)?
     var binding: ViewBinding?
     
-    func requestIssueList(requestHandler: ((Entity?) -> Void)? = nil) {
+    func requestIssueList(_ requestHandler: ((Entity?) -> Void)? = nil) {
         requestObservable()
             .subscribe(
                 onNext: { [weak self] data in
-                    print(String(data: data, encoding: .utf8))
                     guard let self = self, let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self) else {
+                        requestHandler?(nil)
                         return
                     }
                     

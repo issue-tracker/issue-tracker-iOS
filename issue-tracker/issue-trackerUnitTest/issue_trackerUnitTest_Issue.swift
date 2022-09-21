@@ -29,11 +29,11 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     func testIssueList() throws {
         issueModel = MainViewSingleRequestModel<AllIssueEntity>(URL(string: Bundle.main.path(forResource: "Issues", ofType: "json") ?? ""))
         issueModel?.builder.setURLQuery(["page" : "0"])
-        issueModel?.requestIssueList(requestHandler: { entity in
+        issueModel?.requestIssueList() { entity in
             if entity != nil {
                 self.expectation.fulfill()
             }
-        })
+        }
         
         wait(for: [expectation], timeout: (1.5))
     }

@@ -1,6 +1,6 @@
 # issue-tracker-iOS
 
-![이슈 트래커 로고](https://user-images.githubusercontent.com/29879110/188896648-bceb2ec8-8f58-4648-b360-1e1d614d2ca9.png)
+<img src="https://user-images.githubusercontent.com/29879110/188896648-bceb2ec8-8f58-4648-b360-1e1d614d2ca9.png" style="width: 50%; height=50%" alt="logo-issue-tracker"/>
 
 이슈트래커 iOS 버전 클라이언트 프로젝트 입니다.
 
@@ -22,14 +22,7 @@
 
 ## 💻 Tech Stack
 
-<img src="https://img.shields.io/badge/-Swift-red"/> 
-<img src="https://img.shields.io/badge/UI-SnapKit-yellowgreen"/>
-<img src="https://img.shields.io/badge/UI-FlexLayout-yellowgreen">
-<img src="https://img.shields.io/badge/Test-XCTest-brightgreen">
-<img src="https://img.shields.io/badge/Test-TestFlight-blue">
-<img src="https://img.shields.io/badge/Logic-RxSwift-critical">
-<img src="https://img.shields.io/badge/Logic-RxCocoa-critical">
-<img src="https://img.shields.io/badge/Logic-RxRelay-critical">
+<img src="https://img.shields.io/badge/-Swift-red"/> <img src="https://img.shields.io/badge/UI-SnapKit-yellowgreen"/><img src="https://img.shields.io/badge/UI-FlexLayout-yellowgreen"> <img src="https://img.shields.io/badge/Test-XCTest-brightgreen"> <img src="https://img.shields.io/badge/Test-TestFlight-blue"> <img src="https://img.shields.io/badge/Logic-RxSwift-critical"> <img src="https://img.shields.io/badge/Logic-RxCocoa-critical"> <img src="https://img.shields.io/badge/Logic-RxRelay-critical">
 
 ---
 
@@ -50,9 +43,21 @@ MVC 의 C 인 ViewController 가 View 의 일부 역할을 가지고 있기 때�
 
 ## ❗️ Achievements
 
+<p>
+    <image src="https://user-images.githubusercontent.com/65931336/191487494-0c2a5152-9454-46bb-8f73-bf3e01222d94.gif" alt="SignIn-Login-DetailView-UITest"/>
+    <em>UI-Test 로 회원가입 후 로그인하여 데이터 출력되는지 확인하는 중</em>
+</p>
+
 * XCTest 를 통한 버그 및 개발 간소화
+  - Model 개발은 Unit-Test 만으로 시작.
+  - View/ViewController 개발은 UI-Test 만으로 시작.
 * 타입 확장을 통한 개발 효율 증대
 * FlexLayout, SnapKit 조합을 통해 더욱 효과적으로 UI 작성. Code-Base 의 UI 작성.
+  - Grid 레이아웃의 경우 FlexLayout 사용.
+  - 아주 간단한 레이아웃의 경우 SnapKit 사용.
+  - 위의 결정사항들은 명확한 코드 작성과 쉬운 레이아웃 수정을 위한 것임.
+* RxSwift, RxCocoa 등을 이용한 코드 간소화.
+  - 좀 더 간소하고 명확한(클린한) 코드를 위해 든든한 코드 수정 진행 중.
 
 ---
 

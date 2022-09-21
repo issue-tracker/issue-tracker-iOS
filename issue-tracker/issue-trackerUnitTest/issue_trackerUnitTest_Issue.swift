@@ -29,7 +29,7 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     func testIssueList() throws {
         issueModel = MainViewSingleRequestModel<AllIssueEntity>(URL(string: Bundle.main.path(forResource: "Issues", ofType: "json") ?? ""))
         issueModel?.builder.setURLQuery(["page" : "0"])
-        issueModel?.requestIssueList() { entity in
+        issueModel?.requestEntities() { entity in
             if entity != nil {
                 self.expectation.fulfill()
             }
@@ -57,7 +57,7 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     
     func testMilestoneList() throws {
         milestoneModel = MainViewSingleRequestModel<AllMilestoneEntity>(URL(string: Bundle.main.path(forResource: "Milestones", ofType: "json") ?? ""))
-        milestoneModel?.requestIssueList { list in
+        milestoneModel?.requestEntities { list in
             self.expectation.fulfill()
         }
         

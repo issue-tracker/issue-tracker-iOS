@@ -8,6 +8,7 @@
 import SnapKit
 import UIKit
 import RxSwift
+import RxCocoa
 
 class LabelListViewController: UIViewController, ViewBinding {
     
@@ -64,22 +65,23 @@ class LabelListViewController: UIViewController, ViewBinding {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        model?.requestIssueList() { [weak self] _, entities in
-            guard let self = self, let entities = entities else { return }
-            
-            let cellType = LabelListTableViewCell.self
-            let identifier = cellType.reuseIdentifier
-            
-            DispatchQueue.main.async {
-                Observable<[LabelListEntity]>
-                    .just(entities)
-                    .bind(to: self.tableView.rx.items(cellIdentifier: identifier, cellType: cellType)) { index, entity, cell in
-                        cell.setEntity(entity)
-                        cell.setLayout()
-                    }
-                    .disposed(by: self.disposeBag)
+        self.navigationController?.title = "0"
+        
+        model?.requestObservable()
+            .asDriver(onErrorJustReturn: Data())
+            .compactMap({ data -> [LabelListEntity]? in
+                guard let result = HTTPResponseModel().getDecoded(from: data, as: [LabelListEntity].self) else {
+                    return nil
+                }
+                
+                self.navigationController?.title = "\(result.count)"
+                return result
+            })
+            .drive(tableView.rx.items(cellIdentifier: LabelListTableViewCell.reuseIdentifier, cellType: LabelListTableViewCell.self)) { index, entity, cell in
+                cell.setEntity(entity)
+                cell.setLayout()
             }
-        }
+            .disposed(by: disposeBag)
     }
     
     @objc func reloadTableView(_ sender: Any) {

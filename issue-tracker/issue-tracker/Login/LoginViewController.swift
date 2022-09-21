@@ -13,11 +13,14 @@ import RxSwift
 class LoginViewController: CommonProxyViewController {
     
     private var bag = DisposeBag()
-    private var requestModel: RequestHTTPModel?
+    private var requestModel = RequestHTTPModel(URL.apiURL ?? URL(string: ""))
     
     private let padding: CGFloat = 8
     
     private let infoFlexContainer = UIView()
+    
+    private lazy var idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
+    private lazy var passwordTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "패스워드", markerType: .lock)
     
     private var loginButton: UIButton = {
         let button = UIButton()
@@ -68,18 +71,15 @@ class LoginViewController: CommonProxyViewController {
         makeSuperViewResignKeyboard()
         view.addSubview(infoFlexContainer)
         
-        let idTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "아이디", markerType: .person)
-        let passwordTextField = CommonTextField(frame: CGRect.zero, input: .default, placeholder: "패스워드", markerType: .lock)
         passwordTextField.isSecureTextEntry = true
-        
-        if let url = URL.apiURL {
-            requestModel = RequestHTTPModel(url)
-        }
         
         loginButton.clipsToBounds = true
         loginButton.addAction(
-            UIAction(handler: { _ in
-                guard let body = ["id": idTextField.text, "password": passwordTextField.text] as? [String: String] else {
+            UIAction(handler: { [weak self] _ in
+                guard
+                    let self = self,
+                    let body = ["id": self.idTextField.text, "password": self.passwordTextField.text] as? [String: String]
+                else {
                     return
                 }
                 
@@ -88,7 +88,6 @@ class LoginViewController: CommonProxyViewController {
                 self.requestModel?.request(pathArray: ["members","signin"], { result, response in
                     
                     let model = HTTPResponseModel()
-                    
                     guard let loginResponseData = model.getDecoded(from: result, as: LoginResponse.self) else {
                         self.commonAlert(model.getMessageResponse(from: result) ?? "로그인에 실패하였습니다.")
                         return
@@ -145,36 +144,38 @@ class LoginViewController: CommonProxyViewController {
     private func testAlreadyLogin() {
         guard
             let requestModel = requestModel,
-            let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int,
-            let token = UserDefaults.standard.value(forKey: "accessToken") as? String
+            let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int
         else {
             DispatchQueue.main.async { self.view.dismissLoadingView() }
             return
         }
         
         view.popLoadingView(type: .veryLarge)
+        
         requestModel.builder.setURLQuery(["memberId": "\(memberId)"])
-        requestModel.builder.setHeader(key: "Authorization", value: "Bearer " + token)
         requestModel.requestObservable(pathArray: ["auth", "test"])
+            .asSingle()
             .observe(on: MainScheduler.instance)
-            .do(onCompleted: { [weak self] in
-                self?.view.dismissLoadingView()
-            })
-            .subscribe(
-                onNext: { [weak self] data in
-                    guard self?.showErrorIfExists(data: data) == false else { return }
+            .subscribe({ [weak self] event in
+                guard let self = self else { return }
+                
+                self.view.dismissLoadingView()
+                
+                switch event {
+                case .success(let data):
+                    guard self.showErrorIfExists(data: data) == false else { return }
                     
                     if let id = HTTPResponseModel().getDecoded(from: data, as: Int.self), id == memberId {
-                        self?.switchScreen(type: .main)
+                        self.switchScreen(type: .main)
                         return
                     }
                     
-                    self?.commonAlert("자동 로그인 도중 에러가 발생하였습니다.")
-                },
-                onError: { [weak self] error in
-                    self?.commonAlert(error.localizedDescription)
+                    self.commonAlert("자동 로그인 도중 에러가 발생하였습니다.")
+                        
+                case .failure(let error):
+                    self.commonAlert(error.localizedDescription)
                 }
-            )
+            })
             .disposed(by: bag)
     }
 }

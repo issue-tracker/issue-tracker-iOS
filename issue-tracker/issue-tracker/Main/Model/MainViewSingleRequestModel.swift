@@ -20,7 +20,7 @@ final class MainViewSingleRequestModel<ResultType: Decodable>: RequestHTTPModel,
     var errorHandler: ((Error?) -> Void)?
     var binding: ViewBinding?
     
-    func requestIssueList(_ requestHandler: ((Entity?) -> Void)? = nil) {
+    func requestEntities(_ requestHandler: ((Entity?) -> Void)? = nil) {
         requestObservable()
             .subscribe(
                 onNext: { [weak self] data in

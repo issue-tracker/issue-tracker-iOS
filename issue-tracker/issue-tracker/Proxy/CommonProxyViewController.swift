@@ -9,18 +9,31 @@ import UIKit
 
 class CommonProxyViewController: SettingProxyViewController {
     
+    private var resignKeyboardGesture: UIGestureRecognizer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         callSetting()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let resignKeyboardGesture = resignKeyboardGesture {
+            view.removeGestureRecognizer(resignKeyboardGesture)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
     }
     
-    func makeSuperViewResignKeyboard() {
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(resignKeyboard)))
+    @discardableResult
+    func makeSuperViewResignKeyboard() -> UIGestureRecognizer {
+        let result = UITapGestureRecognizer(target: self, action: #selector(resignKeyboard))
+        self.resignKeyboardGesture = result
+        view.addGestureRecognizer(result)
+        return result
     }
     
     @objc func resignKeyboard() {

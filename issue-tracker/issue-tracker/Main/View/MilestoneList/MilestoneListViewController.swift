@@ -76,28 +76,24 @@ class MilestoneListViewController: UIViewController, ViewBinding {
             .disposed(by: disposeBag)
         tableView.register(MilestoneListTableViewCell.self, forCellReuseIdentifier: MilestoneListTableViewCell.reuseIdentifier)
         
-        model?.requestIssueList() { [weak self] entity in
-            guard let self = self, let entity = entity else {
-                return
+        model?.requestObservable()
+            .asDriver(onErrorJustReturn: Data())
+            .compactMap({ data -> [MilestoneListEntity]? in
+                guard let result = HTTPResponseModel().getDecoded(from: data, as: AllMilestoneEntity.self) else {
+                    return nil
+                }
+                
+                return result.openedMilestones + result.closedMilestones
+            })
+            .drive(tableView.rx.items(cellIdentifier: MilestoneListTableViewCell.reuseIdentifier, cellType: MilestoneListTableViewCell.self)) { index, entity, cell in
+                cell.setEntity(entity)
+                cell.setLayout()
             }
-
-            let cellType = MilestoneListTableViewCell.self
-            let identifier = cellType.reuseIdentifier
-            
-            DispatchQueue.main.async {
-                Observable<[MilestoneListEntity]>
-                    .just(entity.openedMilestones + entity.closedMilestones)
-                    .bind(to: self.tableView.rx.items(cellIdentifier: identifier, cellType: cellType)) { index, entity, cell in
-                        cell.setEntity(entity)
-                        cell.setLayout()
-                    }
-                    .disposed(by: self.disposeBag)
-            }
-        }
+            .disposed(by: disposeBag)
     }
     
     @objc func reloadTableView(_ sender: Any) {
-        model?.requestIssueList() { [weak self] _ in
+        model?.requestEntities() { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.tableView.refreshControl?.endRefreshing()

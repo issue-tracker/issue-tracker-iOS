@@ -7,6 +7,7 @@
 
 import SnapKit
 import RxSwift
+import RxCocoa
 
 class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     
@@ -73,26 +74,24 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        model?.requestIssueList({ [weak self] allEntity in
-            guard let self = self, let allEntity = allEntity else { return }
-            
-            let cellType = IssueListTableViewCell.self
-            let identifier = cellType.reuseIdentifier
-            
-            DispatchQueue.main.async {
-                Observable<[IssueListEntity]>
-                    .just(allEntity.openIssues + allEntity.closedIssues)
-                    .bind(to: self.tableView.rx.items(cellIdentifier: identifier, cellType: cellType)) { index, entity, cell in
-                        cell.setEntity(entity)
-                        cell.setLayout()
-                    }
-                    .disposed(by: self.disposeBag)
+        model?.requestObservable()
+            .asDriver(onErrorJustReturn: Data())
+            .compactMap({ data -> AllIssueEntity? in
+                HTTPResponseModel().getDecoded(from: data, as: AllIssueEntity.self)
+            })
+            .map({ entities -> [IssueListEntity] in
+                self.navigationController?.title = "\(entities.openIssues.count)/\((entities.openIssues + entities.closedIssues).count)"
+                return entities.openIssues + entities.closedIssues
+            })
+            .drive(tableView.rx.items(cellIdentifier: IssueListTableViewCell.reuseIdentifier, cellType: IssueListTableViewCell.self)) { index, entity, cell in
+                cell.setEntity(entity)
+                cell.setLayout()
             }
-        })
+            .disposed(by: disposeBag)
     }
     
     @objc func reloadTableView(_ sender: Any) {
-        model?.requestIssueList() { [weak self] _ in
+        model?.requestEntities() { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.tableView.refreshControl?.endRefreshing()

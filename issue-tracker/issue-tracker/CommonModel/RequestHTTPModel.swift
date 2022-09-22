@@ -6,10 +6,12 @@
 //
 
 import RxSwift
+import RxCocoa
 
 enum HTTPError: Error {
     case noData
     case urlError
+    case createRequestFailed
 }
 
 class RequestHTTPModel {
@@ -86,43 +88,21 @@ class RequestHTTPModel {
     ///
     /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     private func requestObservable() -> Observable<Data> {
-        return Observable.create { observable in
-            
-            guard let request = self.builder.getRequest() else {
-                observable.onError(HTTPError.urlError)
-                return Disposables.create()
+        guard let request = self.builder.getRequest() else {
+            return Observable.create { observer in
+                let disposables = Disposables.create()
+                observer.onError(HTTPError.createRequestFailed)
+                return disposables
             }
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data else {
-                    observable.onError(error ?? HTTPError.noData)
-                    return
-                }
-                
-                observable.onNext(data)
-                observable.onCompleted()
-            }.resume()
-            
-            return Disposables.create()
         }
+        
+        return URLSession.shared.rx.data(request: request)
     }
     
     /// 직접 URLRequest 를 전달하고 Response에 따라 이벤트를 방출하는 Observable 을 생성하고 반환합니다.
     ///
     /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     private func requestObservable(_ request: URLRequest) -> Observable<Data> {
-        return Observable.create { observable in
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data else {
-                    observable.onError(error ?? HTTPError.noData)
-                    return
-                }
-                
-                observable.onNext(data)
-                observable.onCompleted()
-            }.resume()
-            
-            return Disposables.create()
-        }
+        return URLSession.shared.rx.data(request: request)
     }
 }

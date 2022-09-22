@@ -24,19 +24,13 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     }()
     var modelStatusCount: String {
         if let entity = model?.entity {
-            return "\(entity.openIssues.count)/\(entity.openIssues.count+entity.closedIssues.count)"
+            return "\(entity.openIssueCount)/\(entity.openIssueCount+entity.closedIssueCount)"
         }
         return "0/0"
     }
     
-    private var openIssues: [IssueListEntity] {
-        model?.entity?.openIssues ?? []
-    }
-    private var closedIssues: [IssueListEntity] {
-        model?.entity?.closedIssues ?? []
-    }
-    private var allIssues: [IssueListEntity] {
-        openIssues + closedIssues
+    private var issues: [IssueListEntity] {
+        model?.entity?.issues ?? []
     }
     
     var binding: ViewBinding?
@@ -80,8 +74,8 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
                 HTTPResponseModel().getDecoded(from: data, as: AllIssueEntity.self)
             })
             .map({ entities -> [IssueListEntity] in
-                self.navigationController?.title = "\(entities.openIssues.count)/\((entities.openIssues + entities.closedIssues).count)"
-                return entities.openIssues + entities.closedIssues
+                self.navigationController?.title = "\(entities.openIssueCount)/\(entities.openIssueCount + entities.closedIssueCount)"
+                return entities.issues
             })
             .drive(tableView.rx.items(cellIdentifier: IssueListTableViewCell.reuseIdentifier, cellType: IssueListTableViewCell.self)) { index, entity, cell in
                 cell.setEntity(entity)
@@ -106,6 +100,6 @@ extension IssueListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        binding?.bindableHandler?(allIssues[indexPath.row], self)
+        binding?.bindableHandler?(issues[indexPath.row], self)
     }
 }

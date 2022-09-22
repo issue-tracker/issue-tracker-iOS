@@ -17,6 +17,8 @@ struct MilestoneListEntity: Codable {
     let title: String
     let description: String?
     let dueDate: String?
+    let openIssueCount: Int
+    let closedIssueCount: Int
     let closed: Bool
     
     func getDateCreated() -> Date? {

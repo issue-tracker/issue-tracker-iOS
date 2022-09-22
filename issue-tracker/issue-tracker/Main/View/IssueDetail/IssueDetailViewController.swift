@@ -169,7 +169,7 @@ extension IssueDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: concreteCellType.reuseIdentifier, for: indexPath)
         
 //        cell.setEntity(entity)
-        (cell as? IssueDetailCommon)?.setEntity(IssueListComment(id: indexPath.row, author: IssueListAuthor(id: indexPath.row, email: "authorEmail", nickname: "authornickname", profileImage: UserDefaults.standard.string(forKey: "profileImage") ?? ""), content: "commentContent", createdAt: "long long days ago", issueCommentReactionsResponse: []))
+        (cell as? IssueDetailCommonType)?.setEntity(IssueListComment(id: indexPath.row, author: IssueListAuthor(id: indexPath.row, email: "authorEmail", nickname: "authornickname", profileImage: UserDefaults.standard.string(forKey: "profileImage") ?? ""), content: "commentContent", createdAt: "long long days ago", issueCommentReactionsResponse: []))
         return cell as UITableViewCell
     }
 }

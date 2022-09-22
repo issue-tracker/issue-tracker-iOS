@@ -7,7 +7,7 @@
 
 import FlexLayout
 
-class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommon, ViewBindable {
+class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommonType, ViewBindable {
     
     private let personImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "person.circle"))

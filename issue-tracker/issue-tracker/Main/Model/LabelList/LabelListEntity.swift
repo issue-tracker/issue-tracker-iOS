@@ -13,4 +13,6 @@ struct LabelListEntity: Codable {
     let backgroundColorCode: String
     let description: String
     let textColor: String
+    let createdAt: String?
+    let lastModifiedAt: String?
 }

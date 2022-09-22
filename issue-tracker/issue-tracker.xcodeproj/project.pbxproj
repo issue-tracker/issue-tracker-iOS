@@ -92,7 +92,7 @@
 		1BD125AC28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125AB28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift */; };
 		1BD125AE28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125AD28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift */; };
 		1BD125B228D1E1A90050F2D1 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B080888289809E6001704C2 /* UIScrollView+Extension.swift */; };
-		1BD125BC28D1E2E90050F2D1 /* IssueDetailCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125BB28D1E2E90050F2D1 /* IssueDetailCommon.swift */; };
+		1BD125BC28D1E2E90050F2D1 /* IssueDetailCommonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125BB28D1E2E90050F2D1 /* IssueDetailCommonType.swift */; };
 		1BD125C128D1E3C90050F2D1 /* HTTPResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */; };
 		1BD125C328D1E3FF0050F2D1 /* CommonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4F48A428A51D6E00C4B33A /* CommonLabel.swift */; };
 		1BD125C428D1E40C0050F2D1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
@@ -123,6 +123,12 @@
 		1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */; };
 		1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */; };
 		1BF1D0DA28BF685C00393294 /* MilestoneListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */; };
+		1BF36D7328DC27DF0033DF2A /* IssueHistories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7228DC27DF0033DF2A /* IssueHistories.swift */; };
+		1BF36D7528DC28620033DF2A /* MilestoneInIssueEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7428DC28620033DF2A /* MilestoneInIssueEntity.swift */; };
+		1BF36D7728DC2BE80033DF2A /* UserDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7628DC2BE80033DF2A /* UserDetailEntity.swift */; };
+		1BF36D7828DC45970033DF2A /* IssueHistories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7228DC27DF0033DF2A /* IssueHistories.swift */; };
+		1BF36D7928DC45D90033DF2A /* MilestoneInIssueEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7428DC28620033DF2A /* MilestoneInIssueEntity.swift */; };
+		1BF36D7A28DC45E50033DF2A /* UserDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7628DC2BE80033DF2A /* UserDetailEntity.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */; };
 		2B2E5FAD22BBF93D904719C5 /* Pods_issue_tracker_issue_trackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2969F389934C3BBF654291EF /* Pods_issue_tracker_issue_trackerUITests.framework */; };
@@ -219,7 +225,7 @@
 		1BD102C228B7656700A056BF /* CommonTextFieldAreaInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldAreaInputField.swift; sourceTree = "<group>"; };
 		1BD125AB28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailCommentTableViewCell.swift; sourceTree = "<group>"; };
 		1BD125AD28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailTableViewCellSeparator.swift; sourceTree = "<group>"; };
-		1BD125BB28D1E2E90050F2D1 /* IssueDetailCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailCommon.swift; sourceTree = "<group>"; };
+		1BD125BB28D1E2E90050F2D1 /* IssueDetailCommonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailCommonType.swift; sourceTree = "<group>"; };
 		1BD125C628D1E56C0050F2D1 /* IssueListComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListComment.swift; sourceTree = "<group>"; };
 		1BD125CA28D1E8D60050F2D1 /* IssueListAuthor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListAuthor.swift; sourceTree = "<group>"; };
 		1BD125CC28D1E8E70050F2D1 /* IssueCommentReactionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCommentReactionsResponse.swift; sourceTree = "<group>"; };
@@ -238,6 +244,9 @@
 		1BF1D0D328BCE0BE00393294 /* Labels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Labels.json; sourceTree = "<group>"; };
 		1BF1D0D528BCE0C200393294 /* Milestones.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Milestones.json; sourceTree = "<group>"; };
 		1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_Issue.swift; sourceTree = "<group>"; };
+		1BF36D7228DC27DF0033DF2A /* IssueHistories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueHistories.swift; sourceTree = "<group>"; };
+		1BF36D7428DC28620033DF2A /* MilestoneInIssueEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneInIssueEntity.swift; sourceTree = "<group>"; };
+		1BF36D7628DC2BE80033DF2A /* UserDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailEntity.swift; sourceTree = "<group>"; };
 		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldArea.swift; sourceTree = "<group>"; };
 		1DCED08835DB7D711A931569 /* Pods-issue-trackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-issue-trackerUITests.release.xcconfig"; path = "Target Support Files/Pods-issue-trackerUITests/Pods-issue-trackerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -420,7 +429,7 @@
 			isa = PBXGroup;
 			children = (
 				1B50B85F28C9EA8600073AC9 /* IssueDetailViewController.swift */,
-				1BD125BB28D1E2E90050F2D1 /* IssueDetailCommon.swift */,
+				1BD125BB28D1E2E90050F2D1 /* IssueDetailCommonType.swift */,
 				1BD125AB28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift */,
 				1BD125AD28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift */,
 			);
@@ -570,6 +579,9 @@
 				1BD125CC28D1E8E70050F2D1 /* IssueCommentReactionsResponse.swift */,
 				1BD125CA28D1E8D60050F2D1 /* IssueListAuthor.swift */,
 				1BD125C628D1E56C0050F2D1 /* IssueListComment.swift */,
+				1BF36D7228DC27DF0033DF2A /* IssueHistories.swift */,
+				1BF36D7428DC28620033DF2A /* MilestoneInIssueEntity.swift */,
+				1BF36D7628DC2BE80033DF2A /* UserDetailEntity.swift */,
 				1BF1D0D128BCD40F00393294 /* Issues.json */,
 			);
 			path = IssueList;
@@ -867,6 +879,7 @@
 			files = (
 				1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */,
 				1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */,
+				1BF36D7328DC27DF0033DF2A /* IssueHistories.swift in Sources */,
 				1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */,
 				1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */,
 				1BD125CB28D1E8D60050F2D1 /* IssueListAuthor.swift in Sources */,
@@ -882,6 +895,7 @@
 				1B4F48A528A51D6E00C4B33A /* CommonLabel.swift in Sources */,
 				1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */,
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
+				1BF36D7528DC28620033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
 				1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */,
 				1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */,
@@ -889,6 +903,7 @@
 				1B4F488A28A3DEDF00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1BE01DFE28A618D700929163 /* UIDevice+Extension.swift in Sources */,
 				1B5D699528990BB000AE9495 /* RequestTextField.swift in Sources */,
+				1BF36D7728DC2BE80033DF2A /* UserDetailEntity.swift in Sources */,
 				1B8E4AB428892EF200432728 /* IssueListTableViewCell.swift in Sources */,
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
 				1B8E4AB228892AEF00432728 /* IssueEditViewController.swift in Sources */,
@@ -913,7 +928,7 @@
 				1B4F488828A3712900C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
 				1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */,
-				1BD125BC28D1E2E90050F2D1 /* IssueDetailCommon.swift in Sources */,
+				1BD125BC28D1E2E90050F2D1 /* IssueDetailCommonType.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */,
 				1B50B86028C9EA8600073AC9 /* IssueDetailViewController.swift in Sources */,
@@ -943,6 +958,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BF36D7A28DC45E50033DF2A /* UserDetailEntity.swift in Sources */,
 				1BD125D128D1EA2D0050F2D1 /* IssueListAuthor.swift in Sources */,
 				1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */,
 				1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */,
@@ -955,12 +971,14 @@
 				1BD125D928D1EFF00050F2D1 /* IssueCommentReactorResponse.swift in Sources */,
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1BD125D328D1EA4C0050F2D1 /* IssueCommentReactionsResponse.swift in Sources */,
+				1BF36D7928DC45D90033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
 				1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */,
 				1B50EC2B28D0930D005E5B82 /* IssueAddRemoveModel.swift in Sources */,
 				1B50EC2828D063CA005E5B82 /* IssueDetailViewModel.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
+				1BF36D7828DC45970033DF2A /* IssueHistories.swift in Sources */,
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,

@@ -9,30 +9,23 @@ import Foundation
 
 struct AllIssueEntity: Codable {
     let openIssueCount: Int
-    let openIssues: [IssueListEntity]
     let closedIssueCount: Int
-    let closedIssues: [IssueListEntity]
+    let issues: [IssueListEntity]
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         openIssueCount = try values.decode(Int.self, forKey: .openIssueCount)
         closedIssueCount = try values.decode(Int.self, forKey: .closedIssueCount)
         
-        if let container = try? values.nestedContainer(keyedBy: IssueContentCodingkeys.self, forKey: .openIssues) {
-            openIssues = try container.decode([IssueListEntity].self, forKey: .content)
+        if let container = try? values.nestedContainer(keyedBy: IssueContentCodingkeys.self, forKey: .issues) {
+            issues = try container.decode([IssueListEntity].self, forKey: .content)
         } else {
-            openIssues = try values.decode([IssueListEntity].self, forKey: .openIssues)
-        }
-        
-        if let container = try? values.nestedContainer(keyedBy: IssueContentCodingkeys.self, forKey: .closedIssues) {
-            closedIssues = try container.decode([IssueListEntity].self, forKey: .content)
-        } else {
-            closedIssues = try values.decode([IssueListEntity].self, forKey: .closedIssues)
+            issues = try values.decode([IssueListEntity].self, forKey: .issues)
         }
     }
     
     enum CodingKeys: String, CodingKey {
-        case openIssueCount, openIssues, closedIssueCount, closedIssues
+        case openIssueCount, closedIssueCount, issues
     }
     
     enum IssueContentCodingkeys: String, CodingKey {
@@ -43,19 +36,23 @@ struct AllIssueEntity: Codable {
 struct IssueListEntity: Codable {
     let id: Int
     let title: String
-    let createdAt: String?
+    
     let author: IssueListAuthor
     let comments: [IssueListComment]
     let issueAssignees: [IssueAssignee]
     let issueLabels: [LabelListEntity]
     let milestone: MilestoneListEntity?
+    let issueHistories: [IssueHistories]
+    
+    let createdAt: String?
+    let lastModifiedAt: String?
+    let closed: Bool
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try values.decode(Int.self, forKey: .id)
         title = try values.decode(String.self, forKey: .title)
-        createdAt = try? values.decode(String.self, forKey: .createdAt)
         author = try values.decode(IssueListAuthor.self, forKey: .author)
         comments = try values.decode([IssueListComment].self, forKey: .comments)
         
@@ -72,6 +69,11 @@ struct IssueListEntity: Codable {
         }
         
         milestone = try? values.decode(MilestoneListEntity.self, forKey: .milestone)
+        issueHistories = try values.decode([IssueHistories].self, forKey: .issueHistories)
+        
+        createdAt = try? values.decode(String.self, forKey: .createdAt)
+        lastModifiedAt = try? values.decode(String.self, forKey: .lastModifiedAt)
+        closed = try values.decode(Bool.self, forKey: .closed)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -96,7 +98,7 @@ struct IssueListEntity: Codable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case id, title, createdAt, author, comments, issueAssignees, issueLabels, milestone
+        case id, title, author, comments, issueAssignees, issueLabels, milestone, issueHistories, createdAt, lastModifiedAt, closed
     }
     
     enum AssigneesCodingKeys: String, CodingKey {

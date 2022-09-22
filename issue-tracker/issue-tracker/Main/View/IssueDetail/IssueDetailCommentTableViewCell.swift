@@ -7,7 +7,7 @@
 
 import FlexLayout
 
-class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommon, ViewBindable {
+class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommonType, ViewBindable {
     
     private let profileButton: ProfileImageButton = {
         let button = ProfileImageButton()

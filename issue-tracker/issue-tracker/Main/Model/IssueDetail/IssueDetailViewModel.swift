@@ -14,6 +14,7 @@ enum IssueDetailError: Error {
     case tokenUnavailableError
     case responseWithError
     case urlError
+    case errorOnBody
 }
 
 enum IssueDetailCellType {
@@ -24,6 +25,8 @@ enum IssueDetailCellType {
 // RequestHTTPModel 을 상속하는 이유는 여러가지의 response 가 있을 수 있기 때문.
 // 다양한 HTTP Response Body 에 대응해야 한다.
 class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
+    
+    private var issueId: Int = 1 // Test 를 위한 Default 값 삽입.
     
     private var bagCount = 0
     /// Model 에서 DisposeBag 을 관리하는 이유는 효율적인 메모리 관리(4 번 이상의 리퀘스트 이후에는 DisposeBag 을 초기화 ) 를 위함입니다.
@@ -39,21 +42,9 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     var emojis: [String] = []
     
-    private var _commonParameter: PrivateParameter?
-    private var commonParameter: PrivateParameter? {
-        get {
-            if let param = _commonParameter {
-                builder.setHeader(key: "Authorization", value: "Bearer " + param.token)
-                return param
-            }
-            return nil
-        }
-    }
-    
     private var responseModel: HTTPResponseModel {
         return HTTPResponseModel()
     }
-    private var issueId: Int = -1
     
     var binding: ViewBinding?
     
@@ -77,7 +68,6 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         
         self.init(url)
         self.issueId = issueId
-        self._commonParameter = try setParameter()
     }
     
     // MARK: - Utils
@@ -95,23 +85,8 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         }
     }
     
-    private func setParameter() throws -> PrivateParameter {
-        guard let memberId = UserDefaults.standard.object(forKey: "memberId") as? Int else {
-            throw IssueDetailError.memberIdError
-        }
-        guard issueId > 0 else {
-            throw IssueDetailError.iDError
-        }
-        guard let token = UserDefaults.standard.value(forKey: "accessToken") as? String else {
-            throw IssueDetailError.tokenUnavailableError
-        }
-        
-        return PrivateParameter(memberId: memberId, issueId: issueId, token: token)
-    }
-    
     // MARK: - APIs
     func getDetailEntity() -> Observable<IssueListEntity?> {
-        guard let _ = commonParameter else { return Observable.just(nil) }
         return responseFlatten(requestObservable(pathArray: ["\(issueId)"]))
     }
     
@@ -130,167 +105,134 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     
     // title, status, emojis
     func setTitle(_ title: String) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        builder.setBody( ["id": param.issueId] )
-        
+        builder.setBody( ["id": self.issueId] )
         return responseFlatten(requestObservable(pathArray: [
-            "\(issueId)",
-            "title"
+            "\(issueId)", "title"
         ]))
     }
     
     func setStatus(_ status: Bool) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        builder.setBody(StatusEncodable(status: status, ids: [param.issueId]))
+        guard let body = try? JSONSerialization.data(withJSONObject: ["status": status, "ids": [issueId]], options: .prettyPrinted) else {
+            return Observable.create { observer in
+                let disposables = Disposables.create()
+                observer.onError(IssueDetailError.errorOnBody)
+                observer.onCompleted()
+                return disposables
+            }
+        }
         
+        builder.setBody(body)
         return responseFlatten(requestObservable(pathArray: ["update-status"]))
     }
     
     func getEmojis() -> Observable<[EmojiResponse]?> {
         responseFlatten(requestObservable(pathArray: [
-            "comments",
-            "reactions",
-            "emojis"
+            "comments", "reactions", "emojis"
         ]))
     }
     
     // label
     func setLabel(_ labelId: Int) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return responseFlatten(requestObservable(pathArray: [
-            "\(param.issueId)",
-            "labels",
-            "\(labelId)"
+        responseFlatten(requestObservable(pathArray: [
+            "\(issueId)", "labels", "\(labelId)"
         ]))
     }
     
     func deleteLabel(_ labelId: Int) -> Observable<String?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return requestObservable(pathArray: [
-            "\(param.issueId)",
-            "\(labelId)"
-        ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+        requestObservable(pathArray: [
+            "\(issueId)", "labels", "\(labelId)"
+        ])
+        .map { [weak self] in
+            self?.responseModel.getMessageResponse(from: $0)
+        }
     }
     
     // comment
     func setComment(_ content: String) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
         builder.setBody(["content": content])
-        
         return responseFlatten(requestObservable(pathArray: [
-            "\(param.issueId)",
-            "comments"
+            "\(issueId)", "comments"
         ]))
     }
     
     func deleteComment(_ commentId: Int) -> Observable<String?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return requestObservable(pathArray: [
-            "\(issueId)",
-            "comments",
-            "\(commentId)"
-        ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+        requestObservable(pathArray: [
+            "\(issueId)", "comments", "\(commentId)"
+        ])
+        .map { [weak self] in
+            self?.responseModel.getMessageResponse(from: $0)
+        }
     }
     
     func updateComment(_ commentId: Int, content: String) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
         builder.setBody(["content": content])
-        
         return responseFlatten(requestObservable(pathArray: [
-            "\(issueId)",
-            "comments",
-            "\(commentId)"
+            "\(issueId)", "comments", "\(commentId)"
         ]))
     }
     
     func setReactionTo(commentId: Int, emojiName: String) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return responseFlatten(requestObservable(pathArray: [
-            "\(issueId)",
-            "comments",
-            "\(commentId)",
-            "reactions",
-            "\(emojiName)"
+        responseFlatten(requestObservable(pathArray: [
+            "\(issueId)", "comments", "\(commentId)", "reactions", "\(emojiName)"
         ]))
     }
     
     func deleteReactionTo(commentId: Int, reactionId: Int) -> Observable<String?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return requestObservable(pathArray: [
-            "\(issueId)",
-            "comments",
-            "\(commentId)",
-            "reactions",
-            "\(reactionId)"
-        ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+        requestObservable(pathArray: [
+            "\(issueId)", "comments", "\(commentId)", "reactions", "\(reactionId)"
+        ])
+        .map { [weak self] in
+            self?.responseModel.getMessageResponse(from: $0)
+        }
     }
     
     // assignee
     func setAssignee(_ assigneeId: Int) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId":"\(param.memberId)"])
-        
-        return responseFlatten(requestObservable(pathArray: [
-            "\(param.issueId)",
-            "assignees","\(assigneeId)"
+        responseFlatten(requestObservable(pathArray: [
+            "\(issueId)", "assignees","\(assigneeId)"
         ]))
     }
     
     func deleteAssignee(_ assigneeId: Int) -> Observable<String?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
         builder.setURLQuery([
-            "memberId": "\(param.memberId)",
-            "assigneeId": "\(assigneeId)",
-            "issueId": "\(param.issueId)"
+            "clear": "true", "assigneeId": "\(assigneeId)"
         ])
         
         return requestObservable(pathArray: [
-            "\(param.issueId)",
-            "assignees"
-        ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+            "\(issueId)", "assignees"
+        ])
+        .map { [weak self] in
+            self?.responseModel.getMessageResponse(from: $0)
+        }
     }
     
     // milestone
     func setMilestone(_ milestoneId: Int) -> Observable<IssueListEntity?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return responseFlatten(requestObservable(pathArray: [
-            "\(issueId)",
-            "milestone",
-            "\(milestoneId)"
+        responseFlatten(requestObservable(pathArray: [
+            "\(issueId)", "milestone", "\(milestoneId)"
         ]))
     }
     
     func deleteMilestone(_ milestoneId: Int) -> Observable<String?> {
-        guard let param = commonParameter else { return Observable.just(nil) }
-        builder.setURLQuery(["memberId": "\(param.memberId)"])
-        
-        return requestObservable(pathArray: [
-            "\(issueId)",
-            "milestone",
-            "\(milestoneId)"
-        ]).map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
+        requestObservable(pathArray: [
+            "\(issueId)", "milestone", "\(milestoneId)"
+        ])
+        .map { [weak self] in
+            self?.responseModel.getMessageResponse(from: $0)
+        }
     }
     
-    func requestInfoViaURL(urlString: String, body: Any? = nil) -> Observable<Data?> {
-        guard let url = URL(string: urlString), let _ = commonParameter else { return Observable.just(nil) }
+    func requestInfoViaURL(urlString: String, body: Any? = nil) -> Observable<Data> {
+        guard let url = URL(string: urlString) else {
+            return Observable.create { observer in
+                let disposables = Disposables.create()
+                observer.onError(IssueDetailError.urlError)
+                observer.onCompleted()
+                return disposables
+            }
+        }
+        
         return requestObservable(URLRequest(url: url))
-            .map { Optional($0) }
     }
 }
 

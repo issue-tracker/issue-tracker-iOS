@@ -15,6 +15,8 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
     typealias ListType = ResponseEntityType
     typealias Entity = ResponseType
     
+    private(set) var dataSource: PublishSubject<[ListType]>?
+    
     private(set) var entity: Entity?
     private(set) var entityList: [ListType] = []
     
@@ -27,8 +29,13 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
     var binding: ViewBinding?
     
     func requestEntityList(_ requestHandler: ((Entity?) -> Void)? = nil) -> Observable<[ListType]> {
+        guard pageCount >= 0 else { return Observable.empty() }
+        
         builder.setURLQuery(["page":"\(pageCount)"])
         return requestObservable()
+            .do(onError: { [weak self] error in
+                self?.pageCount = -1
+            })
             .map ({ [weak self] data -> [ListType] in
                 guard let self = self else {
                     requestHandler?(nil)
@@ -45,6 +52,8 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
                 
                 if let entityList = (entity as? EntityContainsResultList)?.list as? [ListType] {
                     self.entityList.append(contentsOf: entityList)
+                } else {
+                    self.pageCount = -1
                 }
                 
                 self.binding?.bindableHandler?(entity, self)
@@ -56,8 +65,13 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
     }
     
     func requestEntity(_ requestHandler: ((Entity?) -> Void)? = nil) -> Observable<Entity> {
+        guard pageCount >= 0 else { return Observable.empty() }
+        
         builder.setURLQuery(["page":"\(pageCount)"])
         return requestObservable()
+            .do(onError: { [weak self] error in
+                self?.pageCount = -1
+            })
             .map ({ [weak self] data -> Entity in
                 guard let self = self else {
                     requestHandler?(nil)
@@ -85,15 +99,33 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
     }
     
     func reloadEntities(reloadHandler: ((Entity?)->Void)? = nil) {
+        guard pageCount >= 0 else { return }
+        
         pageCount = 0
         builder.setURLQuery(["page":"\(pageCount)"])
         request() { [weak self] result, response in
-            guard let self = self else { return }
+            guard let self = self else {
+                self?.pageCount = -1
+                return
+            }
             
-            let entity = HTTPResponseModel().getDecoded(from: result, as: Entity.self)
-            
-            self.entity = entity
-            reloadHandler?(entity)
+            switch result {
+            case .success(let data):
+                
+                let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self)
+                self.entity = entity
+                
+                if let entityList = (entity as? EntityContainsResultList)?.list as? [ListType] {
+                    self.entityList.append(contentsOf: entityList)
+                }
+                
+                reloadHandler?(entity)
+                
+            case .failure(_):
+                
+                self.pageCount = -1
+                reloadHandler?(nil)
+            }
         }
     }
 }

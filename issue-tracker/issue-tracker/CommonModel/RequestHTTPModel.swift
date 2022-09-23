@@ -96,13 +96,41 @@ class RequestHTTPModel {
             }
         }
         
-        return URLSession.shared.rx.data(request: request)
+        return Observable.create { observer in
+            let disposables = Disposables.create()
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    observer.onError(error ?? HTTPError.noData)
+                    return
+                }
+                
+                observer.onNext(data)
+                observer.onCompleted()
+            }.resume()
+            
+            return disposables
+        }
     }
     
     /// 직접 URLRequest 를 전달하고 Response에 따라 이벤트를 방출하는 Observable 을 생성하고 반환합니다.
     ///
     /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     private func requestObservable(_ request: URLRequest) -> Observable<Data> {
-        return URLSession.shared.rx.data(request: request)
+        Observable.create { observer in
+            let disposables = Disposables.create()
+            
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    observer.onError(error ?? HTTPError.noData)
+                    return
+                }
+                
+                observer.onNext(data)
+                observer.onCompleted()
+            }.resume()
+            
+            return disposables
+        }
     }
 }

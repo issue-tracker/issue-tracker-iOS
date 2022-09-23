@@ -76,7 +76,7 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
                 cell.setEntity(entity)
                 cell.setLayout()
             }
-            .disposed(by: disposeBag)
+            .disposed(by: model?.disposeBag ?? disposeBag)
     }
     
     @objc func reloadTableView(_ sender: Any) {
@@ -99,10 +99,11 @@ extension IssueListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let lastCell = tableView.visibleCells.last, cell == lastCell else {
+        let entityEndIndex = model?.entityList.endIndex ?? 0
+        guard indexPath.row != 0, indexPath.row == (entityEndIndex - 1) else {
             return
         }
         
-        
+        model?.requestEntityList()
     }
 }

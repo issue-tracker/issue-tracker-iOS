@@ -16,7 +16,7 @@ class MilestoneListViewController: UIViewController, ViewBinding {
     private var tableView = UITableView()
     private var disposeBag = DisposeBag()
     
-    private var model: MainViewSingleRequestModel<AllMilestoneEntity>? = {
+    private var model: MainViewSingleRequestModel<AllMilestoneEntity, MilestoneListEntity>? = {
         guard let url = URL.milestoneApiURL else {
             return nil
         }
@@ -47,7 +47,7 @@ class MilestoneListViewController: UIViewController, ViewBinding {
     }
     
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] _, bindable in
-        guard let self = self, bindable is MainViewSingleRequestModel<AllMilestoneEntity> else {
+        guard let self = self, bindable is MainViewSingleRequestModel<AllMilestoneEntity, MilestoneListEntity> else {
             return
         }
         
@@ -93,7 +93,7 @@ class MilestoneListViewController: UIViewController, ViewBinding {
     }
     
     @objc func reloadTableView(_ sender: Any) {
-        model?.requestEntities() { [weak self] _ in
+        model?.reloadEntities() { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.tableView.refreshControl?.endRefreshing()

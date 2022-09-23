@@ -11,9 +11,9 @@ import RxSwift
 class issue_trackerUnitTest_Issue: XCTestCase {
     var expectation: XCTestExpectation!
     
-    var issueModel: MainViewSingleRequestModel<AllIssueEntity>?
+    var issueModel: MainViewSingleRequestModel<AllIssueEntity, MilestoneListEntity>?
     var labelModel: MainViewRequestModel<LabelListEntity>?
-    var milestoneModel: MainViewSingleRequestModel<AllMilestoneEntity>?
+    var milestoneModel: MainViewSingleRequestModel<AllMilestoneEntity, MilestoneListEntity>?
     
     var issueDetailModel: IssueDetailViewModel?
     let model = IssueAddRemoveModel(URL.issueApiURL!)
@@ -27,9 +27,10 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     }
 
     func testIssueList() throws {
-        issueModel = MainViewSingleRequestModel<AllIssueEntity>(URL(string: Bundle.main.path(forResource: "Issues", ofType: "json") ?? ""))
+        
+        issueModel = MainViewSingleRequestModel<AllIssueEntity, MilestoneListEntity>(URL(string: Bundle.main.path(forResource: "Issues", ofType: "json") ?? ""))
         issueModel?.builder.setURLQuery(["page" : "0"])
-        issueModel?.requestEntities() { entity in
+        issueModel?.requestEntityList() { entity in
             if entity != nil {
                 self.expectation.fulfill()
             }
@@ -56,8 +57,8 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     }
     
     func testMilestoneList() throws {
-        milestoneModel = MainViewSingleRequestModel<AllMilestoneEntity>(URL(string: Bundle.main.path(forResource: "Milestones", ofType: "json") ?? ""))
-        milestoneModel?.requestEntities { list in
+        milestoneModel = MainViewSingleRequestModel<AllMilestoneEntity, MilestoneListEntity>(URL(string: Bundle.main.path(forResource: "Milestones", ofType: "json") ?? ""))
+        milestoneModel?.requestEntityList() { list in
             self.expectation.fulfill()
         }
         

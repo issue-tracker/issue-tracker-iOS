@@ -15,7 +15,7 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     private var tableView = UITableView()
     private var disposeBag = DisposeBag()
     
-    private var model: MainViewSingleRequestModel<AllIssueEntity>? = {
+    private var model: MainViewSingleRequestModel<AllIssueEntity, IssueListEntity>? = {
         guard let url = URL.issueApiURL else {
             return nil
         }
@@ -30,13 +30,13 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     }
     
     private var issues: [IssueListEntity] {
-        model?.entity?.issues ?? []
+        model?.entityList ?? []
     }
     
     var binding: ViewBinding?
     
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] _, bindable in
-        guard let self = self, bindable is MainViewSingleRequestModel<AllIssueEntity> else {
+        guard let self = self, bindable is MainViewSingleRequestModel<AllIssueEntity, IssueListEntity> else {
             return
         }
         
@@ -51,7 +51,6 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
         super.viewDidLoad()
         
         model?.binding = self
-        model?.builder.setURLQuery(["page":"0"])
         
         tableView.separatorStyle = .none
         view.addSubview(tableView)
@@ -68,14 +67,10 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        model?.requestObservable()
-            .asDriver(onErrorJustReturn: Data())
-            .compactMap({ data -> AllIssueEntity? in
-                HTTPResponseModel().getDecoded(from: data, as: AllIssueEntity.self)
-            })
-            .map({ entities -> [IssueListEntity] in
-                self.navigationController?.title = "\(entities.openIssueCount)/\(entities.openIssueCount + entities.closedIssueCount)"
-                return entities.issues
+        model?.requestEntityList()
+            .asDriver(onErrorJustReturn: [])
+            .do(onNext: { [weak self] _ in
+                self?.navigationController?.title = self?.modelStatusCount
             })
             .drive(tableView.rx.items(cellIdentifier: IssueListTableViewCell.reuseIdentifier, cellType: IssueListTableViewCell.self)) { index, entity, cell in
                 cell.setEntity(entity)
@@ -85,12 +80,12 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     }
     
     @objc func reloadTableView(_ sender: Any) {
-        model?.requestEntities() { [weak self] _ in
+        model?.reloadEntities(reloadHandler: { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.tableView.refreshControl?.endRefreshing()
             }
-        }
+        })
     }
 }
 
@@ -101,5 +96,13 @@ extension IssueListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         binding?.bindableHandler?(issues[indexPath.row], self)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let lastCell = tableView.visibleCells.last, cell == lastCell else {
+            return
+        }
+        
+        
     }
 }

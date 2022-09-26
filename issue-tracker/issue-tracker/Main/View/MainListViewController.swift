@@ -7,10 +7,30 @@
 
 import SnapKit
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MainListViewController: CommonProxyViewController, ViewBinding {
     
+    // Search field 에 관한 가이드라인
+    // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
+    // Best practices
+    // 1. placeholder 등을 이용해서 hints 를 보여줄 수 있게 해야 된다.
+    // 2. safari browser 가 searchfield 를 클릭하면 북마크를 보여주는 것처럼, 북마크같은 기능을 제공하라
+    // 3. 적절한 시간에 탐색을 시작하도록 하라. 바로 시작할 수도 있고, Return/Enter 등을 탭 해야될 수도 있다. 타이핑 중 계속 검색하려면 계속 결과가 수정되어야 한다.
+    // 4. Clear button 을 제공하라.
+    // 5. Search history 를 제공하는 것은 사용자의 선택으로 맡겨둬야 한다.
+    // Scope bars
+    // 스코프 바를 이용하면 미리 정해진 결과를 얻을 수 있게 해준다. 사용자 선호도를 향상시킬 수 있다. ( 뷰 제공 완료 )
+    // Platform considerations
+    // 네비게이션 바에도 검색 창을 만들 수 있다. 이렇게 될 경우 미리 정해진 appearance 를 갖게 된다(예: 아래로 스와이프를 하면 숨겨짐).
+    // UIViewController 내부에 searchController 프로퍼티를 사용하여 시스템에서 제공하는 appearance 를 사용할 수 있다(네비게이션 바에 위치).
+    // 커스텀화된 appearance 가 필요하다면 UISearchBar 를 이용한 검색바나 UISearchTextField 를 이용하여 searchField 의 커스텀 배경을 넣는다.
+    
     private let padding: CGFloat = 8
+    
+    let searchBar = UISearchBar()
+    let bookmarkScrollView = QueryBookmarkScrollView()
     
     private lazy var listSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
@@ -90,14 +110,30 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
             view.bringSubviewToFront(plusButton)
         }
         
+        view.addSubview(searchBar)
+        view.addSubview(bookmarkScrollView)
         view.addSubview(listSegmentedControl)
         view.addSubview(scrollView)
         view.addSubview(plusButton)
         
         issueListViewController.binding = self
         
-        listSegmentedControl.snp.makeConstraints {
+        searchBar.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
+            $0.height.equalTo(view.frame.height*0.055)
+        }
+        
+        bookmarkScrollView.binding = self
+        bookmarkScrollView.showsHorizontalScrollIndicator = false
+        bookmarkScrollView.snp.makeConstraints {
+            $0.top.equalTo(searchBar.snp.bottom).offset(padding)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
+            $0.height.equalTo(view.frame.height*0.035)
+        }
+        
+        listSegmentedControl.snp.makeConstraints {
+            $0.top.equalTo(bookmarkScrollView.snp.bottom).offset(padding)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
             $0.height.equalTo(view.frame.height*0.055)
         }
         
@@ -114,6 +150,10 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         view.layoutIfNeeded()
+        
+        for i in 0..<5 {
+            bookmarkScrollView.insertLabel("title\(i)")
+        }
         
         scrollView.delegate = self
         scrollView.contentSize.width = 0
@@ -148,5 +188,98 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
                 },
             ])
         }
+    }
+}
+
+class QueryBookmarkScrollView: UIScrollView, ViewBindable {
+    
+    var binding: ViewBinding?
+    
+    private var contentSizeWidthRelay = BehaviorRelay<CGPoint>(value: .zero)
+    private var disposeBag = DisposeBag()
+    var lastView: UIView? {
+      subviews.filter({$0 is BookmarkLabel}).max(by: { $0.frame.maxX < $1.frame.maxX })
+    }
+    
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+      initialSetting()
+    }
+    
+    required init?(coder: NSCoder) {
+      super.init(coder: coder)
+      initialSetting()
+    }
+    
+    private func initialSetting() {
+      contentSizeWidthRelay
+        .subscribe { [weak self] event in
+          switch event {
+          case .next(let point):
+            guard let currentWidth = self?.contentSize.width, currentWidth < point.x else { return }
+            self?.contentSize.width = point.x + 8
+          default:
+            self?.contentSize.width = self?.frame.width ?? 0
+          }
+        }
+        .disposed(by: disposeBag)
+    }
+    
+    @discardableResult
+    func insertLabel(_ title: String) -> BookmarkLabel {
+        let label = BookmarkLabel(text: title, frame: CGRect(origin: .zero, size: CGSize(width: frame.width / 3.5, height: frame.height)), fontMultiplier: 0.8)
+        label.frame.origin = CGPoint(x: (lastView?.frame.maxX ?? 0) + 8, y: 0)
+        addSubview(label)
+        
+        contentSizeWidthRelay
+            .accept(label.frame.origin)
+        
+        return label
+    }
+    
+    func dispose() {
+      self.disposeBag = DisposeBag()
+    }
+}
+
+class BookmarkLabel: CommonLabel {
+    override func makeUI(_ fontMultiplier: CGFloat) {
+        super.makeUI(fontMultiplier)
+        setCornerRadius()
+        backgroundColor = getRandomColor()
+    }
+}
+
+extension BookmarkLabel {
+    func getRandomColor() -> UIColor {
+        var colorValue: CGFloat {
+            CGFloat.random(in: 0...255) / CGFloat(255)
+        }
+        
+        return UIColor(
+            displayP3Red: colorValue,
+            green: colorValue,
+            blue: colorValue,
+            alpha: CGFloat.random(in: 0.0...1.0)
+        )
+    }
+}
+
+struct Bookmark {
+    let title: String
+    let query: String
+    var queryEncoded: String {
+        var query = query
+        let replaceColon = ":".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) // %3A
+        var safeCount = 100
+        
+        while let replaceColon = replaceColon, let index = query.firstIndex(of: Character(Unicode.Scalar(58))), safeCount > 0 {
+            query.replaceSubrange(index...index, with: replaceColon)
+            safeCount -= 1
+        }
+        
+        query = query.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "+:%").inverted) ?? ""
+        
+        return query
     }
 }

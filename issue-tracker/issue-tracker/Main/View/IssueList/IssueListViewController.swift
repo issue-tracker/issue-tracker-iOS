@@ -107,3 +107,11 @@ extension IssueListViewController: UITableViewDelegate {
         model?.requestEntityList()
     }
 }
+
+extension IssueListViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if canResignFirstResponder {
+            (binding as? MainListViewController)?.searchBar.resignFirstResponder()
+        }
+    }
+}

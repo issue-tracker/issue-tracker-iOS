@@ -155,6 +155,7 @@ class LoginViewController: CommonProxyViewController {
         requestModel.builder.setURLQuery(["memberId": "\(memberId)"])
         requestModel.requestObservable(pathArray: ["auth", "test"])
             .timeout(DispatchTimeInterval.seconds(3), scheduler: ConcurrentMainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .do(onError: { [weak self] _ in
                 self?.view.dismissLoadingView()
             })

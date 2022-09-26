@@ -30,7 +30,7 @@ class CommonLabel: UILabel {
         makeUI(fontMultiplier)
     }
     
-    private func makeUI(_ fontMultiplier: CGFloat) {
+    func makeUI(_ fontMultiplier: CGFloat) {
         textColor = .label
         textAlignment = .center
         font = font.withSize(font.pointSize * fontMultiplier)

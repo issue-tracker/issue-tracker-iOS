@@ -151,8 +151,14 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         view.layoutIfNeeded()
         
-        for i in 0..<5 {
-            bookmarkScrollView.insertLabel("title\(i)")
+        let predefinedQuery: [(key: String, value: String)] = [
+            (key: "is", value: "issue"),
+            (key: "is", value: "open"),
+            (key: "milesonte", value: "제목만 있는 마일스톤"),
+            (key: "milesonte", value: "모든걸 다 가진 마일스톤")
+        ]
+        for query in predefinedQuery {
+            bookmarkScrollView.insertButton(query.key, query.value)
         }
         
         scrollView.delegate = self
@@ -188,98 +194,5 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
                 },
             ])
         }
-    }
-}
-
-class QueryBookmarkScrollView: UIScrollView, ViewBindable {
-    
-    var binding: ViewBinding?
-    
-    private var contentSizeWidthRelay = BehaviorRelay<CGPoint>(value: .zero)
-    private var disposeBag = DisposeBag()
-    var lastView: UIView? {
-      subviews.filter({$0 is BookmarkLabel}).max(by: { $0.frame.maxX < $1.frame.maxX })
-    }
-    
-    override init(frame: CGRect) {
-      super.init(frame: frame)
-      initialSetting()
-    }
-    
-    required init?(coder: NSCoder) {
-      super.init(coder: coder)
-      initialSetting()
-    }
-    
-    private func initialSetting() {
-      contentSizeWidthRelay
-        .subscribe { [weak self] event in
-          switch event {
-          case .next(let point):
-            guard let currentWidth = self?.contentSize.width, currentWidth < point.x else { return }
-            self?.contentSize.width = point.x + 8
-          default:
-            self?.contentSize.width = self?.frame.width ?? 0
-          }
-        }
-        .disposed(by: disposeBag)
-    }
-    
-    @discardableResult
-    func insertLabel(_ title: String) -> BookmarkLabel {
-        let label = BookmarkLabel(text: title, frame: CGRect(origin: .zero, size: CGSize(width: frame.width / 3.5, height: frame.height)), fontMultiplier: 0.8)
-        label.frame.origin = CGPoint(x: (lastView?.frame.maxX ?? 0) + 8, y: 0)
-        addSubview(label)
-        
-        contentSizeWidthRelay
-            .accept(label.frame.origin)
-        
-        return label
-    }
-    
-    func dispose() {
-      self.disposeBag = DisposeBag()
-    }
-}
-
-class BookmarkLabel: CommonLabel {
-    override func makeUI(_ fontMultiplier: CGFloat) {
-        super.makeUI(fontMultiplier)
-        setCornerRadius()
-        backgroundColor = getRandomColor()
-    }
-}
-
-extension BookmarkLabel {
-    func getRandomColor() -> UIColor {
-        var colorValue: CGFloat {
-            CGFloat.random(in: 0...255) / CGFloat(255)
-        }
-        
-        return UIColor(
-            displayP3Red: colorValue,
-            green: colorValue,
-            blue: colorValue,
-            alpha: CGFloat.random(in: 0.0...1.0)
-        )
-    }
-}
-
-struct Bookmark {
-    let title: String
-    let query: String
-    var queryEncoded: String {
-        var query = query
-        let replaceColon = ":".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) // %3A
-        var safeCount = 100
-        
-        while let replaceColon = replaceColon, let index = query.firstIndex(of: Character(Unicode.Scalar(58))), safeCount > 0 {
-            query.replaceSubrange(index...index, with: replaceColon)
-            safeCount -= 1
-        }
-        
-        query = query.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "+:%").inverted) ?? ""
-        
-        return query
     }
 }

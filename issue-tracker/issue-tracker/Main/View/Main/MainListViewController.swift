@@ -15,8 +15,8 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     // Search field 에 관한 가이드라인
     // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
     // Best practices
-    // 1. placeholder 등을 이용해서 hints 를 보여줄 수 있게 해야 된다.
-    // 2. safari browser 가 searchfield 를 클릭하면 북마크를 보여주는 것처럼, 북마크같은 기능을 제공하라
+    // 1. placeholder 등을 이용해서 hints 를 보여줄 수 있게 해야 된다. (O)
+    // 2. safari browser 가 searchfield 를 클릭하면 북마크를 보여주는 것처럼, 북마크같은 기능을 제공하라. (View는 제공중)
     // 3. 적절한 시간에 탐색을 시작하도록 하라. 바로 시작할 수도 있고, Return/Enter 등을 탭 해야될 수도 있다. 타이핑 중 계속 검색하려면 계속 결과가 수정되어야 한다.
     // 4. Clear button 을 제공하라.
     // 5. Search history 를 제공하는 것은 사용자의 선택으로 맡겨둬야 한다.
@@ -29,8 +29,13 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     
     private let padding: CGFloat = 8
     
-    let searchBar = UISearchBar()
-    let bookmarkScrollView = QueryBookmarkScrollView()
+    private(set) lazy var searchBar: UISearchBar = {
+        let result = UISearchBar()
+        result.delegate = self
+        result.placeholder = "검색 시 적용된 조건이 아래 추가됩니다."
+        return result
+    }()
+    private let bookmarkScrollView = QueryBookmarkScrollView()
     
     private lazy var listSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
@@ -151,16 +156,6 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         view.layoutIfNeeded()
         
-        let predefinedQuery: [(key: String, value: String)] = [
-            (key: "is", value: "issue"),
-            (key: "is", value: "open"),
-            (key: "milesonte", value: "제목만 있는 마일스톤"),
-            (key: "milesonte", value: "모든걸 다 가진 마일스톤")
-        ]
-        for query in predefinedQuery {
-            bookmarkScrollView.insertButton(query.key, query.value)
-        }
-        
         scrollView.delegate = self
         scrollView.contentSize.width = 0
         for (index, page) in pageList.enumerated() {
@@ -194,5 +189,23 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
                 },
             ])
         }
+    }
+}
+
+extension MainListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        defer {
+            searchBar.text = nil
+        }
+        
+        let searchText = searchBar.text ?? ""
+        let keyValue = searchText.split(separator: ":").map{ String($0) }
+        
+        guard keyValue.count >= 2 else {
+            return
+        }
+        
+        bookmarkScrollView.insertButton(keyValue[0], keyValue[1])
     }
 }

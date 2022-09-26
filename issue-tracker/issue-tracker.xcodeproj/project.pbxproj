@@ -393,11 +393,7 @@
 		1B4F48A028A4E59300C4B33A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1B8E4AA328890E4500432728 /* MainTabBarController.swift */,
-				1B8E4AA5288910E200432728 /* MainListNavigationController.swift */,
-				1BF1D0BB28BC829A00393294 /* MainListViewController.swift */,
-				1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */,
-				1BF36D9828E1CFEE0033DF2A /* QueryBookmarkScrollView.swift */,
+				1BF36D9A28E1D2330033DF2A /* Main */,
 				1B4F48A128A4E59E00C4B33A /* IssueList */,
 				1B50EC2128D044E7005E5B82 /* IssueDetail */,
 				1BF1D0C128BC99DC00393294 /* LabelList */,
@@ -614,6 +610,18 @@
 				1BF1D0D528BCE0C200393294 /* Milestones.json */,
 			);
 			path = MilestoneList;
+			sourceTree = "<group>";
+		};
+		1BF36D9A28E1D2330033DF2A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AA328890E4500432728 /* MainTabBarController.swift */,
+				1B8E4AA5288910E200432728 /* MainListNavigationController.swift */,
+				1BF1D0BB28BC829A00393294 /* MainListViewController.swift */,
+				1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */,
+				1BF36D9828E1CFEE0033DF2A /* QueryBookmarkScrollView.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		440D177E0B9EC4919A60E539 /* Pods */ = {

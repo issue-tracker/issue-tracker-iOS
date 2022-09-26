@@ -11,6 +11,8 @@ import RxCocoa
 
 class QueryBookmarkScrollView: UIScrollView, ViewBindable {
     
+    private var queries = Set<Bookmark>()
+    
     var binding: ViewBinding?
     
     private var contentSizeWidthRelay = BehaviorRelay<CGPoint>(value: .zero)
@@ -44,13 +46,20 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
     }
     
     @discardableResult
-    func insertButton(_ key: String, _ value: String) -> BookmarkButton {
+    func insertButton(_ key: String, _ value: String) -> BookmarkButton? {
         let text = "\(key):\(value)"
+        let bookmark = Bookmark(query: text)
+        
+        guard queries.insert(bookmark).inserted else {
+            return nil
+        }
+        
         let button = BookmarkButton(frame: CGRect(
             origin: CGPoint(x: (lastView?.frame.maxX ?? 0) + 8, y: 0),
             size: CGSize(width: frame.width / (text.count > 12 ? 2 : 3.5), height: frame.height)
         ))
-        button.setBookmark(Bookmark(title: text, query: text))
+        
+        button.setBookmark(bookmark)
         button.addTarget(self, action: #selector(buttonTouchUpInside(_:)), for: .touchUpInside)
         addSubview(button)
         
@@ -60,13 +69,17 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
     }
     
     @objc func buttonTouchUpInside(_ sender: BookmarkButton) {
-        guard let parent = binding as? MainListViewController else {
-            return
+        if let bookmark = sender.bookmark {
+            queries.remove(bookmark)
         }
         
-        let searchBar = parent.searchBar
-        let currentText = searchBar.text ?? ""
-        searchBar.text = (currentText.isEmpty ? "" : "+") + (sender.bookmark?.query ?? "")
+        DispatchQueue.main.async { [weak self] in
+            sender.removeFromSuperview()
+            let viewsAfterRemove = self?.subviews.filter({$0 is BookmarkButton && $0.frame.maxX > sender.frame.maxX})
+            viewsAfterRemove?.forEach({ view in
+                view.frame.origin.x -= (sender.frame.width + 8)
+            })
+        }
     }
     
     func dispose() {
@@ -93,8 +106,12 @@ class BookmarkLabel: CommonLabel {
     }
 }
 
-struct Bookmark {
-    let title: String
+struct Bookmark: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(query)
+    }
+    
     let query: String
     var queryEncoded: String {
         var query = query

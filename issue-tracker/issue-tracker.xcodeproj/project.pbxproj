@@ -64,6 +64,7 @@
 		1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */; };
 		1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */; };
 		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
+		1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */; };
 		1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */; };
 		1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */; };
@@ -130,7 +131,6 @@
 		1BF36D7928DC45D90033DF2A /* MilestoneInIssueEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7428DC28620033DF2A /* MilestoneInIssueEntity.swift */; };
 		1BF36D7A28DC45E50033DF2A /* UserDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D7628DC2BE80033DF2A /* UserDetailEntity.swift */; };
 		1BF36D9528E1CE5E0033DF2A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D9428E1CE5D0033DF2A /* UIColor+Extension.swift */; };
-		1BF36D9728E1CFC90033DF2A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D9628E1CFC80033DF2A /* String+Extension.swift */; };
 		1BF36D9928E1CFEE0033DF2A /* QueryBookmarkScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF36D9828E1CFEE0033DF2A /* QueryBookmarkScrollView.swift */; };
 		1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */; };
 		1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */; };
@@ -199,6 +199,7 @@
 		1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListTableViewCell.swift; sourceTree = "<group>"; };
 		1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListTableViewCell.swift; sourceTree = "<group>"; };
 		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
+		1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCondition.swift; sourceTree = "<group>"; };
 		1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = RELEASE.xcconfig; sourceTree = "<group>"; };
 		1B89AF4728A0D4EF0057C6D5 /* issue-trackerUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "issue-trackerUnitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest.swift; sourceTree = "<group>"; };
@@ -251,7 +252,6 @@
 		1BF36D7428DC28620033DF2A /* MilestoneInIssueEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneInIssueEntity.swift; sourceTree = "<group>"; };
 		1BF36D7628DC2BE80033DF2A /* UserDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailEntity.swift; sourceTree = "<group>"; };
 		1BF36D9428E1CE5D0033DF2A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		1BF36D9628E1CFC80033DF2A /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		1BF36D9828E1CFEE0033DF2A /* QueryBookmarkScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryBookmarkScrollView.swift; sourceTree = "<group>"; };
 		1BF71601287C3B9F002B0253 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
 		1BFA429D28B6231B00827EBE /* CommonTextFieldArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldArea.swift; sourceTree = "<group>"; };
@@ -382,6 +382,7 @@
 				1BF1D0CE28BC9C3B00393294 /* MainViewProtocol.swift */,
 				1B4F489128A4A39C00C4B33A /* MainViewRequestModel.swift */,
 				1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */,
+				1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */,
 				1BF1D0C328BC9A5100393294 /* IssueList */,
 				1B50EC2028D044D6005E5B82 /* IssueDetail */,
 				1BF1D0CC28BC9A7F00393294 /* LabelList */,
@@ -449,7 +450,6 @@
 				1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */,
 				1BE01DFD28A618D700929163 /* UIDevice+Extension.swift */,
 				1B94384128B3552E007CAE40 /* UIViewController+Extensions.swift */,
-				1BF36D9628E1CFC80033DF2A /* String+Extension.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -926,7 +926,6 @@
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
 				1B8E4AB228892AEF00432728 /* IssueEditViewController.swift in Sources */,
 				1B03E7A828BFA6FB0006FADD /* MainViewSingleRequestModel.swift in Sources */,
-				1BF36D9728E1CFC90033DF2A /* String+Extension.swift in Sources */,
 				1B4F489428A4BE4700C4B33A /* IssueListEntity.swift in Sources */,
 				1BF1D0BE28BC97BE00393294 /* LabelListViewController.swift in Sources */,
 				1B8E4AA8288910FF00432728 /* MyPageNavigationController.swift in Sources */,
@@ -948,6 +947,7 @@
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
 				1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */,
 				1BD125BC28D1E2E90050F2D1 /* IssueDetailCommonType.swift in Sources */,
+				1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */,
 				1B50B86028C9EA8600073AC9 /* IssueDetailViewController.swift in Sources */,

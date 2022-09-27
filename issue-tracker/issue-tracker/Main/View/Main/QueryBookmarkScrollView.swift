@@ -11,6 +11,7 @@ import RxCocoa
 
 class QueryBookmarkScrollView: UIScrollView, ViewBindable {
     
+    private let parser = QueryParser()
     private var queries = Set<Bookmark>()
     
     var binding: ViewBinding?
@@ -45,10 +46,19 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
         .disposed(by: disposeBag)
     }
     
+    /// 꼭 :(colon) 이 포함된 쿼리문이 전달되어야 함
+    ///
+    /// warning in:title,body 는 title/body 에 warning 이라는 글씨가 있는지 묻는 쿼리이지만 현재는 지원되지 않음.
     @discardableResult
-    func insertButton(_ key: String, _ value: String) -> BookmarkButton? {
-        let text = "\(key):\(value)"
-        let bookmark = Bookmark(query: text)
+    func insertButton(searchText: String) -> BookmarkButton? {
+        guard
+            let queryCondition = parser.getOnlyCondition(from: searchText),
+            let querySentence = parser.getOnlySentence(from: searchText)
+        else {
+            return nil
+        }
+        
+        let bookmark = Bookmark(queryCondition: queryCondition, querySentence: querySentence)
         
         guard queries.insert(bookmark).inserted else {
             return nil
@@ -56,7 +66,7 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
         
         let button = BookmarkButton(frame: CGRect(
             origin: CGPoint(x: (lastView?.frame.maxX ?? 0) + 8, y: 0),
-            size: CGSize(width: frame.width / (text.count > 12 ? 2 : 3.5), height: frame.height)
+            size: CGSize(width: frame.width / (bookmark.query.count > 12 ? 2 : 3.5), height: frame.height)
         ))
         
         button.setBookmark(bookmark)
@@ -80,6 +90,10 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
                 view.frame.origin.x -= (sender.frame.width + 8)
             })
         }
+    }
+    
+    var queryPath: String {
+        parser.getQueryEncoded(queries)
     }
     
     func dispose() {
@@ -112,7 +126,13 @@ struct Bookmark: Hashable {
         hasher.combine(query)
     }
     
-    let query: String
+    let queryCondition: QueryCondition
+    let querySentence: String
+    
+    var query: String {
+        queryCondition.rawValue + ":" + querySentence
+    }
+    
     var queryEncoded: String {
         var query = query
         let replaceColon = ":".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) // %3A

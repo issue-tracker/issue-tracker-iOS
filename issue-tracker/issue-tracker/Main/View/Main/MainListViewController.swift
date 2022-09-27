@@ -199,13 +199,7 @@ extension MainListViewController: UISearchBarDelegate {
             searchBar.text = nil
         }
         
-        let searchText = searchBar.text ?? ""
-        let keyValue = searchText.split(separator: ":").map{ String($0) }
-        
-        guard keyValue.count >= 2 else {
-            return
-        }
-        
-        bookmarkScrollView.insertButton(keyValue[0], keyValue[1])
+        bookmarkScrollView.insertButton(searchText: searchBar.text ?? "")
+        print(bookmarkScrollView.queryPath)
     }
 }

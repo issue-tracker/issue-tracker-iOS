@@ -52,6 +52,8 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
         
         model?.binding = self
         
+        tableView.accessibilityIdentifier = "issueListViewController"
+        
         tableView.separatorStyle = .none
         view.addSubview(tableView)
         

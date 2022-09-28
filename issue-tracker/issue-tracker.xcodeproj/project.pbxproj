@@ -65,6 +65,7 @@
 		1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */; };
 		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
 		1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */; };
+		1B7AAAB228E3CCBA00DD66EA /* PopupTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7AAAB128E3CCBA00DD66EA /* PopupTableView.swift */; };
 		1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */; };
 		1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */; };
@@ -200,6 +201,7 @@
 		1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListTableViewCell.swift; sourceTree = "<group>"; };
 		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCondition.swift; sourceTree = "<group>"; };
+		1B7AAAB128E3CCBA00DD66EA /* PopupTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupTableView.swift; sourceTree = "<group>"; };
 		1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = RELEASE.xcconfig; sourceTree = "<group>"; };
 		1B89AF4728A0D4EF0057C6D5 /* issue-trackerUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "issue-trackerUnitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest.swift; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				1B8E4AB728892F0F00432728 /* ViewBinding.swift */,
 				1B4F48A428A51D6E00C4B33A /* CommonLabel.swift */,
 				1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */,
+				1B7AAAB128E3CCBA00DD66EA /* PopupTableView.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -936,6 +939,7 @@
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */,
 				1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */,
+				1B7AAAB228E3CCBA00DD66EA /* PopupTableView.swift in Sources */,
 				1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */,
 				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
 				1BF1D0CF28BC9C3B00393294 /* MainViewProtocol.swift in Sources */,

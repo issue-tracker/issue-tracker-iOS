@@ -42,8 +42,18 @@ class issue_trackerUITests_MainView: CommonTestCase {
         }
         
         XCTAssertTrue(app.segmentedControls.element.waitForExistence(timeout: 5.0))
-        app.segmentedControls.buttons.element(boundBy: 1).tap()
-        app.segmentedControls.buttons.element(boundBy: 2).tap()
+        
+        app.searchFields.firstMatch.tap()
+        
+        XCTAssertTrue(app.descendants(matching: .table).cells.count > 2)
+        
+        sleep(2)
+        
+        app.descendants(matching: .table).matching(identifier: "issueListViewController").element.swipeDown()
+        
+        let segmentedControl = app.descendants(matching: .segmentedControl)["listControl"]
+        segmentedControl.buttons.element(boundBy: 1).tap()
+        segmentedControl.buttons.element(boundBy: 2).tap()
         
         tearDownEachTest()
     }

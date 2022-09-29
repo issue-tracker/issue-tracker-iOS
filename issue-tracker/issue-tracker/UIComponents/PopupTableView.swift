@@ -51,19 +51,19 @@ class PopupTableView: UIView, ViewBindable {
         setCornerRadius(2)
         
         tableView.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().inset(8)
-            $0.trailing.bottom.equalToSuperview().offset(8)
+          $0.edges.equalToSuperview().inset(8)
         }
         
         layoutIfNeeded()
     }
     
-    private func addShadow() {
+    private func addShadow(dx: CGFloat = 5, dy: CGFloat = 5) {
+        let shadowRect = bounds.offsetBy(dx: dx, dy: dy)
         layer.shadowColor = UIColor.lightGray.cgColor
         layer.shadowOpacity = 0.5
-        layer.shadowRadius = layer.cornerRadius
+        layer.shadowRadius = 8
         layer.shadowOffset = .zero
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shadowPath = UIBezierPath(rect: shadowRect).cgPath
     }
     
     func initialSetting() {
@@ -75,7 +75,6 @@ class PopupTableView: UIView, ViewBindable {
         Observable<[String]>
             .just(cellTitles)
             .bind(to: tableView.rx.items(cellIdentifier: PopupTableViewCell.reuseIdentifier, cellType: PopupTableViewCell.self)) { index, title, cell in
-                cell.contentView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
                 cell.titleLabel.text = title
             }
             .disposed(by: disposeBag)

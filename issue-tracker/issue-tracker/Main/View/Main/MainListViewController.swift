@@ -117,6 +117,12 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         return button
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("hahaha")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

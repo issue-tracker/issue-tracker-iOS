@@ -107,7 +107,7 @@ class BookmarkButton: UIButton {
         self.bookmark = bookmark
         titleLabel?.adjustsFontSizeToFitWidth = true
         setTitle(bookmark.query, for: .normal)
-        backgroundColor = UIColor.getRandomColor()
+        backgroundColor = UIColor.systemBackground
         setCornerRadius()
     }
 }

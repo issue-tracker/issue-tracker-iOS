@@ -15,28 +15,22 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     // Search field 에 관한 가이드라인
     // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
     // Best practices
-    // 1. placeholder 등을 이용해서 hints 를 보여줄 수 있게 해야 된다. (O)
-    // 2. safari browser 가 searchfield 를 클릭하면 북마크를 보여주는 것처럼, 북마크같은 기능을 제공하라. (O)
-    // 3. 적절한 시간에 탐색을 시작하도록 하라. 바로 시작할 수도 있고, Return/Enter 등을 탭 해야될 수도 있다. 타이핑 중 계속 검색하려면 계속 결과가 수정되어야 한다.
-    // 4. Clear button 을 제공하라. (O)
-    // 5. Search history 를 제공하는 것은 사용자의 선택으로 맡겨둬야 한다.
-    // Scope bars
-    // 스코프 바를 이용하면 미리 정해진 결과를 얻을 수 있게 해준다. 사용자 선호도를 향상시킬 수 있다. ( UISegmentedControl 로 대체 완료 )
-    // Platform considerations
-    // 네비게이션 바에도 검색 창을 만들 수 있다. 이렇게 될 경우 미리 정해진 appearance 를 갖게 된다(예: 아래로 스와이프를 하면 숨겨짐).
-    // UIViewController 내부에 searchController 프로퍼티를 사용하여 시스템에서 제공하는 appearance 를 사용할 수 있다(네비게이션 바에 위치).
-    // 커스텀화된 appearance 가 필요하다면 UISearchBar 를 이용한 검색바나 UISearchTextField 를 이용하여 searchField 의 커스텀 배경을 넣는다.
+    // 1. 적절한 시간에 탐색을 시작하도록 하라. 바로 시작할 수도 있고, Return/Enter 등을 탭 해야될 수도 있다. 타이핑 중 계속 검색하려면 계속 결과가 수정되어야 한다.
+    // 2. Search history 를 제공하는 것은 사용자의 선택으로 맡겨둬야 한다.
     
     private let padding: CGFloat = 8
-    /// ViewController 에 의해  firstResponder 가 정해질 경우 임시적으로 PopupTableView 의 표시를 막는다.
-    private var shouldPopupTableView = true
     
     private(set) lazy var searchBar: UISearchBar = {
-        let result = UISearchBar()
-        result.delegate = self
-        result.placeholder = "검색 시 적용된 조건이 아래 추가됩니다."
-        return result
+        let searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.placeholder = "검색 시 적용된 조건이 아래 추가됩니다."
+        return searchBar
     }()
+    
+    private var removePopupSubject = PublishSubject<PopupTableView?>()
+    private var disposeBag = DisposeBag()
+    private var popupView: PopupTableView?
+    
     private let bookmarkScrollView = QueryBookmarkScrollView()
     
     private lazy var listSegmentedControl: UISegmentedControl = {
@@ -63,9 +57,8 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         DispatchQueue.main.async {
             if let cellTitle = entity as? String, bindable is PopupTableView {
                 self?.searchBar.text = cellTitle
-                self?.shouldPopupTableView = false
                 self?.searchBar.becomeFirstResponder()
-                self?.shouldPopupTableView = true
+                self?.popupView = nil
             }
             
             if let entity = entity as? IssueListEntity, bindable is IssueListViewController {
@@ -117,12 +110,6 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         return button
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        print("hahaha")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -168,6 +155,11 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
             $0.size.equalTo(CGSize(width: 44, height: 44))
         }
         
+        removePopupSubject
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { $0?.removeFromSuperview() })
+            .disposed(by: disposeBag)
+        
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         view.layoutIfNeeded()
         
@@ -209,10 +201,10 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
 
 extension MainListViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        guard shouldPopupTableView else { return true }
+        guard popupView == nil, (searchBar.text ?? "").isEmpty else { return true }
         
         var popupFrame = searchBar.frame.offsetBy(dx: 0, dy: searchBar.frame.height + 8)
-        popupFrame.size = CGSize(width: popupFrame.width, height: 170)
+        popupFrame.size = CGSize(width: popupFrame.width / 2, height: 170)
         let popup = PopupTableView(frame: popupFrame, identifierAccessibility: "mainSearchBarPopup") {
             "is:"
             "milestone:"
@@ -221,26 +213,28 @@ extension MainListViewController: UISearchBarDelegate {
         }
         popup.initialSetting()
         popup.binding = self
+        popupView = popup
         
         view.addSubview(popup)
         return true
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        DispatchQueue.main.async { [weak self] in
-            self?.view.subviews.filter({ $0 is PopupTableView }).forEach { popup in
-                popup.removeFromSuperview()
-            }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty == false {
+            removePopupSubject.onNext(popupView)
         }
     }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        removePopupSubject.onNext(popupView)
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
         defer {
             searchBar.text = nil
         }
         
         bookmarkScrollView.insertButton(searchText: searchBar.text ?? "")
-        print(bookmarkScrollView.queryPath)
+        searchBar.resignFirstResponder()
     }
 }

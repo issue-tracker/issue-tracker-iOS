@@ -78,7 +78,15 @@ class QueryParser {
         
         query.removeFirst()
         
-        return query.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "+:%").inverted) ?? ""
+        return query.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "\u{22}+").inverted) ?? ""
+    }
+    
+    func getQuery(_ bookmarks: Set<Bookmark>) -> String {
+        let result = bookmarks.reduce("") { partialResult, bookmark in
+            partialResult + (partialResult == "" ? "" : "+") + bookmark.queryEncoded
+        }
+        
+        return result.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "\u{22}+").inverted) ?? ""
     }
 }
 

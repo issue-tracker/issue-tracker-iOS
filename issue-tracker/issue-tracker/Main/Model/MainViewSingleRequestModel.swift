@@ -15,7 +15,7 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
     typealias ListType = ResponseEntityType
     typealias Entity = ResponseType
     
-    private(set) var dataSource: PublishSubject<[ListType]>?
+    private(set) var dataSource = PublishSubject<[ListType]>()
     
     private(set) var entity: Entity?
     private(set) var entityList: [ListType] = []
@@ -28,81 +28,65 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
     var errorHandler: ((Error?) -> Void)?
     var binding: ViewBinding?
     
-    func requestEntityList(_ requestHandler: ((Entity?) -> Void)? = nil) -> Observable<[ListType]> {
-        guard pageCount >= 0 else { return Observable.empty() }
-        
-        builder.setURLQuery(["page":"\(pageCount)"])
-        return requestObservable()
-            .do(onError: { [weak self] error in
-                self?.pageCount = -1
-            })
-            .map ({ [weak self] data -> [ListType] in
-                guard let self = self else {
-                    requestHandler?(nil)
-                    throw HTTPError.createRequestFailed
-                }
-                
-                guard let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self) else {
-                    requestHandler?(nil)
-                    throw HTTPError.noData
-                }
-                
-                self.pageCount += 1
-                self.entity = entity
-                
-                if let entityList = (entity as? EntityContainsResultList)?.list as? [ListType] {
-                    self.entityList.append(contentsOf: entityList)
-                } else {
-                    self.pageCount = -1
-                }
-                
-                self.binding?.bindableHandler?(entity, self)
-                self.nextHandler?(entity)
-                requestHandler?(entity)
-                
-                return self.entityList
-            })
-    }
+    var issueQueryPath: String?
+    private var urlContextPath = [String: String]()
     
-    func requestEntity(_ requestHandler: ((Entity?) -> Void)? = nil) -> Observable<Entity> {
-        guard pageCount >= 0 else { return Observable.empty() }
+    func requestEntity(_ requestHandler: ((Entity?) -> Void)? = nil) {
+        guard pageCount >= 0 else { return }
         
-        builder.setURLQuery(["page":"\(pageCount)"])
-        return requestObservable()
-            .do(onError: { [weak self] error in
-                self?.pageCount = -1
-            })
-            .map ({ [weak self] data -> Entity in
-                guard let self = self else {
-                    requestHandler?(nil)
-                    throw HTTPError.createRequestFailed
-                }
-                
+        urlContextPath = ["page":"\(pageCount)"]
+        if let issueQueryPath = issueQueryPath {
+            urlContextPath["q"] = issueQueryPath
+        }
+        builder.setURLQuery(urlContextPath)
+        
+        defer {
+            issueQueryPath = nil
+            urlContextPath.removeAll()
+        }
+        
+        requestObservable()
+            .map ({ data -> Entity in
                 guard let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self) else {
-                    requestHandler?(nil)
                     throw HTTPError.noData
                 }
-                
-                self.pageCount += 1
-                self.entity = entity
-                
-                if let entityList = (entity as? EntityContainsResultList)?.list as? [ListType] {
-                    self.entityList.append(contentsOf: entityList)
-                }
-                
-                self.binding?.bindableHandler?(entity, self)
-                self.nextHandler?(entity)
-                requestHandler?(entity)
                 
                 return entity
             })
+            .subscribe(onNext: { [weak self] entity in
+                guard let self = self else { return }
+                
+                self.pageCount += 1
+                self.entity = entity
+                
+                if let entityList = (entity as? EntityContainsResultList)?.list as? [ListType] {
+                    self.entityList.append(contentsOf: entityList)
+                }
+                
+                self.binding?.bindableHandler?(entity, self)
+                self.nextHandler?(entity)
+                requestHandler?(entity)
+                self.dataSource.onNext(self.entityList)
+            })
+            .disposed(by: disposeBag)
     }
     
     func reloadEntities(reloadHandler: ((Entity?)->Void)? = nil) {
         guard pageCount >= 0 else { return }
         
         pageCount = 0
-        builder.setURLQuery(["page":"\(pageCount)"])
+        
+        urlContextPath = ["page":"\(pageCount)"]
+        if let issueQueryPath = issueQueryPath {
+            urlContextPath["q"] = issueQueryPath
+        }
+        builder.setURLQuery(urlContextPath)
+        
+        defer {
+            issueQueryPath = nil
+            urlContextPath.removeAll()
+        }
+        
         request() { [weak self] result, response in
             guard let self = self else {
                 self?.pageCount = -1
@@ -111,13 +95,14 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
             
             switch result {
             case .success(let data):
-                
+                print(String(data: data, encoding: .utf8))
+                print(response?.url?.absoluteString)
                 let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self)
                 self.entity = entity
                 
-                if let entityList = (entity as? EntityContainsResultList)?.list as? [ListType] {
-                    self.entityList.append(contentsOf: entityList)
-                }
+                let entityList = (entity as? EntityContainsResultList)?.list as? [ListType]
+                self.entityList = entityList ?? []
+                self.dataSource.onNext(self.entityList)
                 
                 reloadHandler?(entity)
                 

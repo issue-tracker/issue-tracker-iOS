@@ -11,16 +11,18 @@ import RxCocoa
 
 class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     
+    typealias MODEL = MainViewSingleRequestModel<AllIssueEntity, IssueListEntity>
+    
     private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
     private var tableView = UITableView()
     private var disposeBag = DisposeBag()
     
-    private var model: MainViewSingleRequestModel<AllIssueEntity, IssueListEntity>? = {
+    private var model: MODEL? = {
         guard let url = URL.issueApiURL else {
             return nil
         }
         
-        return MainViewSingleRequestModel(url)
+        return MODEL(url)
     }()
     var modelStatusCount: String {
         if let entity = model?.entity {
@@ -35,15 +37,15 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
     
     var binding: ViewBinding?
     
-    lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] _, bindable in
-        guard let self = self, bindable is MainViewSingleRequestModel<AllIssueEntity, IssueListEntity> else {
-            return
-        }
+    lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] queryPath, bindable in
+        guard let self = self else { return }
         
-        self.binding?.bindableHandler?(self.model?.entity, self)
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        if bindable is MODEL {
+            self.binding?.bindableHandler?(self.model?.entity, self)
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -69,7 +71,7 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        model?.requestEntityList()
+        model?.dataSource
             .asDriver(onErrorJustReturn: [])
             .do(onNext: { [weak self] _ in
                 self?.navigationController?.title = self?.modelStatusCount
@@ -79,9 +81,17 @@ class IssueListViewController: UIViewController, ViewBinding, ViewBindable {
                 cell.setLayout()
             }
             .disposed(by: model?.disposeBag ?? disposeBag)
+                
+        model?.requestEntity()
+    }
+    
+    func setQueryPath(_ queryPath: String) {
+        model?.issueQueryPath = queryPath
+        model?.reloadEntities()
     }
     
     @objc func reloadTableView(_ sender: Any) {
+        model?.issueQueryPath = nil
         model?.reloadEntities(reloadHandler: { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -98,15 +108,6 @@ extension IssueListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         binding?.bindableHandler?(issues[indexPath.row], self)
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let entityEndIndex = model?.entityList.endIndex ?? 0
-        guard indexPath.row != 0, indexPath.row == (entityEndIndex - 1) else {
-            return
-        }
-        
-        model?.requestEntityList()
     }
 }
 

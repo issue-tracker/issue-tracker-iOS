@@ -24,14 +24,12 @@ class PopupTableView: UIView, ViewBindable {
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeUI()
-        addShadow()
         setNotification()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         makeUI()
-        addShadow()
         setNotification()
     }
     
@@ -49,21 +47,10 @@ class PopupTableView: UIView, ViewBindable {
     private func makeUI() {
         addSubview(tableView)
         setCornerRadius(2)
-        
+        setShadow()
         tableView.snp.makeConstraints {
           $0.edges.equalToSuperview().inset(8)
         }
-        
-        layoutIfNeeded()
-    }
-    
-    private func addShadow(dx: CGFloat = 5, dy: CGFloat = 5) {
-        let shadowRect = bounds.offsetBy(dx: dx, dy: dy)
-        layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 8
-        layer.shadowOffset = .zero
-        layer.shadowPath = UIBezierPath(rect: shadowRect).cgPath
     }
     
     func initialSetting() {

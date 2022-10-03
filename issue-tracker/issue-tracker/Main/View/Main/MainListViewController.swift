@@ -236,5 +236,6 @@ extension MainListViewController: UISearchBarDelegate {
         
         bookmarkScrollView.insertButton(searchText: searchBar.text ?? "")
         searchBar.resignFirstResponder()
+        issueListViewController.setQueryPath(bookmarkScrollView.queryPath)
     }
 }

@@ -93,7 +93,7 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
     }
     
     var queryPath: String {
-        parser.getQueryEncoded(queries)
+        parser.getQuery(queries)
     }
     
     func dispose() {
@@ -102,13 +102,30 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
 }
 
 class BookmarkButton: UIButton {
+    
     var bookmark: Bookmark?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        makeUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        makeUI()
+    }
+    
+    private func makeUI() {
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        let randomColor = UIColor.getRandomColor()
+        setTitleColor(randomColor, for: .normal)
+        backgroundColor = randomColor.withAlphaComponent(0.3)
+        setCornerRadius()
+    }
+    
     func setBookmark(_ bookmark: Bookmark) {
         self.bookmark = bookmark
-        titleLabel?.adjustsFontSizeToFitWidth = true
         setTitle(bookmark.query, for: .normal)
-        backgroundColor = UIColor.systemBackground
-        setCornerRadius()
     }
 }
 
@@ -130,17 +147,15 @@ struct Bookmark: Hashable {
     let querySentence: String
     
     var query: String {
-        queryCondition.rawValue + ":" + querySentence
+        queryCondition.rawValue + ":" + "\u{22}\(querySentence)\u{22}"
     }
     
     var queryEncoded: String {
         var query = query
         let replaceColon = ":".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) // %3A
-        var safeCount = 100
         
-        while let replaceColon = replaceColon, let index = query.firstIndex(of: Character(Unicode.Scalar(58))), safeCount > 0 {
+        if let replaceColon = replaceColon, let index = query.firstIndex(of: Character(Unicode.Scalar(58))) {
             query.replaceSubrange(index...index, with: replaceColon)
-            safeCount -= 1
         }
         
         return query

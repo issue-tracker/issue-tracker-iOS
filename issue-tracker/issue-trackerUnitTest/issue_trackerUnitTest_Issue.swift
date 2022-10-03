@@ -17,6 +17,7 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     
     var issueDetailModel: IssueDetailViewModel?
     let model = IssueAddRemoveModel(URL.issueApiURL!)
+    var disposeBag = DisposeBag()
     override func setUp() {
         URLProtocol.registerClass(MainViewProtocol.self)
         expectation = XCTestExpectation()
@@ -30,11 +31,16 @@ class issue_trackerUnitTest_Issue: XCTestCase {
         
         issueModel = MainViewSingleRequestModel<AllIssueEntity, MilestoneListEntity>(URL(string: Bundle.main.path(forResource: "Issues", ofType: "json") ?? ""))
         issueModel?.builder.setURLQuery(["page" : "0"])
-        issueModel?.requestEntityList() { entity in
-            if entity != nil {
-                self.expectation.fulfill()
-            }
-        }
+        
+        issueModel?.dataSource
+            .subscribe(onNext: { list in
+                if list.isEmpty == false {
+                    self.expectation.fulfill()
+                }
+            })
+            .disposed(by: disposeBag)
+        issueModel?.requestEntity()
+        
         
         wait(for: [expectation], timeout: (1.5))
     }
@@ -58,9 +64,15 @@ class issue_trackerUnitTest_Issue: XCTestCase {
     
     func testMilestoneList() throws {
         milestoneModel = MainViewSingleRequestModel<AllMilestoneEntity, MilestoneListEntity>(URL(string: Bundle.main.path(forResource: "Milestones", ofType: "json") ?? ""))
-        milestoneModel?.requestEntityList() { list in
-            self.expectation.fulfill()
-        }
+        
+        milestoneModel?.dataSource.subscribe(onNext: { list in
+            if list.isEmpty == false {
+                self.expectation.fulfill()
+            }
+        })
+        .disposed(by: disposeBag)
+        
+        milestoneModel?.requestEntity()
         
         wait(for: [expectation], timeout: 1.5)
     }

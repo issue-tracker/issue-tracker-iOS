@@ -17,7 +17,7 @@ extension UIColor {
             displayP3Red: colorValue,
             green: colorValue,
             blue: colorValue,
-            alpha: CGFloat.random(in: 0.0...1.0)
+            alpha: 1.0
         )
     }
 }

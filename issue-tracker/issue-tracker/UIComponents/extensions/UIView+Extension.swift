@@ -13,4 +13,13 @@ extension UIView {
         self.clipsToBounds = true
         self.setNeedsDisplay()
     }
+    
+    func setShadow(dx: CGFloat = 5, dy: CGFloat = 5) {
+        let shadowRect = bounds.offsetBy(dx: dx, dy: dy)
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 8
+        layer.shadowOffset = .zero
+        layer.shadowPath = UIBezierPath(rect: shadowRect).cgPath
+    }
 }

@@ -63,23 +63,25 @@ struct RequestBuilder {
     mutating func getRequest() -> URLRequest? {
         var requestURL = baseURL
         
-        if urlQueries.count > 0, var comp = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) {
-            
-            comp.queryItems = urlQueries.map({
-                URLQueryItem(name: $0.key, value: $0.value)
-            })
-            
-            if let url = comp.url {
-                requestURL = url
-            }
-        }
-        
+        // MARK: - REQUEST URL AREA
         for path in pathArray {
             requestURL.appendPathComponent(path)
         }
         pathArray.removeAll()
         
-        var request = URLRequest(url: requestURL)
+        var comp = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
+        comp?.queryItems = urlQueries.map { query in
+            URLQueryItem(name: query.key, value: query.value)
+        }
+        
+        urlQueries.removeAll()
+        
+        guard let url = comp?.url else {
+            return nil
+        }
+        
+        // MARK: - REQUEST HEADER & BODY AREA
+        var request = URLRequest(url: url)
         
         request.httpBody = httpBody
         httpBody = nil

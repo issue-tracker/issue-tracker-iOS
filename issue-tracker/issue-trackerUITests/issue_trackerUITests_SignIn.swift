@@ -45,7 +45,7 @@ class issue_trackerUITests_SignIn: CommonTestCase {
         let nicknameField = app.getViewUsing(id: textFieldIds[4]).textFields.firstMatch
         
         idField.tap()
-        idField.typeText("testios")
+        idField.typeText("iostestuser")
         let isIdNotExists = app.getViewUsing(id: textFieldIds[0]).staticTexts["이상이 발견되지 않았습니다."].waitForExistence(timeout: 7.0)
         // isIdNotExists 하지 않다 라는 것은 아이디가 이미 존재하거나, 네트워크 연결 실패이므로 더 이상 테스트 할 이유가 없음.
         if isIdNotExists == false {
@@ -72,7 +72,7 @@ class issue_trackerUITests_SignIn: CommonTestCase {
             return
         }
         nicknameField.tap()
-        nicknameField.typeText("테스트아이오에스")
+        nicknameField.typeText("아이오에스테스트유저")
         
         app.descendants(matching: .button)[buttonIds[0]].tap()
         

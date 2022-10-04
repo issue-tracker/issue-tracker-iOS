@@ -191,9 +191,9 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
         UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { elements in
             UIMenu(title: "", options: .displayInline, children: [
                 UIAction(title: "logout") { _ in
-                    UserDefaults.standard.removeObject(forKey: "memberId")
+                    LoginResponse.removeUserDefaults()
                     self.switchScreen(type: .login)
-                },
+                }
             ])
         }
     }

@@ -19,11 +19,13 @@ class HTTPResponseModel {
     }
     
     func getMessageResponse(from data: Data) -> String? {
-        guard let jsonObject = try? JSONSerialization.jsonObject(with: data) else {
+        guard let object = try? JSONSerialization.jsonObject(with: data) else {
             return nil
         }
         
-        return (jsonObject as? [String: String])?["message"]
+        let jsonObject = object as? [String: Any]
+        
+        return jsonObject?["message"] as? String
     }
     
     func getMessageResponse(from result: Result<Data, Error>) -> String? {
@@ -32,6 +34,24 @@ class HTTPResponseModel {
         }
         
         return getMessageResponse(from: data)
+    }
+    
+    func getErrorCodeResponse(from data: Data) -> Int? {
+        guard let object = try? JSONSerialization.jsonObject(with: data) else {
+            return nil
+        }
+        
+        let jsonObject = object as? [String: Any]
+        
+        return jsonObject?["errorCode"] as? Int
+    }
+    
+    func getErrorCodeResponse(from result: Result<Data, Error>) -> Int? {
+        guard let data = try? result.get() else {
+            return nil
+        }
+        
+        return getErrorCodeResponse(from: data)
     }
     
     func getDecoded<T: Decodable>(from data: Data, as type: T.Type) -> T? {

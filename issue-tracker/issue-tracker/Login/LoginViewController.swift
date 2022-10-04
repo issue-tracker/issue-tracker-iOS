@@ -13,7 +13,8 @@ import RxSwift
 class LoginViewController: CommonProxyViewController {
     
     private var bag = DisposeBag()
-    private var requestModel = RequestHTTPModel(URL.apiURL ?? URL(string: ""))
+    private var loginModel = LoginRequestHTTPModel(URL.apiURL ?? URL(string: ""))
+    private var disposeBag = DisposeBag()
     
     private let padding: CGFloat = 8
     
@@ -76,30 +77,30 @@ class LoginViewController: CommonProxyViewController {
         loginButton.clipsToBounds = true
         loginButton.addAction(
             UIAction(handler: { [weak self] _ in
-                guard
-                    let self = self,
-                    let body = ["id": self.idTextField.text, "password": self.passwordTextField.text] as? [String: String]
-                else {
-                    return
-                }
+                let id = self?.idTextField.text
+                let password = self?.passwordTextField.text
                 
-                self.requestModel?.builder.setBody(body)
-                self.requestModel?.builder.setHTTPMethod("post")
-                self.requestModel?.request(pathArray: ["members","signin"], { result, response in
-                    
-                    let model = HTTPResponseModel()
-                    guard let loginResponseData = model.getDecoded(from: result, as: LoginResponse.self) else {
-                        self.commonAlert(model.getMessageResponse(from: result) ?? "로그인에 실패하였습니다.")
-                        return
+                let subscription = self?.loginModel?.requestLogin(id: id, password: password)
+                    .subscribe { loginResponse in
+                        
+                        loginResponse.setUserDefaults()
+                        self?.switchScreen(type: .main)
+                        
+                    } onFailure: { error in
+                        
+                        guard let responseError = error as? ErrorResponseBody else {
+                            self?.commonAlert(LoginRequestHTTPModel.defaultErrorMessage)
+                            return
+                        }
+                        
+                        self?.commonAlert(responseError.getErrorMessage() ?? LoginRequestHTTPModel.defaultErrorMessage)
                     }
-                    
-                    UserDefaults.standard.setValue(loginResponseData.accessToken.token, forKey: "accessToken")
-                    UserDefaults.standard.setValue(loginResponseData.memberResponse.profileImage, forKey: "profileImage")
-                    UserDefaults.standard.setValue(loginResponseData.memberResponse.id, forKey: "memberId")
-                    
-                    self.switchScreen(type: .main)
-                })
                 
+                if let disposeBag = self?.disposeBag {
+                    subscription?.disposed(by: disposeBag)
+                } else {
+                    subscription?.dispose()
+                }
             }),
             for: .touchUpInside
         )
@@ -143,7 +144,6 @@ class LoginViewController: CommonProxyViewController {
     
     private func testAlreadyLogin() {
         guard
-            let requestModel = requestModel,
             let memberId = UserDefaults.standard.value(forKey: "memberId") as? Int
         else {
             DispatchQueue.main.async { self.view.dismissLoadingView() }
@@ -152,51 +152,27 @@ class LoginViewController: CommonProxyViewController {
         
         view.popLoadingView(type: .veryLarge)
         
-        requestModel.builder.setURLQuery(["memberId": "\(memberId)"])
-        requestModel.requestObservable(pathArray: ["auth", "test"])
-            .timeout(DispatchTimeInterval.seconds(3), scheduler: ConcurrentMainScheduler.instance)
-            .observe(on: MainScheduler.instance)
-            .do(onError: { [weak self] _ in
+        loginModel?.loginTest()
+            .do(onSubscribe: { [weak self] in
                 self?.view.dismissLoadingView()
             })
-            .asSingle()
-            .observe(on: MainScheduler.instance)
-            .subscribe({ [weak self] event in
+            .subscribe(onSuccess: { [weak self] resultId in
+                
                 guard let self = self else { return }
                 
-                self.view.dismissLoadingView()
-                
-                switch event {
-                case .success(let data):
-                    guard self.showErrorIfExists(data: data) == false else { return }
-                    
-                    if let id = HTTPResponseModel().getDecoded(from: data, as: Int.self), id == memberId {
-                        self.switchScreen(type: .main)
-                        return
-                    }
-                    
-                    self.commonAlert("자동 로그인 도중 에러가 발생하였습니다.")
-                        
-                case .failure(let error):
-                    self.commonAlert(error.localizedDescription)
+                if resultId == memberId {
+                    self.switchScreen(type: .main)
                 }
+                
+            }, onFailure: { [weak self] error in
+                
+                guard let error = error as? ErrorResponseBody else {
+                    self?.commonAlert("자동 로그인 시도가 실패하였습니다. 재 로그인 바랍니다.")
+                    return
+                }
+                
+                self?.commonAlert(error.getErrorMessage() ?? LoginRequestHTTPModel.defaultErrorMessage)
             })
-            .disposed(by: bag)
+            .disposed(by: disposeBag)
     }
-}
-
-struct LoginResponse: Decodable {
-    var memberResponse: MemberResponse
-    var accessToken: AccessToken
-}
-
-struct MemberResponse: Decodable {
-    var id: Int
-    var email: String
-    var nickname: String
-    var profileImage: String
-}
-
-struct AccessToken: Decodable {
-    var token: String
 }

@@ -12,7 +12,6 @@ class SettingsViewController: CommonProxyViewController {
 
     let viewModel = SettingsViewModel()
     let tableView = UITableView()
-    lazy var dataSource = viewModel.getSettingModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +32,13 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         50
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextView = viewModel[indexPath.section][indexPath.row].getNextView()
+        nextView.view.backgroundColor = .systemBackground
+        tableView.cellForRow(at: indexPath)?.isSelected = false
+        navigationController?.pushViewController(nextView, animated: true)
+    }
 }
 
 extension SettingsViewController: UITableViewDataSource {
@@ -45,7 +51,7 @@ extension SettingsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        viewModel.settingsCategory[section]
+        viewModel.settingsCategory[section].rawValue
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,7 +59,7 @@ extension SettingsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.label.text = viewModel[indexPath.section][indexPath.row]
+        cell.label.text = viewModel[indexPath.section][indexPath.row].getName()
         
         return cell
     }

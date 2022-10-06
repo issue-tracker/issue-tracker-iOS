@@ -68,6 +68,8 @@
 		1B69A90328EC08FD001C6720 /* HTTPCookieStorage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90128EC0849001C6720 /* HTTPCookieStorage+Extensions.swift */; };
 		1B69A90528EECDE0001C6720 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90428EECDE0001C6720 /* SettingsViewModel.swift */; };
 		1B69A90728EF1D47001C6720 /* SettingIssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */; };
+		1B69A90928EF8F25001C6720 /* SettingIssueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */; };
+		1B69A90B28EF8F32001C6720 /* SettingIssueQueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */; };
 		1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */; };
 		1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */; };
 		1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */; };
@@ -209,6 +211,8 @@
 		1B69A90128EC0849001C6720 /* HTTPCookieStorage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPCookieStorage+Extensions.swift"; sourceTree = "<group>"; };
 		1B69A90428EECDE0001C6720 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueListViewController.swift; sourceTree = "<group>"; };
+		1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueDetailViewController.swift; sourceTree = "<group>"; };
+		1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueQueryViewController.swift; sourceTree = "<group>"; };
 		1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListTableViewCell.swift; sourceTree = "<group>"; };
 		1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListTableViewCell.swift; sourceTree = "<group>"; };
 		1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListTableViewCell.swift; sourceTree = "<group>"; };
@@ -547,6 +551,8 @@
 				1B8E4AAF2889115200432728 /* SettingsViewController.swift */,
 				1B69A90428EECDE0001C6720 /* SettingsViewModel.swift */,
 				1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */,
+				1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */,
+				1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -967,6 +973,7 @@
 				1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */,
 				1BD125AE28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift in Sources */,
 				1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */,
+				1B69A90B28EF8F32001C6720 /* SettingIssueQueryViewController.swift in Sources */,
 				1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */,
 				1B4F488828A3712900C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
@@ -986,6 +993,7 @@
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,
 				1B69A90228EC0849001C6720 /* HTTPCookieStorage+Extensions.swift in Sources */,
 				1B50EC2328D0450B005E5B82 /* IssueDetailViewModel.swift in Sources */,
+				1B69A90928EF8F25001C6720 /* SettingIssueDetailViewController.swift in Sources */,
 				1B20F79D288FA34E004EBE9F /* LoginRequestHTTPModel.swift in Sources */,
 				1BF1D0C728BC9A6900393294 /* LabelListEntity.swift in Sources */,
 				1BF36D9928E1CFEE0033DF2A /* QueryBookmarkScrollView.swift in Sources */,

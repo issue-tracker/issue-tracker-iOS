@@ -46,8 +46,10 @@ class PopupTableView: UIView, ViewBindable {
     
     private func makeUI() {
         addSubview(tableView)
-        setCornerRadius(2)
+        
         setShadow()
+        setCornerRadius()
+        
         tableView.snp.makeConstraints {
           $0.edges.equalToSuperview().inset(8)
         }
@@ -134,8 +136,8 @@ class PopupTableViewCell: UITableViewCell {
     func makeUI() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().inset(8)
-            $0.trailing.bottom.equalToSuperview().offset(8)
+            $0.leading.top.equalToSuperview().offset(8)
+            $0.trailing.bottom.equalToSuperview().inset(8)
         }
         
         layoutIfNeeded()

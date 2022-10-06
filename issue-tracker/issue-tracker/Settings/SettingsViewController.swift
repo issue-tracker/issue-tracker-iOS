@@ -6,18 +6,92 @@
 //
 
 import UIKit
+import SnapKit
 
 class SettingsViewController: CommonProxyViewController {
 
-    private(set) var label = UILabel()
+    let viewModel = SettingsViewModel()
+    let tableView = UITableView()
+    lazy var dataSource = viewModel.getSettingModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(label)
-        label.text = "settings"
+        navigationItem.title = "Settings"
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
         
-        label.snp.makeConstraints { make in
-            make.center.equalTo(self.view.snp.center)
+        tableView.separatorStyle = .none
+        tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.reuseIdentifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+}
+
+extension SettingsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        50
+    }
+}
+
+extension SettingsViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.settingsCategory.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        viewModel.settingsCategory[section]
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier, for: indexPath) as? SettingsCell else {
+            return UITableViewCell()
+        }
+        
+        cell.label.text = viewModel[indexPath.section][indexPath.row]
+        
+        return cell
+    }
+}
+
+class SettingsCell: UITableViewCell {
+    let customBackgroundView = UIView()
+    let label = CommonLabel(fontMultiplier: 1.45)
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        makeUI()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        makeUI()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        makeUI()
+    }
+    
+    private func makeUI() {
+        contentView.addSubview(customBackgroundView)
+        customBackgroundView.addSubview(label)
+        
+        label.backgroundColor = .systemBackground
+        label.textAlignment = .left
+        
+        customBackgroundView.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(5)
+            $0.trailing.bottom.equalToSuperview().inset(5)
+        }
+        
+        label.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }

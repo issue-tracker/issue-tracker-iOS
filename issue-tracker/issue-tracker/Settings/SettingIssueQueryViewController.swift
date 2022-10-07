@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/// UITableView EditMode 이용해서 적용할 쿼리와 적용하지 않을 쿼리를 설정할 수 있도록 함.
+///
+/// 삭제 추가가 가능하게 해야할지는 잘 모르겠음.
 class SettingIssueQueryViewController: UIViewController {
     private(set) var label = UILabel()
     

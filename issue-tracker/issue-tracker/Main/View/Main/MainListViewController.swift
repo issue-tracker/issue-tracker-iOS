@@ -97,6 +97,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         }
         
         button.addInteraction(UIContextMenuInteraction(delegate: self))
+        button.accessibilityIdentifier = "profileView"
         
         return button
     }()

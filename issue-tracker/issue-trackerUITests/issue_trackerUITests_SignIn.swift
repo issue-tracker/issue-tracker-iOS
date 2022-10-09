@@ -12,7 +12,12 @@ class issue_trackerUITests_SignIn: CommonTestCase {
     private let buttonIds = ["가입하기"]
     
     override func prepareEachTest() {
-        app.descendants(matching: .button)["회원가입"].tap()
+        issue_trackerUITests_Login(app: app).logOutIfAlreadyLogin()
+        
+        let button = app.descendants(matching: .button)["회원가입"]
+        if button.waitForExistence(timeout: 1.5) {
+            button.tap()
+        }
     }
     
     override func tearDownEachTest() {
@@ -21,7 +26,8 @@ class issue_trackerUITests_SignIn: CommonTestCase {
     }
     
     override func doVisibleTest() {
-        super.doVisibleTest()
+        self.prepareEachTest()
+        
         XCTAssertNotNil(app.children(matching: .window).firstMatch.exists)
         
         for (index, result) in app.isViewExists(ids: textFieldIds).enumerated() {
@@ -31,22 +37,30 @@ class issue_trackerUITests_SignIn: CommonTestCase {
         for (index, result) in app.isButtonExists(ids: buttonIds).enumerated() {
             XCTAssertTrue(result, "[Error] \(buttonIds[index]) not exsits")
         }
-        
-        tearDownEachTest()
     }
     
     override func doFunctionTest() {
-        super.doFunctionTest()
         
-        let idField = app.getViewUsing(id: textFieldIds[0]).textFields.firstMatch
-        let passwordField = app.getViewUsing(id: textFieldIds[1]).secureTextFields["비밀번호"]
-        let passwordConfirmedField = app.getViewUsing(id: textFieldIds[2]).secureTextFields["비밀번호 확인"]
-        let emailField = app.getViewUsing(id: textFieldIds[3]).textFields.firstMatch
-        let nicknameField = app.getViewUsing(id: textFieldIds[4]).textFields.firstMatch
+        self.prepareEachTest()
+        
+        func getSubTextField(_ viewId: String, _ id: String) -> XCUIElement {
+            if app.getViewUsing(id: viewId).textFields[id].exists {
+                return app.getViewUsing(id: viewId).textFields[id]
+            } else {
+                return app.getViewUsing(id: viewId).secureTextFields[id]
+            }
+        }
+        
+        let idField = getSubTextField(textFieldIds[0], "아이디")
+        let passwordField = getSubTextField(textFieldIds[1], "비밀번호")
+        let passwordConfirmedField = getSubTextField(textFieldIds[0], "비밀번호 확인")
+        let emailField = getSubTextField(textFieldIds[0], "이메일")
+        let nicknameField = getSubTextField(textFieldIds[0], "닉네임")
         
         idField.tap()
-        idField.typeText("iostestuser")
-        let isIdNotExists = app.getViewUsing(id: textFieldIds[0]).staticTexts["이상이 발견되지 않았습니다."].waitForExistence(timeout: 7.0)
+        idField.typeText("testios")
+        
+        let isIdNotExists = app.otherElements["idArea"].staticTexts["이상이 발견되지 않았습니다."].waitForExistence(timeout: 7.0)
         // isIdNotExists 하지 않다 라는 것은 아이디가 이미 존재하거나, 네트워크 연결 실패이므로 더 이상 테스트 할 이유가 없음.
         if isIdNotExists == false {
             return
@@ -72,13 +86,12 @@ class issue_trackerUITests_SignIn: CommonTestCase {
             return
         }
         nicknameField.tap()
-        nicknameField.typeText("아이오에스테스트유저")
+        nicknameField.typeText("테스트아이오에스")
         
-        app.descendants(matching: .button)[buttonIds[0]].tap()
+        app.descendants(matching: .button)["가입하기"].tap()
         
         XCTAssertTrue(app.alerts.element.waitForExistence(timeout: 4.0))
         
         app.alerts.buttons.element.tap()
     }
-
 }

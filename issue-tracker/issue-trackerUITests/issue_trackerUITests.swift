@@ -20,22 +20,23 @@ class issue_trackerUITests: XCTestCase {
         app.terminate()
     }
     
-    func test_Login() throws {
+    func test_login() throws {
         issue_trackerUITests_Login(app: app).doVisibleTest()
+        issue_trackerUITests_Login(app: app).doFunctionTest()
     }
     
-    func test_SignIn() throws {
+    func test_SignIn() throws { // SignInFormViewController -> MaiinListViewController
         issue_trackerUITests_SignIn(app: app).doVisibleTest()
         issue_trackerUITests_SignIn(app: app).doFunctionTest()
     }
     
-    func test_MainView() throws {
+    func test_MainView() throws { // LoginViewController -> MainListViewController
         issue_trackerUITests_MainView(app: app).doFunctionTest()
         issue_trackerUITests_MainView(app: app).doVisibleTest()
     }
     
     func test_IssueDetailView() throws {
-        issue_trackerUITests_IssueDetail(app: app).doVisibleTest()
         issue_trackerUITests_IssueDetail(app: app).doFunctionTest()
+        issue_trackerUITests_IssueDetail(app: app).doVisibleTest()
     }
 }

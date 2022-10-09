@@ -17,7 +17,7 @@ extension XCUIApplication {
     }
     
     func isTextFieldExsits(id: String) -> Bool {
-        self.descendants(matching: .textField).firstMatch.exists
+        self.descendants(matching: .textField).firstMatch.exists || self.descendants(matching: .secureTextField).firstMatch.exists
     }
     
     func isTextFieldExsits(ids: [String]) -> [Bool] {
@@ -44,6 +44,6 @@ extension XCUIApplication {
     }
     
     func isViewExists(ids: [String]) -> [Bool] {
-        ids.map { self.otherElements[$0].exists }
+        ids.map({ self.getViewUsing(id: $0).exists })
     }
 }

@@ -9,20 +9,6 @@ import XCTest
 
 class issue_trackerUITests_MainView: CommonTestCase {
     
-    override func prepareEachTest() {
-    }
-    
-    override func tearDownEachTest() {
-        sleep(2)
-        XCTAssertTrue(app.navigationBars.element.exists, "[Error] Screen Move Failed.") 
-    }
-    
-    override func doVisibleTest() {
-        super.doVisibleTest()
-        
-        tearDownEachTest()
-    }
-    
     override func doFunctionTest() {
         let idField = app.descendants(matching: .textField)["아이디"]
         let passwordField = app.descendants(matching: .secureTextField)["패스워드"]
@@ -54,7 +40,5 @@ class issue_trackerUITests_MainView: CommonTestCase {
         let segmentedControl = app.descendants(matching: .segmentedControl)["listControl"]
         segmentedControl.buttons.element(boundBy: 1).tap()
         segmentedControl.buttons.element(boundBy: 2).tap()
-        
-        tearDownEachTest()
     }
 }

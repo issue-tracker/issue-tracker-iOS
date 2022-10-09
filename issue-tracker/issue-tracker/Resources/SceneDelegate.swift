@@ -58,12 +58,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let settingsNav = SettingsNavigationController(rootViewController: SettingsViewController())
         
         issueListNav.tabBarItem.title = "List"
+        issueListNav.tabBarItem.accessibilityIdentifier = "List"
         issueListNav.tabBarItem.image = UIImage(systemName: "list.dash")
         
         myPageNav.tabBarItem.title = "MyPage"
+        myPageNav.tabBarItem.accessibilityIdentifier = "MyPage"
         myPageNav.tabBarItem.image = UIImage(systemName: "person.crop.circle")
         
         settingsNav.tabBarItem.title = "Settings"
+        settingsNav.tabBarItem.accessibilityIdentifier = "Settings"
         settingsNav.tabBarItem.image = UIImage(systemName: "gear")
         
         tabBar.viewControllers = [issueListNav, myPageNav, settingsNav]

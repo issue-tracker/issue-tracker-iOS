@@ -24,16 +24,34 @@ import UIKit
 ///
 /// 추가: CollectionView 를 이용한 2 X 2  레이아웃. Radio 버튼 필요.
 class SettingIssueListViewController: UIViewController {
-    private(set) var label = UILabel()
+    private let padding: CGFloat = 8
+    
+    private var collectionView: UICollectionView!
+    private let dataSource = CommonSettingCollectionViewDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(label)
         navigationItem.title = "Issue"
-        label.text = "SettingIssueListViewController"
         
-        label.snp.makeConstraints { make in
-            make.center.equalTo(self.view.snp.center)
+        let layout = UICollectionViewFlowLayout()
+        let cellWidth = (view.frame.width / 2) - (padding * 2)
+        
+        layout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.618) // 황금비율 참고
+        layout.minimumLineSpacing = padding
+        layout.minimumInteritemSpacing = padding
+        layout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        layout.scrollDirection = .vertical
+        
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
+        
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: "SettingCollectionViewCell")
+        collectionView.dataSource = dataSource
+        collectionView.reloadData()
     }
 }

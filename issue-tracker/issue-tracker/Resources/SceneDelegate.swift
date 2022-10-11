@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let issueListNav = MainListNavigationController(rootViewController: IssueListViewController())
         let myPageNav = MyPageNavigationController(rootViewController: MyPageViewController())
-        let settingsNav = SettingsNavigationController(rootViewController: SettingsViewController())
+        let settingsNav = SettingsNavigationController(rootViewController: SettingViewController())
         
         issueListNav.tabBarItem.title = "List"
         issueListNav.tabBarItem.accessibilityIdentifier = "List"
@@ -79,7 +79,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let issueListNav = MainListNavigationController(rootViewController: MainListViewController())
         let myPageNav = MyPageNavigationController(rootViewController: MyPageViewController())
-        let settingsNav = SettingsNavigationController(rootViewController: SettingsViewController())
+        let settingsNav = SettingsNavigationController(rootViewController: SettingViewController())
         
         issueListNav.tabBarItem.title = "Main"
         issueListNav.tabBarItem.image = UIImage(systemName: "list.dash")

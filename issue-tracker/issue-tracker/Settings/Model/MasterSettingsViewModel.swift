@@ -1,5 +1,5 @@
 //
-//  SettingsViewModel.swift
+//  MasterSettingsViewModel.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/10/06.
@@ -13,8 +13,17 @@ protocol SettingItem {
     func getNextView() -> UIViewController
 }
 
+protocol SettingsViewModel {
+    associatedtype E
+    var sectionItems: [E] { get }
+    func cellItems(section: Int) -> [SettingItem]
+}
+
 /// Setting 을 위한 카테고리와 값을 정의하는 모델
-class SettingsViewModel {
+class MasterSettingsViewModel: SettingsViewModel {
+    
+    typealias E = String
+    
     let settingsCategory = SettingsCategory.allCases
     let generalSettingItem = GeneralSettings.allCases
     let issueSettingItem = IssueSettings.allCases
@@ -23,6 +32,20 @@ class SettingsViewModel {
     
     subscript(index: Int) -> [SettingItem] {
         switch index {
+        case 0: return generalSettingItem
+        case 1: return issueSettingItem
+        case 2: return labelSettingItem
+        case 3: return milestoneSettingItem
+        default: return []
+        }
+    }
+    
+    var sectionItems: [E] {
+        SettingsCategory.allCases.map({ $0.rawValue })
+    }
+    
+    func cellItems(section: Int) -> [SettingItem] {
+        switch section {
         case 0: return generalSettingItem
         case 1: return issueSettingItem
         case 2: return labelSettingItem

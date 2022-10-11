@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import FlexLayout
 import RxSwift
+import RxCocoa
 
 class LoginViewController: CommonProxyViewController {
     
@@ -69,41 +70,30 @@ class LoginViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        switchScreen(type: .main)
-        makeSuperViewResignKeyboard()
         view.addSubview(infoFlexContainer)
         
         passwordTextField.isSecureTextEntry = true
         
         loginButton.clipsToBounds = true
-        loginButton.addAction(
-            UIAction(handler: { [weak self] _ in
-                let id = self?.idTextField.text
-                let password = self?.passwordTextField.text
-                
-                let subscription = self?.loginModel?.requestLogin(id: id, password: password)
-                    .subscribe { loginResponse in
-                        
+        loginButton.rx.tap.bind { [weak self] _ in
+            self?.loginModel?
+                .requestLogin(id: self?.idTextField.text, password: self?.passwordTextField.text)
+                .subscribe(
+                    onSuccess: { loginResponse in
                         loginResponse.setUserDefaults()
                         self?.switchScreen(type: .main)
-                        
-                    } onFailure: { error in
-                        
+                    },
+                    onFailure: { error in
                         guard let responseError = error as? ErrorResponseBody else {
                             self?.commonAlert(LoginRequestHTTPModel.defaultErrorMessage)
                             return
                         }
                         
                         self?.commonAlert(responseError.getErrorMessage() ?? LoginRequestHTTPModel.defaultErrorMessage)
-                    }
-                
-                if let disposeBag = self?.disposeBag {
-                    subscription?.disposed(by: disposeBag)
-                } else {
-                    subscription?.dispose()
-                }
-            }),
-            for: .touchUpInside
-        )
+                    })
+                .dispose()
+        }
+        .disposed(by: disposeBag)
         
         editUserInformationButtons.subButtons.forEach { button in
             if let font = button.titleLabel?.font {
@@ -140,6 +130,11 @@ class LoginViewController: CommonProxyViewController {
         loginButton.setCornerRadius()
         
         testAlreadyLogin()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        makeSuperViewResignKeyboard()
     }
     
     private func testAlreadyLogin() {

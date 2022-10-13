@@ -32,6 +32,7 @@ class SettingCollectionViewCell: UICollectionViewCell {
     
     private func makeUI() {
         contentView.backgroundColor = .systemBackground
+        contentView.layoutIfNeeded()
         contentView.flex.define { flex in
             flex.addItem(radioButton).margin(4).height(25%)
             flex.addItem().margin(4).grow(1).define { flex in

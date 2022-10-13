@@ -24,6 +24,10 @@ class RequestHTTPTimerModel: RequestHTTPModel {
     func requestAsTimer(pathArray: [String]? = nil, _ completionHandler: @escaping (Result<Data, Error>, URLResponse?)->Void) {
         timer?.invalidate()
         
+        self.requestObservable(pathArray: pathArray ?? [])
+            .throttle(.seconds(2), scheduler: ConcurrentMainScheduler.instance)
+            
+        
         timer = Timer.scheduledTimer(withTimeInterval: Double(timerInterval), repeats: false) { _ in
             let pathArray = pathArray ?? self.builder.pathArray
             self.request(pathArray: pathArray, completionHandler)

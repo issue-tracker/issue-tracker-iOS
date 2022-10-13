@@ -75,15 +75,15 @@ class LoginViewController: CommonProxyViewController {
         passwordTextField.isSecureTextEntry = true
         
         loginButton.clipsToBounds = true
-        loginButton.rx.tap.bind { [weak self] _ in
-            self?.loginModel?
-                .requestLogin(id: self?.idTextField.text, password: self?.passwordTextField.text)
+        loginButton.rx.tap.bind { _ in
+            self.loginModel?
+                .requestLogin(id: self.idTextField.text, password: self.passwordTextField.text)
                 .subscribe(
-                    onSuccess: { loginResponse in
+                    onSuccess: { [weak self] loginResponse in
                         loginResponse.setUserDefaults()
                         self?.switchScreen(type: .main)
                     },
-                    onFailure: { error in
+                    onFailure: { [weak self] error in
                         guard let responseError = error as? ErrorResponseBody else {
                             self?.commonAlert(LoginRequestHTTPModel.defaultErrorMessage)
                             return
@@ -91,7 +91,7 @@ class LoginViewController: CommonProxyViewController {
                         
                         self?.commonAlert(responseError.getErrorMessage() ?? LoginRequestHTTPModel.defaultErrorMessage)
                     })
-                .dispose()
+                .disposed(by: self.disposeBag)
         }
         .disposed(by: disposeBag)
         

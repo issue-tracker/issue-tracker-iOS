@@ -359,12 +359,8 @@
 			children = (
 				1B3788F028F5874500A2DF39 /* CollectionViewProtocol */,
 				1B8E4AA92889110900432728 /* SettingsNavigationController.swift */,
-				1B8E4AAF2889115200432728 /* SettingViewController.swift */,
-				1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */,
-				1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */,
-				1B3788F628F5961100A2DF39 /* SettingCollectionViewCell.swift */,
-				1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */,
-				1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */,
+				1B3788FA28F5A7BC00A2DF39 /* ViewController */,
+				1B3788FB28F5A7C600A2DF39 /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -375,6 +371,26 @@
 				1B69A90428EECDE0001C6720 /* MasterSettingsViewModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		1B3788FA28F5A7BC00A2DF39 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1B8E4AAF2889115200432728 /* SettingViewController.swift */,
+				1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */,
+				1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */,
+				1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		1B3788FB28F5A7C600A2DF39 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */,
+				1B3788F628F5961100A2DF39 /* SettingCollectionViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		1B3C063C287BDD15006A36CF = {

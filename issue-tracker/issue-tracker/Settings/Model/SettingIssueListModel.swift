@@ -6,9 +6,13 @@
 //
 
 import Foundation
+import RxSwift
 
 class SettingIssueListModel {
     private var issueListCases: [SettingIssueList] = []
+    
+    private(set) var onSettingSubject = PublishSubject<(Int, Bool)>()
+    var disposeBag = DisposeBag()
     
     private var decoded: (Data) -> [SettingIssueList] = { data in
         (try? JSONDecoder().decode([SettingIssueList].self, from: data)) ?? []
@@ -19,6 +23,12 @@ class SettingIssueListModel {
     }
     
     init() {
+        onSettingSubject
+            .subscribe(onNext: { result in
+                self.setItemOn(result.0)
+            })
+            .disposed(by: disposeBag)
+        
         if let data = UserDefaults.standard.object(forKey: "SettingIssueList") as? Data {
             issueListCases = decoded(data)
         }
@@ -28,31 +38,39 @@ class SettingIssueListModel {
         issueListCases.count
     }
     
-    func getItem(index: Int) -> SettingIssueList {
-        issueListCases[index]
+    func getItem(index: Int) -> SettingIssueList? {
+        guard 0..<issueListCases.count ~= index else {
+            return nil
+        }
+        
+        return issueListCases[index]
+    }
+    
+    func getItem(title: String) -> SettingIssueList? {
+        issueListCases.first(where: {$0.title == title})
     }
     
     @discardableResult
-    func setIssueItem(title: String, value: Bool) -> Bool {
-        guard let data = UserDefaults.standard.object(forKey: "SettingIssueList") as? Data else {
-            return false
+    func setIssueItem(_ item: SettingIssueList) -> Bool {
+        
+        for (index, listCase) in issueListCases.enumerated() {
+            issueListCases[index].isActivated = listCase.title == item.title ? item.isActivated : false
         }
         
-        var list = decoded(data)
-        
-        if let targetIndex = list.firstIndex(where: {$0.title == title}) {
-            for (index, _) in list.enumerated() {
-                if targetIndex == index {
-                    list[index].isActivated.toggle()
-                    break
-                }
-            }
-        }
-        
-        issueListCases = list
-        UserDefaults.standard.setValue(encoded(list), forKey: "SettingIssueList")
+        UserDefaults.standard.setValue(encoded(issueListCases), forKey: "SettingIssueList")
         
         return false
+    }
+    
+    func setItemOn(_ index: Int) {
+        issueListCases = issueListCases.map({
+            var item = $0
+            item.isActivated = false
+            return item
+        })
+        
+        issueListCases[index].isActivated = true
+        UserDefaults.standard.setValue(encoded(issueListCases), forKey: "SettingIssueList")
     }
 }
 

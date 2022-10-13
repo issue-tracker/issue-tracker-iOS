@@ -8,12 +8,16 @@
 import UIKit
 import SnapKit
 import FlexLayout
+import RxSwift
+import RxCocoa
 
 class SettingCollectionViewCell: UICollectionViewCell {
     
-    private let radioButton = UISwitch()
+    private(set) var radioButton = UISwitch()
     private let cellImageView = UIImageView()
     private let titleLabel = CommonLabel()
+    
+    var index: Int = -1
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -29,6 +33,12 @@ class SettingCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         makeUI()
     }
+    
+    private(set) lazy var buttonRXProperty: Observable<(Int, Bool)> = radioButton.rx.isOn.skip(1)
+        .map { (self.index, $0) }
+//        .map({ [weak self] value in
+//            (self?.titleLabel.text, value)
+//        })
     
     private func makeUI() {
         contentView.backgroundColor = .systemBackground
@@ -53,13 +63,15 @@ class SettingCollectionViewCell: UICollectionViewCell {
         cellImageView.image = image
     }
     
-    func setEntity(_ entity: SettingIssueList) {
+    func setEntity(_ entity: SettingIssueList, at index: Int = -1) {
         titleLabel.text = entity.title
         
         if let url = entity.imageURL, let data = try? Data(contentsOf: url) {
             cellImageView.image = UIImage(data: data)
         }
         
-        radioButton.isOn = entity.isActivated
+        radioButton.setOn(entity.isActivated, animated: true)
+        
+        self.index = index
     }
 }

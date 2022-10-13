@@ -27,7 +27,7 @@ class SettingIssueListViewController: UIViewController {
     private let padding: CGFloat = 8
     
     private var collectionView: UICollectionView!
-    private let dataSource = CommonSettingCollectionViewDataSource()
+    private lazy var dataSource = CommonSettingCollectionViewDataSource(collectionView: collectionView)
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -127,8 +127,9 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         issueListViewController.binding = self
         
         searchBar.snp.makeConstraints {
-            $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
-            $0.height.equalTo(view.frame.height*0.055)
+            $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+//                .inset(padding)
+            $0.height.equalTo(0)
         }
         
         bookmarkScrollView.binding = self
@@ -172,6 +173,9 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
             page.view.frame.origin.x = CGFloat(index) * scrollView.frame.width
             scrollView.contentSize.width += scrollView.frame.width
         }
+        
+        bookmarkScrollView.insertButton(searchText: "is:open")
+        bookmarkScrollView.insertButton(searchText: "milestone:default")
         
         listSegmentedControl.selectedSegmentIndex = 0
     }

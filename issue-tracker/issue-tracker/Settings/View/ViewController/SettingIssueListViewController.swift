@@ -50,7 +50,7 @@ class SettingIssueListViewController: UIViewController {
         
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: "SettingCollectionViewCell")
+        collectionView.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: SettingCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = dataSource
         collectionView.reloadData()
     }

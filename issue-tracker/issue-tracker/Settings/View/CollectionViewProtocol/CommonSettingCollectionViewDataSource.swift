@@ -9,8 +9,10 @@ import UIKit
 
 class CommonSettingCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     
+    let model = SettingIssueListModel()
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return model.settingCount()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -22,7 +24,8 @@ class CommonSettingCollectionViewDataSource: NSObject, UICollectionViewDataSourc
             return errorCell
         }
         
-        cell.setState("section\(indexPath.section), index\(indexPath.item)", image: UIImage(named: "login_octocat"))
+        let entity = model.getItem(index: indexPath.item)
+        cell.setEntity(entity)
         
         return cell
     }

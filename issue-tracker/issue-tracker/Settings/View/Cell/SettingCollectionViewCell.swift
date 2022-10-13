@@ -52,4 +52,14 @@ class SettingCollectionViewCell: UICollectionViewCell {
         titleLabel.text = title
         cellImageView.image = image
     }
+    
+    func setEntity(_ entity: SettingIssueList) {
+        titleLabel.text = entity.title
+        
+        if let url = entity.imageURL, let data = try? Data(contentsOf: url) {
+            cellImageView.image = UIImage(data: data)
+        }
+        
+        radioButton.isOn = entity.isActivated
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  CommonSettingTableViewDelegate.swift
+//  SettingTableViewDelegate.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/10/11.
@@ -13,7 +13,7 @@ protocol SettingTableViewDelegateGenerator {
     init(vm: VM, binding: ViewBinding?)
 }
 
-class CommonSettingTableViewDelegate<VM: SettingsViewModel>: NSObject, UITableViewDelegate, SettingTableViewDelegateGenerator, ViewBindable {
+class SettingTableViewDelegate<VM: SettingViewModel>: NSObject, UITableViewDelegate, SettingTableViewDelegateGenerator, ViewBindable {
     
     var binding: ViewBinding?
     

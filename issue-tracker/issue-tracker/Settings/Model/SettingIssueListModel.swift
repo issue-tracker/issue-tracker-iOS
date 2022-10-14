@@ -8,28 +8,28 @@
 import Foundation
 import RxSwift
 
-class SettingIssueListModel {
-    private var issueListCases: [SettingIssueList] = []
+class SettingIssueListModel<Item: SettingItem & Codable> {
+    private var keyType: PersistentKey?
+    private var issueListCases: [Item] = []
     
     private(set) var onSettingSubject = PublishSubject<(Int, Bool)>()
     var disposeBag = DisposeBag()
     
-    private var decoded: (Data) -> [SettingIssueList] = { data in
-        (try? JSONDecoder().decode([SettingIssueList].self, from: data)) ?? []
+    private var decoded: (Data) -> [Item] = { data in
+        (try? JSONDecoder().decode([Item].self, from: data)) ?? []
     }
     
-    private var encoded: ([SettingIssueList]) -> Data = { list in
+    private var encoded: ([Item]) -> Data = { list in
         (try? JSONEncoder().encode(list)) ?? Data()
     }
     
-    init() {
+    init(key: PersistentKey) {
+        self.keyType = key
         onSettingSubject
-            .subscribe(onNext: { result in
-                self.setItemOn(result.0)
-            })
+            .subscribe(onNext: { self.setItemOn($0.0) })
             .disposed(by: disposeBag)
         
-        if let data = UserDefaults.standard.object(forKey: "SettingIssueList") as? Data {
+        if let key = keyType, let data = UserDefaults.standard.object(forKey: key.getPersistentKey()) as? Data {
             issueListCases = decoded(data)
         }
     }
@@ -38,7 +38,7 @@ class SettingIssueListModel {
         issueListCases.count
     }
     
-    func getItem(index: Int) -> SettingIssueList? {
+    func getItem(index: Int) -> Item? {
         guard 0..<issueListCases.count ~= index else {
             return nil
         }
@@ -46,18 +46,18 @@ class SettingIssueListModel {
         return issueListCases[index]
     }
     
-    func getItem(title: String) -> SettingIssueList? {
+    func getItem(title: String) -> Item? {
         issueListCases.first(where: {$0.title == title})
     }
     
     @discardableResult
-    func setIssueItem(_ item: SettingIssueList) -> Bool {
+    func setIssueItem(_ item: Item) -> Bool {
         
         for (index, listCase) in issueListCases.enumerated() {
             issueListCases[index].isActivated = listCase.title == item.title ? item.isActivated : false
         }
         
-        UserDefaults.standard.setValue(encoded(issueListCases), forKey: "SettingIssueList")
+        saveIssueListCases()
         
         return false
     }
@@ -70,11 +70,17 @@ class SettingIssueListModel {
         })
         
         issueListCases[index].isActivated = true
-        UserDefaults.standard.setValue(encoded(issueListCases), forKey: "SettingIssueList")
+        saveIssueListCases()
+    }
+    
+    private func saveIssueListCases() {
+        if let key = keyType {
+            UserDefaults.standard.setValue(encoded(issueListCases), forKey: key.getPersistentKey())
+        }
     }
 }
 
-struct SettingIssueList: Codable {
+struct SettingIssueList: Codable, SettingItem {
     var title: String
     var imageURL: URL?
     var isActivated: Bool

@@ -8,7 +8,21 @@
 import UIKit
 
 class SettingProxyViewController: UIViewController {
+    
+    var settingKeys: [String] {
+        GeneralSettings.allCases.map({$0.getPersistentKey()})
+        + IssueSettings.allCases.map({$0.getPersistentKey()})
+        + LabelSettings.allCases.map({$0.getPersistentKey()})
+        + MilestoneSettings.allCases.map({$0.getPersistentKey()})
+    }
+    
+    var settingValues = [String: [SettingItem]]()
+    
     func callSetting() {
-        // TODO: - callSetting() 구현 필요. Core-Data 공부 필요.
+        settingValues.removeAll()
+        
+        settingKeys.forEach { key in
+            settingValues[key] = (UserDefaults.standard.value(forKey: key) as? [SettingItem]) ?? []
+        }
     }
 }

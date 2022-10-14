@@ -27,7 +27,7 @@ class SettingIssueListViewController: UIViewController {
     private let padding: CGFloat = 8
     
     private var collectionView: UICollectionView!
-    private lazy var dataSource = CommonSettingCollectionViewDataSource(collectionView: collectionView)
+    private lazy var dataSource = CommonSettingCollectionViewDataSource<SettingIssueList>(collectionView: collectionView, key: IssueSettings.list)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class SettingIssueListViewController: UIViewController {
         
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(SettingCollectionViewCell.self, forCellWithReuseIdentifier: SettingCollectionViewCell.reuseIdentifier)
+        collectionView.register(SettingIssueCollectionViewCell.self, forCellWithReuseIdentifier: SettingIssueCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = dataSource
         collectionView.reloadData()
     }

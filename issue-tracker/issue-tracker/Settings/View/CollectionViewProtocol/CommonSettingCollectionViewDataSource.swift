@@ -9,38 +9,45 @@ import UIKit
 import RxRelay
 import RxSwift
 
-class CommonSettingCollectionViewDataSource: NSObject, UICollectionViewDataSource {
+class CommonSettingCollectionViewDataSource<Item: SettingItem & Codable>: NSObject, UICollectionViewDataSource {
     
-    let model = SettingIssueListModel()
+    private var persistentKey: PersistentKey?
+    private var model: SettingIssueListModel<Item>?
     private var collectionView: UICollectionView?
-    convenience init(collectionView: UICollectionView?) {
+    private var disposeBag = DisposeBag()
+    
+    convenience init(collectionView: UICollectionView?, key: PersistentKey) {
         self.init()
+        
+        self.persistentKey = key
         self.collectionView = collectionView
+        
+        self.model = SettingIssueListModel<Item>(key: key)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.settingCount()
+        model?.settingCount() ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SettingCollectionViewCell", for: indexPath) as? SettingCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SettingCollectionViewCell", for: indexPath) as? SettingIssueCollectionViewCell else {
             
             let errorCell = UICollectionViewCell()
             errorCell.contentView.backgroundColor = .red
             return errorCell
         }
         
-        if let entity = model.getItem(index: indexPath.item) {
+        if let entity = model?.getItem(index: indexPath.item) {
             cell.setEntity(entity, at: indexPath.item)
         }
         
         cell.buttonRXProperty
             .subscribe(onNext: { result in
-                self.model.onSettingSubject.onNext(result)
+                self.model?.onSettingSubject.onNext(result)
                 self.collectionView?.reloadData()
             })
-            .disposed(by: model.disposeBag)
+            .disposed(by: disposeBag)
         
         return cell
     }

@@ -29,16 +29,26 @@
 		1B232B2128A0E70F007ED022 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */; };
 		1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */; };
-		1B3788EB28F57E2000A2DF39 /* CommonSettingTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EA28F57E2000A2DF39 /* CommonSettingTableViewDataSource.swift */; };
-		1B3788ED28F57E4400A2DF39 /* CommonSettingTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EC28F57E4400A2DF39 /* CommonSettingTableViewDelegate.swift */; };
+		1B3788EB28F57E2000A2DF39 /* SettingTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EA28F57E2000A2DF39 /* SettingTableViewDataSource.swift */; };
+		1B3788ED28F57E4400A2DF39 /* SettingTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EC28F57E4400A2DF39 /* SettingTableViewDelegate.swift */; };
 		1B3788EF28F57E7900A2DF39 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */; };
 		1B3788F228F5877600A2DF39 /* CommonSettingCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788F128F5877600A2DF39 /* CommonSettingCollectionViewDelegate.swift */; };
 		1B3788F428F5879800A2DF39 /* CommonSettingCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788F328F5879800A2DF39 /* CommonSettingCollectionViewDataSource.swift */; };
-		1B3788F728F5961100A2DF39 /* SettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788F628F5961100A2DF39 /* SettingCollectionViewCell.swift */; };
+		1B3788F728F5961100A2DF39 /* SettingIssueCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788F628F5961100A2DF39 /* SettingIssueCollectionViewCell.swift */; };
 		1B3788FD28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788FC28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift */; };
 		1B3788FF28F7A08500A2DF39 /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788FE28F7A08500A2DF39 /* UITableViewCell+Extensions.swift */; };
 		1B37890128F7D74D00A2DF39 /* SettingIssueListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37890028F7D74D00A2DF39 /* SettingIssueListModel.swift */; };
 		1B37890828F7F3A400A2DF39 /* AssetExtractor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37890728F7F3A400A2DF39 /* AssetExtractor+Extensions.swift */; };
+		1B37890A28F9696100A2DF39 /* SettingMenuKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37890928F9696100A2DF39 /* SettingMenuKeys.swift */; };
+		1B37890B28F975FC00A2DF39 /* SettingMenuKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37890928F9696100A2DF39 /* SettingMenuKeys.swift */; };
+		1B37890E28F9786E00A2DF39 /* SettingLabelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37890D28F9786E00A2DF39 /* SettingLabelListViewController.swift */; };
+		1B37891028F9787900A2DF39 /* SettingLabelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37890F28F9787900A2DF39 /* SettingLabelDetailViewController.swift */; };
+		1B37891228F9788200A2DF39 /* SettingLabelQueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37891128F9788200A2DF39 /* SettingLabelQueryViewController.swift */; };
+		1B37891428F9789300A2DF39 /* SettingMilestoneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37891328F9789300A2DF39 /* SettingMilestoneListViewController.swift */; };
+		1B37891628F9789D00A2DF39 /* SettingMilestoneQueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37891528F9789D00A2DF39 /* SettingMilestoneQueryViewController.swift */; };
+		1B37891A28F98B4600A2DF39 /* IssueSettings+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37891928F98B4600A2DF39 /* IssueSettings+Extensions.swift */; };
+		1B37891C28F98B6400A2DF39 /* LabelSettings+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37891B28F98B6400A2DF39 /* LabelSettings+Extensions.swift */; };
+		1B37891E28F98B7B00A2DF39 /* Milestone+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37891D28F98B7B00A2DF39 /* Milestone+Extensions.swift */; };
 		1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C0648287BDD15006A36CF /* AppDelegate.swift */; };
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
@@ -194,16 +204,25 @@
 		1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSignInViewController.swift; sourceTree = "<group>"; };
 		1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
-		1B3788EA28F57E2000A2DF39 /* CommonSettingTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSettingTableViewDataSource.swift; sourceTree = "<group>"; };
-		1B3788EC28F57E4400A2DF39 /* CommonSettingTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSettingTableViewDelegate.swift; sourceTree = "<group>"; };
+		1B3788EA28F57E2000A2DF39 /* SettingTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewDataSource.swift; sourceTree = "<group>"; };
+		1B3788EC28F57E4400A2DF39 /* SettingTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewDelegate.swift; sourceTree = "<group>"; };
 		1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		1B3788F128F5877600A2DF39 /* CommonSettingCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSettingCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		1B3788F328F5879800A2DF39 /* CommonSettingCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSettingCollectionViewDataSource.swift; sourceTree = "<group>"; };
-		1B3788F628F5961100A2DF39 /* SettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCollectionViewCell.swift; sourceTree = "<group>"; };
+		1B3788F628F5961100A2DF39 /* SettingIssueCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B3788FC28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		1B3788FE28F7A08500A2DF39 /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		1B37890028F7D74D00A2DF39 /* SettingIssueListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueListModel.swift; sourceTree = "<group>"; };
 		1B37890728F7F3A400A2DF39 /* AssetExtractor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AssetExtractor+Extensions.swift"; sourceTree = "<group>"; };
+		1B37890928F9696100A2DF39 /* SettingMenuKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuKeys.swift; sourceTree = "<group>"; };
+		1B37890D28F9786E00A2DF39 /* SettingLabelListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLabelListViewController.swift; sourceTree = "<group>"; };
+		1B37890F28F9787900A2DF39 /* SettingLabelDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLabelDetailViewController.swift; sourceTree = "<group>"; };
+		1B37891128F9788200A2DF39 /* SettingLabelQueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLabelQueryViewController.swift; sourceTree = "<group>"; };
+		1B37891328F9789300A2DF39 /* SettingMilestoneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMilestoneListViewController.swift; sourceTree = "<group>"; };
+		1B37891528F9789D00A2DF39 /* SettingMilestoneQueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMilestoneQueryViewController.swift; sourceTree = "<group>"; };
+		1B37891928F98B4600A2DF39 /* IssueSettings+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IssueSettings+Extensions.swift"; sourceTree = "<group>"; };
+		1B37891B28F98B6400A2DF39 /* LabelSettings+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabelSettings+Extensions.swift"; sourceTree = "<group>"; };
+		1B37891D28F98B7B00A2DF39 /* Milestone+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Milestone+Extensions.swift"; sourceTree = "<group>"; };
 		1B3C0645287BDD15006A36CF /* issue-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "issue-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3C0648287BDD15006A36CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B3C064A287BDD15006A36CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -354,8 +373,8 @@
 		1B3788F028F5874500A2DF39 /* CollectionViewProtocol */ = {
 			isa = PBXGroup;
 			children = (
-				1B3788EC28F57E4400A2DF39 /* CommonSettingTableViewDelegate.swift */,
-				1B3788EA28F57E2000A2DF39 /* CommonSettingTableViewDataSource.swift */,
+				1B3788EC28F57E4400A2DF39 /* SettingTableViewDelegate.swift */,
+				1B3788EA28F57E2000A2DF39 /* SettingTableViewDataSource.swift */,
 				1B3788F128F5877600A2DF39 /* CommonSettingCollectionViewDelegate.swift */,
 				1B3788F328F5879800A2DF39 /* CommonSettingCollectionViewDataSource.swift */,
 			);
@@ -378,6 +397,7 @@
 			children = (
 				1B69A90428EECDE0001C6720 /* MasterSettingsViewModel.swift */,
 				1B37890028F7D74D00A2DF39 /* SettingIssueListModel.swift */,
+				1B37890928F9696100A2DF39 /* SettingMenuKeys.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -386,9 +406,9 @@
 			isa = PBXGroup;
 			children = (
 				1B8E4AAF2889115200432728 /* SettingViewController.swift */,
-				1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */,
-				1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */,
-				1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */,
+				1B37890C28F9785200A2DF39 /* Issue */,
+				1B37891728F978A300A2DF39 /* Label */,
+				1B37891828F978A900A2DF39 /* Milestone */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -397,9 +417,41 @@
 			isa = PBXGroup;
 			children = (
 				1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */,
-				1B3788F628F5961100A2DF39 /* SettingCollectionViewCell.swift */,
+				1B3788F628F5961100A2DF39 /* SettingIssueCollectionViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		1B37890C28F9785200A2DF39 /* Issue */ = {
+			isa = PBXGroup;
+			children = (
+				1B37891928F98B4600A2DF39 /* IssueSettings+Extensions.swift */,
+				1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */,
+				1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */,
+				1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */,
+			);
+			path = Issue;
+			sourceTree = "<group>";
+		};
+		1B37891728F978A300A2DF39 /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				1B37891B28F98B6400A2DF39 /* LabelSettings+Extensions.swift */,
+				1B37890D28F9786E00A2DF39 /* SettingLabelListViewController.swift */,
+				1B37890F28F9787900A2DF39 /* SettingLabelDetailViewController.swift */,
+				1B37891128F9788200A2DF39 /* SettingLabelQueryViewController.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
+		1B37891828F978A900A2DF39 /* Milestone */ = {
+			isa = PBXGroup;
+			children = (
+				1B37891D28F98B7B00A2DF39 /* Milestone+Extensions.swift */,
+				1B37891328F9789300A2DF39 /* SettingMilestoneListViewController.swift */,
+				1B37891528F9789D00A2DF39 /* SettingMilestoneQueryViewController.swift */,
+			);
+			path = Milestone;
 			sourceTree = "<group>";
 		};
 		1B3C063C287BDD15006A36CF = {
@@ -1002,6 +1054,7 @@
 				1B50EC2A28D09073005E5B82 /* IssueAddRemoveModel.swift in Sources */,
 				1BF36D9528E1CE5E0033DF2A /* UIColor+Extension.swift in Sources */,
 				1B8E4AB02889115200432728 /* SettingViewController.swift in Sources */,
+				1B37890A28F9696100A2DF39 /* SettingMenuKeys.swift in Sources */,
 				1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */,
 				1BD125D528D1EA800050F2D1 /* IssueAssignee.swift in Sources */,
 				1B69A8FC28EB2270001C6720 /* Int+Extensions.swift in Sources */,
@@ -1016,7 +1069,8 @@
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
 				1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */,
 				1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */,
-				1B3788F728F5961100A2DF39 /* SettingCollectionViewCell.swift in Sources */,
+				1B3788F728F5961100A2DF39 /* SettingIssueCollectionViewCell.swift in Sources */,
+				1B37891E28F98B7B00A2DF39 /* Milestone+Extensions.swift in Sources */,
 				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
 				1B4F488A28A3DEDF00C4B33A /* ModelTestableReactively.swift in Sources */,
 				1B69A90528EECDE0001C6720 /* MasterSettingsViewModel.swift in Sources */,
@@ -1037,42 +1091,49 @@
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */,
 				1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */,
+				1B37891628F9789D00A2DF39 /* SettingMilestoneQueryViewController.swift in Sources */,
 				1B7AAAB228E3CCBA00DD66EA /* PopupTableView.swift in Sources */,
 				1B37890128F7D74D00A2DF39 /* SettingIssueListModel.swift in Sources */,
 				1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */,
+				1B37891428F9789300A2DF39 /* SettingMilestoneListViewController.swift in Sources */,
 				1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */,
 				1B69A90728EF1D47001C6720 /* SettingIssueListViewController.swift in Sources */,
 				1BF1D0CF28BC9C3B00393294 /* MainViewProtocol.swift in Sources */,
+				1B37891028F9787900A2DF39 /* SettingLabelDetailViewController.swift in Sources */,
 				1B4F488E28A49F2F00C4B33A /* Testable.swift in Sources */,
 				1BD125AE28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift in Sources */,
 				1B8E4A942886184000432728 /* SeparatorLineView.swift in Sources */,
+				1B37890E28F9786E00A2DF39 /* SettingLabelListViewController.swift in Sources */,
 				1B69A90B28EF8F32001C6720 /* SettingIssueQueryViewController.swift in Sources */,
 				1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */,
 				1B4F488828A3712900C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
 				1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */,
 				1BD125BC28D1E2E90050F2D1 /* IssueDetailCommonType.swift in Sources */,
+				1B37891A28F98B4600A2DF39 /* IssueSettings+Extensions.swift in Sources */,
 				1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */,
 				1B50B86028C9EA8600073AC9 /* IssueDetailViewController.swift in Sources */,
 				1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */,
 				1BD125AC28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift in Sources */,
-				1B3788ED28F57E4400A2DF39 /* CommonSettingTableViewDelegate.swift in Sources */,
+				1B3788ED28F57E4400A2DF39 /* SettingTableViewDelegate.swift in Sources */,
 				1B5D6997289A3E0600AE9495 /* DescriptionLabel.swift in Sources */,
 				1BD125CD28D1E8E70050F2D1 /* IssueCommentReactionsResponse.swift in Sources */,
 				1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */,
 				1B3788FF28F7A08500A2DF39 /* UITableViewCell+Extensions.swift in Sources */,
 				1B3788F228F5877600A2DF39 /* CommonSettingCollectionViewDelegate.swift in Sources */,
 				1B3788F428F5879800A2DF39 /* CommonSettingCollectionViewDataSource.swift in Sources */,
+				1B37891228F9788200A2DF39 /* SettingLabelQueryViewController.swift in Sources */,
 				1B8E4AB628892F0B00432728 /* ViewBindable.swift in Sources */,
-				1B3788EB28F57E2000A2DF39 /* CommonSettingTableViewDataSource.swift in Sources */,
+				1B3788EB28F57E2000A2DF39 /* SettingTableViewDataSource.swift in Sources */,
 				1B4F489228A4A39C00C4B33A /* MainViewRequestModel.swift in Sources */,
 				1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */,
 				1B69A90228EC0849001C6720 /* HTTPCookieStorage+Extensions.swift in Sources */,
 				1B50EC2328D0450B005E5B82 /* IssueDetailViewModel.swift in Sources */,
 				1B3788FD28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift in Sources */,
 				1B69A90928EF8F25001C6720 /* SettingIssueDetailViewController.swift in Sources */,
+				1B37891C28F98B6400A2DF39 /* LabelSettings+Extensions.swift in Sources */,
 				1B20F79D288FA34E004EBE9F /* LoginRequestHTTPModel.swift in Sources */,
 				1BF1D0C728BC9A6900393294 /* LabelListEntity.swift in Sources */,
 				1BF36D9928E1CFEE0033DF2A /* QueryBookmarkScrollView.swift in Sources */,
@@ -1119,6 +1180,7 @@
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
 				1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift in Sources */,
+				1B37890B28F975FC00A2DF39 /* SettingMenuKeys.swift in Sources */,
 				1B69A90328EC08FD001C6720 /* HTTPCookieStorage+Extensions.swift in Sources */,
 				1BF1D0DA28BF685C00393294 /* MilestoneListEntity.swift in Sources */,
 				1BD125B228D1E1A90050F2D1 /* UIScrollView+Extension.swift in Sources */,

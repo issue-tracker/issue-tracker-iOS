@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let encoded = try? JSONEncoder().encode(initialSettings)
         
-        UserDefaults.standard.setValue(encoded, forKey: "SettingIssueList")
+        UserDefaults.standard.setValue(encoded, forKey: IssueSettings.list.getPersistentKey())
         return true
     }
     

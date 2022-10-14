@@ -1,5 +1,5 @@
 //
-//  SettingCollectionViewCell.swift
+//  SettingIssueCollectionViewCell.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/10/11.
@@ -11,7 +11,7 @@ import FlexLayout
 import RxSwift
 import RxCocoa
 
-class SettingCollectionViewCell: UICollectionViewCell {
+class SettingIssueCollectionViewCell: UICollectionViewCell {
     
     private(set) var radioButton = UISwitch()
     private let cellImageView = UIImageView()
@@ -34,11 +34,9 @@ class SettingCollectionViewCell: UICollectionViewCell {
         makeUI()
     }
     
-    private(set) lazy var buttonRXProperty: Observable<(Int, Bool)> = radioButton.rx.isOn.skip(1)
+    private(set) lazy var buttonRXProperty = radioButton.rx.isOn
+        .skip(1)
         .map { (self.index, $0) }
-//        .map({ [weak self] value in
-//            (self?.titleLabel.text, value)
-//        })
     
     private func makeUI() {
         contentView.backgroundColor = .systemBackground
@@ -63,7 +61,11 @@ class SettingCollectionViewCell: UICollectionViewCell {
         cellImageView.image = image
     }
     
-    func setEntity(_ entity: SettingIssueList, at index: Int = -1) {
+    func setEntity(_ entity: SettingItem, at index: Int = -1) {
+        guard let entity = entity as? SettingIssueList else {
+            return
+        }
+        
         titleLabel.text = entity.title
         
         if let url = entity.imageURL, let data = try? Data(contentsOf: url) {
@@ -74,4 +76,9 @@ class SettingCollectionViewCell: UICollectionViewCell {
         
         self.index = index
     }
+}
+
+protocol SettingCollectionViewCell {
+    var index: Int { get set }
+    func setEntity(_ entity: SettingItem, at index: Int)
 }

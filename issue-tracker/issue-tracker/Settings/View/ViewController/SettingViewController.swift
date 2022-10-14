@@ -33,8 +33,8 @@ class SettingViewController: CommonProxyViewController, ViewBinding {
     let viewModel = VM()
     let tableView = UITableView()
     
-    lazy var delegate = CommonSettingTableViewDelegate<VM>(vm: viewModel, binding: self)
-    lazy var dataSource = CommonSettingTableViewDataSource<VM>(vm: viewModel) { [weak self] item, indexPath in
+    lazy var delegate = SettingTableViewDelegate<VM>(vm: viewModel, binding: self)
+    lazy var dataSource = SettingTableViewDataSource<VM>(vm: viewModel) { [weak self] item, indexPath in
         guard let cell = self?.tableView.dequeueReusableCell(withIdentifier: CELL.reuseIdentifier, for: indexPath) as? CELL else {
             return UITableViewCell()
         }
@@ -45,7 +45,7 @@ class SettingViewController: CommonProxyViewController, ViewBinding {
     }
     
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] param, bindable in
-        if bindable is CommonSettingTableViewDelegate<VM>, let nextView = param as? UIViewController {
+        if bindable is SettingTableViewDelegate<VM>, let nextView = param as? UIViewController {
             self?.navigationController?.pushViewController(nextView, animated: true)
         }
     }
@@ -62,5 +62,15 @@ class SettingViewController: CommonProxyViewController, ViewBinding {
         tableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = delegate
+    }
+}
+extension GeneralSettings: SettingCategory {
+    
+    func getNextView() -> UIViewController {
+        SettingIssueQueryViewController()
+    }
+    
+    func getName() -> String {
+        self.rawValue
     }
 }

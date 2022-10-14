@@ -1,5 +1,5 @@
 //
-//  CommonSettingTableViewDataSource.swift
+//  SettingTableViewDataSource.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/10/11.
@@ -8,19 +8,19 @@
 import UIKit
 
 protocol SettingTableViewDataSourceGenerator {
-    typealias CELLHandler = (SettingItem, IndexPath) -> UITableViewCell
+    typealias CELLHandler = (SettingCategory, IndexPath) -> UITableViewCell
     associatedtype VM
     var cellHandler: CELLHandler { get set }
     var viewModel: VM { get }
     init(vm: VM, _ cellHandler: @escaping CELLHandler)
 }
 
-class CommonSettingTableViewDataSource<VM: SettingsViewModel>: NSObject, UITableViewDataSource, SettingTableViewDataSourceGenerator {
+class SettingTableViewDataSource<VM: SettingViewModel>: NSObject, UITableViewDataSource, SettingTableViewDataSourceGenerator {
     
     var cellHandler: CELLHandler
     let viewModel: VM
     
-    required init(vm: VM, _ cellHandler: @escaping (SettingItem, IndexPath) -> UITableViewCell) {
+    required init(vm: VM, _ cellHandler: @escaping (SettingCategory, IndexPath) -> UITableViewCell) {
         self.cellHandler = cellHandler
         self.viewModel = vm
     }
@@ -30,7 +30,7 @@ class CommonSettingTableViewDataSource<VM: SettingsViewModel>: NSObject, UITable
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        viewModel.sectionItems[section] as? String
+        viewModel.sectionItems[section].rawValue
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

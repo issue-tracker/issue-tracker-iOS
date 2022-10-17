@@ -81,6 +81,9 @@ class SettingIssueListModel<Item: SettingItem & Codable> {
 }
 
 struct SettingIssueList: Codable, SettingItem {
+    
+    static var key = IssueSettings.list
+    
     var title: String
     var imageURL: URL?
     var isActivated: Bool

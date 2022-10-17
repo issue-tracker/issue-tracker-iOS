@@ -9,30 +9,29 @@ import UIKit
 
 class SettingTableViewDataSource<Cell: UITableViewCell & SettingCategoryAcceptable>: NSObject, UITableViewDataSource {
     
-    private let viewModel = SettingMainViewModel()
+    private let model: SettingMainModel
     
     private var cellHandler: ((UITableView, SettingCategory, IndexPath) -> Cell)
     
-    init(_ cellHandler: @escaping (UITableView, SettingCategory, IndexPath) -> Cell) {
+    init(model: SettingMainModel, _ cellHandler: @escaping (UITableView, SettingCategory, IndexPath) -> Cell) {
+        self.model = model
         self.cellHandler = cellHandler
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.sectionItems.count
+        model.allSections.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        viewModel.sectionItems[section].rawValue
+        model.allSections[section].rawValue
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.cellItems(section: section).count
+        model.sectionItems(section: section).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let entity = viewModel.cellItems(section: indexPath.section)[indexPath.item]
+        let entity = model.sectionItems(section: indexPath.section)[indexPath.item]
         return cellHandler(tableView, entity, indexPath)
-        
-
     }
 }

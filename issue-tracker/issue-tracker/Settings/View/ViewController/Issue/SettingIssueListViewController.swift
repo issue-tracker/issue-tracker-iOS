@@ -30,7 +30,7 @@ class SettingIssueListViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var disposeBag = DisposeBag()
     
-    private let model = SettingIssueListModel<SettingIssueList>(key: IssueSettings.list)
+    private let model = SettingIssueListModel<SettingIssueList>(key: SettingIssueList.key)
     
     private lazy var dataSource = CommonSettingCollectionViewDataSource<SettingIssueList, SettingIssueCollectionViewCell>(model: model) { cell, entity, indexPath in
         

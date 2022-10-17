@@ -7,16 +7,10 @@
 
 import UIKit
 
-//protocol SettingTableViewDelegateGenerator {
-//    associatedtype VM
-//    var viewModel: VM { get }
-//    init(vm: VM, binding: ViewBinding?)
-//}
-
 class SettingTableViewDelegate: NSObject, UITableViewDelegate, ViewBindable {
     
     var binding: ViewBinding?
-    private let viewModel = SettingMainViewModel()
+    private let viewModel = SettingMainModel()
     
     init(binding: ViewBinding?) {
         self.binding = binding
@@ -27,7 +21,7 @@ class SettingTableViewDelegate: NSObject, UITableViewDelegate, ViewBindable {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = viewModel.cellItems(section: indexPath.section)
+        let item = viewModel.sectionItems(section: indexPath.section)
         guard let nextView = item[indexPath.row].getNextView() else {
             return
         }

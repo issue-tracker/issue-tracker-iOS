@@ -7,22 +7,14 @@
 
 import UIKit
 
-protocol SettingTableViewDataSourceGenerator {
-    typealias CELLHandler = (SettingCategory, IndexPath) -> UITableViewCell
-    associatedtype VM
-    var cellHandler: CELLHandler { get set }
-    var viewModel: VM { get }
-    init(vm: VM, _ cellHandler: @escaping CELLHandler)
-}
-
-class SettingTableViewDataSource<VM: SettingViewModel>: NSObject, UITableViewDataSource, SettingTableViewDataSourceGenerator {
+class SettingTableViewDataSource<Cell: UITableViewCell & SettingCategoryAcceptable>: NSObject, UITableViewDataSource {
     
-    var cellHandler: CELLHandler
-    let viewModel: VM
+    private let viewModel = SettingMainViewModel()
     
-    required init(vm: VM, _ cellHandler: @escaping (SettingCategory, IndexPath) -> UITableViewCell) {
+    private var cellHandler: ((UITableView, SettingCategory, IndexPath) -> Cell)
+    
+    init(_ cellHandler: @escaping (UITableView, SettingCategory, IndexPath) -> Cell) {
         self.cellHandler = cellHandler
-        self.viewModel = vm
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -38,6 +30,9 @@ class SettingTableViewDataSource<VM: SettingViewModel>: NSObject, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cellHandler(viewModel.cellItems(section: indexPath.section)[indexPath.item], indexPath)
+        let entity = viewModel.cellItems(section: indexPath.section)[indexPath.item]
+        return cellHandler(tableView, entity, indexPath)
+        
+
     }
 }

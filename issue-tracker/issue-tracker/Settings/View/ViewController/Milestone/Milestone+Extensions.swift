@@ -9,7 +9,7 @@ import UIKit
 
 extension MilestoneSettings: SettingCategory {
     
-    func getNextView() -> UIViewController {
+    func getNextView() -> UIViewController? {
         switch self {
         case .list:
             return SettingMilestoneListViewController()

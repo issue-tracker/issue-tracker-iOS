@@ -27,25 +27,25 @@ import SnapKit
  여러 개의 컬럼이 있는 경우에는 설명 컬럼을 사용해보자. 제목 두문자 스타일의 명사구 혹은 짧은 명사구를 사용하고 구두점은 찍지 말자. Heading을 하지 않는다면 라벨이나 헤더를 사용해서 문맥을 이해하는 것을 돕도록 하자.
  */
 class SettingViewController: CommonProxyViewController, ViewBinding {
-    typealias VM = MasterSettingsViewModel
+    typealias VM = SettingMainViewModel
     typealias CELL = SettingTableViewCell
     
     let viewModel = VM()
     let tableView = UITableView()
     
-    lazy var delegate = SettingTableViewDelegate<VM>(vm: viewModel, binding: self)
-    lazy var dataSource = SettingTableViewDataSource<VM>(vm: viewModel) { [weak self] item, indexPath in
-        guard let cell = self?.tableView.dequeueReusableCell(withIdentifier: CELL.reuseIdentifier, for: indexPath) as? CELL else {
-            return UITableViewCell()
+    lazy var delegate = SettingTableViewDelegate(binding: self)
+    lazy var dataSource = SettingTableViewDataSource<SettingTableViewCell>() { tableView, entity, indexPath in
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell else {
+            return SettingTableViewCell()
         }
         
-        cell.label.text = item.getName()
+        cell.setEntity(entity, at: indexPath.item)
         
         return cell
     }
     
     lazy var bindableHandler: ((Any?, ViewBindable) -> Void)? = { [weak self] param, bindable in
-        if bindable is SettingTableViewDelegate<VM>, let nextView = param as? UIViewController {
+        if bindable is SettingTableViewDelegate, let nextView = param as? UIViewController {
             self?.navigationController?.pushViewController(nextView, animated: true)
         }
     }
@@ -66,7 +66,7 @@ class SettingViewController: CommonProxyViewController, ViewBinding {
 }
 extension GeneralSettings: SettingCategory {
     
-    func getNextView() -> UIViewController {
+    func getNextView() -> UIViewController? {
         SettingIssueQueryViewController()
     }
     

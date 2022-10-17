@@ -11,7 +11,7 @@ import FlexLayout
 import RxSwift
 import RxCocoa
 
-class SettingIssueCollectionViewCell: UICollectionViewCell {
+class SettingIssueCollectionViewCell: UICollectionViewCell, SettingItemAcceptable, SettingSelectable {
     
     private(set) var radioButton = UISwitch()
     private let cellImageView = UIImageView()
@@ -34,9 +34,11 @@ class SettingIssueCollectionViewCell: UICollectionViewCell {
         makeUI()
     }
     
-    private(set) lazy var buttonRXProperty = radioButton.rx.isOn
-        .skip(1)
+    lazy var controlProperty: Observable<Any>? = radioButton.rx
+        .isOn.skip(1)
         .map { (self.index, $0) }
+    
+    var controlEvent: Observable<Any>?
     
     private func makeUI() {
         contentView.backgroundColor = .systemBackground
@@ -61,6 +63,7 @@ class SettingIssueCollectionViewCell: UICollectionViewCell {
         cellImageView.image = image
     }
     
+    // MARK: Implement SettingCellEntityAcceptable
     func setEntity(_ entity: SettingItem, at index: Int = -1) {
         guard let entity = entity as? SettingIssueList else {
             return
@@ -76,9 +79,4 @@ class SettingIssueCollectionViewCell: UICollectionViewCell {
         
         self.index = index
     }
-}
-
-protocol SettingCollectionViewCell {
-    var index: Int { get set }
-    func setEntity(_ entity: SettingItem, at index: Int)
 }

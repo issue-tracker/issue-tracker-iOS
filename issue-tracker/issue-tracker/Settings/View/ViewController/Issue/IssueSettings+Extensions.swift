@@ -9,7 +9,7 @@ import UIKit
 
 extension IssueSettings: SettingCategory {
     
-    func getNextView() -> UIViewController {
+    func getNextView() -> UIViewController? {
         switch self {
         case .list:
             return SettingIssueListViewController()

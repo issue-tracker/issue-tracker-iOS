@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import RxSwift
 
 /// 쿼리를 직접 입력할지, 미리 입력된 쿼리를 저장하고 사용하는 뷰를 보여줄지 정함.
 ///
@@ -27,7 +28,27 @@ class SettingIssueListViewController: UIViewController {
     private let padding: CGFloat = 8
     
     private var collectionView: UICollectionView!
-    private lazy var dataSource = CommonSettingCollectionViewDataSource<SettingIssueList>(collectionView: collectionView, key: IssueSettings.list)
+    private var disposeBag = DisposeBag()
+    
+    private let model = SettingIssueListModel<SettingIssueList>(key: IssueSettings.list)
+    
+    private lazy var dataSource = CommonSettingCollectionViewDataSource<SettingIssueList, SettingIssueCollectionViewCell>(model: model) { cell, entity, indexPath in
+        
+        cell.radioButton.rx
+            .isOn
+            .skip(1)
+            .map { (indexPath.item, $0) }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] result in
+                self?.model.onSettingSubject.onNext(result)
+                self?.collectionView.reloadData()
+            })
+            .disposed(by: self.disposeBag)
+        
+        cell.setEntity(entity, at: indexPath.item)
+        
+        return cell
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +69,9 @@ class SettingIssueListViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         
+        collectionView?.register(SettingIssueCollectionViewCell.self, forCellWithReuseIdentifier: SettingIssueCollectionViewCell.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(SettingIssueCollectionViewCell.self, forCellWithReuseIdentifier: SettingIssueCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = dataSource
         collectionView.reloadData()
     }

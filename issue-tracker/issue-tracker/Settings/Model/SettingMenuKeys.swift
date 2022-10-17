@@ -17,7 +17,7 @@ protocol PersistentKey {
 
 protocol SettingCategory {
     func getName() -> String
-    func getNextView() -> UIViewController
+    func getNextView() -> UIViewController?
 }
 
 protocol SettingItem {
@@ -47,7 +47,6 @@ enum IssueSettings: String, CaseIterable, PersistentKey {
     case list = "목록 설정"
     case detail = "상세 창 설정"
     case query = "기본 조회조건 설정"
-    
     
     func getPersistentKey() -> String {
         "ISSUE_"+self.rawValue

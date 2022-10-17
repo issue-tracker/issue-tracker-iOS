@@ -7,20 +7,18 @@
 
 import UIKit
 
-protocol SettingTableViewDelegateGenerator {
-    associatedtype VM
-    var viewModel: VM { get }
-    init(vm: VM, binding: ViewBinding?)
-}
+//protocol SettingTableViewDelegateGenerator {
+//    associatedtype VM
+//    var viewModel: VM { get }
+//    init(vm: VM, binding: ViewBinding?)
+//}
 
-class SettingTableViewDelegate<VM: SettingViewModel>: NSObject, UITableViewDelegate, SettingTableViewDelegateGenerator, ViewBindable {
+class SettingTableViewDelegate: NSObject, UITableViewDelegate, ViewBindable {
     
     var binding: ViewBinding?
+    private let viewModel = SettingMainViewModel()
     
-    let viewModel: VM
-    
-    required init(vm: VM, binding: ViewBinding?) {
-        self.viewModel = vm
+    init(binding: ViewBinding?) {
         self.binding = binding
     }
     
@@ -30,7 +28,10 @@ class SettingTableViewDelegate<VM: SettingViewModel>: NSObject, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = viewModel.cellItems(section: indexPath.section)
-        let nextView = item[indexPath.row].getNextView()
+        guard let nextView = item[indexPath.row].getNextView() else {
+            return
+        }
+        
         nextView.view.backgroundColor = .systemBackground
         tableView.cellForRow(at: indexPath)?.isSelected = false
         binding?.bindableHandler?(nextView, self)

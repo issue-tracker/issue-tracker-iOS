@@ -95,8 +95,8 @@ final class MainViewSingleRequestModel<ResponseType: Decodable, ResponseEntityTy
             
             switch result {
             case .success(let data):
-                print(String(data: data, encoding: .utf8))
-                print(response?.url?.absoluteString)
+//                print(String(data: data, encoding: .utf8))
+//                print(response?.url?.absoluteString)
                 let entity = HTTPResponseModel().getDecoded(from: data, as: Entity.self)
                 self.entity = entity
                 

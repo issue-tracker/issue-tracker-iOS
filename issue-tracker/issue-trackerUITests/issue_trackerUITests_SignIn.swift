@@ -53,9 +53,9 @@ class issue_trackerUITests_SignIn: CommonTestCase {
         
         let idField = getSubTextField(textFieldIds[0], "아이디")
         let passwordField = getSubTextField(textFieldIds[1], "비밀번호")
-        let passwordConfirmedField = getSubTextField(textFieldIds[0], "비밀번호 확인")
-        let emailField = getSubTextField(textFieldIds[0], "이메일")
-        let nicknameField = getSubTextField(textFieldIds[0], "닉네임")
+        let passwordConfirmedField = getSubTextField(textFieldIds[2], "비밀번호 확인")
+        let emailField = getSubTextField(textFieldIds[3], "이메일")
+        let nicknameField = getSubTextField(textFieldIds[4], "닉네임")
         
         idField.tap()
         idField.typeText("testios")

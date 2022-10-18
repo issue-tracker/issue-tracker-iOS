@@ -7,21 +7,16 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
-class SettingIssueListModel<Item: SettingItem & Codable> {
+final class SettingIssueListModel<Item: SettingItem & Codable> {
     private var keyType: PersistentKey?
+    
     private var issueListCases: [Item] = []
+    private(set) var onSettingSubject = PublishRelay<(Int, Bool)>()
     
-    private(set) var onSettingSubject = PublishSubject<(Int, Bool)>()
+    var itemsObservable = BehaviorRelay<[Item]>.init(value: [])
     var disposeBag = DisposeBag()
-    
-    private var decoded: (Data) -> [Item] = { data in
-        (try? JSONDecoder().decode([Item].self, from: data)) ?? []
-    }
-    
-    private var encoded: ([Item]) -> Data = { list in
-        (try? JSONEncoder().encode(list)) ?? Data()
-    }
     
     init(key: PersistentKey) {
         self.keyType = key
@@ -31,6 +26,7 @@ class SettingIssueListModel<Item: SettingItem & Codable> {
         
         if let key = keyType, let data = UserDefaults.standard.object(forKey: key.getPersistentKey()) as? Data {
             issueListCases = decoded(data)
+            itemsObservable.accept(issueListCases)
         }
     }
     
@@ -80,10 +76,17 @@ class SettingIssueListModel<Item: SettingItem & Codable> {
     }
 }
 
+extension SettingIssueListModel where Item: SettingItem & Codable {
+    func decoded(_ data: Data) -> [Item] {
+        (try? JSONDecoder().decode([Item].self, from: data)) ?? []
+    }
+    
+    func encoded(_ list: [Item]) -> Data {
+        (try? JSONEncoder().encode(list)) ?? Data()
+    }
+}
+
 struct SettingIssueList: Codable, SettingItem {
-    
-    static var key = IssueSettings.list
-    
     var title: String
     var imageURL: URL?
     var isActivated: Bool

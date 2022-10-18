@@ -8,6 +8,7 @@
 import SnapKit
 import UIKit
 import RxSwift
+import RxCocoa
 
 /// 쿼리를 직접 입력할지, 미리 입력된 쿼리를 저장하고 사용하는 뷰를 보여줄지 정함.
 ///
@@ -30,25 +31,7 @@ class SettingIssueListViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var disposeBag = DisposeBag()
     
-    private let model = SettingIssueListModel<SettingIssueList>(key: SettingIssueList.key)
-    
-    private lazy var dataSource = CommonSettingCollectionViewDataSource<SettingIssueList, SettingIssueCollectionViewCell>(model: model) { cell, entity, indexPath in
-        
-        cell.radioButton.rx
-            .isOn
-            .skip(1)
-            .map { (indexPath.item, $0) }
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] result in
-                self?.model.onSettingSubject.onNext(result)
-                self?.collectionView.reloadData()
-            })
-            .disposed(by: self.disposeBag)
-        
-        cell.setEntity(entity, at: indexPath.item)
-        
-        return cell
-    }
+    private let model = SettingIssueListModel<SettingIssueList>(key: IssueSettings.list)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,10 +52,27 @@ class SettingIssueListViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         
-        collectionView?.register(SettingIssueCollectionViewCell.self, forCellWithReuseIdentifier: SettingIssueCollectionViewCell.reuseIdentifier)
+        typealias CELL = SettingIssueCollectionViewCell
+        
+        collectionView?.register(CELL.self, forCellWithReuseIdentifier: CELL.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.dataSource = dataSource
-        collectionView.reloadData()
+        
+        model.itemsObservable
+            .bind(to: collectionView.rx.items(cellIdentifier: CELL.reuseIdentifier, cellType: CELL.self)) { index, entity, cell in
+                cell.radioButton.rx
+                    .isOn
+                    .skip(1)
+                    .map { (index, $0) }
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] result in
+                        self?.model.onSettingSubject.accept(result)
+                        self?.collectionView.reloadData()
+                    })
+                    .disposed(by: self.disposeBag)
+                
+                cell.setEntity(entity, at: index)
+            }
+            .disposed(by: disposeBag)
     }
 }

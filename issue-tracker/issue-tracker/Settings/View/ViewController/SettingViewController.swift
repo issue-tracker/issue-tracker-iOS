@@ -55,6 +55,7 @@ class SettingViewController: CommonProxyViewController {
         tableView.separatorStyle = .none
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
         tableView.dataSource = dataSource
+        
         tableView.rx.itemSelected
             .bind { [weak self] indexPath in
                 self?.tableView.cellForRow(at: indexPath)?.isSelected = false
@@ -68,6 +69,7 @@ class SettingViewController: CommonProxyViewController {
             .disposed(by: disposeBag)
     }
 }
+
 extension GeneralSettings: SettingCategory {
     
     func getNextView() -> UIViewController? {

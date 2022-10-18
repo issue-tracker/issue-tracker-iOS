@@ -14,7 +14,7 @@ class CommonSettingCollectionViewDataSource<Item: SettingItem & Codable, Cell: U
     private var persistentKey: PersistentKey?
     private var model: SettingIssueListModel<Item>?
     
-    var onSettingSubject: PublishSubject<(Int, Bool)>? {
+    var onSettingSubject: PublishRelay<(Int, Bool)>? {
         model?.onSettingSubject
     }
     

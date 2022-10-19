@@ -22,6 +22,8 @@ class SettingIssueQueryViewController: UIViewController {
     
     private let model = SettingIssueQueryModel.init(key: IssueSettings.query)
     
+    lazy var addQuerySubject = PublishRelay<SettingIssueQueryItem>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Query"
@@ -36,6 +38,18 @@ class SettingIssueQueryViewController: UIViewController {
         view.flex.layout()
         
         typealias CELL = SettingIssueQueryCell
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { [weak self] _ in
+            let popup = SettingQueryInsertView(self?.addQuerySubject)
+            popup.modalPresentationStyle = .formSheet
+            self?.present(popup, animated: true)
+        }))
+        
+        addQuerySubject
+            .subscribe(onNext: { [weak self] entity in
+                self?.model.addItem(entity)
+            })
+            .disposed(by: disposeBag)
         
         activationTableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
         deActivationTableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
@@ -203,12 +217,17 @@ final class SettingIssueQueryModel {
         let itemProvider = NSItemProvider()
         
         itemProvider.registerDataRepresentation(forTypeIdentifier: "data", visibility: .all) { completion in
-            print(item?.id.uuidString)
             completion(data, nil)
             return nil
         }
         
         return [itemProvider]
+    }
+    
+    @discardableResult
+    func addItem(_ item: SettingIssueQueryItem) -> Bool {
+        self.activatedEntities.append(item)
+        return true
     }
 }
 

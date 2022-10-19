@@ -137,7 +137,7 @@ class BookmarkLabel: CommonLabel {
     }
 }
 
-struct Bookmark: Hashable {
+struct Bookmark: Hashable, CustomStringConvertible {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(query)
@@ -159,5 +159,9 @@ struct Bookmark: Hashable {
         }
         
         return query
+    }
+    
+    var description: String {
+        queryCondition.rawValue + ":" + querySentence
     }
 }

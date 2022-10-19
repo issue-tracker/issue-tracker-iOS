@@ -5,10 +5,10 @@
 //  Created by 백상휘 on 2022/10/07.
 //
 
-import UIKit
+import FlexLayout
 import RxSwift
 import RxCocoa
-import FlexLayout
+import Foundation
 
 /// UITableView EditMode 이용해서 적용할 쿼리와 적용하지 않을 쿼리를 설정할 수 있도록 함.
 ///
@@ -50,7 +50,6 @@ class SettingIssueQueryViewController: UIViewController {
             .disposed(by: disposeBag)
         
         deActivationTableView.dragInteractionEnabled = true
-        
         deActivationTableView.dragDelegate = self
         deActivationTableView.dropDelegate = self
         model.deActiveEntityRelay
@@ -63,13 +62,18 @@ class SettingIssueQueryViewController: UIViewController {
 
 extension SettingIssueQueryViewController: UITableViewDragDelegate {
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        print("drag")
+        let item: SettingIssueQueryItem?
+        if tableView == activationTableView {
+            item = model.getActiveItem(at: indexPath.row)
+        } else {
+            item = model.getDeActiveItem(at: indexPath.row)
+        }
         
-        let data = model.activatedEntities[indexPath.row]
-        
+        let data = item?.id.uuidString.data(using: .utf8)
         let itemProvider = NSItemProvider()
+        
         itemProvider.registerDataRepresentation(forTypeIdentifier: "data", visibility: .all) { completion in
-            completion(try? JSONEncoder().encode(data), nil)
+            completion(data, nil)
             return nil
         }
         
@@ -78,24 +82,24 @@ extension SettingIssueQueryViewController: UITableViewDragDelegate {
 }
 
 extension SettingIssueQueryViewController: UITableViewDropDelegate {
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        UITableViewDropProposal(operation: .move)
+    }
+    
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        let destinationTableView = coordinator.session.location(in: view).y > (view.frame.height / 2) ? deActivationTableView : activationTableView
-        let isOn = destinationTableView == self.activationTableView
+        let isOn = tableView == self.activationTableView
+        let destinationIndex = coordinator.destinationIndexPath?.row ?? tableView.numberOfRows(inSection: 0)
         
-        coordinator.session.items.first?.itemProvider.loadItem(forTypeIdentifier: "data", options: nil, completionHandler: { data, _ in
-            DispatchQueue.main.async {
-                if let data = data as? Data, var item = try? JSONDecoder().decode(SettingIssueQueryItem.self, from: data) {
-                    item.isOn = isOn
-                    if let index = coordinator.destinationIndexPath?.row {
-                        item.index = index
-                    } else {
-                        item.index = isOn ? self.model.activatedEntities.count : self.model.deActivatedEntities.count
-                    }
-                    
-                    self.model.setItemOn(item)
+        coordinator.session
+            .items.first?.itemProvider
+            .loadItem(forTypeIdentifier: "data", options: nil, completionHandler: { data, _ in
+                guard let data = data as? Data, let key = String(data: data, encoding: .utf8) else {
+                    return
                 }
-            }
-        })
+                
+                self.model.setItemOn(key: key, isOn: isOn, at: destinationIndex)
+            })
     }
 }
 
@@ -104,8 +108,16 @@ final class SettingIssueQueryModel {
     
     private var keyType: PersistentKey?
     
-    private(set) var activatedEntities = [Item]()
-    private(set) var deActivatedEntities = [Item]()
+    private(set) var activatedEntities = [Item]() {
+        didSet {
+            self.activeEntityRelay.accept(activatedEntities)
+        }
+    }
+    private(set) var deActivatedEntities = [Item]() {
+        didSet {
+            self.deActiveEntityRelay.accept(deActivatedEntities)
+        }
+    }
     
     var activeEntityRelay = BehaviorRelay<[Item]>(value: [])
     var deActiveEntityRelay = BehaviorRelay<[Item]>(value: [])
@@ -165,6 +177,73 @@ final class SettingIssueQueryModel {
         
         activeEntityRelay.accept(activatedEntities)
         deActiveEntityRelay.accept(deActivatedEntities)
+    }
+    
+    func setItemOn(key: String, isOn: Bool, at: Int) { // 도착점에 표시해주어야 할 Item. Id 는 같음.
+        var item = activatedEntities.first(where: {$0.id.uuidString == key}) ?? deActivatedEntities.first(where: {$0.id.uuidString == key})
+        item?.isOn = isOn
+        
+        guard let item = item else {
+            return
+        }
+        
+        setItemOn(item)
+    }
+    
+    func getActiveItem(at index: Int) -> SettingIssueQueryItem? {
+        guard 0..<activatedEntities.count ~= index else {
+            return nil
+        }
+        
+        return activatedEntities[index]
+    }
+    
+    @discardableResult
+    func swapActiveItem(from fromIndex: UInt, to toIndex: UInt) -> Bool {
+        let from = Int(fromIndex)
+        let to = Int(toIndex)
+        
+        guard 0..<activatedEntities.count ~= from, 0..<activatedEntities.count ~= to else {
+            return false
+        }
+        
+        activatedEntities.swapAt(from, to)
+        return true
+    }
+    
+    @discardableResult
+    func swapDeActiveItem(from fromIndex: UInt, to toIndex: UInt) -> Bool {
+        let from = Int(fromIndex)
+        let to = Int(toIndex)
+        
+        guard 0..<deActivatedEntities.count ~= from, 0..<deActivatedEntities.count ~= to else {
+            return false
+        }
+        
+        deActivatedEntities.swapAt(from, to)
+        return true
+    }
+    
+    func getDeActiveItem(at index: Int) -> SettingIssueQueryItem? {
+        guard 0..<deActivatedEntities.count ~= index else {
+            return nil
+        }
+        
+        return deActivatedEntities[index]
+    }
+    
+    func dragItem(isActiveTableView: Bool, at index: Int) -> [NSItemProvider] {
+        let item = isActiveTableView ? getActiveItem(at: index) : getDeActiveItem(at: index)
+        let data = item?.id.uuidString.data(using: .utf8)
+        let itemProvider = NSItemProvider()
+        
+        itemProvider.registerDataRepresentation(forTypeIdentifier: "data", visibility: .all) { completion in
+            print(item?.id.uuidString)
+            completion(data, nil)
+            return nil
+        }
+        
+        return [itemProvider]
     }
 }
 

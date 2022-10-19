@@ -40,18 +40,26 @@ class SettingIssueQueryViewController: UIViewController {
         activationTableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
         deActivationTableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
         
-        activationTableView.dragInteractionEnabled = true
-        activationTableView.dragDelegate = self
-        activationTableView.dropDelegate = self
+        activationTableView.delegate = self
+        activationTableView.setEditing(true, animated: false)
+        activationTableView.rx.itemMoved
+            .bind(onNext: { [weak self] info in
+                self?.model.swapActiveItem(from: info.sourceIndex.row, to: info.destinationIndex.row)
+            })
+            .disposed(by: disposeBag)
         model.activeEntityRelay
             .bind(to: activationTableView.rx.items(cellIdentifier: CELL.reuseIdentifier, cellType: CELL.self)) { index, entity, cell in
                 cell.setEntity(entity)
             }
             .disposed(by: disposeBag)
         
-        deActivationTableView.dragInteractionEnabled = true
-        deActivationTableView.dragDelegate = self
-        deActivationTableView.dropDelegate = self
+        deActivationTableView.delegate = self
+        deActivationTableView.setEditing(true, animated: false)
+        deActivationTableView.rx.itemMoved
+            .bind(onNext: { [weak self] info in
+                self?.model.swapDeActiveItem(from: info.sourceIndex.row, to: info.destinationIndex.row)
+            })
+            .disposed(by: disposeBag)
         model.deActiveEntityRelay
             .bind(to: deActivationTableView.rx.items(cellIdentifier: CELL.reuseIdentifier, cellType: CELL.self)) { index, entity, cell in
                 cell.setEntity(entity)
@@ -60,46 +68,9 @@ class SettingIssueQueryViewController: UIViewController {
     }
 }
 
-extension SettingIssueQueryViewController: UITableViewDragDelegate {
-    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        let item: SettingIssueQueryItem?
-        if tableView == activationTableView {
-            item = model.getActiveItem(at: indexPath.row)
-        } else {
-            item = model.getDeActiveItem(at: indexPath.row)
-        }
-        
-        let data = item?.id.uuidString.data(using: .utf8)
-        let itemProvider = NSItemProvider()
-        
-        itemProvider.registerDataRepresentation(forTypeIdentifier: "data", visibility: .all) { completion in
-            completion(data, nil)
-            return nil
-        }
-        
-        return [UIDragItem(itemProvider: itemProvider)]
-    }
-}
-
-extension SettingIssueQueryViewController: UITableViewDropDelegate {
-    
-    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-        UITableViewDropProposal(operation: .move)
-    }
-    
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        let isOn = tableView == self.activationTableView
-        let destinationIndex = coordinator.destinationIndexPath?.row ?? tableView.numberOfRows(inSection: 0)
-        
-        coordinator.session
-            .items.first?.itemProvider
-            .loadItem(forTypeIdentifier: "data", options: nil, completionHandler: { data, _ in
-                guard let data = data as? Data, let key = String(data: data, encoding: .utf8) else {
-                    return
-                }
-                
-                self.model.setItemOn(key: key, isOn: isOn, at: destinationIndex)
-            })
+extension SettingIssueQueryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
     }
 }
 
@@ -199,28 +170,22 @@ final class SettingIssueQueryModel {
     }
     
     @discardableResult
-    func swapActiveItem(from fromIndex: UInt, to toIndex: UInt) -> Bool {
-        let from = Int(fromIndex)
-        let to = Int(toIndex)
-        
-        guard 0..<activatedEntities.count ~= from, 0..<activatedEntities.count ~= to else {
+    func swapActiveItem(from fromIndex: Int, to toIndex: Int) -> Bool {
+        guard 0..<activatedEntities.count ~= fromIndex, 0..<activatedEntities.count ~= toIndex else {
             return false
         }
         
-        activatedEntities.swapAt(from, to)
+        activatedEntities.swapAt(fromIndex, toIndex)
         return true
     }
     
     @discardableResult
-    func swapDeActiveItem(from fromIndex: UInt, to toIndex: UInt) -> Bool {
-        let from = Int(fromIndex)
-        let to = Int(toIndex)
-        
-        guard 0..<deActivatedEntities.count ~= from, 0..<deActivatedEntities.count ~= to else {
+    func swapDeActiveItem(from fromIndex: Int, to toIndex: Int) -> Bool {
+        guard 0..<deActivatedEntities.count ~= fromIndex, 0..<deActivatedEntities.count ~= toIndex else {
             return false
         }
         
-        deActivatedEntities.swapAt(from, to)
+        deActivatedEntities.swapAt(fromIndex, toIndex)
         return true
     }
     
@@ -278,6 +243,7 @@ final class SettingIssueQueryCell: UITableViewCell {
     private func makeUI() {
         contentView.backgroundColor = .systemBackground
         contentView.addSubview(label)
+        
         label.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

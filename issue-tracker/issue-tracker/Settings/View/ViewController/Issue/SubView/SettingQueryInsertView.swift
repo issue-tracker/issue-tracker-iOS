@@ -15,7 +15,18 @@ class SettingQueryInsertView: UIViewController {
     private var addQuerySubject: PublishRelay<SettingIssueQueryItem>?
     
     private let parser = QueryParser()
-    private var queryStatus: QueryStatusColor?
+    @QueryStatus private var queryStatus: QueryStatusColor = .deActiveColor {
+        willSet {
+            switch newValue {
+            case .activeColor:
+                self.deactivateButton.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
+                self.activateButton.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
+            case .deActiveColor:
+                self.activateButton.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
+                self.deactivateButton.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
+            }
+        }
+    }
     
     private let textField = CommonTextField(frame: .zero, input: .default, placeholder: "입력")
     private lazy var activateButton: UIButton = {
@@ -40,36 +51,11 @@ class SettingQueryInsertView: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        activateButton.addAction(UIAction(handler: { _ in
-            self.activateButton.isEnabled = false
-            defer {
-                self.activateButton.isEnabled = true
-            }
-            guard self.activateButton.backgroundColor == UIColor(named: QueryStatusColor.deActiveColor.getColorName()) else {
-                return
-            }
-            
-            self.deactivateButton.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
-            self.activateButton.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
-            self.queryStatus = .activeColor
-        }), for: .touchUpInside)
-        
-        deactivateButton.addAction(UIAction(handler: { _ in
-            self.deactivateButton.isEnabled = false
-            defer {
-                self.deactivateButton.isEnabled = true
-            }
-            guard self.deactivateButton.backgroundColor == UIColor(named: QueryStatusColor.deActiveColor.getColorName()) else {
-                return
-            }
-            
-            self.activateButton.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
-            self.deactivateButton.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
-            self.queryStatus = .deActiveColor
-        }), for: .touchUpInside)
+        activateButton.addAction(UIAction(handler: { [weak self] _ in self?.queryStatus = .activeColor }), for: .touchUpInside)
+        deactivateButton.addAction(UIAction(handler: { [weak self] _ in self?.queryStatus = .deActiveColor }), for: .touchUpInside)
         
         view.flex.define { flex in
-            flex.addItem().minHeight(40%).maxWidth(60%)
+            flex.addItem().grow(1)
             flex.addItem(textField).height(80).margin(8)
             flex.addItem().direction(.row).justifyContent(.spaceBetween).height(60).paddingHorizontal(8).define { flex in
                 flex.addItem(activateButton).grow(0.5).marginRight(8)
@@ -89,11 +75,27 @@ class SettingQueryInsertView: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        guard let querySentence = textField.text else { return }
+        guard let querySentence = textField.text, querySentence.isEmpty == false else {
+            return
+        }
         
-        let query = Bookmark(queryCondition: .isCondition, querySentence: querySentence)
-        let queryStatus = (self.queryStatus ?? .deActiveColor) == .activeColor
-        
-        addQuerySubject?.accept(SettingIssueQueryItem(id: UUID(), query: String(describing: query), isOn: queryStatus, index: 0))
+        let query = String(describing: Bookmark(queryCondition: .isCondition, querySentence: querySentence))
+        let item = SettingIssueQueryItem(id: UUID(), query: query, isOn: queryStatus == .activeColor, index: 0)
+        addQuerySubject?.accept(item)
+    }
+}
+
+@propertyWrapper struct QueryStatus {
+    private var _status: QueryStatusColor = .deActiveColor
+    
+    var wrappedValue: QueryStatusColor {
+        get { _status }
+        set {
+            if _status != newValue { _status = newValue }
+        }
+    }
+    
+    init(wrappedValue status: QueryStatusColor) {
+        self.wrappedValue = status
     }
 }

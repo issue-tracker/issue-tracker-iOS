@@ -10,7 +10,7 @@ import RxSwift
 import RxRelay
 import UIKit
 // QueryCondition, QueryParser
-class SettingQueryInsertView: UIViewController {
+class SettingQueryInsertView: CommonProxyViewController {
     
     private var addQuerySubject: PublishRelay<SettingIssueQueryItem>?
     
@@ -55,7 +55,7 @@ class SettingQueryInsertView: UIViewController {
         deactivateButton.addAction(UIAction(handler: { [weak self] _ in self?.queryStatus = .deActiveColor }), for: .touchUpInside)
         
         view.flex.define { flex in
-            flex.addItem().grow(1)
+            flex.addItem().height(20%)
             flex.addItem(textField).height(80).margin(8)
             flex.addItem().direction(.row).justifyContent(.spaceBetween).height(60).paddingHorizontal(8).define { flex in
                 flex.addItem(activateButton).grow(0.5).marginRight(8)
@@ -65,6 +65,8 @@ class SettingQueryInsertView: UIViewController {
         }
         
         view.flex.layout()
+        
+        makeSuperViewResignKeyboard()
         
         textField.setShadow()
         activateButton.setCornerRadius()

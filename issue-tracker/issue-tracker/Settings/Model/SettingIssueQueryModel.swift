@@ -19,6 +19,9 @@ final class SettingIssueQueryModel {
     private var disposeBag = DisposeBag()
     private(set) var entities = [Item]() {
         didSet {
+            if let key = keyType?.getPersistentKey() {
+                UserDefaults.standard.setValue(encoded(entities), forKey: key)
+            }
             self.entitiesRelay.accept(entities)
         }
     }

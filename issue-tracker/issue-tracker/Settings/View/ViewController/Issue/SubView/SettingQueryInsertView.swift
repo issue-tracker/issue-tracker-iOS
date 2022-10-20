@@ -21,13 +21,13 @@ class SettingQueryInsertView: UIViewController {
     private lazy var activateButton: UIButton = {
         let button = UIButton()
         button.setTitle("활성화", for: .normal)
-        button.backgroundColor = QueryStatusColor.deActiveColor.getColor()
+        button.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
         return button
     }()
     private let deactivateButton: UIButton = {
         let button = UIButton()
         button.setTitle("비활성화", for: .normal)
-        button.backgroundColor = QueryStatusColor.activeColor.getColor()
+        button.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
         return button
     }()
     
@@ -45,12 +45,12 @@ class SettingQueryInsertView: UIViewController {
             defer {
                 self.activateButton.isEnabled = true
             }
-            guard self.activateButton.backgroundColor == QueryStatusColor.deActiveColor.getColor() else {
+            guard self.activateButton.backgroundColor == UIColor(named: QueryStatusColor.deActiveColor.getColorName()) else {
                 return
             }
             
-            self.deactivateButton.backgroundColor = QueryStatusColor.deActiveColor.getColor()
-            self.activateButton.backgroundColor = QueryStatusColor.activeColor.getColor()
+            self.deactivateButton.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
+            self.activateButton.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
             self.queryStatus = .activeColor
         }), for: .touchUpInside)
         
@@ -59,12 +59,12 @@ class SettingQueryInsertView: UIViewController {
             defer {
                 self.deactivateButton.isEnabled = true
             }
-            guard self.deactivateButton.backgroundColor == QueryStatusColor.deActiveColor.getColor() else {
+            guard self.deactivateButton.backgroundColor == UIColor(named: QueryStatusColor.deActiveColor.getColorName()) else {
                 return
             }
             
-            self.activateButton.backgroundColor = QueryStatusColor.deActiveColor.getColor()
-            self.deactivateButton.backgroundColor = QueryStatusColor.activeColor.getColor()
+            self.activateButton.backgroundColor = UIColor(named: QueryStatusColor.deActiveColor.getColorName())
+            self.deactivateButton.backgroundColor = UIColor(named: QueryStatusColor.activeColor.getColorName())
             self.queryStatus = .deActiveColor
         }), for: .touchUpInside)
         

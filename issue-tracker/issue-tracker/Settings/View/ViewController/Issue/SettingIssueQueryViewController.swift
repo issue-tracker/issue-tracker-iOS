@@ -5,7 +5,7 @@
 //  Created by 백상휘 on 2022/10/07.
 //
 
-import FlexLayout
+import SnapKit
 import RxSwift
 import RxCocoa
 import Foundation
@@ -16,66 +16,45 @@ import Foundation
 class SettingIssueQueryViewController: UIViewController {
     private let padding: CGFloat = 8
     
-    private let activationTableView = UITableView()
-    private let deActivationTableView = UITableView()
+    private let tableView = UITableView()
     private var disposeBag = DisposeBag()
     
     private let model = SettingIssueQueryModel.init(key: IssueSettings.query)
     
-    lazy var addQuerySubject = PublishRelay<SettingIssueQueryItem>()
+    let addQuerySubject = PublishRelay<SettingIssueQueryItem>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Query"
+        view.addSubview(tableView)
         
-        activationTableView.rowHeight = 50
-        deActivationTableView.rowHeight = 50
-        
-        view.flex.define { flex in
-            flex.addItem(activationTableView).height(50%)
-            flex.addItem(deActivationTableView).height(50%)
+        tableView.rowHeight = 50
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-        view.flex.layout()
         
         typealias CELL = SettingIssueQueryCell
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: UIAction(handler: { [weak self] _ in
-            let popup = SettingQueryInsertView(self?.addQuerySubject)
-            popup.modalPresentationStyle = .formSheet
-            self?.present(popup, animated: true)
+            self?.present(SettingQueryInsertView(self?.addQuerySubject), animated: true)
         }))
         
         addQuerySubject
             .subscribe(onNext: { [weak self] entity in
-                self?.model.addItem(entity)
+                self?.model.addEntity(entity)
             })
             .disposed(by: disposeBag)
         
-        activationTableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
-        deActivationTableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
-        
-        activationTableView.delegate = self
-        activationTableView.setEditing(true, animated: false)
-        activationTableView.rx.itemMoved
+        tableView.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
+        tableView.delegate = self
+        tableView.setEditing(true, animated: false)
+        tableView.rx.itemMoved
             .bind(onNext: { [weak self] info in
-                self?.model.swapActiveItem(from: info.sourceIndex.row, to: info.destinationIndex.row)
+                self?.model.swapEntities(from: info.sourceIndex.row, to: info.destinationIndex.row)
             })
             .disposed(by: disposeBag)
-        model.activeEntityRelay
-            .bind(to: activationTableView.rx.items(cellIdentifier: CELL.reuseIdentifier, cellType: CELL.self)) { index, entity, cell in
-                cell.setEntity(entity)
-            }
-            .disposed(by: disposeBag)
-        
-        deActivationTableView.delegate = self
-        deActivationTableView.setEditing(true, animated: false)
-        deActivationTableView.rx.itemMoved
-            .bind(onNext: { [weak self] info in
-                self?.model.swapDeActiveItem(from: info.sourceIndex.row, to: info.destinationIndex.row)
-            })
-            .disposed(by: disposeBag)
-        model.deActiveEntityRelay
-            .bind(to: deActivationTableView.rx.items(cellIdentifier: CELL.reuseIdentifier, cellType: CELL.self)) { index, entity, cell in
+        model.entitiesRelay
+            .bind(to: tableView.rx.items(cellIdentifier: CELL.reuseIdentifier, cellType: CELL.self)) { _, entity, cell in
                 cell.setEntity(entity)
             }
             .disposed(by: disposeBag)
@@ -93,141 +72,68 @@ final class SettingIssueQueryModel {
     
     private var keyType: PersistentKey?
     
-    private(set) var activatedEntities = [Item]() {
-        didSet {
-            self.activeEntityRelay.accept(activatedEntities)
-        }
-    }
-    private(set) var deActivatedEntities = [Item]() {
-        didSet {
-            self.deActiveEntityRelay.accept(deActivatedEntities)
-        }
-    }
-    
-    var activeEntityRelay = BehaviorRelay<[Item]>(value: [])
-    var deActiveEntityRelay = BehaviorRelay<[Item]>(value: [])
-    private(set) var onMovedSubject = PublishSubject<Item>()
-    
+    let entitiesRelay = BehaviorRelay<[Item]>(value: [])
+    let onMovedSubject = PublishSubject<Item>()
     private var disposeBag = DisposeBag()
+    private(set) var entities = [Item]() {
+        didSet {
+            self.entitiesRelay.accept(entities)
+        }
+    }
     
     init(key: PersistentKey) {
-        self.keyType = key
+        keyType = key
+        if let data = UserDefaults.standard.object(forKey: key.getPersistentKey()) as? Data {
+            let entities = decoded(data)
+            self.entities = entities
+            entitiesRelay.accept(entities)
+        }
         
         onMovedSubject
-            .subscribe(onNext: { self.setItemOn($0)})
+            .subscribe(onNext: { self.setItemOn($0) })
             .disposed(by: disposeBag)
-        
-        if let key = keyType {
-            if let data = UserDefaults.standard.object(forKey: key.getPersistentKey()) as? Data {
-                let allData = decoded(data)
-                
-                activatedEntities = allData.filter({$0.isOn})
-                deActivatedEntities = allData.filter({$0.isOn == false})
-                
-                activeEntityRelay.accept(activatedEntities)
-                deActiveEntityRelay.accept(deActivatedEntities)
-            }
-        }
     }
     
-    func setItemOn(_ item: Item) { // 도착점에 표시해주어야 할 Item. Id 는 같음.
+    /// - Parameters:
+    ///     - item: 새로 추가되어야 할 아이템.
+    func setItemOn(_ entity: Item) {
+        guard let previousItem = entities.first(where: {$0 == entity}) else { return }
         
-        var targetQueries = item.isOn ? activatedEntities : deActivatedEntities // 도착점은 item 이 활성상태를 가리키는지 보면 됨.
-        var startingQueries = activatedEntities.contains(item) ? activatedEntities : deActivatedEntities // 시작점은 기존 item의 id 를 가진 배열을 찾으면 됨.
-        
-        if let index = targetQueries.firstIndex(of: item) { // 타겟에서 이미 찾음. 둘의 위치만 바꿈.
-            targetQueries.swapAt(item.index, index)
-            
-            if item.isOn {
-                activatedEntities = targetQueries
-            } else {
-                deActivatedEntities = targetQueries
-            }
-            
-        } else { // 못 찾으면 시작점들에서 삭제하고 지정된 인덱스에 추가한다.
-            if let previousIndex = startingQueries.firstIndex(of: item) {
-                startingQueries.remove(at: previousIndex)
-            }
-            
-            targetQueries.insert(item, at: item.index)
-            
-            if item.isOn { // item 이 비활성 -> 활성으로 변함
-                activatedEntities = targetQueries
-                deActivatedEntities = startingQueries
-            } else {
-                activatedEntities = startingQueries
-                deActivatedEntities = targetQueries
-            }
+        if entity.index != previousItem.index {
+            guard swapEntities(from: previousItem.index, to: entity.index) else { return }
         }
         
-        activeEntityRelay.accept(activatedEntities)
-        deActiveEntityRelay.accept(deActivatedEntities)
+        entities[entity.index] = entity
     }
     
+    /// 위치와 상태만 바꾸고 싶을 때
+    ///
+    /// - Parameters:
+    ///     - key: 변경해야 할 아이템의 키
+    ///     - isOn: 활성화 상태
+    ///     - at: index
     func setItemOn(key: String, isOn: Bool, at: Int) { // 도착점에 표시해주어야 할 Item. Id 는 같음.
-        var item = activatedEntities.first(where: {$0.id.uuidString == key}) ?? deActivatedEntities.first(where: {$0.id.uuidString == key})
+        var item = entities.first(where: {$0.id.uuidString == key})
         item?.isOn = isOn
         
-        guard let item = item else {
-            return
-        }
-        
+        guard let item = item else { return }
         setItemOn(item)
     }
     
-    func getActiveItem(at index: Int) -> SettingIssueQueryItem? {
-        guard 0..<activatedEntities.count ~= index else {
-            return nil
-        }
-        
-        return activatedEntities[index]
+    func getEntity(at index: Int) -> SettingIssueQueryItem? {
+        guard 0..<entities.count ~= index else { return nil }
+        return entities[index]
     }
     
     @discardableResult
-    func swapActiveItem(from fromIndex: Int, to toIndex: Int) -> Bool {
-        guard 0..<activatedEntities.count ~= fromIndex, 0..<activatedEntities.count ~= toIndex else {
-            return false
-        }
-        
-        activatedEntities.swapAt(fromIndex, toIndex)
+    func swapEntities(from fromIndex: Int, to toIndex: Int) -> Bool {
+        guard 0..<entities.count ~= fromIndex, 0..<entities.count ~= toIndex else { return false }
+        entities.swapAt(fromIndex, toIndex)
         return true
     }
     
-    @discardableResult
-    func swapDeActiveItem(from fromIndex: Int, to toIndex: Int) -> Bool {
-        guard 0..<deActivatedEntities.count ~= fromIndex, 0..<deActivatedEntities.count ~= toIndex else {
-            return false
-        }
-        
-        deActivatedEntities.swapAt(fromIndex, toIndex)
-        return true
-    }
-    
-    func getDeActiveItem(at index: Int) -> SettingIssueQueryItem? {
-        guard 0..<deActivatedEntities.count ~= index else {
-            return nil
-        }
-        
-        return deActivatedEntities[index]
-    }
-    
-    func dragItem(isActiveTableView: Bool, at index: Int) -> [NSItemProvider] {
-        let item = isActiveTableView ? getActiveItem(at: index) : getDeActiveItem(at: index)
-        let data = item?.id.uuidString.data(using: .utf8)
-        let itemProvider = NSItemProvider()
-        
-        itemProvider.registerDataRepresentation(forTypeIdentifier: "data", visibility: .all) { completion in
-            completion(data, nil)
-            return nil
-        }
-        
-        return [itemProvider]
-    }
-    
-    @discardableResult
-    func addItem(_ item: SettingIssueQueryItem) -> Bool {
-        self.activatedEntities.append(item)
-        return true
+    func addEntity(_ entity: SettingIssueQueryItem) {
+        entities.append(entity)
     }
 }
 
@@ -260,9 +166,8 @@ final class SettingIssueQueryCell: UITableViewCell {
     }
     
     private func makeUI() {
-        contentView.backgroundColor = .systemBackground
         contentView.addSubview(label)
-        
+        backgroundColor = .systemBackground
         label.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -270,6 +175,9 @@ final class SettingIssueQueryCell: UITableViewCell {
     
     func setEntity(_ entity: SettingIssueQueryItem) {
         label.text = entity.query
+        
+        let queryStatus: QueryStatusColor = entity.isOn ? .activeColor : .deActiveColor
+        backgroundColor = queryStatus.getColor()
     }
 }
 
@@ -281,5 +189,19 @@ struct SettingIssueQueryItem: Codable, Equatable {
     
     static func == (lhs: SettingIssueQueryItem, rhs: SettingIssueQueryItem) -> Bool {
         return lhs.id == rhs.id
+    }
+}
+
+enum QueryStatusColor {
+    case activeColor
+    case deActiveColor
+    
+    func getColor() -> UIColor? {
+        switch self {
+        case .activeColor:
+            return UIColor(named: "query_status_active")
+        case .deActiveColor:
+            return UIColor(named: "query_status_deactive")
+        }
     }
 }

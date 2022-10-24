@@ -19,7 +19,7 @@ struct RequestBuilder {
                                    "Proxy-Authorization",
                                    "WWW-Authenticate",
                                    "Content-Type"]
-    private let allHTTPMethods = ["GET", "POST", "PUT", "DELETE"]
+    private let allHTTPMethods = ["GET", "POST", "PUT", "DELETE", "PATCH"]
     private let encoder = JSONEncoder()
     let baseURL: URL
     

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol IssueDetailCommonType {
-    func setEntity(_ entity: IssueListComment)
+    func setEntity(_ entity: IssueDetailCommonType)
 }

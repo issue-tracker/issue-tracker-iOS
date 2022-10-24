@@ -7,7 +7,7 @@
 
 import FlexLayout
 
-class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommonType, ViewBindable {
+class IssueDetailTableViewCellSeparator: UITableViewCell, ViewBindable {
     
     private let personImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "person.circle"))
@@ -78,9 +78,9 @@ class IssueDetailTableViewCellSeparator: UITableViewCell, IssueDetailCommonType,
         }
     }
     
-    func setEntity(_ entity: IssueListComment) {
-        profileButton.profileImageURL = entity.author.profileImage
-        authorLabel.text = entity.author.nickname
-        descriptionLabel.text = entity.content
+    func setEntity(_ entity: IssueDetailViewModel.Content) {
+        profileButton.profileImageURL = entity.profileImage
+        authorLabel.text = entity.author?.nickname
+        descriptionLabel.text = entity.contents
     }
 }

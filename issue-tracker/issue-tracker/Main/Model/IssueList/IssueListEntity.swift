@@ -51,7 +51,7 @@ struct IssueListEntity: Codable {
     let issueAssignees: [IssueAssignee]
     let issueLabels: [LabelListEntity]
     let milestone: MilestoneListEntity?
-    let issueHistories: [IssueHistories]?
+    let issueHistories: [IssueHistories]
     
     let createdAt: String?
     let lastModifiedAt: String?
@@ -78,7 +78,7 @@ struct IssueListEntity: Codable {
         }
         
         milestone = try? values.decode(MilestoneListEntity.self, forKey: .milestone)
-        issueHistories = try? values.decode([IssueHistories].self, forKey: .issueHistories)
+        issueHistories = try values.decode([IssueHistories].self, forKey: .issueHistories)
         
         createdAt = try? values.decode(String.self, forKey: .createdAt)
         lastModifiedAt = try? values.decode(String.self, forKey: .lastModifiedAt)

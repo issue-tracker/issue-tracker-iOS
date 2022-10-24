@@ -7,7 +7,7 @@
 
 import FlexLayout
 
-class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommonType, ViewBindable {
+class IssueDetailCommentTableViewCell: UITableViewCell, ViewBindable {
     
     private let profileButton: ProfileImageButton = {
         let button = ProfileImageButton()
@@ -109,14 +109,14 @@ class IssueDetailCommentTableViewCell: UITableViewCell, IssueDetailCommonType, V
         }
     }
     
-    func setEntity(_ entity: IssueListComment) {
-        profileButton.profileImageURL = entity.author.profileImage
+    func setEntity(_ entity: IssueDetailViewModel.Content) {
+        profileButton.profileImageURL = entity.profileImage
         guard let emojis = self.viewModel?.emojis else {
             return
         }
         
-        authorLabel.text = entity.author.nickname
-        descriptionLabel.text = entity.createdAt
+        authorLabel.text = entity.author?.nickname
+        descriptionLabel.text = entity.contents
         
         emojisScrollView.flex.addItem(UIView(frame: CGRect(origin: .zero, size: CGSize(width: 4, height: 0))))
         for emoji in emojis {

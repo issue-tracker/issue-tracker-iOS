@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 enum IssueDetailError: Error {
     case iDError
@@ -51,11 +52,19 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     // Entities for DetailView
     var issueDetail: IssueListEntity?
     
+    var issueContents: Content? // Main Contents. 맨 위에 위치할 IssueListComment
+    var issueSubContents: [Content] = [] // Main Contents 밑에 위치할 컨텐츠.
+    var contentsCount: Int {
+        return issueSubContents.count + (issueContents == nil ? 0 : 1)
+    }
+    
     var commentsOfIssue: [IssueListComment]? { issueDetail?.comments }
     var authorInfo: IssueListAuthor? { issueDetail?.author }
     var assigneeInfo: [IssueAssignee]? { issueDetail?.issueAssignees }
     var labelsInfo: [LabelListEntity]? { issueDetail?.issueLabels }
     var milestoneInfo: MilestoneListEntity? { issueDetail?.milestone }
+    var historiesOfIssue: [IssueHistories]? { issueDetail?.issueHistories }
+    var historySubject = PublishRelay<[IssueHistories]>()
     
     override init(_ baseURL: URL) {
         super.init(baseURL)
@@ -81,8 +90,45 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
                 return Observable.never()
             }
             
-            return Observable.just(self.responseModel.getDecoded(from: data, as: T.self))
+            let entity = self.responseModel.getDecoded(from: data, as: T.self)
+            if let issueDetail = entity as? IssueListEntity {
+                self.issueDetail = issueDetail
+                self.setissueContents()
+            }
+            
+            return Observable.just(entity)
         }
+    }
+    // TODO: Comments first 는 맨 위의 메인 컨텐츠로 만들기.
+    private func setissueContents() {
+        guard var issueDetailComments = issueDetail?.comments, issueDetailComments.count >= 1 else { // comments 는 있어야 Main Contents를 추가할 수 있음.
+            return
+        }
+        
+        issueDetailComments.sort(by: { self.constructDate(from: $0.createdAt) < self.constructDate(from: $1.createdAt) })
+        self.issueContents = issueDetailComments.first?.getContents()
+        issueDetailComments.removeFirst()
+        
+        let comparableItems: [Any] = (issueDetail?.issueHistories ?? []) + issueDetailComments
+        self.issueSubContents = comparableItems.compactMap { item in
+            if let item = item as? IssueHistories {
+                return item.getContents()
+            } else if let item = item as? IssueListComment {
+                return item.getContents()
+            } else {
+                return nil
+            }
+        }
+        
+        self.issueSubContents.sort { $0.date < $1.date }
+    }
+    
+    func constructDate(from dateString: String?) -> Date {
+        guard let dateString = dateString, let date = DateFormatter().date(from: dateString) else {
+            return Date()
+        }
+        
+        return date
     }
     
     // MARK: - APIs
@@ -90,17 +136,25 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         return responseFlatten(requestObservable(pathArray: ["\(issueId)"]))
     }
     
-    func getCellEntity(_ indexPath: IndexPath) -> IssueListComment? {
-        let floatIndex = ceil(Float(indexPath.row/2))
-        return commentsOfIssue?[Int(floatIndex)]
-    }
-    
-    func getCellType(_ indexPath: IndexPath) -> IssueDetailCellType {
-        indexPath.row.isMultiple(of: 2) ? .separator : .info
+    func getCellEntity(_ indexPath: IndexPath) -> Content? {
+        if indexPath.row == 0 {
+            return self.issueContents
+        } else {
+            return issueSubContents[indexPath.row-1]
+        }
     }
     
     func getCellHeight(_ indexPath: IndexPath) -> Float {
-        indexPath.row.isMultiple(of: 2) ? 30 : 120
+        guard let entity = getCellEntity(indexPath) else {
+            return 120
+        }
+        
+        switch entity.cellType {
+        case .separator:
+            return 30
+        case .info:
+            return 120
+        }
     }
     
     // title, status, emojis
@@ -234,6 +288,15 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         
         return requestObservable(URLRequest(url: url))
     }
+    
+    struct Content {
+        let date: Date
+        let contents: String
+        let assignee: IssueAssignee?
+        let author: IssueListAuthor?
+        let cellType: IssueDetailCellType
+        let profileImage: String
+    }
 }
 
 extension Array where Element == EmojiResponse {
@@ -269,4 +332,32 @@ private struct PrivateParameter {
     let memberId: Int
     let issueId: Int
     let token: String
+}
+
+private extension IssueHistories {
+    func getContents() -> IssueDetailViewModel.Content {
+        let date = DateFormatter().date(from: modifiedAt) ?? Date()
+        return IssueDetailViewModel.Content(
+            date: date,
+            contents: action,
+            assignee: assignee,
+            author: nil,
+            cellType: .separator,
+            profileImage: assignee?.profileImage ?? ""
+        )
+    }
+}
+
+private extension IssueListComment {
+    func getContents() -> IssueDetailViewModel.Content {
+        let date = DateFormatter().date(from: createdAt ?? "") ?? Date()
+        return IssueDetailViewModel.Content(
+            date: date,
+            contents: content,
+            assignee: nil,
+            author: author,
+            cellType: .info,
+            profileImage: author.profileImage
+        )
+    }
 }

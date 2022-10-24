@@ -6,6 +6,7 @@
 //
 
 import FlexLayout
+import Foundation
 
 class IssueDetailTableViewCellSeparator: UITableViewCell, ViewBindable {
     
@@ -58,15 +59,10 @@ class IssueDetailTableViewCellSeparator: UITableViewCell, ViewBindable {
     }
     
     private func makeUI() {
-        contentView.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        
+        contentView.backgroundColor = nil
         contentView.flex.direction(.row).alignContent(.center).paddingHorizontal(4).define { flex in
-            flex.addItem(personImageView).height(65%).aspectRatio(1).marginRight(4)
-            flex.addItem(profileButton).height(65%).aspectRatio(1).marginRight(4)
-            flex.addItem().direction(.row).height(65%).grow(1).define { flex in
-                flex.addItem(authorLabel).width(45%).marginRight(2)
-                flex.addItem(descriptionLabel).width(55%)
-            }
+            flex.addItem(personImageView).aspectRatio(1).marginRight(4)
+            flex.addItem(descriptionLabel).grow(1)
         }
         
         reloadLayout()
@@ -80,7 +76,8 @@ class IssueDetailTableViewCellSeparator: UITableViewCell, ViewBindable {
     
     func setEntity(_ entity: IssueDetailViewModel.Content) {
         profileButton.profileImageURL = entity.profileImage
-        authorLabel.text = entity.author?.nickname
-        descriptionLabel.text = entity.contents
+        let str = NSMutableAttributedString(string: (entity.author?.nickname ?? "") + entity.contents)
+        str.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: descriptionLabel.font.pointSize), range: NSRange(location: 0, length: (entity.author?.nickname ?? "").count))
+        descriptionLabel.text = str.string
     }
 }

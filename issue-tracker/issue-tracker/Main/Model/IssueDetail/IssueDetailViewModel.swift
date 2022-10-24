@@ -92,8 +92,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         guard var issueDetailComments = issueDetail?.comments, issueDetailComments.count >= 1 else { return }
         
         issueDetailComments.sort(by: { self.constructDate(from: $0.createdAt) < self.constructDate(from: $1.createdAt) })
-        self.issueContents = issueDetailComments.first?.getContents()
-        issueDetailComments.removeFirst()
+        self.issueContents = issueDetailComments.removeFirst().getContents()
         
         let comparableItems: [Any] = (issueDetail?.issueHistories ?? []) + issueDetailComments
         self.issueSubContents = comparableItems.compactMap { item in
@@ -121,13 +120,14 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     func getCellEntity(_ indexPath: IndexPath) -> Content? {
-        guard indexPath.row > 1 else {
+        if indexPath.row == 0 {
             return issueContents
         }
         return issueSubContents[indexPath.row-1]
     }
     
     func getCellHeight(_ indexPath: IndexPath) -> Float {
+        guard indexPath.row != 0 else { return 300 }
         guard let entity = getCellEntity(indexPath) else {
             return 120
         }
@@ -227,6 +227,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         let author: IssueListAuthor?
         let cellType: IssueDetailCellType
         let profileImage: String
+        let reactions: [IssueCommentReactionsResponse]
     }
 }
 
@@ -238,14 +239,18 @@ extension Array where Element == EmojiResponse {
             return partialResult + emojis.filter({$0.isEmpty == false})
         }
         
-        return emojis.compactMap { emoji in
-            guard let hexValue = Int(emoji.replacingOccurrences(of: "U+", with: ""), radix: 16), let unicodeScalar = UnicodeScalar(hexValue), unicodeScalar.value >= 100000 else {
-                return nil
-            }
-            
-            let result = String(unicodeScalar)
-            return result.isEmpty ? nil : result
+        return emojis.compactMap { $0.convertEmoji() }
+    }
+}
+
+extension String {
+    func convertEmoji() -> String? {
+        guard let hexValue = Int(self.replacingOccurrences(of: "U+", with: ""), radix: 16), let unicodeScalar = UnicodeScalar(hexValue), unicodeScalar.value >= 100000 else {
+            return nil
         }
+        
+        let emoji = String(unicodeScalar)
+        return emoji.isEmpty ? nil : emoji
     }
 }
 
@@ -263,7 +268,8 @@ private extension IssueHistories {
             assignee: assignee,
             author: nil,
             cellType: .separator,
-            profileImage: assignee?.profileImage ?? ""
+            profileImage: assignee?.profileImage ?? "",
+            reactions: []
         )
     }
 }
@@ -277,7 +283,8 @@ private extension IssueListComment {
             assignee: nil,
             author: author,
             cellType: .info,
-            profileImage: author.profileImage
+            profileImage: author.profileImage,
+            reactions: issueCommentReactionsResponse ?? []
         )
     }
 }

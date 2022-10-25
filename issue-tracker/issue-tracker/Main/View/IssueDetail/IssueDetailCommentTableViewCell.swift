@@ -72,7 +72,7 @@ class IssueDetailCommentTableViewCell: UITableViewCell, ViewBindable {
     }
     
     private func makeUI() {
-        contentView.backgroundColor = nil
+        contentView.backgroundColor = .systemBackground
         ellipsisImageView.tintColor = .lightGray
         
         contentView.flex.padding(8).define { flex in

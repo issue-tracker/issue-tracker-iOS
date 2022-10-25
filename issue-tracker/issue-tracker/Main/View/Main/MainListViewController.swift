@@ -63,7 +63,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
             
             if let entity = entity as? IssueListEntity, bindable is IssueListViewController {
                 self?.tabBarController?.tabBar.isHidden = true
-                self?.navigationController?.pushViewController(IssueDetailViewController(entity.id, status: .open), animated: true)
+                self?.navigationController?.pushViewController(IssueDetailViewController(entity.id), animated: true)
             }
             
             if let button = self?.listSegmentedControl, button.selectedSegmentIndex == 0 {

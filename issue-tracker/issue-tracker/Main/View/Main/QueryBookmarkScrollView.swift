@@ -19,7 +19,7 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
     private var contentSizeWidthRelay = BehaviorRelay<CGPoint>(value: .zero)
     private var disposeBag = DisposeBag()
     var lastView: UIView? {
-      subviews.filter({$0 is BookmarkButton}).max(by: { $0.frame.maxX < $1.frame.maxX })
+      subviews.filter({$0 is UIButton}).max(by: { $0.frame.maxX < $1.frame.maxX })
     }
     
     override init(frame: CGRect) {
@@ -71,6 +71,18 @@ class QueryBookmarkScrollView: UIScrollView, ViewBindable {
         
         button.setBookmark(bookmark)
         button.addTarget(self, action: #selector(buttonTouchUpInside(_:)), for: .touchUpInside)
+        addSubview(button)
+        
+        contentSizeWidthRelay.accept(CGPoint(x: button.frame.maxX, y: 0))
+        
+        return button
+    }
+    
+    @discardableResult
+    func insertNormalButton(text: String) -> UIButton? {
+        let button = UIButton()
+        button.setTitle(text, for: .normal)
+        button.frame = CGRect(origin: CGPoint(x: (lastView?.frame.maxX ?? 0) + 8, y: 0), size: CGSize(width: frame.width / (text.count > 12 ? 2 : 3.5), height: frame.height))
         addSubview(button)
         
         contentSizeWidthRelay.accept(CGPoint(x: button.frame.maxX, y: 0))

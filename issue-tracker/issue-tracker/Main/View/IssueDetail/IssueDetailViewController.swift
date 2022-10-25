@@ -18,39 +18,35 @@ enum IssueStatus {
 class IssueDetailViewController: CommonProxyViewController {
     
     private var issueId: Int?
-    private var entity: IssueListEntity?
-    private var issueStatus: IssueStatus = .closed
     
     private(set) var model: IssueDetailViewModel?
     
-    convenience init(_ id: Int, status: IssueStatus) {
+    convenience init(_ id: Int) {
         self.init()
         self.issueId = id
-        self.issueStatus = status
     }
     
-    private let containerView = UIView()
-    
-    private let additionalInfoView = UIView()
-    private lazy var statusLabel: CommonLabel = {
-        let label = CommonLabel(fontMultiplier: 0.9)
-        let isOpened = issueStatus == .open
-        let statusColor = isOpened ? UIColor.green : UIColor.purple
-        
-        label.textColor = statusColor
-        label.backgroundColor = statusColor.withAlphaComponent(0.3)
-        label.text = (isOpened ? "open" : "closed")
-        label.setCornerRadius()
-        
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        return view
+    }()
+    private lazy var issuePathLabel: CommonLabel = {
+        let label = CommonLabel(fontMultiplier: 0.8)
+        label.textAlignment = .left
+        label.text = "issue"
+        label.setId(issueId)
         return label
     }()
-    private let additionalInfoScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
+    private let titleLabel: CommonLabel = {
+        let label = CommonLabel(fontMultiplier: 1.2)
+        label.textAlignment = .left
+        return label
+    }()
+    private let additionalInfoScrollView: QueryBookmarkScrollView = {
+        let scrollView = QueryBookmarkScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.alwaysBounceHorizontal = true
-        scrollView.backgroundColor = .lightGray
-        scrollView.setCornerRadius()
         return scrollView
     }()
     
@@ -64,38 +60,31 @@ class IssueDetailViewController: CommonProxyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = ""
+        view.backgroundColor = .systemBackground
         if let id = issueId {
             model = try? IssueDetailViewModel(issueId: id)
         }
+        contentsTableView.register(IssueDetailTableViewCellSeparator.self, forCellReuseIdentifier: IssueDetailTableViewCellSeparator.reuseIdentifier)
+        contentsTableView.register(IssueDetailCommentTableViewCell.self, forCellReuseIdentifier: IssueDetailCommentTableViewCell.reuseIdentifier)
         
         view.addSubview(containerView)
-        
-        additionalInfoScrollView.backgroundColor = .lightGray.withAlphaComponent(0.2)
-        
         containerView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
-        containerView.flex.define { flex in
-            // 고정값으로 처리하는 이유는 나중에도 layout을 다시 정의하도록 하기 때문.
-            flex.addItem(additionalInfoView).height(30).direction(.row).padding(8).define { flex in
-                flex.addItem(statusLabel).height(100%).aspectRatio(1).marginRight(4)
-                flex.addItem(additionalInfoScrollView).grow(1)
-            }
+        containerView.flex.alignSelf(.stretch).define { flex in
+            flex.addItem(issuePathLabel).height(20).marginHorizontal(8).marginVertical(16)
+            flex.addItem(titleLabel).minHeight(40).marginHorizontal(8).marginBottom(10)
+            flex.addItem(additionalInfoScrollView).height(20).marginHorizontal(8).marginBottom(16)
+            flex.addItem().backgroundColor(UIColor.separator).height(10)
+            flex.addItem(contentsTableView).grow(1)
         }
         
-        contentsTableView.register(IssueDetailTableViewCellSeparator.self, forCellReuseIdentifier: IssueDetailTableViewCellSeparator.reuseIdentifier)
-        contentsTableView.register(IssueDetailCommentTableViewCell.self, forCellReuseIdentifier: IssueDetailCommentTableViewCell.reuseIdentifier)
-        view.addSubview(contentsTableView)
-        
-        contentsTableView.snp.makeConstraints { make in
-            make.top.equalTo(additionalInfoView.snp.bottom)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        containerView.layoutIfNeeded()
+        view.layoutIfNeeded()
         containerView.flex.layout()
+        
+        additionalInfoScrollView.setCornerRadius()
         
         setEntity()
     }
@@ -111,7 +100,23 @@ class IssueDetailViewController: CommonProxyViewController {
         model.getDetailEntity()
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] entity in
-                self?.navigationItem.title = entity?.title
+                self?.titleLabel.text = entity?.title
+                self?.issuePathLabel.setId(entity?.id)
+                self?.additionalInfoScrollView.subviews.forEach({
+                    $0.removeFromSuperview()
+                })
+                let isOpened = entity?.closed ?? false
+                let status = self?.additionalInfoScrollView.insertNormalButton(text: isOpened ? "open" : "closed")
+                status?.backgroundColor = isOpened ? .green.withAlphaComponent(0.3) : .opaqueSeparator
+                status?.setCornerRadius()
+                
+                for label in (entity?.issueLabels ?? []) {
+                    let button = self?.additionalInfoScrollView.insertNormalButton(text: label.title)
+                    button?.backgroundColor = UIColor.init(hex: label.backgroundColorCode)
+                    button?.setCornerRadius()
+                }
+                self?.additionalInfoScrollView.setNeedsDisplay()
+                
                 self?.contentsTableView.reloadData()
             })
             .disposed(by: model.bag)
@@ -156,5 +161,23 @@ extension IssueDetailViewController: UITableViewDataSource {
             cell?.setEntity(entity)
             return cell ?? UITableViewCell()
         }
+    }
+}
+
+private extension CommonLabel {
+    /// set Id after path defined.
+    func setId(_ issueId: Int?) {
+        if let shopIndex = self.text?.firstIndex(of: "#") {
+            self.text?.removeSubrange(shopIndex...)
+        }
+        
+        guard let issueId = issueId, var text = self.text, text.count > 0 else { return }
+        
+        let id = "#" + String(issueId)
+        text += id
+        let range = NSRange(location: 0, length: text.count-2)
+        let str = NSMutableAttributedString(string: text)
+        str.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.separator, range: range)
+        self.text = str.string
     }
 }

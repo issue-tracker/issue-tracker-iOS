@@ -11,6 +11,7 @@ import RxRelay
 
 enum IssueDetailError: Error {
     case iDError, memberIdError, tokenUnavailableError, responseWithError, urlError, errorOnBody
+    case errorSpecified(String)
 }
 
 enum IssueDetailCellType {
@@ -19,29 +20,11 @@ enum IssueDetailCellType {
 
 // RequestHTTPModel 을 상속하는 이유는 여러가지의 response 가 있을 수 있기 때문.
 // 다양한 HTTP Response Body 에 대응해야 한다.
-class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
+class IssueDetailViewModel: RequestHTTPModel {
     
-    private var issueId: Int = 1 // Test 를 위한 Default 값 삽입.
-    
-    private var bagCount = 0
-    /// Model 에서 DisposeBag 을 관리하는 이유는 효율적인 메모리 관리(4 번 이상의 리퀘스트 이후에는 DisposeBag 을 초기화 ) 를 위함입니다.
-    ///
-    /// Model 의 DisposeBag 을 이용하시는 것을 권해드립니다.
-    var bag = DisposeBag() {
-        didSet {
-            bagCount += 1
-            if bagCount >= 2 {
-                bag = DisposeBag()
-            }
-        }
-    }
-    var emojis: [String] = []
-    
-    private var responseModel: HTTPResponseModel {
-        return HTTPResponseModel()
-    }
-    
-    var binding: ViewBinding?
+    private var issueId: Int = -1
+    private(set) var bag = DisposeBag()
+    private var responseModel = HTTPResponseModel()
     
     // Entities for DetailView
     var issueDetail: IssueListEntity?
@@ -59,12 +42,14 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     var milestoneInfo: MilestoneListEntity? { issueDetail?.milestone }
     var historiesOfIssue: [IssueHistories]? { issueDetail?.issueHistories }
     
+    private(set) var emojis: [String] = []
+    
     override init(_ baseURL: URL) {
         super.init(baseURL)
     }
     
     convenience init?(issueId: Int) throws {
-        guard let url = URL.issueApiURL else {
+        guard let url = URL.issueApiURL, issueId > 0 else {
             return nil
         }
         
@@ -79,8 +64,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
             guard let self = self else { return Observable.never() }
             
             if let message = self.responseModel.getMessageResponse(from: data) {
-                self.binding?.bindableHandler?(message, self)
-                return Observable.never()
+                return Observable.error(IssueDetailError.errorSpecified(message))
             }
             
             return Observable.just(self.responseModel.getDecoded(from: data, as: T.self))
@@ -120,21 +104,19 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
     }
     
     func getCellEntity(_ indexPath: IndexPath) -> Content? {
-        if indexPath.row == 0 {
-            return issueContents
-        }
-        return issueSubContents[indexPath.row-1]
+        indexPath.row == 0 ? issueContents : issueSubContents[indexPath.row-1]
     }
     
     func getCellHeight(_ indexPath: IndexPath) -> Float {
-        guard indexPath.row != 0 else { return 300 }
-        guard let entity = getCellEntity(indexPath) else {
-            return 120
+        guard indexPath.row != 0 else {
+            return 300
         }
-        return entity.cellType == .separator ? 30 : 120
+        
+        let cellType = getCellEntity(indexPath)?.cellType ?? IssueDetailCellType.info
+        return cellType == .separator ? 30 : 120
     }
     
-    // title, status, emojis
+    // MARK: issue title/status
     func setTitle(_ title: String) -> Observable<IssueListEntity?> {
         builder.setBody( ["id": self.issueId] )
         return responseFlatten(requestObservable(pathArray: [ "\(issueId)", "title" ]))
@@ -150,11 +132,15 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
         return responseFlatten(requestObservable(pathArray: ["update-status"]))
     }
     
-    func getEmojis() -> Observable<[EmojiResponse]?> {
-        responseFlatten( requestObservable(pathArray: ["comments", "reactions", "emojis"]) )
+    // MARK: emojis
+    func getEmojis() {
+        requestObservable(pathArray: ["comments", "reactions", "emojis"])
+            .map({self.responseModel.getDecoded(from: $0, as: [EmojiResponse].self)})
+            .subscribe(onNext: { self.emojis = $0?.getEncodedEmojis() ?? [] })
+            .disposed(by: bag)
     }
     
-    // label
+    // MARK: label
     func setLabel(_ labelId: Int) -> Observable<IssueListEntity?> {
         builder.setHTTPMethod("post")
         return responseFlatten(requestObservable(pathArray: [ "\(issueId)", "labels", "\(labelId)" ]))
@@ -208,7 +194,7 @@ class IssueDetailViewModel: RequestHTTPModel, ViewBindable {
             .map { [weak self] in self?.responseModel.getMessageResponse(from: $0) }
     }
     
-    // milestone
+    // MARK: milestone
     func setMilestone(_ milestoneId: Int) -> Observable<IssueListEntity?> {
         builder.setHTTPMethod("patch")
         return responseFlatten(requestObservable(pathArray: [ "\(issueId)", "milestone", "\(milestoneId)" ]))

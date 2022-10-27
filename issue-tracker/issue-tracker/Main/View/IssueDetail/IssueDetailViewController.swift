@@ -10,11 +10,6 @@ import SnapKit
 import FlexLayout
 import RxSwift
 
-enum IssueStatus {
-    case open
-    case closed
-}
-
 class IssueDetailViewController: CommonProxyViewController {
     
     private var issueId: Int?
@@ -94,47 +89,49 @@ class IssueDetailViewController: CommonProxyViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
-    func setEntity() {
+    private func setEntity() {
         guard let model = self.model else { return }
         
         model.getDetailEntity()
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] entity in
-                self?.titleLabel.text = entity?.title
-                self?.issuePathLabel.setId(entity?.id)
-                self?.additionalInfoScrollView.subviews.forEach({
-                    $0.removeFromSuperview()
-                })
-                let isOpened = entity?.closed ?? false
-                let status = self?.additionalInfoScrollView.insertNormalButton(text: isOpened ? "open" : "closed")
-                status?.backgroundColor = isOpened ? .green.withAlphaComponent(0.3) : .opaqueSeparator
-                status?.setCornerRadius()
-                
-                for label in (entity?.issueLabels ?? []) {
-                    let button = self?.additionalInfoScrollView.insertNormalButton(text: label.title)
-                    button?.backgroundColor = UIColor.init(hex: label.backgroundColorCode)
-                    button?.setCornerRadius()
-                }
-                self?.additionalInfoScrollView.setNeedsDisplay()
-                
+                self?.setTitleArea()
+                self?.setAdditionalInfo()
                 self?.contentsTableView.reloadData()
             })
             .disposed(by: model.bag)
         
         model.getEmojis()
-            .subscribe(onNext: { [weak self] result in
-                self?.model?.emojis = result?.getEncodedEmojis() ?? []
-            })
-            .disposed(by: model.bag)
+    }
+    
+    private func setTitleArea() {
+        guard let entity = model?.issueDetail else { return }
+        
+        titleLabel.text = entity.title
+        issuePathLabel.setId(entity.id)
+    }
+    
+    private func setAdditionalInfo() {
+        guard let entity = model?.issueDetail else { return }
+        
+        additionalInfoScrollView.subviews.forEach { $0.removeFromSuperview() }
+        let status = additionalInfoScrollView.insertNormalButton(text: entity.closed ? "closed" : "open")
+        status?.backgroundColor = entity.closed ? .green.withAlphaComponent(0.3) : .opaqueSeparator
+        status?.setCornerRadius()
+        
+        for label in entity.issueLabels {
+            let button = additionalInfoScrollView.insertNormalButton(text: label.title)
+            button?.backgroundColor = UIColor.init(hex: label.backgroundColorCode)
+            button?.setCornerRadius()
+        }
+        
+        additionalInfoScrollView.setNeedsDisplay()
     }
 }
 
 extension IssueDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let heightFloat = model?.getCellHeight(indexPath) else {
-            return 120
-        }
-        
+        let heightFloat = model?.getCellHeight(indexPath) ?? 120
         return CGFloat(heightFloat)
     }
 }

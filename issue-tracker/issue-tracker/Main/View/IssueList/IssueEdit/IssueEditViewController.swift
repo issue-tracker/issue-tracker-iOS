@@ -15,12 +15,18 @@ enum IssueEditType {
     case update
 }
 
-class IssueEditViewController: CommonProxyViewController {
+class IssueEditViewController: CommonProxyViewController, MainListReloadable {
 
     var editType: IssueEditType = .add
+    var reloadSubject: PublishSubject<ReloadListType>?
     
     private var disposeBag = DisposeBag()
-    private lazy var admitSaveButtonStateSubject = BehaviorRelay(value: false)
+    private lazy var admitSaveButtonStateSubject = BehaviorRelay<Bool>(value: false)
+    
+    let model: IssueAddRemoveModel? = {
+        guard let url = URL.issueApiURL else { return nil }
+        return IssueAddRemoveModel(url)
+    }()
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
@@ -39,12 +45,32 @@ class IssueEditViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.barTintColor = UIColor.opaqueSeparator
-        navigationItem.title = "issue-tracker\nCreate a new issue"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction(handler: { [weak self] _ in
-            self?.dismiss(animated: true)
+        navigationItem.title = "Create a new issue"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction(handler: { _ in
+            self.dismiss(animated: true)
         }))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", primaryAction: UIAction(handler: { [weak self] _ in
-            // TODO: Request Save Issue
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", primaryAction: UIAction(handler: { _ in
+            guard
+                let title = self.titleTextField.text,
+                let comment = self.contentsTextView.text,
+                let id = UserDefaults.standard.value(forKey: "memberId") as? Int
+            else {
+                return
+            }
+            
+            self.model?.addIssue(IssueAddParameter(title: title, comment: comment, assigneeIds: [id], labelIds: [1,2,3,4], milestoneId: 1))
+                .observe(on: MainScheduler.instance)
+                .subscribe(onNext: { entity in
+                    guard entity != nil else {
+                        self.commonAlert("오류가 발생했습니다!")
+                        return
+                    }
+                    
+                    self.reloadSubject?.onNext(.issue)
+                    self.dismiss(animated: true)
+                })
+                .disposed(by: self.disposeBag)
         }))
         
         admitSaveButtonStateSubject
@@ -64,12 +90,22 @@ class IssueEditViewController: CommonProxyViewController {
             make.height.equalTo(45)
         }
         
+        titleTextField.rx.text
+            .bind { text in
+                guard let text = text else {
+                    self.admitSaveButtonStateSubject.accept(false)
+                    return
+                }
+                
+                self.admitSaveButtonStateSubject.accept(!text.isEmpty)
+            }
+            .disposed(by: disposeBag)
+        
         contentsTextView.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        
     }
 }

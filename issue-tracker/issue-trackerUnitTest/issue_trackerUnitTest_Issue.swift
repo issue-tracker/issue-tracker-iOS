@@ -104,7 +104,7 @@ class issue_trackerUnitTest_Issue: XCTestCase {
                     .disposed(by: DisposeBag())
             }
         })
-        .disposed(by: model.bag)
+        .disposed(by: disposeBag)
         
         wait(for: [expectation], timeout: 5.0)
     }

@@ -13,7 +13,7 @@ class issue_trackerUITests_Login: CommonTestCase {
     let buttonIds = ["아이디로 로그인", "비밀번호 재설정", "회원가입", "간편회원가입"]
     
     var isAlreadyLogin: Bool {
-        app.tabBars.firstMatch.exists
+        return app.tabBars.firstMatch.waitForExistence(timeout: 5)
     }
     
     override func doVisibleTest() {

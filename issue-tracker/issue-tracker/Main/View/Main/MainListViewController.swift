@@ -10,6 +10,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol MainListReloadable {
+    var reloadSubject: PublishSubject<ReloadListType>? { get set }
+}
+
 class MainListViewController: CommonProxyViewController, ViewBinding {
     
     // Search field 에 관한 가이드라인
@@ -72,6 +76,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         }
     }
     
+    private let reloadListSubject = PublishSubject<ReloadListType>()
     private lazy var issueListViewController = IssueListViewController()
     private lazy var labelListViewController = LabelListViewController()
     private lazy var milestoneListViewController = MilestoneListViewController()
@@ -104,7 +109,9 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     
     private lazy var plusButton: UIButton = {
         let button = UIButton(primaryAction: UIAction(handler: { action in
-            let destNavigation = UINavigationController(rootViewController: IssueEditViewController())
+            let viewController = IssueEditViewController()
+            viewController.reloadSubject = self.reloadListSubject
+            let destNavigation = UINavigationController(rootViewController: viewController)
             self.navigationController?.present(destNavigation, animated: true)
         }))
         button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
@@ -155,8 +162,8 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         }
         
         plusButton.snp.makeConstraints {
-            $0.bottom.trailing.equalTo(self.view.safeAreaLayoutGuide).offset(-16)
-            $0.size.equalTo(CGSize(width: 44, height: 44))
+            $0.bottom.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(16)
+            $0.size.equalTo(CGSize(width: 54, height: 54))
         }
         
         removePopupSubject
@@ -180,7 +187,23 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         bookmarkScrollView.insertButton(searchText: "milestone:default")
         
         listSegmentedControl.selectedSegmentIndex = 0
+        
+        reloadListSubject
+            .subscribe(onNext: { type in
+                switch type {
+                case .issue: self.issueListViewController.reloadTableView(self)
+                case .label: self.labelListViewController.reloadTableView(self)
+                case .milestone: self.milestoneListViewController.reloadTableView(self)
+                }
+            })
+            .disposed(by: disposeBag)
     }
+}
+
+enum ReloadListType {
+    case issue
+    case label
+    case milestone
 }
 
 extension MainListViewController: UIScrollViewDelegate {

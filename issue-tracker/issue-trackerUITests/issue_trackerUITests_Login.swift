@@ -12,12 +12,12 @@ class issue_trackerUITests_Login: CommonTestCase {
     let textFieldIds = ["아이디", "패스워드"]
     let buttonIds = ["아이디로 로그인", "비밀번호 재설정", "회원가입", "간편회원가입"]
     
-    override func prepareEachTest() {
-        logOutIfAlreadyLogin()
+    var isAlreadyLogin: Bool {
+        app.tabBars.firstMatch.exists
     }
     
     override func doVisibleTest() {
-        prepareEachTest()
+        logOutIfAlreadyLogin()
         
         XCTAssertNotNil(app.children(matching: .window).firstMatch.exists)
         
@@ -28,12 +28,21 @@ class issue_trackerUITests_Login: CommonTestCase {
         for (index, result) in app.isButtonExists(ids: buttonIds).enumerated() {
             XCTAssertTrue(result, "[Error] \(buttonIds[index]) not exsits")
         }
-        
-        tearDownEachTest()
     }
     
     override func doFunctionTest() {
-        prepareEachTest()
+        login()
+    }
+    
+    func logOutIfAlreadyLogin() {
+        if isAlreadyLogin {
+            logOut()
+        }
+    }
+    
+    func login() {
+        
+        if isAlreadyLogin { return }
         
         let idTextField = app.descendants(matching: .textField).matching(identifier: textFieldIds[0]).firstMatch
         idTextField.tap()
@@ -45,12 +54,6 @@ class issue_trackerUITests_Login: CommonTestCase {
         
         let loginButton = app.descendants(matching: .button)[buttonIds.first!]
         loginButton.tap()
-    }
-    
-    func logOutIfAlreadyLogin() {
-        if app.tabBars.firstMatch.exists {
-            logOut()
-        }
     }
     
     func logOut() {

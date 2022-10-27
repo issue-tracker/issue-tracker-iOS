@@ -104,9 +104,11 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     
     private lazy var plusButton: UIButton = {
         let button = UIButton(primaryAction: UIAction(handler: { action in
-            self.navigationController?.pushViewController(IssueEditViewController(), animated: true)
+            let destNavigation = UINavigationController(rootViewController: IssueEditViewController())
+            self.navigationController?.present(destNavigation, animated: true)
         }))
         button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+        button.accessibilityIdentifier = "issueUpdateEntry"
         
         return button
     }()

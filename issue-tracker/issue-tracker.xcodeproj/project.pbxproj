@@ -27,6 +27,7 @@
 		1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
 		1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
 		1B232B2128A0E70F007ED022 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
+		1B2F8E2C290A3FA700173092 /* issue_trackerUITests_UpdateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2F8E2B290A3FA700173092 /* issue_trackerUITests_UpdateEntity.swift */; };
 		1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */; };
 		1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */; };
 		1B3788EB28F57E2000A2DF39 /* SettingTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EA28F57E2000A2DF39 /* SettingTableViewDataSource.swift */; };
@@ -211,6 +212,7 @@
 		1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_SignIn.swift; sourceTree = "<group>"; };
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestHTTPModel.swift; sourceTree = "<group>"; };
+		1B2F8E2B290A3FA700173092 /* issue_trackerUITests_UpdateEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_UpdateEntity.swift; sourceTree = "<group>"; };
 		1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSignInViewController.swift; sourceTree = "<group>"; };
 		1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
 		1B3788EA28F57E2000A2DF39 /* SettingTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewDataSource.swift; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				1B03E7C028C2ED200006FADD /* XCUIApplication+Extension.swift */,
 				1B03E7C228C2ED570006FADD /* CommonTestCase.swift */,
 				1B89AF5628A0D4FC0057C6D5 /* issue_trackerUITests.swift */,
+				1B2F8E2B290A3FA700173092 /* issue_trackerUITests_UpdateEntity.swift */,
 				1B50EC2C28D19D6E005E5B82 /* issue_trackerUITests_IssueDetail.swift */,
 				1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */,
 				1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */,
@@ -1247,6 +1250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B2F8E2C290A3FA700173092 /* issue_trackerUITests_UpdateEntity.swift in Sources */,
 				1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */,
 				1BD125C128D1E3C90050F2D1 /* HTTPResponseModel.swift in Sources */,
 				1B50EC2D28D19D6E005E5B82 /* issue_trackerUITests_IssueDetail.swift in Sources */,

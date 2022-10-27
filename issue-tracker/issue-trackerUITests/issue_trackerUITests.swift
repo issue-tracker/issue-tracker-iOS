@@ -45,4 +45,9 @@ class issue_trackerUITests: XCTestCase {
         issue_trackerUITests_Settings(app: app).doFunctionTest()
         issue_trackerUITests_Settings(app: app).doVisibleTest()
     }
+    
+    func test_issueUpdateEntity() throws {
+        issue_trackerUITests_Login(app: app).doFunctionTest()
+        issue_trackerUITests_UpdateEntity(app: app).doVisibleTest()
+    }
 }

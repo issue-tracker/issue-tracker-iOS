@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 enum MainView {
     case login
@@ -19,6 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     var window: UIWindow?
+    
+    var disposeBag = DisposeBag()
+    
     private let loginNav = LoginNavigationController()
     private let loginVC = LoginViewController()
 
@@ -95,9 +99,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return tabBar
     }
     
-    // React URI Scheme
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) { }
-    
     // React Universal Link
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb else { // Check activity Universal Link.
@@ -106,27 +107,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard
             let userURL = userActivity.webpageURL,
-            let allURLs = URL.allAuthenticationURLs,
-            let service = userURL.getService(),
+            let provider = userURL.getService()?.getProvider(),
             let components = URLComponents(url: userURL, resolvingAgainstBaseURL: true)
         else {
             topViewController?.present(UIAlertController.messageFailed, animated: true)
             return
         }
         
-        print(userURL)
-        print(allURLs)
-        print(service)
-        print(components)
-        // 2. signInMember가 올 경우는 이미 가입된 회원.
-        // 3. signUpFormData가 올 경우는 가입해야 되는 회원.
+        guard var url = URL.authApiURL, let code = components.queryItems?.first?.value else { return }
+        
+        url.appendPathExtension(provider)
+        
+        var builder = RequestBuilder(baseURL: url)
+        
+        builder.pathArray = [provider]
+        builder.setURLQuery(["code": code])
+        
+        guard let request = builder.getRequest() else { return }
+        
+        // signInMember가 올 경우는 이미 가입된 회원. signUpFormData가 올 경우는 가입해야 되는 회원.
+        URLSession.shared.rx
+            .data(request: request)
+            .subscribe(onNext: {
+                let response = HTTPResponseModel().getDecoded(from: $0, as: AuthResponse.self)
+                print(response ?? "Error??")
+            })
+            .disposed(by: disposeBag)
     }
-}
-
-struct OAuthSignin: Encodable {
-    let email: String
-    let nickname: String
-    let profileImage: String
-    let authProviderType: String
-    let resourceOwnerId: String
 }

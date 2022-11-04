@@ -18,6 +18,14 @@ extension URL {
         func getURLString() -> String? {
             Bundle.main.object(forInfoDictionaryKey: self.rawValue) as? String
         }
+        
+        func getProvider() -> String {
+            switch self {
+            case .github: return "GITHUB"
+            case .naver: return "NAVER"
+            case .kakao: return "KAKAO"
+            }
+        }
     }
     
     static var apiURL: URL? {

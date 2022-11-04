@@ -88,12 +88,8 @@ class RequestHTTPModel {
     ///
     /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.
     private func requestObservable() -> Observable<Data> {
-        guard let request = self.builder.getRequest() else {
-            return Observable.create { observer in
-                let disposables = Disposables.create()
-                observer.onError(HTTPError.createRequestFailed)
-                return disposables
-            }
+        guard let request = builder.getRequest() else {
+            return Observable.error(HTTPError.createRequestFailed)
         }
         
         return Observable.create { observer in

@@ -13,6 +13,12 @@ import RxCocoa
 
 class LoginViewController: CommonProxyViewController {
     
+    // MARK: - OAuth Login Models start.
+    private let oAuthKakao = KakaoLoginModel()
+    private let oAuthNaver = NaverLoginModel()
+    private let oAuthGithub = GithubLoginModel()
+    // MARK: - OAuth Login Models end.
+    
     private var bag = DisposeBag()
     private var loginModel = LoginRequestHTTPModel(URL.apiURL ?? URL(string: ""))
     private var disposeBag = DisposeBag()
@@ -57,13 +63,25 @@ class LoginViewController: CommonProxyViewController {
     
     private lazy var signInButtons = HorizontalButtons(identifierAccessibility: "signInButtons") {
         HorizontalButtonsComponents(imageName: "login_octocat", handler: UIAction(handler: { _ in
-            self.present(UIAlertController.messageDeveloping, animated: true)
+            self.oAuthGithub?.requestLogin({ result in
+                if result == false {
+                    self.commonAlert()
+                }
+            })
         }))
         HorizontalButtonsComponents(imageName: "login_icon_kakao", handler: UIAction(handler: { _ in
-            self.present(UIAlertController.messageDeveloping, animated: true)
+            self.oAuthKakao?.requestLogin({ result in
+                if result == false {
+                    self.commonAlert()
+                }
+            })
         }))
         HorizontalButtonsComponents(imageName: "login_icon_naver", handler: UIAction(handler: { _ in
-            self.present(UIAlertController.messageDeveloping, animated: true)
+            self.oAuthNaver?.requestLogin({ result in
+                if result == false {
+                    self.commonAlert()
+                }
+            })
         }))
     }
     

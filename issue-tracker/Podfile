@@ -13,6 +13,7 @@ def logic_pods
   pod 'RxSwift', '>=6.5.0'
   pod 'RxRelay', '>=6.5.0'
   pod 'RxCocoa', '>=6.5.0'
+  pod 'ReactorKit', '>=3.2.0'
 end
 
 target 'issue-tracker' do

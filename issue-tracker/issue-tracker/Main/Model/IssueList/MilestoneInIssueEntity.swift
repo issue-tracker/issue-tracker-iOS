@@ -8,11 +8,6 @@
 import Foundation
 
 struct MilestoneInIssueEntity: Decodable {
-//    let createdAt: String
-//    let lastModifiedAt: String
     let id: Int
     let title: String
-//    let description: String?
-//    let dueDate: String?
-//    let issues: [UserDetailEntity]
 }

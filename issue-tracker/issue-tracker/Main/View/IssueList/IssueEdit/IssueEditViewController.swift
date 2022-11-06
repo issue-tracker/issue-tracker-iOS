@@ -6,27 +6,26 @@
 //
 
 import UIKit
-import RxRelay
+import RxCocoa
 import RxSwift
 import SnapKit
+import ReactorKit
 
 enum IssueEditType {
     case add
     case update
 }
 
-class IssueEditViewController: CommonProxyViewController, MainListReloadable {
-
+class IssueEditViewController: CommonProxyViewController, View {
+    typealias Reactor = IssueListReactor
+    
     var editType: IssueEditType = .add
     var reloadSubject: PublishSubject<ReloadListType>?
     
-    private var disposeBag = DisposeBag()
-    private lazy var admitSaveButtonStateSubject = BehaviorRelay<Bool>(value: false)
+    var disposeBag = DisposeBag()
     
-    let model: IssueAddRemoveModel? = {
-        guard let url = URL.issueApiURL else { return nil }
-        return IssueAddRemoveModel(url)
-    }()
+    let leftCancelButton = UIBarButtonItem(systemItem:.cancel)
+    let rightSubmitButton = UIBarButtonItem(title: "Submit")
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
@@ -46,39 +45,9 @@ class IssueEditViewController: CommonProxyViewController, MainListReloadable {
         super.viewDidLoad()
         navigationController?.navigationBar.barTintColor = UIColor.opaqueSeparator
         navigationItem.title = "Create a new issue"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction(handler: { _ in
-            self.dismiss(animated: true)
-        }))
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", primaryAction: UIAction(handler: { _ in
-            guard
-                let title = self.titleTextField.text,
-                let comment = self.contentsTextView.text,
-                let id = UserDefaults.standard.value(forKey: "memberId") as? Int
-            else {
-                return
-            }
-            
-            self.model?.addIssue(IssueAddParameter(title: title, comment: comment, assigneeIds: [id], labelIds: [1,2,3,4], milestoneId: 1))
-                .observe(on: MainScheduler.instance)
-                .subscribe(onNext: { entity in
-                    guard entity != nil else {
-                        self.commonAlert("오류가 발생했습니다!")
-                        return
-                    }
-                    
-                    self.reloadSubject?.onNext(.issue)
-                    self.dismiss(animated: true)
-                })
-                .disposed(by: self.disposeBag)
-        }))
-        
-        admitSaveButtonStateSubject
-            .subscribe(onNext: { [weak self] status in
-                self?.navigationItem.rightBarButtonItem?.isEnabled = status
-            })
-            .disposed(by: disposeBag)
-        admitSaveButtonStateSubject.accept(editType == .update)
+        navigationItem.leftBarButtonItem = leftCancelButton
+        navigationItem.rightBarButtonItem = rightSubmitButton
+        navigationItem.rightBarButtonItem?.isEnabled = false
         
         view.addSubview(titleTextField)
         view.addSubview(contentsTextView)
@@ -90,22 +59,33 @@ class IssueEditViewController: CommonProxyViewController, MainListReloadable {
             make.height.equalTo(45)
         }
         
-        titleTextField.rx.text
-            .bind { text in
-                guard let text = text else {
-                    self.admitSaveButtonStateSubject.accept(false)
-                    return
-                }
-                
-                self.admitSaveButtonStateSubject.accept(!text.isEmpty)
-            }
-            .disposed(by: disposeBag)
-        
         contentsTextView.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+    }
+    
+    func bind(reactor: IssueListReactor) {
+        leftCancelButton.rx.tap
+            .bind(onNext: { _ in self.dismiss(animated: true) })
+            .disposed(by: disposeBag)
+        
+        rightSubmitButton.rx.tap.map({ Reactor.Action.submit })
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        titleTextField.rx.text.map({ Reactor.Action.titleChanged($0) }).skip(1)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        contentsTextView.rx.text.map({ Reactor.Action.contentsChanged($0) })
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map({$0.isEmpty()})
+            .bind(to: rightSubmitButton.rx.isEnabled)
+            .disposed(by: disposeBag)
     }
 }

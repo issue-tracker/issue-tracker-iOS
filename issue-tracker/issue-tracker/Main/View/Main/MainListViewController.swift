@@ -10,10 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol MainListReloadable {
-    var reloadSubject: PublishSubject<ReloadListType>? { get set }
-}
-
 class MainListViewController: CommonProxyViewController, ViewBinding {
     
     // Search field 에 관한 가이드라인
@@ -111,6 +107,7 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
         let button = UIButton(primaryAction: UIAction(handler: { action in
             let viewController = IssueEditViewController()
             viewController.reloadSubject = self.reloadListSubject
+            viewController.reactor = IssueListReactor()
             let destNavigation = UINavigationController(rootViewController: viewController)
             self.navigationController?.present(destNavigation, animated: true)
         }))

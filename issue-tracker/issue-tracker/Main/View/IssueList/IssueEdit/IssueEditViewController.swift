@@ -16,8 +16,8 @@ enum IssueEditType {
     case update
 }
 
-class IssueEditViewController: CommonProxyViewController, View {
-    typealias Reactor = IssueListReactor
+final class IssueEditViewController: CommonProxyViewController, View {
+//    typealias Reactor = IssueEditReactor
     
     var editType: IssueEditType = .add
     var reloadSubject: PublishSubject<ReloadListType>?
@@ -66,24 +66,24 @@ class IssueEditViewController: CommonProxyViewController, View {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
-    
-    func bind(reactor: IssueListReactor) {
+
+    func bind(reactor: IssueEditReactor) {
         leftCancelButton.rx.tap
             .bind(onNext: { _ in self.dismiss(animated: true) })
             .disposed(by: disposeBag)
-        
+
         rightSubmitButton.rx.tap.map({ Reactor.Action.submit })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         titleTextField.rx.text.map({ Reactor.Action.titleChanged($0) }).skip(1)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         contentsTextView.rx.text.map({ Reactor.Action.contentsChanged($0) })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         reactor.state.map({$0.isEmpty()})
             .bind(to: rightSubmitButton.rx.isEnabled)
             .disposed(by: disposeBag)

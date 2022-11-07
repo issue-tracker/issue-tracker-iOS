@@ -105,12 +105,14 @@ class MainListViewController: CommonProxyViewController, ViewBinding {
     
     private lazy var plusButton: UIButton = {
         let button = UIButton(primaryAction: UIAction(handler: { action in
-            let viewController = IssueEditViewController()
-            viewController.reloadSubject = self.reloadListSubject
-            viewController.reactor = IssueListReactor()
-            let destNavigation = UINavigationController(rootViewController: viewController)
-            self.navigationController?.present(destNavigation, animated: true)
+            self.navigationController?.present(UINavigationController(rootViewController: {
+                let viewController = IssueEditViewController()
+                viewController.reloadSubject = self.reloadListSubject
+                viewController.reactor = IssueEditReactor()
+                return viewController
+            }()), animated: true)
         }))
+        
         button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
         button.accessibilityIdentifier = "issueUpdateEntry"
         

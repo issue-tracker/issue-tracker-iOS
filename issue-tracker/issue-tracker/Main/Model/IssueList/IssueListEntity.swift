@@ -106,6 +106,14 @@ struct IssueListEntity: Codable {
         return DateFormatter().date(from: createdAt)
     }
     
+    func isEmptyContents() -> Bool {
+        if let content = comments.first?.content {
+            return (!title.isEmpty && !content.isEmpty)
+        } else {
+            return false
+        }
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, title, author, comments, issueAssignees, issueLabels, milestone, issueHistories, createdAt, lastModifiedAt, closed
     }

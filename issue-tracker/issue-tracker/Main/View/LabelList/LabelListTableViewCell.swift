@@ -9,7 +9,7 @@ import FlexLayout
 import SnapKit
 import UIKit
 
-class LabelListTableViewCell: MainListTableViewCell<LabelListEntity, LabelListViewController> {
+class LabelListTableViewCell: MainListTableViewCell<LabelListEntity> {
     private let padding: CGFloat = 8
     
     private var entity: LabelListEntity?

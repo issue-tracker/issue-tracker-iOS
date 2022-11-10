@@ -18,14 +18,12 @@ final class IssueEditReactor: Reactor {
     init() {
         if let url = URL.issueApiURL {
             model = IssueAddRemoveModel(url)
-        } else {
-            model = nil
         }
     }
     
     // MARK: - Model(s)
     let id = UserDefaults.standard.value(forKey: "memberId") as? Int
-    let model: IssueAddRemoveModel?
+    private var model: IssueAddRemoveModel? = nil
     
     // MARK: - Action, Mutation, State types
     enum Action {

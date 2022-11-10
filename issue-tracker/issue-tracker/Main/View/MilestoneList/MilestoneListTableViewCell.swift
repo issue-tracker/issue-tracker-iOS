@@ -9,7 +9,7 @@ import FlexLayout
 import SnapKit
 import UIKit
 
-class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity, MilestoneListViewController> {
+class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity> {
     private let padding: CGFloat = 8
     
     private var entity: LabelListEntity?
@@ -37,8 +37,8 @@ class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity, Mil
         }
         
         paddingView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.bottom.equalToSuperview().inset(8)
+            make.top.equalToSuperview().offset(padding)
+            make.bottom.equalToSuperview().inset(padding)
             make.horizontalEdges.equalToSuperview()
         }
         

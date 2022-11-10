@@ -5,12 +5,17 @@
 //  Created by 백상휘 on 2022/07/21.
 //
 
-import FlexLayout
 import SnapKit
-import UIKit
+import FlexLayout
+import RxCocoa
+import ReactorKit
 
-class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListViewController> {
+final class IssueListTableViewCell: MainListTableViewCell<IssueListEntity>, View {
+    
+    typealias Reactor = IssueListReactor
+    
     private let padding: CGFloat = 8
+    var disposeBag = DisposeBag()
     
     override func makeUI() {
         
@@ -28,13 +33,13 @@ class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListVi
         paddingView.flex.define { flex in
             flex.addItem().direction(.row).height(50%).marginHorizontal(padding).define { flex in
                 flex.addItem().width(65%).define { flex in
-                    flex.addItem(titleLabel).height(85%)
-                    flex.addItem(dateLabel).height(15%)
+                    flex.addItem(titleLabel).height(75%)
+                    flex.addItem(dateLabel).height(25%)
                 }
-                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding).justifyContent(.center).markDirty()
+                flex.addItem(profileView).width(35%).paddingTop(padding).paddingHorizontal(padding).justifyContent(.center)
             }
             
-            flex.addItem(contentsLabel).vertically(padding).marginHorizontal(padding)
+            flex.addItem(contentsLabel).height(50%).marginHorizontal(padding)
         }
         
         paddingView.snp.makeConstraints { make in
@@ -54,4 +59,6 @@ class IssueListTableViewCell: MainListTableViewCell<IssueListEntity, IssueListVi
         
         profileView.profileImageURL = entity.author.profileImage
     }
+    
+    func bind(reactor: IssueListReactor) { }
 }

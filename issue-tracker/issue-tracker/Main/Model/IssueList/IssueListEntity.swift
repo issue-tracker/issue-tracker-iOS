@@ -15,7 +15,7 @@ struct AllIssueEntity: Codable, EntityContainsResultList {
     
     let openIssueCount: Int
     let closedIssueCount: Int
-    let issues: [IssueListEntity]
+    var issues: [IssueListEntity]
     
     var list: [Any]? {
         self.issues

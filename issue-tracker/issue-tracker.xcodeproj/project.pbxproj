@@ -125,6 +125,10 @@
 		1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB728892F0F00432728 /* ViewBinding.swift */; };
 		1B94384028B3520D007CAE40 /* HTTPResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */; };
 		1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94384128B3552E007CAE40 /* UIViewController+Extensions.swift */; };
+		1BB9BB6E29188645002A0DEB /* IssueListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */; };
+		1BB9BB6F29188645002A0DEB /* IssueListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */; };
+		1BB9BB712919EE91002A0DEB /* LabelListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB702919EE91002A0DEB /* LabelListReactor.swift */; };
+		1BB9BB732919EE97002A0DEB /* MilestoneListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB722919EE97002A0DEB /* MilestoneListReactor.swift */; };
 		1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */; };
 		1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */; };
 		1BC122A728AF5BC100BAB0F7 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
@@ -147,13 +151,16 @@
 		1BD125D628D1EA9D0050F2D1 /* IssueAssignee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125D428D1EA800050F2D1 /* IssueAssignee.swift */; };
 		1BD125D828D1EF990050F2D1 /* IssueCommentReactorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125D728D1EF990050F2D1 /* IssueCommentReactorResponse.swift */; };
 		1BD125D928D1EFF00050F2D1 /* IssueCommentReactorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD125D728D1EF990050F2D1 /* IssueCommentReactorResponse.swift */; };
+		1BD1C5B9291A2CA500AEA74F /* MainListReactorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD1C5B8291A2CA500AEA74F /* MainListReactorError.swift */; };
+		1BD1C5BA291A2DB000AEA74F /* MainListReactorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD1C5B8291A2CA500AEA74F /* MainListReactorError.swift */; };
+		1BD1C5BC291A52B600AEA74F /* MainListStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD1C5BB291A52B600AEA74F /* MainListStatusReactor.swift */; };
+		1BD1C5BD291A52E700AEA74F /* MainListStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD1C5BB291A52B600AEA74F /* MainListStatusReactor.swift */; };
 		1BE01DFE28A618D700929163 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE01DFD28A618D700929163 /* UIDevice+Extension.swift */; };
 		1BE71C8329179D96002F1A61 /* IssueAddRemoveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B50EC2928D09073005E5B82 /* IssueAddRemoveModel.swift */; };
 		1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */; };
 		1BF1D0BC28BC829A00393294 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0BB28BC829A00393294 /* MainListViewController.swift */; };
 		1BF1D0BE28BC97BE00393294 /* LabelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0BD28BC97BE00393294 /* LabelListViewController.swift */; };
 		1BF1D0C028BC97D900393294 /* MilestoneListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0BF28BC97D900393294 /* MilestoneListViewController.swift */; };
-		1BF1D0C528BC9A6000393294 /* LabelListReuqestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C428BC9A6000393294 /* LabelListReuqestModel.swift */; };
 		1BF1D0C728BC9A6900393294 /* LabelListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */; };
 		1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */; };
 		1BF1D0CB28BC9A7B00393294 /* MilestoneListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */; };
@@ -298,6 +305,9 @@
 		1B8E4AB9288A6E4D00432728 /* issue-tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "issue-tracker.entitlements"; sourceTree = "<group>"; };
 		1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseModel.swift; sourceTree = "<group>"; };
 		1B94384128B3552E007CAE40 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListReactor.swift; sourceTree = "<group>"; };
+		1BB9BB702919EE91002A0DEB /* LabelListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListReactor.swift; sourceTree = "<group>"; };
+		1BB9BB722919EE97002A0DEB /* MilestoneListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListReactor.swift; sourceTree = "<group>"; };
 		1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalTitleTextField.swift; sourceTree = "<group>"; };
 		1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalButtons.swift; sourceTree = "<group>"; };
 		1BCAB8B929186F6D00ED2F82 /* IssueEditReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueEditReactor.swift; sourceTree = "<group>"; };
@@ -310,11 +320,12 @@
 		1BD125CC28D1E8E70050F2D1 /* IssueCommentReactionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCommentReactionsResponse.swift; sourceTree = "<group>"; };
 		1BD125D428D1EA800050F2D1 /* IssueAssignee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueAssignee.swift; sourceTree = "<group>"; };
 		1BD125D728D1EF990050F2D1 /* IssueCommentReactorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCommentReactorResponse.swift; sourceTree = "<group>"; };
+		1BD1C5B8291A2CA500AEA74F /* MainListReactorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListReactorError.swift; sourceTree = "<group>"; };
+		1BD1C5BB291A52B600AEA74F /* MainListStatusReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListStatusReactor.swift; sourceTree = "<group>"; };
 		1BE01DFD28A618D700929163 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		1BF1D0BB28BC829A00393294 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		1BF1D0BD28BC97BE00393294 /* LabelListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListViewController.swift; sourceTree = "<group>"; };
 		1BF1D0BF28BC97D900393294 /* MilestoneListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListViewController.swift; sourceTree = "<group>"; };
-		1BF1D0C428BC9A6000393294 /* LabelListReuqestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListReuqestModel.swift; sourceTree = "<group>"; };
 		1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListEntity.swift; sourceTree = "<group>"; };
 		1BF1D0C828BC9A7400393294 /* MilestoneRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneRequestModel.swift; sourceTree = "<group>"; };
 		1BF1D0CA28BC9A7B00393294 /* MilestoneListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListEntity.swift; sourceTree = "<group>"; };
@@ -757,7 +768,12 @@
 		1BC9073D2915F3280085B4DD /* Reactor */ = {
 			isa = PBXGroup;
 			children = (
+				1BD1C5B8291A2CA500AEA74F /* MainListReactorError.swift */,
+				1BD1C5BB291A52B600AEA74F /* MainListStatusReactor.swift */,
 				1BCAB8B929186F6D00ED2F82 /* IssueEditReactor.swift */,
+				1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */,
+				1BB9BB702919EE91002A0DEB /* LabelListReactor.swift */,
+				1BB9BB722919EE97002A0DEB /* MilestoneListReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -800,7 +816,6 @@
 		1BF1D0CC28BC9A7F00393294 /* LabelList */ = {
 			isa = PBXGroup;
 			children = (
-				1BF1D0C428BC9A6000393294 /* LabelListReuqestModel.swift */,
 				1BF1D0C628BC9A6900393294 /* LabelListEntity.swift */,
 				1BF1D0D328BCE0BE00393294 /* Labels.json */,
 			);
@@ -1074,7 +1089,6 @@
 				1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */,
 				1BCAB8BA29186F6D00ED2F82 /* IssueEditReactor.swift in Sources */,
 				1BD125CB28D1E8D60050F2D1 /* IssueListAuthor.swift in Sources */,
-				1BF1D0C528BC9A6000393294 /* LabelListReuqestModel.swift in Sources */,
 				1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */,
 				1B50EC2A28D09073005E5B82 /* IssueAddRemoveModel.swift in Sources */,
 				1B37892028FA645700A2DF39 /* SettingItemAcceptable.swift in Sources */,
@@ -1097,6 +1111,7 @@
 				1BF1D0C928BC9A7400393294 /* MilestoneRequestModel.swift in Sources */,
 				1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */,
 				1B8B74442900D2DD008380BF /* SettingIssueQueryCell.swift in Sources */,
+				1BD1C5BC291A52B600AEA74F /* MainListStatusReactor.swift in Sources */,
 				1B3788F728F5961100A2DF39 /* SettingIssueCollectionViewCell.swift in Sources */,
 				1B37891E28F98B7B00A2DF39 /* Milestone+Extensions.swift in Sources */,
 				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
@@ -1140,9 +1155,12 @@
 				1BD125BC28D1E2E90050F2D1 /* IssueDetailCommonType.swift in Sources */,
 				1B37891A28F98B4600A2DF39 /* IssueSettings+Extensions.swift in Sources */,
 				1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */,
+				1BB9BB6E29188645002A0DEB /* IssueListReactor.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1B8B744D2900D4D0008380BF /* QueryStatusColor.swift in Sources */,
+				1BB9BB732919EE97002A0DEB /* MilestoneListReactor.swift in Sources */,
 				1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */,
+				1BB9BB712919EE91002A0DEB /* LabelListReactor.swift in Sources */,
 				1B50B86028C9EA8600073AC9 /* IssueDetailViewController.swift in Sources */,
 				1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */,
 				1BD125AC28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift in Sources */,
@@ -1174,6 +1192,7 @@
 				1B8B74492900D36F008380BF /* SettingIssueQueryItem.swift in Sources */,
 				1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */,
 				1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */,
+				1BD1C5B9291A2CA500AEA74F /* MainListReactorError.swift in Sources */,
 				1BF1D0CB28BC9A7B00393294 /* MilestoneListEntity.swift in Sources */,
 				1B37892428FA726900A2DF39 /* SettingSelectable.swift in Sources */,
 				1B37890828F7F3A400A2DF39 /* AssetExtractor+Extensions.swift in Sources */,
@@ -1195,6 +1214,7 @@
 				1BCAB8BB2918709000ED2F82 /* IssueEditReactor.swift in Sources */,
 				1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */,
 				1B03E7A928BFA71B0006FADD /* MainViewSingleRequestModel.swift in Sources */,
+				1BD1C5BD291A52E700AEA74F /* MainListStatusReactor.swift in Sources */,
 				1BD125D928D1EFF00050F2D1 /* IssueCommentReactorResponse.swift in Sources */,
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1B69A8FF28EBDC02001C6720 /* LoginRequestHTTPModel.swift in Sources */,
@@ -1208,6 +1228,7 @@
 				1BF36D7828DC45970033DF2A /* IssueHistories.swift in Sources */,
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
+				1BD1C5BA291A2DB000AEA74F /* MainListReactorError.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
 				1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift in Sources */,
 				1B37890B28F975FC00A2DF39 /* SettingMenuKeys.swift in Sources */,
@@ -1220,6 +1241,7 @@
 				1BE71C8329179D96002F1A61 /* IssueAddRemoveModel.swift in Sources */,
 				1BD125D228D1EA320050F2D1 /* IssueListComment.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,
+				1BB9BB6F29188645002A0DEB /* IssueListReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

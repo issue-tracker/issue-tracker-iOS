@@ -30,12 +30,16 @@ final class MilestoneListViewController: UIViewController, View {
         
         let parent = parent as? MainListViewController
         var parentViewFrame = parent?.listScrollView.frame ?? view.frame
-        parentViewFrame.origin = CGPoint(x: parentViewFrame.width * 2, y: 0)
-        
+        parentViewFrame.origin = .zero
         tableView.frame = parentViewFrame
+        
+        parentViewFrame.origin = CGPoint(x: (parentViewFrame.width * 2), y: 0)
+        view.frame = parentViewFrame
+        
         tableView.rowHeight = parentViewFrame.height/7
         tableView.register(MilestoneListTableViewCell.self, forCellReuseIdentifier: MilestoneListTableViewCell.reuseIdentifier)
         
+        view.setNeedsLayout()
         reactor = Reactor()
     }
     

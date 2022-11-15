@@ -30,12 +30,16 @@ final class LabelListViewController: UIViewController, View {
         
         let parent = parent as? MainListViewController
         var parentViewFrame = parent?.listScrollView.frame ?? view.frame
-        parentViewFrame.origin = CGPoint(x: parentViewFrame.width, y: 0)
-        
+        parentViewFrame.origin = .zero
         tableView.frame = parentViewFrame
+        
+        parentViewFrame.origin = CGPoint(x: parentViewFrame.width, y: 0)
+        view.frame = parentViewFrame
+        
         tableView.rowHeight = parentViewFrame.height/8.5
         tableView.register(LabelListTableViewCell.self, forCellReuseIdentifier: LabelListTableViewCell.reuseIdentifier)
         
+        view.setNeedsLayout()
         reactor = Reactor()
     }
     

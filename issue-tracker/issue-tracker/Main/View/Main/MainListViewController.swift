@@ -163,9 +163,6 @@ class MainListViewController: CommonProxyViewController {
             $0.leading.equalTo(labelListView.view.snp.trailing)
         }
         
-        labelListView.view.backgroundColor = .green
-        milestoneListView.view.backgroundColor = .blue
-        
         // MARK: ScrollView for List
         listScrollView.delegate = self
         

@@ -31,8 +31,9 @@ final class IssueListViewController: UIViewController, View {
         let parent = parent as? MainListViewController
         var parentViewFrame = parent?.listScrollView.frame ?? view.frame
         parentViewFrame.origin = .zero
-        
         tableView.frame = parentViewFrame
+        view.frame = parentViewFrame
+        
         tableView.rowHeight = parentViewFrame.height / 4.5
         tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
         

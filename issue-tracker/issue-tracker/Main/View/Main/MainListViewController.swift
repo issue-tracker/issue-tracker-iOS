@@ -35,13 +35,16 @@ class MainListViewController: CommonProxyViewController {
     private lazy var listSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
             UIAction(title: "Issue", handler: { [weak self] _ in
-                self?.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                guard let self = self else { return }
+                self.listScrollView.setContentOffset(self.issueListView.view.frame.origin, animated: true)
             }),
             UIAction(title: "Label", handler: { [weak self] _ in
-                self?.scrollView.setContentOffset(CGPoint(x: self?.scrollView.frame.width ?? 0, y: 0), animated: true)
+                guard let self = self else { return }
+                self.listScrollView.setContentOffset(self.labelListView.view.frame.origin, animated: true)
             }),
             UIAction(title: "Milestone", handler: { [weak self] _ in
-                self?.scrollView.setContentOffset(CGPoint(x: (self?.scrollView.frame.width ?? 0) * 2, y: 0), animated: true)
+                guard let self = self else { return }
+                self.listScrollView.setContentOffset(self.milestoneListView.view.frame.origin, animated: true)
             }),
         ])
         control.accessibilityIdentifier = "listControl"
@@ -52,11 +55,24 @@ class MainListViewController: CommonProxyViewController {
     private let reloadListSubject = PublishSubject<MainListType>()
     private let listItemSelected = PublishSubject<MainListType>()
     
-    private lazy var issueList = IssueListViewController()
-    private lazy var labelList = LabelListViewController()
-    private lazy var milestoneList = MilestoneListViewController()
+    private lazy var issueListView: IssueListViewController = {
+        let vc = IssueListViewController()
+        self.addChild(vc)
+        return vc
+    }()
+    private lazy var labelListView: LabelListViewController = {
+        let vc = LabelListViewController()
+        self.addChild(vc)
+        return vc
+    }()
     
-    private var scrollView: UIScrollView = {
+    private lazy var milestoneListView: MilestoneListViewController = {
+        let vc = MilestoneListViewController()
+        self.addChild(vc)
+        return vc
+    }()
+    
+    private(set) var listScrollView: UIScrollView = {
         let view = UIScrollView()
         view.isPagingEnabled = true
         view.showsVerticalScrollIndicator = false
@@ -97,18 +113,16 @@ class MainListViewController: CommonProxyViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        defer {
-            view.bringSubviewToFront(plusButton)
-        }
-        
         // MARK: addSubview
         view.addSubview(bookmarkScrollView)
         view.addSubview(listSegmentedControl)
-        view.addSubview(scrollView)
+        view.addSubview(listScrollView)
         view.addSubview(plusButton)
-        scrollView.addSubview(issueList.view)
-        scrollView.addSubview(labelList.view)
-        scrollView.addSubview(milestoneList.view)
+        listScrollView.addSubview(issueListView.view)
+        listScrollView.addSubview(labelListView.view)
+        listScrollView.addSubview(milestoneListView.view)
+        view.bringSubviewToFront(plusButton)
+        
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         
         // MARK: AutoLayout(SnapKit)
@@ -128,30 +142,32 @@ class MainListViewController: CommonProxyViewController {
             $0.size.equalTo(CGSize(width: 54, height: 54))
         }
         
-        scrollView.snp.makeConstraints {
+        listScrollView.snp.makeConstraints {
             $0.top.equalTo(listSegmentedControl.snp.bottom).offset(padding)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        issueList.view.snp.makeConstraints {
-            $0.size.equalToSuperview()
+        issueListView.view.snp.makeConstraints {
+            $0.size.equalTo(listScrollView.snp.size)
             $0.leading.equalTo(0)
         }
         
-        labelList.view.snp.makeConstraints {
-            $0.size.equalToSuperview()
-            $0.leading.equalTo(issueList.view.snp.trailing)
+        labelListView.view.snp.makeConstraints {
+            $0.size.equalTo(listScrollView.snp.size)
+            $0.leading.equalTo(issueListView.view.snp.trailing)
         }
         
-        milestoneList.view.snp.makeConstraints {
-            $0.size.equalToSuperview()
-            $0.leading.equalTo(labelList.view.snp.trailing)
+        milestoneListView.view.snp.makeConstraints {
+            $0.size.equalTo(listScrollView.snp.size)
+            $0.leading.equalTo(labelListView.view.snp.trailing)
         }
+        
+        labelListView.view.backgroundColor = .green
+        milestoneListView.view.backgroundColor = .blue
         
         // MARK: ScrollView for List
-        scrollView.delegate = self
-        scrollView.contentSize.width = scrollView.frame.width * 3
+        listScrollView.delegate = self
         
         // MARK: ScrollView for Bookmark(Query)
         bookmarkScrollView.showsHorizontalScrollIndicator = false
@@ -162,16 +178,14 @@ class MainListViewController: CommonProxyViewController {
         listSegmentedControl.selectedSegmentIndex = 0
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        issueList.reactor = IssueListReactor()
-        labelList.reactor = LabelListReactor()
-        milestoneList.reactor = MilestoneListReactor()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        listScrollView.contentSize.width = listScrollView.frame.width * 3
+        
+        issueListView.didMove(toParent: self)
+        labelListView.didMove(toParent: self)
+        milestoneListView.didMove(toParent: self)
+        
         // MARK: RxCocoa
         listItemSelected
             .subscribe(onNext: { [weak self] type in
@@ -190,10 +204,6 @@ class MainListViewController: CommonProxyViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { $0?.removeFromSuperview() })
             .disposed(by: disposeBag)
-        
-//        listSegmentedControl.rx.value
-//            .bind(onNext: { [self] index in navigationItem.title = reactors[index].mainListStatus })
-//            .disposed(by: disposeBag) // listSegmentedControl's action always excuted when view presented
     }
 }
 

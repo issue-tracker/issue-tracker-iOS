@@ -6,47 +6,36 @@
 //
 
 import FlexLayout
-import SnapKit
-import UIKit
 
-class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity> {
-    private let padding: CGFloat = 8
-    
-    private var entity: LabelListEntity?
+final class MilestoneListTableViewCell: MainListTableViewCell {
     
     override func makeUI() {
+        super.makeUI()
         
         let isBigSizeScreen = ["13","12","11","X"].reduce(false, { $0 || (UIDevice.modelName.contains($1)) })
+        let padding: CGFloat = isBigSizeScreen ? 4 : 2
         contentsLabel.numberOfLines = isBigSizeScreen ? 2 : 1
         
         [titleLabel, contentsLabel].forEach({ label in label.textAlignment = .natural })
         dateLabel.textAlignment = .center
         
-        contentView.addSubview(paddingView)
-        paddingView.addSubview(titleLabel)
-        paddingView.addSubview(dateLabel)
-        paddingView.addSubview(contentsLabel)
-        
-        paddingView.flex.define { flex in
-            flex.addItem().direction(.row).height(40%).marginHorizontal(padding).define { flex in
-                flex.addItem(titleLabel).width(55%)
-                flex.addItem(dateLabel).width(45%)
+        contentView.flex.paddingVertical(padding).define { contentsFlex in
+            contentsFlex.addItem(paddingView).paddingVertical(padding).define { flex in
+                flex.addItem().direction(.row).height(40%).marginHorizontal(padding).define { flex in
+                    flex.addItem(titleLabel).width(55%)
+                    flex.addItem(dateLabel).width(45%)
+                }
+                
+                flex.addItem(contentsLabel).height(60%).marginHorizontal(padding)
             }
-            
-            flex.addItem(contentsLabel).height(60%).marginHorizontal(padding)
         }
         
-        paddingView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(padding)
-            make.bottom.equalToSuperview().inset(padding)
-            make.horizontalEdges.equalToSuperview()
-        }
-        
+        paddingView.setCornerRadius(5)
         paddingView.layer.borderWidth = 1.5
         paddingView.layer.borderColor = UIColor.opaqueSeparator.cgColor
     }
     
-    override func setEntity(_ entity: MilestoneListEntity) {
+    func setEntity(_ entity: MilestoneListEntity) {
         titleLabel.text = entity.title
         contentsLabel.text = entity.description
         
@@ -54,4 +43,3 @@ class MilestoneListTableViewCell: MainListTableViewCell<MilestoneListEntity> {
         setNeedsDisplay()
     }
 }
-

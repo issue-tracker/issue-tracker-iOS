@@ -8,7 +8,7 @@
 import UIKit
 import FlexLayout
 
-class MainListTableViewCell<T: Codable>: UITableViewCell {
+class MainListTableViewCell: UITableViewCell {
     
     var bindableHandler: ((Any, ViewBinding) -> Void)?
     
@@ -34,59 +34,15 @@ class MainListTableViewCell<T: Codable>: UITableViewCell {
         makeUI()
     }
     
-    func makeUI() { }
-    func setEntity(_ entity: T) { }
+    /// make UI at first designated initializers.
+    func makeUI() {
+        paddingView.setCornerRadius(5)
+        paddingView.layer.borderWidth = 1.5
+        paddingView.layer.borderColor = UIColor.opaqueSeparator.cgColor
+    }
     
     func setLayout() {
-        layoutIfNeeded()
-        paddingView.flex.layout()
-        paddingView.setCornerRadius(5)
-    }
-}
-
-extension UITableViewCell {
-    static var reuseIdentifier: String {
-        return String(describing: Self.self)
-    }
-}
-
-func solution(_ ingredient:[Int]) -> Int {
-    guard var index = ingredient.firstIndex(of: 1) else {
-        return 0
-    }
-    
-    var ingredient = ingredient
-    var result = 0
-    
-    while let fourIngredients = ingredient.getFour(index) {
-        ingredient.removeIngredients(fourIngredients, at: index) {
-            result += 1
-        }
-        index += 1
-    }
-    
-    return result
-}
-
-extension Array where Element == Int {
-    func getFour(_ index: Int) -> Self? {
-        guard 0..<(self.endIndex-3) ~= index else {
-            return nil
-        }
-        
-        return [self[index], self[index+1], self[index+2], self[index]]
-    }
-    
-    mutating func removeIngredients(_ arr: [Int], at index: Int, _ completionHandler: @escaping () -> Void) {
-        if arr == [1,2,3,1] {
-            self.removeSubrange(index..<index+3)
-            completionHandler()
-        }
-        
-        if let fourIngredients = self.getFour(index) {
-            self.removeIngredients(fourIngredients, at: index, completionHandler)
-        }
-        
-        return
+        contentView.flex.layout()
+        setNeedsLayout()
     }
 }

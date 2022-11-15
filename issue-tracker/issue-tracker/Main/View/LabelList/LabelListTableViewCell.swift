@@ -6,52 +6,49 @@
 //
 
 import FlexLayout
-import SnapKit
-import UIKit
 
-class LabelListTableViewCell: MainListTableViewCell<LabelListEntity> {
-    private let padding: CGFloat = 8
-    
-    private var entity: LabelListEntity?
+final class LabelListTableViewCell: MainListTableViewCell {
     
     override func makeUI() {
+        super.makeUI()
+        
+        let isBigSizeScreen = ["13","12","11","X"].reduce(false, { $0 || (UIDevice.modelName.contains($1)) })
+        let padding: CGFloat = isBigSizeScreen ? 4 : 2
+        contentsLabel.numberOfLines = isBigSizeScreen ? 3 : 2
         
         [titleLabel, contentsLabel].forEach({ label in label.textAlignment = .natural })
         dateLabel.textAlignment = .center
         
-        contentView.addSubview(paddingView)
-        paddingView.addSubview(titleLabel)
-        paddingView.addSubview(dateLabel)
-        paddingView.addSubview(contentsLabel)
-        
-        paddingView.flex.define { flex in
-            flex.addItem().direction(.row).height(45%).marginHorizontal(padding).define { flex in
-                flex.addItem(titleLabel).width(65%)
-                flex.addItem(dateLabel).width(35%)
+        contentView.flex.paddingVertical(padding).define { contentsFlex in
+            contentsFlex.addItem(paddingView).paddingVertical(padding).define { flex in
+                flex.addItem().direction(.row).height(45%).marginHorizontal(padding).define { flex in
+                    flex.addItem(titleLabel).width(65%)
+                    flex.addItem(dateLabel).width(35%)
+                }
+                
+                flex.addItem(contentsLabel).height(55%).marginHorizontal(padding)
             }
-            
-            flex.addItem(contentsLabel).height(55%).marginHorizontal(padding)
         }
         
-        paddingView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(padding)
-            make.bottom.equalToSuperview().inset(padding)
-            make.horizontalEdges.equalToSuperview()
-        }
-        
+        paddingView.setCornerRadius(5)
         paddingView.layer.borderWidth = 1.5
         paddingView.layer.borderColor = UIColor.opaqueSeparator.cgColor
     }
     
-    override func setEntity(_ entity: LabelListEntity) {
+    func setEntity(_ entity: LabelListEntity) {
         titleLabel.text = entity.title
         contentsLabel.text = entity.description
         contentsLabel.textColor = entity.textColor.lowercased() == "black" ? .black : .white
         
-        let color = UIColor(hex: entity.backgroundColorCode)
         dateLabel.text = entity.backgroundColorCode
+        setColor(entity.backgroundColorCode)
+        
+        setNeedsDisplay()
+    }
+    
+    func setColor(_ hexColor: String) {
+        let color = UIColor(hex: hexColor)
         dateLabel.textColor = color
         paddingView.backgroundColor = color?.withAlphaComponent(0.5)
-        setNeedsDisplay()
     }
 }

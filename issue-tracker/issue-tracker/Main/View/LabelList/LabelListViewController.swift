@@ -20,10 +20,23 @@ final class LabelListViewController: UIViewController, View {
         super.viewDidLoad()
         view.addSubview(tableView)
         
+        tableView.accessibilityIdentifier = "labelListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = refreshControl
-        tableView.frame = view.frame
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        
+        let parent = parent as? MainListViewController
+        var parentViewFrame = parent?.listScrollView.frame ?? view.frame
+        parentViewFrame.origin = CGPoint(x: parentViewFrame.width, y: 0)
+        
+        tableView.frame = parentViewFrame
+        tableView.rowHeight = parentViewFrame.height/8.5
         tableView.register(LabelListTableViewCell.self, forCellReuseIdentifier: LabelListTableViewCell.reuseIdentifier)
+        
+        reactor = Reactor()
     }
     
     func bind(reactor: LabelListReactor) {
@@ -36,16 +49,19 @@ final class LabelListViewController: UIViewController, View {
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
-        tableView.rowHeight = view.frame.height/8.5
-        
         reactor.pulse(\.$labels).asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(
                 cellIdentifier: LabelListTableViewCell.reuseIdentifier,
                 cellType: LabelListTableViewCell.self
             )) { index, entity, cell in
                 cell.setEntity(entity)
-                cell.setLayout()
             }
+            .disposed(by: disposeBag)
+        
+        tableView.rx.willDisplayCell
+            .bind(onNext: { event in
+                (event.cell as? LabelListTableViewCell)?.setLayout()
+            })
             .disposed(by: disposeBag)
         
         reactor.requestInitialList()

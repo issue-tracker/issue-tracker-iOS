@@ -20,10 +20,23 @@ final class MilestoneListViewController: UIViewController, View {
         super.viewDidLoad()
         view.addSubview(tableView)
         
+        tableView.accessibilityIdentifier = "milestoneListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = self.refreshControl
-        tableView.frame = view.frame
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        
+        let parent = parent as? MainListViewController
+        var parentViewFrame = parent?.listScrollView.frame ?? view.frame
+        parentViewFrame.origin = CGPoint(x: parentViewFrame.width * 2, y: 0)
+        
+        tableView.frame = parentViewFrame
+        tableView.rowHeight = parentViewFrame.height/7
         tableView.register(MilestoneListTableViewCell.self, forCellReuseIdentifier: MilestoneListTableViewCell.reuseIdentifier)
+        
+        reactor = Reactor()
     }
     
     func bind(reactor: MilestoneListReactor) {
@@ -36,16 +49,19 @@ final class MilestoneListViewController: UIViewController, View {
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
-        tableView.rowHeight = view.frame.height/7
-        
         reactor.pulse(\.$milestones).asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(
                 cellIdentifier: MilestoneListTableViewCell.reuseIdentifier,
                 cellType: MilestoneListTableViewCell.self
             )) { index, entity, cell in
                 cell.setEntity(entity)
-                cell.setLayout()
             }
+            .disposed(by: disposeBag)
+        
+        tableView.rx.willDisplayCell
+            .bind(onNext: { event in
+                (event.cell as? MilestoneListTableViewCell)?.setLayout()
+            })
             .disposed(by: disposeBag)
         
         reactor.requestInitialList()

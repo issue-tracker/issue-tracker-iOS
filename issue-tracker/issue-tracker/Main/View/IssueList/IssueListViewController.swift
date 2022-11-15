@@ -5,7 +5,6 @@
 //  Created by 백상휘 on 2022/07/20.
 //
 
-import SnapKit
 import RxCocoa
 import ReactorKit
 
@@ -24,11 +23,20 @@ final class IssueListViewController: UIViewController, View {
         tableView.accessibilityIdentifier = "issueListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = refreshControl
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+    }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
         
+        let parent = parent as? MainListViewController
+        var parentViewFrame = parent?.listScrollView.frame ?? view.frame
+        parentViewFrame.origin = .zero
+        
+        tableView.frame = parentViewFrame
+        tableView.rowHeight = parentViewFrame.height / 4.5
         tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
+        
+        reactor = Reactor()
     }
     
     func bind(reactor: IssueListReactor) {
@@ -41,16 +49,19 @@ final class IssueListViewController: UIViewController, View {
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
-        tableView.rowHeight = view.frame.height/4.5
-        
         reactor.pulse(\.$issues).asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(
                 cellIdentifier: IssueListTableViewCell.reuseIdentifier,
                 cellType: IssueListTableViewCell.self
             )) { _, entity, cell in
                 cell.setEntity(entity)
-                cell.setLayout()
             }
+            .disposed(by: disposeBag)
+        
+        tableView.rx.willDisplayCell
+            .bind(onNext: { event in
+                (event.cell as? IssueListTableViewCell)?.setLayout()
+            })
             .disposed(by: disposeBag)
         
         reactor.requestInitialList()

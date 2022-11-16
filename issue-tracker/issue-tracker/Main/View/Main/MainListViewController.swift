@@ -48,6 +48,7 @@ class MainListViewController: CommonProxyViewController {
             }),
         ])
         control.accessibilityIdentifier = "listControl"
+        control.selectedSegmentIndex = 0
         
         return control
     }()
@@ -162,21 +163,16 @@ class MainListViewController: CommonProxyViewController {
             $0.size.equalTo(listScrollView.snp.size)
             $0.leading.equalTo(labelListView.view.snp.trailing)
         }
-        
-        // MARK: ScrollView for List
-        listScrollView.delegate = self
-        
-        // MARK: ScrollView for Bookmark(Query)
-        bookmarkScrollView.showsHorizontalScrollIndicator = false
-        bookmarkScrollView.insertButton(searchText: "is:open")
-        bookmarkScrollView.insertButton(searchText: "milestone:default")
-        
-        // MARK: ETC
-        listSegmentedControl.selectedSegmentIndex = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        bookmarkScrollView.showsHorizontalScrollIndicator = false
+        bookmarkScrollView.insertButton(searchText: "is:open")
+        bookmarkScrollView.insertButton(searchText: "milestone:default")
+        
+        listScrollView.delegate = self
         listScrollView.contentSize.width = listScrollView.frame.width * 3
         
         issueListView.didMove(toParent: self)

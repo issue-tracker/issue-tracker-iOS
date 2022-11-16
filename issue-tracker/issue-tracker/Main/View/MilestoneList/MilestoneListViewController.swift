@@ -23,6 +23,7 @@ final class MilestoneListViewController: UIViewController, View {
         tableView.accessibilityIdentifier = "milestoneListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = self.refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -46,6 +47,8 @@ final class MilestoneListViewController: UIViewController, View {
     func bind(reactor: MilestoneListReactor) {
 
         refreshControl.rx.controlEvent(.valueChanged).map({ Reactor.Action.reloadMilestone })
+            .timeout(.seconds(3), scheduler: ConcurrentMainScheduler.instance)
+            .do(onCompleted: { [weak self] in self?.refreshControl.endRefreshing() })
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -68,6 +71,24 @@ final class MilestoneListViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        reactor.requestInitialList()
+        refreshList()
+        
+        reactor.pulse(\.$milestoneStatus)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] status in
+                self?.refreshControl.endRefreshing()
+                
+                guard let parent = (self?.parent as? MainListViewController), parent.listSegmentedControl.selectedSegmentIndex == 2 else {
+                    return
+                }
+                
+                parent.title = status
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    @objc
+    private func refreshList() {
+        reactor?.requestInitialList()
     }
 }

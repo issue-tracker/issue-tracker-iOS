@@ -23,6 +23,7 @@ final class IssueListViewController: UIViewController, View {
         tableView.accessibilityIdentifier = "issueListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -42,14 +43,6 @@ final class IssueListViewController: UIViewController, View {
     
     func bind(reactor: IssueListReactor) {
         
-        refreshControl.rx.controlEvent(.valueChanged).map({ Reactor.Action.reloadIssue })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reactor.pulse(\.$isRefreshing).asObservable()
-            .bind(to: refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag)
-        
         reactor.pulse(\.$issues).asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(
                 cellIdentifier: IssueListTableViewCell.reuseIdentifier,
@@ -65,6 +58,24 @@ final class IssueListViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        reactor.requestInitialList()
+        refreshList()
+        
+        reactor.pulse(\.$issueStatus)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] status in
+                self?.refreshControl.endRefreshing()
+                
+                guard let parent = (self?.parent as? MainListViewController), parent.listSegmentedControl.selectedSegmentIndex == 0 else {
+                    return
+                }
+                
+                parent.title = status
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    @objc
+    private func refreshList() {
+        reactor?.requestInitialList()
     }
 }

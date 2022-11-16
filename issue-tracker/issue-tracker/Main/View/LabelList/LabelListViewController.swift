@@ -23,6 +23,7 @@ final class LabelListViewController: UIViewController, View {
         tableView.accessibilityIdentifier = "labelListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
     
     override func didMove(toParent parent: UIViewController?) {
@@ -45,11 +46,7 @@ final class LabelListViewController: UIViewController, View {
     
     func bind(reactor: LabelListReactor) {
         
-        refreshControl.rx.controlEvent(.valueChanged).map({ Reactor.Action.reloadLabel })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reactor.pulse(\.$isRefreshing).asObservable()
+        reactor.pulse(\.$isRefreshing)
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
@@ -68,6 +65,24 @@ final class LabelListViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        reactor.requestInitialList()
+        refreshList()
+        
+        reactor.pulse(\.$labelStatus)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] status in
+                self?.refreshControl.endRefreshing()
+                
+                guard let parent = (self?.parent as? MainListViewController), parent.listSegmentedControl.selectedSegmentIndex == 1 else {
+                    return
+                }
+                
+                parent.title = status
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    @objc
+    private func refreshList() {
+        reactor?.requestInitialList()
     }
 }

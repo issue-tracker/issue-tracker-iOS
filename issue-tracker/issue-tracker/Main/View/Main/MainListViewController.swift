@@ -32,21 +32,25 @@ class MainListViewController: CommonProxyViewController {
     private var popupView: PopupTableView?
     private let bookmarkScrollView = QueryBookmarkScrollView()
     
-    private lazy var listSegmentedControl: UISegmentedControl = {
+    private(set) lazy var listSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [
             UIAction(title: "Issue", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.listScrollView.setContentOffset(self.issueListView.view.frame.origin, animated: true)
+                self.title = self.issueListView.reactor?.currentState.issueStatus
             }),
             UIAction(title: "Label", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.listScrollView.setContentOffset(self.labelListView.view.frame.origin, animated: true)
+                self.title = self.labelListView.reactor?.currentState.labelStatus
             }),
             UIAction(title: "Milestone", handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.listScrollView.setContentOffset(self.milestoneListView.view.frame.origin, animated: true)
+                self.title = self.milestoneListView.reactor?.currentState.milestoneStatus
             }),
         ])
+        
         control.accessibilityIdentifier = "listControl"
         control.selectedSegmentIndex = 0
         

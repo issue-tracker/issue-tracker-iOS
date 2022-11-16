@@ -65,6 +65,8 @@ final class IssueEditViewController: CommonProxyViewController, View {
             make.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+        
+        reactor = IssueEditReactor()
     }
 
     func bind(reactor: IssueEditReactor) {

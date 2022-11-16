@@ -18,6 +18,10 @@ enum MainListType {
     case milestone(Int)
 }
 
+protocol ListViewRepresentingStatus {
+    var statusDescription: String? { get }
+}
+
 class MainListViewController: CommonProxyViewController {
     
     // Search field 에 관한 가이드라인
@@ -33,23 +37,14 @@ class MainListViewController: CommonProxyViewController {
     private let bookmarkScrollView = QueryBookmarkScrollView()
     
     private(set) lazy var listSegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: [
-            UIAction(title: "Issue", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.listScrollView.setContentOffset(self.issueListView.view.frame.origin, animated: true)
-                self.title = self.issueListView.reactor?.currentState.issueStatus
-            }),
-            UIAction(title: "Label", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.listScrollView.setContentOffset(self.labelListView.view.frame.origin, animated: true)
-                self.title = self.labelListView.reactor?.currentState.labelStatus
-            }),
-            UIAction(title: "Milestone", handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.listScrollView.setContentOffset(self.milestoneListView.view.frame.origin, animated: true)
-                self.title = self.milestoneListView.reactor?.currentState.milestoneStatus
-            }),
-        ])
+        let control = UISegmentedControl(items: ["Issue","Label","Milestone"])
+        control.rx.selectedSegmentIndex.bind(onNext: { index in
+            guard 0...2 ~= index else { return }
+            let offset = CGPoint(x: self.listScrollView.frame.width * CGFloat(index), y: 0)
+            self.listScrollView.setContentOffset(offset, animated: true)
+            self.title = self.descriptables[index].statusDescription
+        })
+        .disposed(by: disposeBag)
         
         control.accessibilityIdentifier = "listControl"
         control.selectedSegmentIndex = 0
@@ -62,7 +57,7 @@ class MainListViewController: CommonProxyViewController {
     
     private lazy var issueListView: IssueListViewController = {
         let vc = IssueListViewController()
-        self.addChild(vc)
+        self.addChild(vc) // trigger willMove(toParent:UIViewController?)
         return vc
     }()
     private lazy var labelListView: LabelListViewController = {
@@ -70,12 +65,14 @@ class MainListViewController: CommonProxyViewController {
         self.addChild(vc)
         return vc
     }()
-    
     private lazy var milestoneListView: MilestoneListViewController = {
         let vc = MilestoneListViewController()
         self.addChild(vc)
         return vc
     }()
+    private var descriptables: [ListViewRepresentingStatus] {
+        [issueListView, labelListView, milestoneListView]
+    }
     
     private(set) var listScrollView: UIScrollView = {
         let view = UIScrollView()
@@ -100,14 +97,13 @@ class MainListViewController: CommonProxyViewController {
     }()
     
     private lazy var plusButton: UIButton = {
-        let button = UIButton(primaryAction: UIAction(handler: { action in
-            self.navigationController?.present(UINavigationController(rootViewController: {
-                let viewController = IssueEditViewController()
-                viewController.reloadSubject = self.reloadListSubject
-                viewController.reactor = IssueEditReactor()
-                return viewController
-            }()), animated: true)
-        }))
+        let button = UIButton()
+        button.rx.tap.subscribe(onNext: { _ in
+            let viewController = IssueEditViewController()
+            viewController.reloadSubject = self.reloadListSubject
+            self.navigationController?.present(UINavigationController(rootViewController: viewController), animated: true)
+        })
+        .disposed(by: disposeBag)
         
         button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
         button.accessibilityIdentifier = "issueUpdateEntry"
@@ -173,8 +169,6 @@ class MainListViewController: CommonProxyViewController {
         super.viewDidAppear(animated)
         
         bookmarkScrollView.showsHorizontalScrollIndicator = false
-        bookmarkScrollView.insertButton(searchText: "is:open")
-        bookmarkScrollView.insertButton(searchText: "milestone:default")
         
         listScrollView.delegate = self
         listScrollView.contentSize.width = listScrollView.frame.width * 3

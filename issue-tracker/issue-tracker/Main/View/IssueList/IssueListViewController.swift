@@ -8,7 +8,7 @@
 import RxCocoa
 import ReactorKit
 
-final class IssueListViewController: UIViewController, View {
+final class IssueListViewController: UIViewController, View, ListViewRepresentingStatus {
     
     typealias Reactor = IssueListReactor
     
@@ -88,5 +88,9 @@ final class IssueListViewController: UIViewController, View {
     @objc
     private func refreshList() {
         reactor?.requestInitialList()
+    }
+    
+    var statusDescription: String? {
+        reactor?.currentState.issueStatus
     }
 }

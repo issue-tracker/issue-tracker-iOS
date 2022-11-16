@@ -8,7 +8,7 @@
 import RxCocoa
 import ReactorKit
 
-final class MilestoneListViewController: UIViewController, View {
+final class MilestoneListViewController: UIViewController, View, ListViewRepresentingStatus {
     
     typealias Reactor = MilestoneListReactor
     
@@ -90,5 +90,9 @@ final class MilestoneListViewController: UIViewController, View {
     @objc
     private func refreshList() {
         reactor?.requestInitialList()
+    }
+    
+    var statusDescription: String? {
+        reactor?.currentState.milestoneStatus
     }
 }

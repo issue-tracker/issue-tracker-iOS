@@ -13,9 +13,9 @@ import RxCocoa
 import ReactorKit
 
 enum MainListType {
-    case issue(IndexPath?)
-    case label(IndexPath?)
-    case milestone(IndexPath?)
+    case issue(Int)
+    case label(Int)
+    case milestone(Int)
 }
 
 class MainListViewController: CommonProxyViewController {
@@ -57,8 +57,8 @@ class MainListViewController: CommonProxyViewController {
         return control
     }()
     
-    private let reloadListSubject = PublishSubject<MainListType>()
-    private let listItemSelected = PublishSubject<MainListType>()
+    private(set) var reloadListSubject = PublishSubject<MainListType>()
+    private(set) var listItemSelected = PublishSubject<MainListType>()
     
     private lazy var issueListView: IssueListViewController = {
         let vc = IssueListViewController()
@@ -179,6 +179,7 @@ class MainListViewController: CommonProxyViewController {
         listScrollView.delegate = self
         listScrollView.contentSize.width = listScrollView.frame.width * 3
         
+        issueListView.listItemSelected = self.listItemSelected
         issueListView.didMove(toParent: self)
         labelListView.didMove(toParent: self)
         milestoneListView.didMove(toParent: self)
@@ -187,8 +188,7 @@ class MainListViewController: CommonProxyViewController {
         listItemSelected
             .subscribe(onNext: { [weak self] type in
                 switch type {
-                case .issue(let indexPath):
-                    guard let id = indexPath?.row else { return}
+                case .issue(let id):
                     self?.tabBarController?.tabBar.isHidden = true
                     self?.navigationController?.pushViewController(IssueDetailViewController(id), animated: true)
                 default:

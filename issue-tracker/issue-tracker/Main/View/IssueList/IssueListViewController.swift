@@ -14,6 +14,7 @@ final class IssueListViewController: UIViewController, View {
     
     private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
     private var tableView = UITableView()
+    var listItemSelected: PublishSubject<MainListType>?
     var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -55,6 +56,16 @@ final class IssueListViewController: UIViewController, View {
         tableView.rx.willDisplayCell
             .bind(onNext: { event in
                 (event.cell as? IssueListTableViewCell)?.setLayout()
+            })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let id = self?.reactor?.currentState.issues[indexPath.row].id else {
+                    return
+                }
+                
+                self?.listItemSelected?.onNext(MainListType.issue(id))
             })
             .disposed(by: disposeBag)
         

@@ -17,7 +17,7 @@ enum IssueEditType {
 }
 
 final class IssueEditViewController: CommonProxyViewController, View {
-//    typealias Reactor = IssueEditReactor
+    typealias Reactor = IssueEditReactor
     
     var editType: IssueEditType = .add
     var reloadSubject: PublishSubject<MainListType>?
@@ -81,13 +81,13 @@ final class IssueEditViewController: CommonProxyViewController, View {
         titleTextField.rx.text.map({ Reactor.Action.titleChanged($0) }).skip(1)
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$rightBarButtonState)
+            .bind(to: rightSubmitButton.rx.isEnabled)
+            .disposed(by: disposeBag)
 
         contentsTextView.rx.text.map({ Reactor.Action.contentsChanged($0) })
             .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        reactor.state.map({$0.isEmpty()})
-            .bind(to: rightSubmitButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
 }

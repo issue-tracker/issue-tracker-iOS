@@ -40,7 +40,7 @@ final class IssueEditReactor: Reactor {
     struct State {
         var title: String = ""
         var contents: String = ""
-        var rightBarButtonState: Bool = false
+        @Pulse var rightBarButtonState: Bool = false
         var submitResult: Bool = false
         
         func isEmpty() -> Bool {
@@ -55,14 +55,12 @@ final class IssueEditReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .titleChanged(let str), .contentsChanged(let str):
-            return Observable.create { observer in
-                let disposables = Disposables.create()
+            return Observable.deferred {
                 if let str {
-                    observer.onNext(Mutation.setRightBarButtonState(str.isEmpty))
+                    return Observable.just(Mutation.setRightBarButtonState(str.isEmpty == false))
                 } else {
-                    observer.onError(AddIssueError.parameterNull)
+                    return Observable.error(AddIssueError.parameterNull)
                 }
-                return disposables
             }
         case Action.submit:
             guard initialState.isEmpty() == false, let model, let id else {
@@ -97,14 +95,14 @@ final class IssueEditReactor: Reactor {
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var state = state
+        var newState = state
         switch mutation {
         case Mutation.setRightBarButtonState(let buttonEnabled):
-            state.rightBarButtonState = buttonEnabled
-            return state
+            newState.rightBarButtonState = buttonEnabled
+            return newState
         case Mutation.submitComplete(let result):
-            state.submitResult = result
-            return state
+            newState.submitResult = result
+            return newState
         }
     }
 }

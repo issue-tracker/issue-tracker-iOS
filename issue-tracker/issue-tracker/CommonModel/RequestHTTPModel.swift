@@ -48,6 +48,19 @@ class RequestHTTPModel {
         requestObservable(request)
     }
     
+    func requestObservableWithResponse(pathArray: [String] = []) -> Observable<(response: HTTPURLResponse, data: Data)> {
+        builder.pathArray = pathArray
+        guard let request = self.builder.getRequest() else {
+            return Observable.create { observer in
+                let disposables = Disposables.create()
+                observer.onError(HTTPError.createRequestFailed)
+                return disposables
+            }
+        }
+        
+        return URLSession.shared.rx.response(request: request)
+    }
+    
     /// 셋팅된 정보를 토대로 HTTP Request 를 한 후 응답이 오면 파라미터로 전달된 Clousre를 실행합니다.
     ///
     /// 모든 Request 이후엔 Context-Path, HTTP Body/Method/Header, URL Queries 모두 초기화 됩니다.

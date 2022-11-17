@@ -8,13 +8,16 @@
 import UIKit
 import FlexLayout
 import SnapKit
+import ReactorKit
 
-class SignInFormViewController: CommonProxyViewController {
+class SignInFormViewController: CommonProxyViewController, View {
+    typealias Reactor = SignInReactor
+    
+    var disposeBag: DisposeBag = .init()
     
     private let padding: CGFloat = 8
     
     private let _containerView = UIScrollView()
-    private var requestModel: RequestHTTPModel?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -25,55 +28,97 @@ class SignInFormViewController: CommonProxyViewController {
         return label
     }()
     
-    var commonTextFieldStatus: [HTTPResultStatus] {
-        [
-            idArea.descriptionLabel?.descriptionType,
-            passwordArea.descriptionLabel?.descriptionType,
-            emailArea.descriptionLabel?.descriptionType,
-            nicknameArea.descriptionLabel?.descriptionType
-        ].compactMap({$0})
-    }
+    private let idTitleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        let mutableString = NSMutableAttributedString(string: "아이디\n영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).")
+        mutableString.setAttributes([.font: UIFont.preferredFont(forTextStyle: .headline)], range: NSRange(0...2))
+        mutableString.setAttributes([.font: UIFont.italicSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .subheadline).pointSize)], range: NSRange(3..<mutableString.string.count))
+        label.attributedText = mutableString
+        return label
+    }()
+    private let idTextField: CommonTextField = {
+        let textField = CommonTextField(frame: .zero, input: .default, placeholder: "아이디")
+        textField.markerType = .none
+        return textField
+    }()
+    private let idDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
+    }()
     
-    private let idArea = CommonTextFieldArea(identifierAccessibility: "idArea") {
-        CommonTextFieldComponents(key: "signInId", title: "아이디", subTitle: "영문, 숫자를 포함한 아이디를 입력해주세요(4~12자).", placeHolderString: "아이디")
-            .toRequestType(URL.membersApiURL?.appendingPathComponent("signin-id"), optionalTrailingPath: "exists")
-            .setValidateStringCount(4)
-    }
-    private let passwordArea = CommonTextFieldArea(identifierAccessibility: "passwordArea") {
-        CommonTextFieldComponents(key: "password", title: "비밀번호", subTitle: "영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.", placeHolderString: "비밀번호")
-            .toCommonValidationType { textField in
-                return ((textField.text?.count ?? 0) >= 8)
-            } completionHandler: { label, isAcceptable in
-                
-                label.descriptionType = isAcceptable ? .acceptable : .error
-                label.text = isAcceptable ? "이상이 발견되지 않았습니다." : "8자 이상 입력 부탁드립니다."
-            }
-
-    }
-    private lazy var passwordConfirmedArea = CommonTextFieldArea(identifierAccessibility: "passwordConfirmedArea") {
-        CommonTextFieldComponents(key: "passwordConfirmed", title: "비밀번호 확인", placeHolderString: "비밀번호 확인")
-            .toCommonValidationType { textField in
-                guard let originText = self.passwordArea.textField?.text, let text = textField.text else {
-                    return false
-                }
-                
-                return originText == text
-            } completionHandler: { label, isAcceptable in
-                
-                label.descriptionType = isAcceptable ? .acceptable : .error
-                label.text = isAcceptable ? "이상이 발견되지 않았습니다." : "같은 비밀번호를 입력해주시기 바랍니다."
-            }
-    }
-    private let emailArea = CommonTextFieldArea(identifierAccessibility: "emailArea") {
-        CommonTextFieldComponents(key: "email", title: "이메일", placeHolderString: "이메일")
-            .toRequestType(URL.membersApiURL?.appendingPathComponent("email"), optionalTrailingPath: "exists")
-            .setValidateStringCount(4)
-    }
-    private let nicknameArea = CommonTextFieldArea(identifierAccessibility: "nicknameArea") {
-        CommonTextFieldComponents(key: "nickname", title: "닉네임", subTitle: "다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자)", placeHolderString: "닉네임")
-            .toRequestType(URL.membersApiURL?.appendingPathComponent("nickname"), optionalTrailingPath: "exists")
-            .setValidateStringCount(2)
-    }
+    private let passwordTitleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        let mutableString = NSMutableAttributedString(string: "비밀번호\n영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.")
+        mutableString.setAttributes([.font: UIFont.preferredFont(forTextStyle: .headline)], range: NSRange(0...3))
+        mutableString.setAttributes([.font: UIFont.italicSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .subheadline).pointSize)], range: NSRange(4..<mutableString.string.count))
+        label.attributedText = mutableString
+        return label
+    }()
+    private let passwordTextField: CommonTextField = {
+        let textField = CommonTextField(frame: .zero, input: .default, placeholder: "비밀번호")
+        textField.markerType = .none
+        return textField
+    }()
+    private let passwordDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
+    }()
+    
+    private let passwordConfirmTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = NSMutableAttributedString(string: "비밀번호 확인", attributes: [.font: UIFont.preferredFont(forTextStyle: .headline)])
+        return label
+    }()
+    private let passwordConfirmTextField: CommonTextField = {
+        let textField = CommonTextField(frame: .zero, input: .default, placeholder: "비밀번호 확인")
+        textField.markerType = .none
+        return textField
+    }()
+    private let passwordConfirmDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
+    }()
+    
+    private let emailTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = NSMutableAttributedString(string: "이메일", attributes: [.font: UIFont.preferredFont(forTextStyle: .headline)])
+        return label
+    }()
+    private let emailTextField: CommonTextField = {
+        let textField = CommonTextField(frame: .zero, input: .default, placeholder: "이메일")
+        textField.markerType = .none
+        return textField
+    }()
+    private let emailDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
+    }()
+    
+    private let nicknameTitleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        let mutableString = NSMutableAttributedString(string: "닉네임\n다른 유저와 겹치지 않는 별명을 입력해주세요.(2~12자).")
+        mutableString.setAttributes([.font: UIFont.preferredFont(forTextStyle: .headline)], range: NSRange(0...2))
+        mutableString.setAttributes([.font: UIFont.italicSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .subheadline).pointSize)], range: NSRange(3..<mutableString.string.count))
+        label.attributedText = mutableString
+        return label
+    }()
+    private let nicknameTextField: CommonTextField = {
+        let textField = CommonTextField(frame: .zero, input: .default, placeholder: "닉네임")
+        textField.markerType = .none
+        return textField
+    }()
+    private let nicknameDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
+    }()
     
     private let acceptButton: UIButton = {
         let button = UIButton()
@@ -89,94 +134,91 @@ class SignInFormViewController: CommonProxyViewController {
         super.viewDidLoad()
         
         makeSuperViewResignKeyboard()
-        if let url = URL.apiURL {
-            requestModel = RequestHTTPModel(url)
-        }
         
-        acceptButton.addAction(
-            UIAction(handler: { _ in
-                if self.commonTextFieldStatus.contains(.error) || self.requestModel == nil {
-                    
-                    self.present(UIAlertController.messageFailed, animated: true)
-                    return
-                }
-                else if self.commonTextFieldStatus.contains(.warning) {
-                    
-                    self.present(
-                        UIAlertController.willProceed("입력란의 문제가 발견되었습니다. 그래도 진행하시겠습니까?", handler: { _ in
-                            self.requestLogin()
-                        }),
-                        animated: true
-                    )
-                    return
-                }
-                
-                self.requestLogin()
-            }),
-            for: .touchUpInside
-        )
-        
-        passwordArea.textField?.isSecureTextEntry = true
-        passwordConfirmedArea.textField?.isSecureTextEntry = true
-        emailArea.textField?.keyboardType = .emailAddress
+        passwordTextField.isSecureTextEntry = true
+        passwordConfirmTextField.isSecureTextEntry = true
+        emailTextField.keyboardType = .emailAddress
         
         view.addSubview(_containerView)
         
-        _containerView.flex.alignContent(.stretch).paddingHorizontal(padding).define { flex in
-            flex.addItem(titleLabel).height(60)
-            flex.addItem().define { flex in
-                flex.addItem(idArea)
-                flex.addItem(passwordArea)
-                flex.addItem(passwordConfirmedArea)
-                flex.addItem(emailArea)
-                flex.addItem(nicknameArea)
+        view.flex.define { flex in
+            flex.addItem(_containerView).grow(1).paddingHorizontal(8).define { flex in
+                flex.addItem(titleLabel).height(60)
+                
+                flex.addItem(idTitleLabel).marginBottom(8)
+                flex.addItem(idTextField).height(60)
+                flex.addItem(idDescriptionLabel).marginBottom(16)
+                
+                flex.addItem(passwordTitleLabel).marginBottom(8)
+                flex.addItem(passwordTextField).height(60)
+                flex.addItem(passwordDescriptionLabel).marginBottom(16)
+                
+                flex.addItem(passwordConfirmTitleLabel).marginBottom(8)
+                flex.addItem(passwordConfirmTextField).height(60)
+                flex.addItem(passwordConfirmDescriptionLabel).marginBottom(16)
+                
+                flex.addItem(emailTitleLabel).marginBottom(8)
+                flex.addItem(emailTextField).height(60)
+                flex.addItem(emailDescriptionLabel).marginBottom(16)
+                
+                flex.addItem(nicknameTitleLabel).marginBottom(8)
+                flex.addItem(nicknameTextField).height(60)
+                flex.addItem(nicknameDescriptionLabel).marginBottom(16)
+                
+                flex.addItem(acceptButton).height(60)
             }
-            
-            flex.addItem(acceptButton).height(60)
         }
         
-        _containerView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        _containerView.layoutIfNeeded()
-        _containerView.flex.layout()
-        _containerView.reloadContentSizeHeight()
-        _containerView.delegate = self
+        view.flex.layout()
         
         acceptButton.setCornerRadius()
     }
     
-    func requestLogin() {
-        guard
-            let body = [
-                "signInId": idArea.textField?.text,
-                "password": passwordArea.textField?.text,
-                "email": emailArea.textField?.text,
-                "nickname": nicknameArea.textField?.text,
-                "profileImage": ""
-            ] as? [String: String]
-        else {
-            return
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        requestModel?.builder.setBody(body)
-        requestModel?.builder.setHTTPMethod("post")
-        requestModel?.request(pathArray: ["members", "new", "general"], { result, respnse in
-            
-            let model = HTTPResponseModel()
-            
-            DispatchQueue.main.async {
-                guard let signInResponseData = model.getDecoded(from: result, as: SignInResponse.self) else {
-                    self.commonAlert(model.getMessageResponse(from: result) ?? "에러가 발생하였습니다. 재시도 바랍니다.")
-                    return
-                }
-                
-                self.commonAlert(title: "회원가입이 완료되었습니다.", "\(signInResponseData.nickname) 환영합니다!") { _ in
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-        })
+        _containerView.reloadContentSizeHeight()
+        _containerView.delegate = self
+        
+        reactor = SignInReactor()
+    }
+    
+    func bind(reactor: SignInReactor) {
+        acceptButton.rx.tap.map({Reactor.Action.requestSignIn})
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        idTextField.rx.value.orEmpty.skip(1)
+            .map({Reactor.Action.checkIdTextField($0)})
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        passwordTextField.rx.value.orEmpty.skip(1)
+            .map({Reactor.Action.checkPasswordTextField($0)})
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        passwordConfirmTextField.rx.value.orEmpty.skip(1)
+            .map({Reactor.Action.checkPasswordConfirmTextField($0)})
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        emailTextField.rx.value.orEmpty.skip(1)
+            .map({Reactor.Action.checkEmailTextField($0)})
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        nicknameTextField.rx.value.orEmpty.skip(1)
+            .map({Reactor.Action.checkNicknameTextField($0)})
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.id.$status)
+        reactor.pulse(\.password.$status)
+        reactor.pulse(\.password.$passwordConfirmStatus)
+        reactor.pulse(\.email.$status)
+        reactor.pulse(\.nickname.$status)
+        
     }
 }
 
@@ -190,11 +232,4 @@ extension SignInFormViewController: UIScrollViewDelegate {
             }
         }
     }
-}
-
-struct SignInResponse: Decodable {
-    var id: Int
-    var email: String
-    var nickname: String
-    var profileImage: String
 }

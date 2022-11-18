@@ -213,12 +213,33 @@ class SignInFormViewController: CommonProxyViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        reactor.pulse(\.id.$status)
-        reactor.pulse(\.password.$status)
-        reactor.pulse(\.password.$passwordConfirmStatus)
-        reactor.pulse(\.email.$status)
-        reactor.pulse(\.nickname.$status)
+        reactor.pulse(\.id.$statusText)
+            .bind(to: idDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        reactor.pulse(\.id.$status).map({$0.toUIColor()})
+            .bind(to: idDescriptionLabel.rx.textColor)
+            .disposed(by: disposeBag)
         
+        reactor.pulse(\.password.$statusText)
+            .bind(to: passwordDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        reactor.pulse(\.password.$status).map({$0.toUIColor()})
+            .bind(to: passwordDescriptionLabel.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.password.$confirmStatusText)
+            .bind(to: passwordConfirmDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        reactor.pulse(\.password.$confirmStatus).map({$0.toUIColor()})
+            .bind(to: passwordConfirmDescriptionLabel.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.email.$statusText)
+            .bind(to: emailDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        reactor.pulse(\.email.$status).map({$0.toUIColor()})
+            .bind(to: nicknameDescriptionLabel.rx.textColor)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -230,6 +251,17 @@ extension SignInFormViewController: UIScrollViewDelegate {
                     item.resignFirstResponder()
                 }
             }
+        }
+    }
+}
+
+extension SignInFormReactor.TextFieldStatus {
+    func toUIColor() -> UIColor {
+        switch self {
+        case .warning: return UIColor.systemYellow.withAlphaComponent(0.5)
+        case .error: return UIColor.systemRed.withAlphaComponent(0.5)
+        case .fine: return UIColor.systemGreen.withAlphaComponent(0.5)
+        case .none: return UIColor.label.withAlphaComponent(0.5)
         }
     }
 }

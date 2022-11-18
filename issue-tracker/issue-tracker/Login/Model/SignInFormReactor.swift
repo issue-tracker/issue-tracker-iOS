@@ -49,8 +49,9 @@ class SignInFormReactor: Reactor {
     struct PasswordState {
         var text: String = ""
         @Pulse var status: TextFieldStatus = .none
-        @Pulse var passwordConfirmStatus: TextFieldStatus = .none
         @Pulse var statusText: String = ""
+        @Pulse var confirmStatus: TextFieldStatus = .none
+        @Pulse var confirmStatusText: String = ""
     }
     
     struct EmailState {
@@ -95,26 +96,36 @@ class SignInFormReactor: Reactor {
                 .requestCheck(text: password, for: \State.password)
                 .map({
                     
-                    let state = PasswordState(text: password, status: $0.result ? .fine : .error, passwordConfirmStatus: self.currentState.password.passwordConfirmStatus, statusText: $0.message)
+                    let state = PasswordState(
+                        text: password,
+                        status: $0.result ? .fine : .error,
+                        statusText: $0.message)
                     return Mutation.checkPasswordTextField(state)
                 })
             
         case .checkPasswordConfirmTextField(let password):
-            return Observable<Mutation>.create({ observer in
-                
-                let result = (password == self.currentState.password.text)
-                let state = PasswordState(text: password, status: self.currentState.password.status, passwordConfirmStatus: result ? .none : .error, statusText: self.currentState.password.statusText)
-                
-                observer.onNext(Mutation.checkPasswordConfirmTextField(state))
-                return Disposables.create()
-            })
+            return Observable<Mutation>
+                .create({ observer in
+                    
+                    let result = (password == self.currentState.password.text)
+                    let state = PasswordState(
+                        text: password,
+                        confirmStatus: result ? .none : .error,
+                        confirmStatusText: self.currentState.password.statusText)
+                    
+                    observer.onNext(Mutation.checkPasswordConfirmTextField(state))
+                    return Disposables.create()
+                })
             
         case .checkEmailTextField(let email):
             return model
                 .requestCheck(text: email, for: \State.email)
                 .map({
                     
-                    let state = EmailState(text: email, status: $0.result ? .fine : .error, statusText: $0.message)
+                    let state = EmailState(
+                        text: email,
+                        status: $0.result ? .fine : .error,
+                        statusText: $0.message)
                     return Mutation.checkEmailTextField(state)
                 })
             
@@ -123,7 +134,10 @@ class SignInFormReactor: Reactor {
                 .requestCheck(text: nickname, for: \State.nickname)
                 .map({
                     
-                    let state = NicknameState(text: nickname, status: $0.result ? .fine : .error, statusText: $0.message)
+                    let state = NicknameState(
+                        text: nickname,
+                        status: $0.result ? .fine : .error,
+                        statusText: $0.message)
                     return Mutation.checkNicknameTextField(state)
                 })
             
@@ -131,7 +145,7 @@ class SignInFormReactor: Reactor {
             let allStatus: [TextFieldStatus] = [
                 currentState.id.status,
                 currentState.password.status,
-                currentState.password.passwordConfirmStatus,
+                currentState.password.confirmStatus,
                 currentState.email.status,
                 currentState.nickname.status
             ]
@@ -168,7 +182,7 @@ class SignInFormReactor: Reactor {
             newState.password.status = state.status
             newState.password.statusText = state.statusText
         case .checkPasswordConfirmTextField(let state):
-            newState.password.passwordConfirmStatus = state.passwordConfirmStatus
+            newState.password.confirmStatus = state.confirmStatus
             newState.password.statusText = state.statusText
         case .checkEmailTextField(let state):
             newState.email.text = state.text

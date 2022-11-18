@@ -11,7 +11,7 @@ import SnapKit
 import ReactorKit
 
 class SignInFormViewController: CommonProxyViewController, View {
-    typealias Reactor = SignInReactor
+    typealias Reactor = SignInFormReactor
     
     var disposeBag: DisposeBag = .init()
     
@@ -180,10 +180,10 @@ class SignInFormViewController: CommonProxyViewController, View {
         _containerView.reloadContentSizeHeight()
         _containerView.delegate = self
         
-        reactor = SignInReactor()
+        reactor = SignInFormReactor()
     }
     
-    func bind(reactor: SignInReactor) {
+    func bind(reactor: SignInFormReactor) {
         acceptButton.rx.tap.map({Reactor.Action.requestSignIn})
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

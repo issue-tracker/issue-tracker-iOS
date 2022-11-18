@@ -78,7 +78,7 @@
 		1B50EC2A28D09073005E5B82 /* IssueAddRemoveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B50EC2928D09073005E5B82 /* IssueAddRemoveModel.swift */; };
 		1B50EC2D28D19D6E005E5B82 /* issue_trackerUITests_IssueDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B50EC2C28D19D6E005E5B82 /* issue_trackerUITests_IssueDetail.swift */; };
 		1B5780AB2925B59F0034400F /* SignInFormModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AA2925B59F0034400F /* SignInFormModel.swift */; };
-		1B5780AD2925B5A60034400F /* SignInReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AC2925B5A60034400F /* SignInReactor.swift */; };
+		1B5780AD2925B5A60034400F /* SignInFormReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AC2925B5A60034400F /* SignInFormReactor.swift */; };
 		1B5780AF2925C2AF0034400F /* SignInError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AE2925C2AF0034400F /* SignInError.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
@@ -261,7 +261,7 @@
 		1B50EC2928D09073005E5B82 /* IssueAddRemoveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueAddRemoveModel.swift; sourceTree = "<group>"; };
 		1B50EC2C28D19D6E005E5B82 /* issue_trackerUITests_IssueDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_IssueDetail.swift; sourceTree = "<group>"; };
 		1B5780AA2925B59F0034400F /* SignInFormModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormModel.swift; sourceTree = "<group>"; };
-		1B5780AC2925B5A60034400F /* SignInReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInReactor.swift; sourceTree = "<group>"; };
+		1B5780AC2925B5A60034400F /* SignInFormReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormReactor.swift; sourceTree = "<group>"; };
 		1B5780AE2925C2AF0034400F /* SignInError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInError.swift; sourceTree = "<group>"; };
 		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
@@ -407,7 +407,7 @@
 			children = (
 				1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */,
 				1B5780AA2925B59F0034400F /* SignInFormModel.swift */,
-				1B5780AC2925B5A60034400F /* SignInReactor.swift */,
+				1B5780AC2925B5A60034400F /* SignInFormReactor.swift */,
 				1B5780AE2925C2AF0034400F /* SignInError.swift */,
 			);
 			path = Model;
@@ -1198,7 +1198,7 @@
 				1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */,
 				1BD125C728D1E56C0050F2D1 /* IssueListComment.swift in Sources */,
 				1BF1D0C028BC97D900393294 /* MilestoneListViewController.swift in Sources */,
-				1B5780AD2925B5A60034400F /* SignInReactor.swift in Sources */,
+				1B5780AD2925B5A60034400F /* SignInFormReactor.swift in Sources */,
 				1BD125D828D1EF990050F2D1 /* IssueCommentReactorResponse.swift in Sources */,
 				1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */,
 				1B8B74492900D36F008380BF /* SettingIssueQueryItem.swift in Sources */,

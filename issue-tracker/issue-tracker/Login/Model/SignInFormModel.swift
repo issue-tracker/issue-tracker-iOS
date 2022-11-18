@@ -30,7 +30,7 @@ class SignInFormModel: RequestHTTPModel {
             })
     }
     
-    func requestCheck(text: String, for keyPath: PartialKeyPath<SignInReactor.State>) -> Observable<SignInResponseResult> {
+    func requestCheck(text: String, for keyPath: PartialKeyPath<SignInFormReactor.State>) -> Observable<SignInResponseResult> {
         var url: URL?
         
         if keyPath == \.id {
@@ -52,3 +52,5 @@ class SignInFormModel: RequestHTTPModel {
             }
     }
 }
+
+

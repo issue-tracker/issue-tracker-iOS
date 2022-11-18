@@ -1,5 +1,5 @@
 //
-//  SignInReactor.swift
+//  SignInFormReactor.swift
 //  issue-tracker
 //
 //  Created by 백상휘 on 2022/11/17.
@@ -7,7 +7,7 @@
 
 import ReactorKit
 
-class SignInReactor: Reactor {
+class SignInFormReactor: Reactor {
     var initialState: State = State.init(id: .init(), password: .init(), email: .init(), nickname: .init())
     
     private let model: SignInFormModel? = {

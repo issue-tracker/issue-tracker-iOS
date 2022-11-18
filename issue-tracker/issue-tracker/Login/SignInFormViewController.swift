@@ -146,24 +146,24 @@ class SignInFormViewController: CommonProxyViewController, View {
                 flex.addItem(titleLabel).height(60)
                 
                 flex.addItem(idTitleLabel).marginBottom(8)
-                flex.addItem(idTextField).height(60)
-                flex.addItem(idDescriptionLabel).marginBottom(16)
+                flex.addItem(idTextField).height(50).marginBottom(8)
+                flex.addItem(idDescriptionLabel).minHeight(12).marginBottom(16)
                 
                 flex.addItem(passwordTitleLabel).marginBottom(8)
-                flex.addItem(passwordTextField).height(60)
-                flex.addItem(passwordDescriptionLabel).marginBottom(16)
+                flex.addItem(passwordTextField).height(50).marginBottom(8)
+                flex.addItem(passwordDescriptionLabel).minHeight(12).marginBottom(16)
                 
                 flex.addItem(passwordConfirmTitleLabel).marginBottom(8)
-                flex.addItem(passwordConfirmTextField).height(60)
-                flex.addItem(passwordConfirmDescriptionLabel).marginBottom(16)
+                flex.addItem(passwordConfirmTextField).height(50).marginBottom(8)
+                flex.addItem(passwordConfirmDescriptionLabel).minHeight(12).marginBottom(16)
                 
                 flex.addItem(emailTitleLabel).marginBottom(8)
-                flex.addItem(emailTextField).height(60)
-                flex.addItem(emailDescriptionLabel).marginBottom(16)
+                flex.addItem(emailTextField).height(50).marginBottom(8)
+                flex.addItem(emailDescriptionLabel).minHeight(12).marginBottom(16)
                 
                 flex.addItem(nicknameTitleLabel).marginBottom(8)
-                flex.addItem(nicknameTextField).height(60)
-                flex.addItem(nicknameDescriptionLabel).marginBottom(16)
+                flex.addItem(nicknameTextField).height(50).marginBottom(8)
+                flex.addItem(nicknameDescriptionLabel).minHeight(12).marginBottom(16)
                 
                 flex.addItem(acceptButton).height(60)
             }
@@ -188,56 +188,77 @@ class SignInFormViewController: CommonProxyViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        idTextField.rx.value.orEmpty.skip(1)
+        idTextField.rx.value.orEmpty.filter({$0.count > 0}).skip(1)
             .map({Reactor.Action.checkIdTextField($0)})
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        passwordTextField.rx.value.orEmpty.skip(1)
+        passwordTextField.rx.value.orEmpty.filter({$0.count > 0}).skip(1)
             .map({Reactor.Action.checkPasswordTextField($0)})
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        passwordConfirmTextField.rx.value.orEmpty.skip(1)
+        passwordConfirmTextField.rx.value.orEmpty.filter({$0.count > 0}).skip(1)
             .map({Reactor.Action.checkPasswordConfirmTextField($0)})
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        emailTextField.rx.value.orEmpty.skip(1)
+        emailTextField.rx.value.orEmpty.filter({$0.count > 0}).skip(1)
             .map({Reactor.Action.checkEmailTextField($0)})
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        nicknameTextField.rx.value.orEmpty.skip(1)
+        nicknameTextField.rx.value.orEmpty.filter({$0.count > 0}).skip(1)
             .map({Reactor.Action.checkNicknameTextField($0)})
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         reactor.pulse(\.id.$statusText)
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
             .bind(to: idDescriptionLabel.rx.text)
             .disposed(by: disposeBag)
         reactor.pulse(\.id.$status).map({$0.toUIColor()})
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
             .bind(to: idDescriptionLabel.rx.textColor)
             .disposed(by: disposeBag)
         
         reactor.pulse(\.password.$statusText)
+            .do(afterNext: { [weak self] str in
+                self?.view.flex.layout()
+            })
             .bind(to: passwordDescriptionLabel.rx.text)
             .disposed(by: disposeBag)
         reactor.pulse(\.password.$status).map({$0.toUIColor()})
+            .do(afterNext: { [weak self] str in
+                self?.view.flex.layout()
+            })
             .bind(to: passwordDescriptionLabel.rx.textColor)
             .disposed(by: disposeBag)
         
         reactor.pulse(\.password.$confirmStatusText)
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
             .bind(to: passwordConfirmDescriptionLabel.rx.text)
             .disposed(by: disposeBag)
         reactor.pulse(\.password.$confirmStatus).map({$0.toUIColor()})
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
             .bind(to: passwordConfirmDescriptionLabel.rx.textColor)
             .disposed(by: disposeBag)
         
         reactor.pulse(\.email.$statusText)
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
             .bind(to: emailDescriptionLabel.rx.text)
             .disposed(by: disposeBag)
         reactor.pulse(\.email.$status).map({$0.toUIColor()})
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
+            .bind(to: emailDescriptionLabel.rx.textColor)
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.nickname.$statusText)
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
+            .bind(to: nicknameDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+        reactor.pulse(\.nickname.$status).map({$0.toUIColor()})
+            .do(afterNext: { [weak self] _ in self?.view.flex.layout() })
             .bind(to: nicknameDescriptionLabel.rx.textColor)
             .disposed(by: disposeBag)
     }
@@ -258,10 +279,10 @@ extension SignInFormViewController: UIScrollViewDelegate {
 extension SignInFormReactor.TextFieldStatus {
     func toUIColor() -> UIColor {
         switch self {
-        case .warning: return UIColor.systemYellow.withAlphaComponent(0.5)
-        case .error: return UIColor.systemRed.withAlphaComponent(0.5)
-        case .fine: return UIColor.systemGreen.withAlphaComponent(0.5)
-        case .none: return UIColor.label.withAlphaComponent(0.5)
+        case .warning: return UIColor.systemYellow.withAlphaComponent(0.8)
+        case .error: return UIColor.systemRed.withAlphaComponent(0.8)
+        case .fine: return UIColor.systemGreen.withAlphaComponent(0.8)
+        case .none: return UIColor.label.withAlphaComponent(0.8)
         }
     }
 }

@@ -13,6 +13,7 @@ enum SignInError: Error {
     case emailError
     case nicknameError
     case unknownError
+    case urlError
     
     static func getError(from index: Int) -> SignInError {
         switch index {

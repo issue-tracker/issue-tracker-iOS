@@ -10,9 +10,14 @@ import ReactorKit
 class SignInFormReactor: Reactor {
     var initialState: State = State.init(id: .init(), password: .init(), email: .init(), nickname: .init())
     
-    private let model: SignInFormModel? = {
+    private let signInModel: SignInFormModel? = {
         guard let url = URL.apiURL else { return nil }
         return SignInFormModel(url)
+    }()
+    
+    private let inputCheckModel: SignInInputCheckModel? = {
+        guard let url = URL.membersApiURL else { return nil }
+        return SignInInputCheckModel(url)
     }()
     
     enum TextFieldStatus {
@@ -78,70 +83,99 @@ class SignInFormReactor: Reactor {
     
     // MARK: - Methods
     func mutate(action: Action) -> Observable<Mutation> {
-        guard let model else { return .empty() }
-        
         switch action {
             
         case .checkIdTextField(let id):
+            guard let model = inputCheckModel else { return .empty() }
             return model
                 .requestCheck(text: id, for: \State.id)
                 .map({
+                    var resultStatus: TextFieldStatus = $0.0.isSuccess ? .fine : .error
+                    if id.count < 8 {
+                        resultStatus = .warning
+                    }
                     
-                    let state = IDState(text: id, status: $0.result ? .fine : .error, statusText: $0.message)
+                    let state = IDState(text: id, status: resultStatus, statusText: $0.1)
                     return Mutation.checkIdTextField(state)
                 })
             
         case .checkPasswordTextField(let password):
-            return model
-                .requestCheck(text: password, for: \State.password)
-                .map({
+            return Observable<Mutation>
+                .create({ observer in
+                    var status: TextFieldStatus = .error
+                    var message = ""
+                    
+                    if password.count < 8 {
+                        status = .warning
+                        message = "8자 이상 입력해주시기 바랍니다."
+                    } else if password.contains(where: {Int(String($0)) != nil}) == false {
+                        status = .error
+                        message = "숫자가 포함되어 있지 않습니다."
+                    }
                     
                     let state = PasswordState(
                         text: password,
-                        status: $0.result ? .fine : .error,
-                        statusText: $0.message)
-                    return Mutation.checkPasswordTextField(state)
+                        status: status,
+                        statusText: message)
+                    
+                    observer.onNext(Mutation.checkPasswordTextField(state))
+                    return Disposables.create()
                 })
             
         case .checkPasswordConfirmTextField(let password):
             return Observable<Mutation>
                 .create({ observer in
                     
-                    let result = (password == self.currentState.password.text)
+                    let status: TextFieldStatus = (password == self.currentState.password.text) ? .fine : .warning
+                    let message = status == .fine ? "이상이 발견되지 않았습니다." : "비밀번호가 일치하지 않습니다."
+                    
                     let state = PasswordState(
                         text: password,
-                        confirmStatus: result ? .none : .error,
-                        confirmStatusText: self.currentState.password.statusText)
+                        confirmStatus: status,
+                        confirmStatusText: message)
                     
                     observer.onNext(Mutation.checkPasswordConfirmTextField(state))
                     return Disposables.create()
                 })
             
         case .checkEmailTextField(let email):
+            guard let model = inputCheckModel else { return .empty() }
             return model
                 .requestCheck(text: email, for: \State.email)
                 .map({
                     
+                    var resultStatus: TextFieldStatus = $0.0.isSuccess ? .fine : .error
+                    if email.contains(where: {String($0) == "@" || String($0) == "."}) == false {
+                        resultStatus = .warning
+                    }
+                    
                     let state = EmailState(
                         text: email,
-                        status: $0.result ? .fine : .error,
-                        statusText: $0.message)
+                        status: resultStatus,
+                        statusText: $0.1)
                     return Mutation.checkEmailTextField(state)
                 })
             
         case .checkNicknameTextField(let nickname):
+            guard let model = inputCheckModel else { return .empty() }
             return model
                 .requestCheck(text: nickname, for: \State.nickname)
                 .map({
                     
+                    var resultStatus: TextFieldStatus = $0.0.isSuccess ? .fine : .error
+                    if nickname.count >= 4 {
+                        resultStatus = .warning
+                    }
+                    
                     let state = NicknameState(
                         text: nickname,
-                        status: $0.result ? .fine : .error,
-                        statusText: $0.message)
+                        status: resultStatus,
+                        statusText: $0.1)
                     return Mutation.checkNicknameTextField(state)
                 })
             
         case .requestSignIn:
+            guard let model = signInModel else { return .empty() }
             let allStatus: [TextFieldStatus] = [
                 currentState.id.status,
                 currentState.password.status,
@@ -163,7 +197,7 @@ class SignInFormReactor: Reactor {
             ]
             
             return model.requestSignIn(body).map({
-                return $0.result ? Mutation.signInSuccess($0.message) : Mutation.signInFailure($0.message)
+                return $0.0.isSuccess ? Mutation.signInSuccess($0.1) : Mutation.signInFailure($0.1)
             })
         }
     }
@@ -183,7 +217,7 @@ class SignInFormReactor: Reactor {
             newState.password.statusText = state.statusText
         case .checkPasswordConfirmTextField(let state):
             newState.password.confirmStatus = state.confirmStatus
-            newState.password.statusText = state.statusText
+            newState.password.confirmStatusText = state.confirmStatusText
         case .checkEmailTextField(let state):
             newState.email.text = state.text
             newState.email.status = state.status

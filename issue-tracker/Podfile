@@ -18,7 +18,7 @@ target 'issue-tracker' do
   end
   
   target 'issue-trackerUITests' do
-    inherit! :search_paths
+    inherit! :complete
   end
   
 end

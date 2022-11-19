@@ -25,7 +25,7 @@ class issue_trackerUITests: XCTestCase {
         issue_trackerUITests_Login(app: app).doFunctionTest()
     }
     
-    func test_SignIn() throws { // SignInFormViewController -> MaiinListViewController
+    func test_SignIn() throws { // SignInFormViewController -> LoginViewController
         issue_trackerUITests_SignIn(app: app).doVisibleTest()
         issue_trackerUITests_SignIn(app: app).doFunctionTest()
     }

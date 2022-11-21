@@ -180,6 +180,18 @@ class SignInFormViewController: CommonProxyViewController, View {
                 })
                 .disposed(by: disposeBag)
         }
+        
+        reactor.pulse(\.$signInMessage).skip(1)
+            .subscribe(onNext: { [weak self] message in
+                self?.commonAlert(message, handler: { [weak self] _ in
+                    guard let allStatus = self?.reactor?.currentState.allStatus else { return }
+                    
+                    if allStatus.count == allStatus.filter({$0 == .fine}).count {
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                })
+            })
+            .disposed(by: disposeBag)
     }
 }
 

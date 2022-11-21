@@ -43,6 +43,10 @@ class SignInFormReactor: Reactor {
         var nickname: NicknameState
         
         @Pulse var signInMessage: String = ""
+        
+        var allStatus: [TextFieldStatus] {
+            [id.status, password.status, password.confirmStatus, email.status, nickname.status]
+        }
     }
     
     struct IDState {
@@ -175,17 +179,14 @@ class SignInFormReactor: Reactor {
                 })
             
         case .requestSignIn:
-            guard let model = signInModel else { return .empty() }
-            let allStatus: [TextFieldStatus] = [
-                currentState.id.status,
-                currentState.password.status,
-                currentState.password.confirmStatus,
-                currentState.email.status,
-                currentState.nickname.status
-            ]
+            guard let model = signInModel else {
+                return Observable.error(SignInError.unknownError)
+            }
             
-            if let suspiciousIndex = allStatus.firstIndex(where: { $0 == .none || $0 == .error }) {
-                return Observable.error(SignInError.getError(from: suspiciousIndex))
+            if let suspiciousIndex = currentState.allStatus.firstIndex(where: { $0 == .none || $0 == .error }) {
+                return Observable<Mutation>.just(
+                    Mutation.signInFailure(SignInError.getErrorMessage(from: suspiciousIndex))
+                )
             }
             
             let body: [String: String] = [

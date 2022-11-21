@@ -173,7 +173,7 @@ class SignInFormViewController: CommonProxyViewController, View {
             Observable.zip(reactor.pulse(\.email.$statusText), reactor.pulse(\.email.$status).map({$0.toUIColor()})),
             Observable.zip(reactor.pulse(\.nickname.$statusText), reactor.pulse(\.nickname.$status).map({$0.toUIColor()}))
         ].enumerated().forEach { (index: Int, observable: Observable<(String, UIColor)>) in
-            observable
+            observable.observe(on: MainScheduler.instance)
                 .bind(onNext: { [weak self] (text: String, color: UIColor) in
                     self?.allDescriptionLabels[index].text = text
                     self?.allDescriptionLabels[index].textColor = color

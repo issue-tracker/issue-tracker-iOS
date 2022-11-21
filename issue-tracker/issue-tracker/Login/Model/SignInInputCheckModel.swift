@@ -20,7 +20,8 @@ class SignInInputCheckModel: RequestHTTPModel {
         }
         
         return requestObservableWithResponse(pathArray: pathArray)
-            .delay(.seconds(2), scheduler: ConcurrentMainScheduler.instance)
+            .buffer(timeSpan: .seconds(2), count: 1, scheduler: ConcurrentMainScheduler.instance)
+            .compactMap({return $0.first})
             .map { (response: HTTPURLResponse, data: Data) -> (HTTPURLResponse, String) in
                 let validationSuccess = HTTPResponseModel().getDecoded(from: data, as: Bool.self) ?? false
                 return (

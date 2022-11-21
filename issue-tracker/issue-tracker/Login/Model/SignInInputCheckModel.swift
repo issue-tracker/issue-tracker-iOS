@@ -8,6 +8,18 @@
 import RxSwift
 
 class SignInInputCheckModel: RequestHTTPModel {
+    
+    /// Observable that request check API references this value when buffer inputs. Precisely, it used in buffer operator.
+    private(set) var bufferSeconds: Int = 2
+    
+    convenience init(_ baseURL: URL, bufferSeconds: Int) {
+        self.init(baseURL)
+        
+        if bufferSeconds > 0 {
+            self.bufferSeconds = bufferSeconds
+        }
+    }
+    
     func requestCheck(text: String, for keyPath: PartialKeyPath<SignInFormReactor.State>) -> Observable<(HTTPURLResponse, String)> {
         var pathArray = [String]()
         
@@ -20,7 +32,7 @@ class SignInInputCheckModel: RequestHTTPModel {
         }
         
         return requestObservableWithResponse(pathArray: pathArray)
-            .buffer(timeSpan: .seconds(2), count: 1, scheduler: ConcurrentMainScheduler.instance)
+            .buffer(timeSpan: .seconds(bufferSeconds), count: 1, scheduler: ConcurrentMainScheduler.instance)
             .compactMap({return $0.first})
             .map { (response: HTTPURLResponse, data: Data) -> (HTTPURLResponse, String) in
                 let validationSuccess = HTTPResponseModel().getDecoded(from: data, as: Bool.self) ?? false

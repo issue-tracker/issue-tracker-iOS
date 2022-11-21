@@ -17,7 +17,7 @@ class SignInFormReactor: Reactor {
     
     private let inputCheckModel: SignInInputCheckModel? = {
         guard let url = URL.membersApiURL else { return nil }
-        return SignInInputCheckModel(url)
+        return SignInInputCheckModel(url, bufferSeconds: 2)
     }()
     
     enum TextFieldStatus {

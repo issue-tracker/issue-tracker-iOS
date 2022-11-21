@@ -20,7 +20,7 @@ class SignInInputCheckModel: RequestHTTPModel {
         }
     }
     
-    func requestCheck(text: String, for keyPath: PartialKeyPath<SignInFormReactor.State>) -> Observable<(HTTPURLResponse, String)> {
+    func requestCheck(text: String, for keyPath: PartialKeyPath<SignInFormReactor.State>) -> Observable<(response: HTTPURLResponse, isDuplicate: Bool)> {
         var pathArray = [String]()
         
         if keyPath == \.id {
@@ -34,11 +34,10 @@ class SignInInputCheckModel: RequestHTTPModel {
         return requestObservableWithResponse(pathArray: pathArray)
             .buffer(timeSpan: .seconds(bufferSeconds), count: 1, scheduler: ConcurrentMainScheduler.instance)
             .compactMap({return $0.first})
-            .map { (response: HTTPURLResponse, data: Data) -> (HTTPURLResponse, String) in
-                let validationSuccess = HTTPResponseModel().getDecoded(from: data, as: Bool.self) ?? false
+            .map { (response: HTTPURLResponse, data: Data) -> (response: HTTPURLResponse, isDuplicate: Bool) in
                 return (
-                    response,
-                    (validationSuccess ? "이상이 발견되지 않았습니다." : "입력값을 다시 확인해주시기 바랍니다.")
+                    response: response,
+                    isDuplicate: HTTPResponseModel().getDecoded(from: data, as: Bool.self) ?? false
                 )
             }
     }

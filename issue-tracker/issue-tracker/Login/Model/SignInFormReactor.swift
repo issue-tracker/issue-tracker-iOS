@@ -20,6 +20,8 @@ class SignInFormReactor: Reactor {
         return SignInInputCheckModel(url, bufferSeconds: 2)
     }()
     
+    private let inputValidationModel = SignInValidationModel()
+    
     enum TextFieldStatus {
         case warning
         case error
@@ -93,111 +95,100 @@ class SignInFormReactor: Reactor {
             guard let model = inputCheckModel else { return .empty() }
             return model
                 .requestCheck(text: id, for: \State.id)
-                .map({
-                    var resultStatus: TextFieldStatus = $0.0.isSuccess ? .fine : .error
-                    if id.count < 8 {
-                        resultStatus = .warning
-                    }
+                .compactMap({ [weak self] result in
+                    guard let self else { return nil }
                     
-                    let state = IDState(text: id, status: resultStatus, statusText: $0.1)
-                    return Mutation.checkIdTextField(state)
+                    return Mutation.checkIdTextField(
+                        self.inputValidationModel.checkID(
+                            requestResult: result.response.isSuccess,
+                            id: id,
+                            isDuplicate: result.isDuplicate
+                        )
+                    )
                 })
             
         case .checkPasswordTextField(let password):
             return Observable<Mutation>
-                .create({ observer in
-                    var status: TextFieldStatus = .error
-                    var message = ""
-                    
-                    if password.count < 8 {
-                        status = .warning
-                        message = "8자 이상 입력해주시기 바랍니다."
-                    } else if password.contains(where: {Int(String($0)) != nil}) == false {
-                        status = .error
-                        message = "숫자가 포함되어 있지 않습니다."
+                .create({ [weak self] observer in
+                    let disposables = Disposables.create()
+                    guard let self else { observer.onError(SignInError.unknownError)
+                        return disposables
                     }
                     
-                    let state = PasswordState(
-                        text: password,
-                        status: status,
-                        statusText: message)
-                    
-                    observer.onNext(Mutation.checkPasswordTextField(state))
-                    return Disposables.create()
+                    observer.onNext(Mutation.checkPasswordTextField(
+                        self.inputValidationModel.checkPassword(password: password)
+                    ))
+                    return disposables
                 })
             
         case .checkPasswordConfirmTextField(let password):
             return Observable<Mutation>
-                .create({ observer in
+                .create({ [weak self] observer in
+                    let disposables = Disposables.create()
+                    guard let self else { observer.onError(SignInError.unknownError)
+                        return disposables
+                    }
                     
-                    let status: TextFieldStatus = (password == self.currentState.password.text) ? .fine : .warning
-                    let message = status == .fine ? "이상이 발견되지 않았습니다." : "비밀번호가 일치하지 않습니다."
+                    observer.onNext(Mutation.checkPasswordConfirmTextField(
+                        self.inputValidationModel.checkConfirmPassword(
+                            password: self.currentState.password.text,
+                            confirmPassword: password
+                        )
+                    ))
                     
-                    let state = PasswordState(
-                        text: password,
-                        confirmStatus: status,
-                        confirmStatusText: message)
-                    
-                    observer.onNext(Mutation.checkPasswordConfirmTextField(state))
-                    return Disposables.create()
+                    return disposables
                 })
             
         case .checkEmailTextField(let email):
             guard let model = inputCheckModel else { return .empty() }
             return model
                 .requestCheck(text: email, for: \State.email)
-                .map({
+                .compactMap({ [weak self] result in
+                    guard let self else { return nil }
                     
-                    var resultStatus: TextFieldStatus = $0.0.isSuccess ? .fine : .error
-                    if email.contains(where: {String($0) == "@" || String($0) == "."}) == false {
-                        resultStatus = .warning
-                    }
-                    
-                    let state = EmailState(
-                        text: email,
-                        status: resultStatus,
-                        statusText: $0.1)
-                    return Mutation.checkEmailTextField(state)
+                    return Mutation.checkEmailTextField(
+                        self.inputValidationModel.checkEmail(
+                            requestResult: result.response.isSuccess,
+                            email: email,
+                            isDuplicate: result.isDuplicate
+                        )
+                    )
                 })
             
         case .checkNicknameTextField(let nickname):
             guard let model = inputCheckModel else { return .empty() }
             return model
                 .requestCheck(text: nickname, for: \State.nickname)
-                .map({
+                .compactMap({ [weak self] result in
+                    guard let self else { return nil }
                     
-                    var resultStatus: TextFieldStatus = $0.0.isSuccess ? .fine : .error
-                    if nickname.count >= 4 {
-                        resultStatus = .warning
-                    }
-                    
-                    let state = NicknameState(
-                        text: nickname,
-                        status: resultStatus,
-                        statusText: $0.1)
-                    return Mutation.checkNicknameTextField(state)
+                    return Mutation.checkNicknameTextField(
+                        self.inputValidationModel.checkNickname(
+                            requestResult: result.response.isSuccess,
+                            nickname: nickname,
+                            isDuplicate: result.isDuplicate
+                        )
+                    )
                 })
             
         case .requestSignIn:
-            guard let model = signInModel else {
-                return Observable.error(SignInError.unknownError)
-            }
-            
-            if let suspiciousIndex = currentState.allStatus.firstIndex(where: { $0 == .none || $0 == .error }) {
+            if let suspiciousIndex = inputValidationModel.checkRequestEnabled(currentState) {
                 return Observable<Mutation>.just(
                     Mutation.signInFailure(SignInError.getErrorMessage(from: suspiciousIndex))
                 )
             }
             
-            let body: [String: String] = [
+            guard let model = signInModel else {
+                return Observable.error(SignInError.unknownError)
+            }
+            
+            return model.requestSignIn([
                 "signInId": currentState.id.text,
                 "password": currentState.password.text,
                 "email": currentState.email.text,
                 "nickname": currentState.nickname.text,
                 "profileImage": ""
-            ]
-            
-            return model.requestSignIn(body).map({
+            ]).map({
                 return $0.0.isSuccess ? Mutation.signInSuccess($0.1) : Mutation.signInFailure($0.1)
             })
         }

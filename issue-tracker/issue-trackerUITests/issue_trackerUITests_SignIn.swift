@@ -39,6 +39,7 @@ class issue_trackerUITests_SignIn: CommonTestCase {
     override func doFunctionTest() {
         
         self.prepareEachTest()
+        let cases = SignInCases()
         
         let idField = app.textFields.element(boundBy: 0)
         let passwordField = app.secureTextFields.element(boundBy: 0)
@@ -46,31 +47,75 @@ class issue_trackerUITests_SignIn: CommonTestCase {
         let emailField = app.textFields.element(boundBy: 1)
         let nicknameField = app.textFields.element(boundBy: 2)
         
+        // MARK: - Failable Tests
+        
         idField.tap()
-        idField.typeText("testios")
         
-        passwordField.tap()
-        passwordField.typeText("12341234")
+        for id in cases.idTestFailableCases {
+            idField.clearAndEnterText(id)
+        }
         
-        passwordConfirmedField.tap()
-        passwordConfirmedField.typeText("12341234")
+        for (index, password) in cases.passwordFailableCases.enumerated() {
+            passwordField.tap()
+            passwordField.clearAndEnterText(cases.passwordSuccessCases[index])
+            passwordConfirmedField.tap()
+            passwordConfirmedField.clearAndEnterText(password)
+        }
         
         app.scrollViews.element.swipeUp()
         
-        guard emailField.waitForExistence(timeout: 2.0) else {
-            XCTFail("[Error] emailField not exists")
-            return
-        }
         emailField.tap()
-        emailField.typeText("testios@gmail.com")
-        
-        guard nicknameField.waitForExistence(timeout: 2.0) else {
-            XCTFail("[Error] nicknameField not exists")
-            return
+        for email in cases.emailFailableCases {
+            emailField.clearAndEnterText(email)
         }
+        
         nicknameField.tap()
-        nicknameField.typeText("테스트아이오에스")
+        for nickname in cases.nicknameFailableCases {
+            nicknameField.clearAndEnterText(nickname)
+        }
+        nicknameField.typeText("\n")
+        
+        // MARK: - Success Tests
+        
+        app.scrollViews.element.swipeDown()
+        
+        idField.tap()
+        idField.clearAndEnterText("testios")
+
+        passwordField.tap()
+        passwordField.clearAndEnterText("12341234")
+
+        passwordConfirmedField.tap()
+        passwordConfirmedField.clearAndEnterText("12341234")
+        
+        app.scrollViews.element.swipeUp()
+        
+        emailField.tap()
+        emailField.clearAndEnterText("testios@gmail.com")
+
+        nicknameField.tap()
+        nicknameField.clearAndEnterText("테스트아이오에스")
         
         app.descendants(matching: .button)["가입하기"].tap()
+    }
+}
+
+extension XCUIElement {
+    /**
+     Removes any current text in the field before typing in the new value
+     - Parameter text: the text to enter into the field
+     */
+    func clearAndEnterText(_ text: String) {
+        guard let stringValue = self.value as? String else {
+            XCTFail("Tried to clear and enter text into a non string value")
+            return
+        }
+
+        self.tap()
+
+        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: stringValue.count)
+
+        self.typeText(deleteString)
+        self.typeText(text)
     }
 }

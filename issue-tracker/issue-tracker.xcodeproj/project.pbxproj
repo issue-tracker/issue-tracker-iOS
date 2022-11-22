@@ -17,6 +17,15 @@
 		1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */; };
 		1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08088628979768001704C2 /* SignInFormViewController.swift */; };
 		1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B080888289809E6001704C2 /* UIScrollView+Extension.swift */; };
+		1B161202292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B161201292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift */; };
+		1B161205292C6F4B00B31347 /* SignInFormReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AC2925B5A60034400F /* SignInFormReactor.swift */; };
+		1B161207292C6F4F00B31347 /* SignInFormModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AA2925B59F0034400F /* SignInFormModel.swift */; };
+		1B161208292C6F5600B31347 /* SignInInputCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FD16629274B43001179C6 /* SignInInputCheckModel.swift */; };
+		1B16120A292C6F7700B31347 /* SignInValidationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5DBBD0292B772C00B2C97A /* SignInValidationModel.swift */; };
+		1B16120B292C6F8600B31347 /* SignInError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AE2925C2AF0034400F /* SignInError.swift */; };
+		1B16120C292C6FBE00B31347 /* HTTPURLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FD16829274F9C001179C6 /* HTTPURLResponse+Extensions.swift */; };
+		1B161223292C8E9D00B31347 /* issue_tracker_SignInCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B161221292C8E8F00B31347 /* issue_tracker_SignInCases.swift */; };
+		1B161224292C8E9E00B31347 /* issue_tracker_SignInCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B161221292C8E8F00B31347 /* issue_tracker_SignInCases.swift */; };
 		1B1E28DD28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */; };
 		1B1E28E028C7062700B91A6A /* ViewBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB728892F0F00432728 /* ViewBinding.swift */; };
 		1B1E28E128C7063000B91A6A /* ViewBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB528892F0B00432728 /* ViewBindable.swift */; };
@@ -88,7 +97,7 @@
 		1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */; };
 		1B5DBBD1292B772C00B2C97A /* SignInValidationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5DBBD0292B772C00B2C97A /* SignInValidationModel.swift */; };
 		1B69A8FC28EB2270001C6720 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A8FB28EB2270001C6720 /* Int+Extensions.swift */; };
-		1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift */; };
+		1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift */; };
 		1B69A8FF28EBDC02001C6720 /* LoginRequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */; };
 		1B69A90028EBDF24001C6720 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A8FB28EB2270001C6720 /* Int+Extensions.swift */; };
 		1B69A90228EC0849001C6720 /* HTTPCookieStorage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90128EC0849001C6720 /* HTTPCookieStorage+Extensions.swift */; };
@@ -219,6 +228,8 @@
 		1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		1B08088628979768001704C2 /* SignInFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormViewController.swift; sourceTree = "<group>"; };
 		1B080888289809E6001704C2 /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
+		1B161201292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_SignIn.swift; sourceTree = "<group>"; };
+		1B161221292C8E8F00B31347 /* issue_tracker_SignInCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_tracker_SignInCases.swift; sourceTree = "<group>"; };
 		1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_SignIn.swift; sourceTree = "<group>"; };
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestHTTPModel.swift; sourceTree = "<group>"; };
@@ -274,7 +285,7 @@
 		1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPTimerModel.swift; sourceTree = "<group>"; };
 		1B5DBBD0292B772C00B2C97A /* SignInValidationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInValidationModel.swift; sourceTree = "<group>"; };
 		1B69A8FB28EB2270001C6720 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
-		1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_LoginSignIn.swift; sourceTree = "<group>"; };
+		1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_Login.swift; sourceTree = "<group>"; };
 		1B69A90128EC0849001C6720 /* HTTPCookieStorage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPCookieStorage+Extensions.swift"; sourceTree = "<group>"; };
 		1B69A90428EECDE0001C6720 /* SettingMainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMainModel.swift; sourceTree = "<group>"; };
 		1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueListViewController.swift; sourceTree = "<group>"; };
@@ -410,6 +421,14 @@
 			path = configs;
 			sourceTree = "<group>";
 		};
+		1B161220292C8E6700B31347 /* issue-trackerTestCases */ = {
+			isa = PBXGroup;
+			children = (
+				1B161221292C8E8F00B31347 /* issue_tracker_SignInCases.swift */,
+			);
+			path = "issue-trackerTestCases";
+			sourceTree = "<group>";
+		};
 		1B20F79B288FA33E004EBE9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,6 +539,7 @@
 				1B3C0647287BDD15006A36CF /* issue-tracker */,
 				1B89AF4828A0D4EF0057C6D5 /* issue-trackerUnitTest */,
 				1B89AF5528A0D4FC0057C6D5 /* issue-trackerUITests */,
+				1B161220292C8E6700B31347 /* issue-trackerTestCases */,
 				1B3C0646287BDD15006A36CF /* Products */,
 				440D177E0B9EC4919A60E539 /* Pods */,
 				0865C75B7B73CD71BC1A0302 /* Frameworks */,
@@ -692,7 +712,8 @@
 			isa = PBXGroup;
 			children = (
 				1B89AF4928A0D4EF0057C6D5 /* issue_trackerUnitTest.swift */,
-				1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift */,
+				1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift */,
+				1B161201292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift */,
 				1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */,
 			);
 			path = "issue-trackerUnitTest";
@@ -1249,14 +1270,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B161205292C6F4B00B31347 /* SignInFormReactor.swift in Sources */,
 				1BD125D128D1EA2D0050F2D1 /* IssueListAuthor.swift in Sources */,
 				1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */,
 				1B69A90028EBDF24001C6720 /* Int+Extensions.swift in Sources */,
 				1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */,
 				1B4F489C28A4E2ED00C4B33A /* CommonProxyViewController.swift in Sources */,
+				1B16120C292C6FBE00B31347 /* HTTPURLResponse+Extensions.swift in Sources */,
 				1BD125D628D1EA9D0050F2D1 /* IssueAssignee.swift in Sources */,
 				1B4F489528A4E1FF00C4B33A /* MainViewRequestModel.swift in Sources */,
 				1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */,
+				1B161202292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift in Sources */,
+				1B161223292C8E9D00B31347 /* issue_tracker_SignInCases.swift in Sources */,
 				1BCAB8BB2918709000ED2F82 /* IssueEditReactor.swift in Sources */,
 				1B4F489F28A4E32000C4B33A /* SettingProxyViewController.swift in Sources */,
 				1B03E7A928BFA71B0006FADD /* MainViewSingleRequestModel.swift in Sources */,
@@ -1269,20 +1294,24 @@
 				1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
 				1B4F488F28A49F3300C4B33A /* Testable.swift in Sources */,
+				1B16120B292C6F8600B31347 /* SignInError.swift in Sources */,
 				1B50EC2828D063CA005E5B82 /* IssueDetailViewModel.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
+				1B161208292C6F5600B31347 /* SignInInputCheckModel.swift in Sources */,
 				1BF36D7828DC45970033DF2A /* IssueHistories.swift in Sources */,
 				1B4F489728A4E2B500C4B33A /* ViewBindable.swift in Sources */,
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
 				1BD1C5BA291A2DB000AEA74F /* MainListReactorError.swift in Sources */,
 				1B4F489928A4E2BB00C4B33A /* ViewBinding.swift in Sources */,
-				1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_LoginSignIn.swift in Sources */,
+				1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift in Sources */,
 				1B37890B28F975FC00A2DF39 /* SettingMenuKeys.swift in Sources */,
 				1B69A90328EC08FD001C6720 /* HTTPCookieStorage+Extensions.swift in Sources */,
 				1BF1D0DA28BF685C00393294 /* MilestoneListEntity.swift in Sources */,
+				1B16120A292C6F7700B31347 /* SignInValidationModel.swift in Sources */,
 				1BD125B228D1E1A90050F2D1 /* UIScrollView+Extension.swift in Sources */,
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
 				1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */,
+				1B161207292C6F4F00B31347 /* SignInFormModel.swift in Sources */,
 				1B4F48A728A52CDE00C4B33A /* UIView+Extension.swift in Sources */,
 				1BE71C8329179D96002F1A61 /* IssueAddRemoveModel.swift in Sources */,
 				1BD125D228D1EA320050F2D1 /* IssueListComment.swift in Sources */,
@@ -1299,6 +1328,7 @@
 				1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */,
 				1B50EC2D28D19D6E005E5B82 /* issue_trackerUITests_IssueDetail.swift in Sources */,
 				1B89AF5728A0D4FC0057C6D5 /* issue_trackerUITests.swift in Sources */,
+				1B161224292C8E9E00B31347 /* issue_tracker_SignInCases.swift in Sources */,
 				1B1E28E028C7062700B91A6A /* ViewBinding.swift in Sources */,
 				1B03E7BD28C1F1950006FADD /* issue_trackerUITests_MainView.swift in Sources */,
 				1BD125C428D1E40C0050F2D1 /* UIView+Extension.swift in Sources */,

@@ -8,7 +8,7 @@
 import XCTest
 import RxSwift
 
-class issue_trackerUnitTest_LoginSignIn: XCTestCase {
+class issue_trackerUnitTest_Login: XCTestCase {
     
     let disposeBag = DisposeBag()
     let model = LoginRequestHTTPModel(URL.apiURL ?? URL(string: ""))

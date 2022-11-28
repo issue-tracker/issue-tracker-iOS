@@ -37,7 +37,7 @@ class CommonTextField: UITextField, ViewBindable {
     private var hideNotification: NSObjectProtocol?
     
     private var topMostView: UIView? {
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.topViewController?.view
+        SceneDelegate.shared?.topViewController?.view
     }
     
     /// keyboard 에 의해 자신이 가려질지 확인.
@@ -157,14 +157,6 @@ class CommonTextField: UITextField, ViewBindable {
                 topMostView.bounds.origin.y = 0
             }
         }
-    }
-    
-    func toRequestType(url: URL?, optionalTrailingPath: String? = nil) -> RequestTextField {
-        let textField = RequestTextField(frame: frame, input: keyboardType, placeholder: placeholder, markerType: markerType)
-        textField.requestURL = url
-        textField.delegate = textField
-        textField.optionalTrailingPath = optionalTrailingPath
-        return textField
     }
     
     override func layoutSubviews() {

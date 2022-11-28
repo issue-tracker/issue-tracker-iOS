@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingTableViewCell: UITableViewCell, SettingCategoryAcceptable {
+class SettingTableViewCell: UITableViewCell, CellEntityAdaptable {
     var index: Int = -1
     let customBackgroundView = UIView()
     let label = CommonLabel(fontMultiplier: 1.45)

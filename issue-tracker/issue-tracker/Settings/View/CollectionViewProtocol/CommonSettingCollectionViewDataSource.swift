@@ -9,7 +9,7 @@ import UIKit
 import RxRelay
 import RxSwift
 
-class CommonSettingCollectionViewDataSource<Item: SettingItem & Codable, Cell: UICollectionViewCell & SettingItemAcceptable>: NSObject, UICollectionViewDataSource {
+class CommonSettingCollectionViewDataSource<Item: SettingItemClickable & Codable, Cell: UICollectionViewCell & CellEntityAdaptable>: NSObject, UICollectionViewDataSource {
     
     private var persistentKey: PersistentKey?
     private var model: SettingIssueListModel<Item>?

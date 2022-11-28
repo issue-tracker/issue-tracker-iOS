@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class SettingIssueListModel<Item: SettingItem & Codable> {
+final class SettingIssueListModel<Item: SettingItemClickable & Codable> {
     private var keyType: PersistentKey?
     
     private var issueListCases: [Item] = []
@@ -76,7 +76,7 @@ final class SettingIssueListModel<Item: SettingItem & Codable> {
     }
 }
 
-extension SettingIssueListModel where Item: SettingItem & Codable {
+extension SettingIssueListModel where Item: SettingItemClickable & Codable {
     func decoded(_ data: Data) -> [Item] {
         (try? JSONDecoder().decode([Item].self, from: data)) ?? []
     }
@@ -86,7 +86,7 @@ extension SettingIssueListModel where Item: SettingItem & Codable {
     }
 }
 
-struct SettingIssueList: Codable, SettingItem {
+struct SettingIssueList: Codable, SettingItemClickable {
     var title: String
     var imageURL: URL?
     var isActivated: Bool

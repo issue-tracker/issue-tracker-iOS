@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingTableViewDataSource<Cell: UITableViewCell & SettingCategoryAcceptable>: NSObject, UITableViewDataSource {
+class SettingTableViewDataSource<Cell: UITableViewCell & CellEntityAdaptable>: NSObject, UITableViewDataSource {
     
     private let model: SettingMainModel
     

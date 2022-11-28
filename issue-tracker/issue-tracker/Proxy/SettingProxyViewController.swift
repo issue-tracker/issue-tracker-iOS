@@ -16,13 +16,13 @@ class SettingProxyViewController: UIViewController {
         + MilestoneSettings.allCases.map({$0.getPersistentKey()})
     }
     
-    var settingValues = [String: [SettingItem]]()
+    var settingValues = [String: [SettingItemClickable]]()
     
     func callSetting() {
         settingValues.removeAll()
         
         settingKeys.forEach { key in
-            settingValues[key] = (UserDefaults.standard.value(forKey: key) as? [SettingItem]) ?? []
+            settingValues[key] = (UserDefaults.standard.value(forKey: key) as? [SettingItemClickable]) ?? []
         }
     }
 }

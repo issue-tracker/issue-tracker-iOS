@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class CommonSettingCollectionViewDelegate<Item: SettingItem, Cell: UICollectionViewCell & SettingSelectable>: NSObject, UICollectionViewDelegate {
+class CommonSettingCollectionViewDelegate<Item: SettingItemClickable, Cell: UICollectionViewCell & SettingSelectable>: NSObject, UICollectionViewDelegate {
     
     var selectItemHandler: ((Observable<(index: Int, value: Any)>)->Void)?
     

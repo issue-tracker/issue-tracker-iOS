@@ -11,11 +11,13 @@ import FlexLayout
 import RxSwift
 import RxCocoa
 
-class SettingIssueCollectionViewCell: UICollectionViewCell, SettingItemAcceptable, SettingSelectable {
+class SettingIssueCollectionViewCell: UICollectionViewCell, CellEntityAdaptable, SettingSelectable {
     
     private(set) var radioButton = UISwitch()
     private let cellImageView = UIImageView()
     private let titleLabel = CommonLabel()
+    
+    typealias Entity = SettingItemClickable
     
     var index: Int = -1
     
@@ -64,7 +66,7 @@ class SettingIssueCollectionViewCell: UICollectionViewCell, SettingItemAcceptabl
     }
     
     // MARK: Implement SettingCellEntityAcceptable
-    func setEntity(_ entity: SettingItem, at index: Int = -1) {
+    func setEntity(_ entity: Entity, at index: Int = -1) {
         guard let entity = entity as? SettingIssueList else {
             return
         }

@@ -8,6 +8,21 @@
 import Foundation
 import CoreData
 
-class SettingMenuModel {
+class SettingMenuModel: CoreDataContext {
+    
     var items: [NSManagedObject] = []
+    
+    init() {
+        guard let managedContext else {
+            return
+        }
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "SettingItem")
+        
+        do {
+            self.items = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print(error)
+        }
+    }
 }

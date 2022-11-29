@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ItemActivated" representedClassName="ItemActivated" syncable="YES" codeGenerationType="class">
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="subTitle" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="value" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="ItemList" representedClassName="ItemList" syncable="YES" codeGenerationType="class">
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="subTitle" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="value" attributeType="Transformable" valueTransformerName="CategorisedSettingListsTransformable"/>
+    </entity>
+    <entity name="ItemValueColor" representedClassName="ItemValueColor" syncable="YES" codeGenerationType="class">
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="subTitle" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="value" optional="YES" attributeType="Transformable" valueTransformerName="ColorAttributeTransformer"/>
+    </entity>
+    <entity name="SettingItem" representedClassName="SettingItem" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="value" attributeType="Transformable" valueTransformerName="CategorisedSettingListsTransformable"/>
+    </entity>
+</model>

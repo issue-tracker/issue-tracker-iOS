@@ -22,7 +22,7 @@ protocol ListViewRepresentingStatus {
     var statusDescription: String? { get }
 }
 
-class MainListViewController: CommonProxyViewController {
+class MainListViewController: CommonProxyViewController, SettingProxyViewController {
     
     // Search field 에 관한 가이드라인
     // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
@@ -195,6 +195,10 @@ class MainListViewController: CommonProxyViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { $0?.removeFromSuperview() })
             .disposed(by: disposeBag)
+    }
+    
+    func callSetting() {
+        print("callSetting Complete")
     }
 }
 

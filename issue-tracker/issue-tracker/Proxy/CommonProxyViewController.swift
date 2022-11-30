@@ -7,14 +7,14 @@
 
 import UIKit
 
-class CommonProxyViewController: SettingProxyViewController {
+class CommonProxyViewController: UIViewController {
     
     private var resignKeyboardGesture: UIGestureRecognizer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        callSetting()
+        (self as? SettingProxyViewController)?.callSetting()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

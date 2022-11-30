@@ -24,6 +24,9 @@
 		1B0580C72934E92B0094140B /* ColorAttributedTransformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0580BB29349F8E0094140B /* ColorAttributedTransformable.swift */; };
 		1B0580C82934E92F0094140B /* CategorisedSettingListsTransformable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0580BD2934ADF60094140B /* CategorisedSettingListsTransformable.swift */; };
 		1B0580CA2934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0580C92934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift */; };
+		1B0580CE2935EE560094140B /* SettingMainListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0580CD2935EE560094140B /* SettingMainListModel.swift */; };
+		1B0580D2293722C50094140B /* SettingMainListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0580CD2935EE560094140B /* SettingMainListModel.swift */; };
+		1B0580D4293723B90094140B /* issue_trackerUnitTest_Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0580D3293723B90094140B /* issue_trackerUnitTest_Settings.swift */; };
 		1B0808832893E1B2001704C2 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
 		1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */; };
 		1B08088728979768001704C2 /* SignInFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08088628979768001704C2 /* SignInFormViewController.swift */; };
@@ -238,6 +241,8 @@
 		1B0580BF2934BD470094140B /* TransformableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformableHelper.swift; sourceTree = "<group>"; };
 		1B0580C12934C73C0094140B /* CheckDefaultCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDefaultCoreData.swift; sourceTree = "<group>"; };
 		1B0580C92934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_Persistent_Setting.swift; sourceTree = "<group>"; };
+		1B0580CD2935EE560094140B /* SettingMainListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMainListModel.swift; sourceTree = "<group>"; };
+		1B0580D3293723B90094140B /* issue_trackerUnitTest_Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUnitTest_Settings.swift; sourceTree = "<group>"; };
 		1B0808822893E1B2001704C2 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		1B0808842893E4B8001704C2 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 		1B08088628979768001704C2 /* SignInFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormViewController.swift; sourceTree = "<group>"; };
@@ -764,6 +769,7 @@
 				1B161201292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift */,
 				1BF1D0D728BE210300393294 /* issue_trackerUnitTest_Issue.swift */,
 				1B0580C92934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift */,
+				1B0580D3293723B90094140B /* issue_trackerUnitTest_Settings.swift */,
 			);
 			path = "issue-trackerUnitTest";
 			sourceTree = "<group>";
@@ -814,6 +820,7 @@
 		1B8E4AAB2889110E00432728 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				1B0580CD2935EE560094140B /* SettingMainListModel.swift */,
 				1B8E4AA92889110900432728 /* SettingsNavigationController.swift */,
 				1B1612742934940600B31347 /* CoreDataContext.swift */,
 				1B16126B29348D4200B31347 /* DataModel */,
@@ -1307,6 +1314,7 @@
 				1B5780AD2925B5A60034400F /* SignInFormReactor.swift in Sources */,
 				1BD125D828D1EF990050F2D1 /* IssueCommentReactorResponse.swift in Sources */,
 				1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */,
+				1B0580CE2935EE560094140B /* SettingMainListModel.swift in Sources */,
 				1B8B74492900D36F008380BF /* SettingIssueQueryItem.swift in Sources */,
 				1BF71602287C3B9F002B0253 /* LoginNavigationController.swift in Sources */,
 				1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */,
@@ -1342,6 +1350,7 @@
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1B69A8FF28EBDC02001C6720 /* LoginRequestHTTPModel.swift in Sources */,
 				1BD125D328D1EA4C0050F2D1 /* IssueCommentReactionsResponse.swift in Sources */,
+				1B0580D2293722C50094140B /* SettingMainListModel.swift in Sources */,
 				1BF36D7928DC45D90033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1B16125A293084C700B31347 /* UIAlertController+Extension.swift in Sources */,
 				1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */,
@@ -1365,6 +1374,7 @@
 				1BD125B228D1E1A90050F2D1 /* UIScrollView+Extension.swift in Sources */,
 				1B16126129308B4C00B31347 /* ViewBindable.swift in Sources */,
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
+				1B0580D4293723B90094140B /* issue_trackerUnitTest_Settings.swift in Sources */,
 				1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */,
 				1B0580C42934E8E10094140B /* SettingDataModel.xcdatamodeld in Sources */,
 				1B161207292C6F4F00B31347 /* SignInFormModel.swift in Sources */,

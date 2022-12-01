@@ -21,7 +21,7 @@ class SettingMainModel: SettingViewModel {
     
     func sectionItems(section: Int) -> [SettingCategory] {
         switch section {
-        case 0: return GeneralSettings.allCases
+//        case 0: return GeneralSettings.allCases
         case 1: return IssueSettings.allCases
         case 2: return LabelSettings.allCases
         case 3: return MilestoneSettings.allCases

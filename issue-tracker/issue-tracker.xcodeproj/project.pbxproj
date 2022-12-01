@@ -465,8 +465,7 @@
 			children = (
 				1B16127029348ED200B31347 /* Model */,
 				1B1612672934824100B31347 /* Reactor */,
-				1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */,
-				1B8E4AAF2889115200432728 /* SettingViewController.swift */,
+				1B58956F29379786007A9937 /* View */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -712,6 +711,15 @@
 				1BD125AD28D1BF3F0050F2D1 /* IssueDetailTableViewCellSeparator.swift */,
 			);
 			path = IssueDetail;
+			sourceTree = "<group>";
+		};
+		1B58956F29379786007A9937 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */,
+				1B8E4AAF2889115200432728 /* SettingViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		1B5D698C2898D7A200AE9495 /* extensions */ = {

@@ -13,6 +13,8 @@ class SettingIssueDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .systemBackground
         view.addSubview(label)
         
         navigationItem.title = "Detail"

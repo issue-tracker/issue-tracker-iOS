@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import ReactorKit
 
 /**
  UITableView(https://developer.apple.com/design/human-interface-guidelines/components/layout-and-organization/lists-and-tables/)
@@ -28,21 +29,19 @@ import RxCocoa
 
  여러 개의 컬럼이 있는 경우에는 설명 컬럼을 사용해보자. 제목 두문자 스타일의 명사구 혹은 짧은 명사구를 사용하고 구두점은 찍지 말자. Heading을 하지 않는다면 라벨이나 헤더를 사용해서 문맥을 이해하는 것을 돕도록 하자.
  */
-class SettingViewController: CommonProxyViewController {
-    private let model = SettingMainModel()
-    private var disposeBag = DisposeBag()
+class SettingViewController: CommonProxyViewController, View {
+    typealias Reactor = SettingReactor
+    typealias CELL = SettingTableViewCell
     
-    private let tableView = UITableView()
+    var disposeBag = DisposeBag()
     
-    private lazy var dataSource = SettingTableViewDataSource<SettingTableViewCell>(model: model) { tableView, entity, indexPath in
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell else {
-            return SettingTableViewCell()
-        }
-        
-        cell.setEntity(entity, at: indexPath.item)
-        
-        return cell
-    }
+    private lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.separatorStyle = .none
+        view.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
+        view.dataSource = self
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,32 +50,68 @@ class SettingViewController: CommonProxyViewController {
         tableView.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.rowHeight = 60
         
-        tableView.separatorStyle = .none
-        tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
-        tableView.dataSource = dataSource
-        
+        // 상세 화면에서 다시 돌아왔을 때 기존의 상태값을 유지하도록 하기 위함.
+        if reactor == nil {
+            reactor = Reactor()
+        }
+    }
+    
+    func bind(reactor: SettingReactor) {
         tableView.rx.itemSelected
-            .bind { [weak self] indexPath in
-                self?.tableView.cellForRow(at: indexPath)?.isSelected = false
-                guard let nextView = self?.model.getItem(from: indexPath)?.getNextView() else {
-                    self?.commonAlert()
-                    return
-                }
+            .map({ [weak self] indexPath in
+                let list = self?.reactor?.settingList ?? []
                 
-                self?.navigationController?.pushViewController(nextView, animated: true)
-            }
+                if 0..<list.count ~= indexPath.row {
+                    return Reactor.Action.listSelected(list[indexPath.row].id)
+                } else {
+                    return Reactor.Action.backButtonSelected
+                }
+            })
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$settingList)
+            .bind(onNext: { [weak tableView] list in
+                if list.isEmpty {
+                    self.navigationController?.pushViewController(SettingIssueDetailViewController(), animated: true)
+                } else {
+                    tableView?.reloadData()
+                }
+            })
             .disposed(by: disposeBag)
     }
 }
 
-extension GeneralSettings: SettingCategory {
-    
-    func getNextView() -> UIViewController? {
-        SettingIssueQueryViewController()
+extension SettingViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        (reactor?.settingList.count ?? 0) + 1
     }
     
-    func getName() -> String {
-        self.rawValue
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == (reactor?.settingList.count ?? 0) {
+            let cell = UITableViewCell()
+            var content = cell.defaultContentConfiguration()
+
+            // Configure content.
+            content.image = UIImage(systemName: "chevron.left")
+            content.text = "Back"
+
+            cell.contentConfiguration = content
+            return cell
+        }
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CELL.reuseIdentifier, for: indexPath) as? CELL else {
+            return UITableViewCell()
+        }
+        
+        cell.label.text = reactor?.settingList[indexPath.row].title
+        
+        return cell
     }
 }

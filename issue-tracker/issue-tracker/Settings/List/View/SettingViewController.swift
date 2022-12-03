@@ -59,14 +59,32 @@ class SettingViewController: CommonProxyViewController, View {
             .disposed(by: disposeBag)
         
         reactor.pulse(\.$settingList)
-            .bind(onNext: { [weak tableView] list in
+            .bind(onNext: { [weak self] list in
                 if list.isEmpty {
-                    self.navigationController?.pushViewController(SettingIssueDetailViewController(), animated: true)
+                    self?.goNextView()
                 } else {
-                    tableView?.reloadData()
+                    self?.tableView.performBatchUpdates {
+                        if let rowCount = self?.tableView.visibleCells.count {
+                            self?.tableView.deleteRows(
+                                at: (0..<(rowCount-1)).map { IndexPath(row: $0, section: 0) },
+                                with: .left
+                            )
+                        }
+                        
+                        self?.tableView.insertRows(
+                            at: (0..<(list.count)).map { IndexPath(row: $0, section: 0) },
+                            with: .left
+                        )
+                    }
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    func goNextView() {
+        let view = SettingDetailViewController()
+        view.parentReactor = reactor
+        navigationController?.pushViewController(view, animated: true)
     }
 }
 

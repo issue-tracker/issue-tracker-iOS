@@ -28,10 +28,12 @@ class SettingReactor: Reactor {
     enum Action {
         case listSelected(UUID)
         case backButtonSelected
+        case fetchItemValue(SettingItemValue)
     }
     
     enum Mutation {
         case updateSelectedListId(UUID?)
+        case setItemValue(SettingItemValue)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -40,6 +42,8 @@ class SettingReactor: Reactor {
             return Observable.just(Mutation.updateSelectedListId(id))
         case .backButtonSelected:
             return Observable.just(Mutation.updateSelectedListId(currentState.previousId))
+        case .fetchItemValue(let value):
+            return Observable.just(Mutation.setItemValue(value))
         }
     }
     
@@ -49,6 +53,9 @@ class SettingReactor: Reactor {
         case .updateSelectedListId(let targetID):
             state.previousId = state.settingList.first?.parentId
             state.settingList = model.getList(targetID)
+        case .setItemValue(let value):
+            model.setItemValue(value)
+            state.settingList = model.getList(state.previousId)
         }
         return state
     }

@@ -95,6 +95,50 @@ class SettingMainListModel {
         return result
     }
     
+    /// CoreData에서 SettingItemValue들을 Query하는 API로 변경 필요.
+    func getAllItemValues(_ item: SettingListItem) -> [String: any SettingItemValue] {
+        for subList in [generalInfo.subList + allListInfo.subList] {
+            for info in subList {
+                if info.id == item.id {
+                    return item.values
+                }
+            }
+        }
+        
+//        (generalInfo.subList + allListInfo.subList).reduce([]) { partialResult, subListItem in
+//            return subListItem.values.map({$0.value})
+//        }
+        
+        return [:]
+    }
+    
+    /// CoreData에서 SettingItemValue을 Commit하는 API로 변경 필요.
+    func setItemValue(_ value: any SettingItemValue) {
+        for (index, info) in generalInfo.subList.enumerated() {
+            for item in info.values {
+                let lhs = item.value
+                let rhs = value
+                
+                if lhs.mainTitle == rhs.mainTitle && lhs.subTitle == rhs.subTitle {
+                    generalInfo.subList[index].values[item.key] = value
+                    return
+                }
+            }
+        }
+        
+        for (index, info) in allListInfo.subList.enumerated() {
+            for item in info.values {
+                let lhs = item.value
+                let rhs = value
+                
+                if lhs.mainTitle == rhs.mainTitle && lhs.subTitle == rhs.subTitle {
+                    allListInfo.subList[index].values[item.key] = value
+                    return
+                }
+            }
+        }
+    }
+    
     #if DEBUG
     var getMainItems: [SettingListItem] {
         return [generalInfo, allListInfo]
@@ -114,7 +158,7 @@ struct SettingListItem {
     }
     
     var subList = [SettingListItem]()
-    var values: [String: SettingItemValue] = .init()
+    var values: [String: any SettingItemValue] = .init()
 }
 
 struct SettingListItemActivated: SettingItemValue {
@@ -149,7 +193,7 @@ struct SettingListItemValueList<Element: Hashable>: SettingItemValue {
     var list: [Element]
 }
 
-struct SettingListItemValueImage<Element: Hashable>: SettingItemValue {
+struct SettingListItemValueImage: SettingItemValue {
     let mainTitle: String
     let subTitle: String?
     let parentId: UUID?

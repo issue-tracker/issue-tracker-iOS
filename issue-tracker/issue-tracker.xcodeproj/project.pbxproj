@@ -98,6 +98,14 @@
 		1B5780AD2925B5A60034400F /* SignInFormReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AC2925B5A60034400F /* SignInFormReactor.swift */; };
 		1B5780AF2925C2AF0034400F /* SignInError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5780AE2925C2AF0034400F /* SignInError.swift */; };
 		1B58957229388B15007A9937 /* SettingIssueReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957129388B15007A9937 /* SettingIssueReactor.swift */; };
+		1B5895782939B8C6007A9937 /* SettingItemFetchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5895772939B8C6007A9937 /* SettingItemFetchModel.swift */; };
+		1B58957B2939B8F0007A9937 /* SettingDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */; };
+		1B58957D2939B906007A9937 /* SettingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957C2939B906007A9937 /* SettingDetailViewController.swift */; };
+		1B58957E2939C7A5007A9937 /* SettingReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1612652934822B00B31347 /* SettingReactor.swift */; };
+		1B58957F2939C8E2007A9937 /* SettingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957C2939B906007A9937 /* SettingDetailViewController.swift */; };
+		1B5895802939C8F5007A9937 /* SettingDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */; };
+		1B589584293B2B33007A9937 /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
+		1B589585293B2B3A007A9937 /* SettingProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -286,6 +294,9 @@
 		1B5780AC2925B5A60034400F /* SignInFormReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInFormReactor.swift; sourceTree = "<group>"; };
 		1B5780AE2925C2AF0034400F /* SignInError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInError.swift; sourceTree = "<group>"; };
 		1B58957129388B15007A9937 /* SettingIssueReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueReactor.swift; sourceTree = "<group>"; };
+		1B5895772939B8C6007A9937 /* SettingItemFetchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItemFetchModel.swift; sourceTree = "<group>"; };
+		1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailReactor.swift; sourceTree = "<group>"; };
+		1B58957C2939B906007A9937 /* SettingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailViewController.swift; sourceTree = "<group>"; };
 		1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHTTPModel.swift; sourceTree = "<group>"; };
 		1B5D69922898DF6500AE9495 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
@@ -446,14 +457,14 @@
 			path = "issue-trackerTestCases";
 			sourceTree = "<group>";
 		};
-		1B1612632934820800B31347 /* Root */ = {
+		1B1612632934820800B31347 /* List */ = {
 			isa = PBXGroup;
 			children = (
 				1B16127029348ED200B31347 /* Model */,
 				1B1612672934824100B31347 /* Reactor */,
 				1B58956F29379786007A9937 /* View */,
 			);
-			path = Root;
+			path = List;
 			sourceTree = "<group>";
 		};
 		1B1612672934824100B31347 /* Reactor */ = {
@@ -485,6 +496,7 @@
 		1B16127029348ED200B31347 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1B0580CD2935EE560094140B /* SettingMainListModel.swift */,
 				1B37890928F9696100A2DF39 /* SettingMenuKeys.swift */,
 			);
 			path = Model;
@@ -703,6 +715,40 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		1B5895742939B84D007A9937 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				1B5895792939B8E3007A9937 /* Reactor */,
+				1B5895762939B873007A9937 /* Model */,
+				1B5895752939B86D007A9937 /* View */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		1B5895752939B86D007A9937 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1B58957C2939B906007A9937 /* SettingDetailViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1B5895762939B873007A9937 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1B5895772939B8C6007A9937 /* SettingItemFetchModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1B5895792939B8E3007A9937 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
 		1B5D698C2898D7A200AE9495 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -809,11 +855,11 @@
 		1B8E4AAB2889110E00432728 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				1B0580CD2935EE560094140B /* SettingMainListModel.swift */,
 				1B8E4AA92889110900432728 /* SettingsNavigationController.swift */,
 				1B16126B29348D4200B31347 /* DataModel */,
 				1B1612682934834700B31347 /* CommonCellType */,
-				1B1612632934820800B31347 /* Root */,
+				1B1612632934820800B31347 /* List */,
+				1B5895742939B84D007A9937 /* Detail */,
 				1B37890C28F9785200A2DF39 /* Issue */,
 				1B37891728F978A300A2DF39 /* Label */,
 				1B37891828F978A900A2DF39 /* Milestone */,
@@ -1196,6 +1242,7 @@
 				1B37892028FA645700A2DF39 /* CellEntityAdaptable.swift in Sources */,
 				1BF36D9528E1CE5E0033DF2A /* UIColor+Extension.swift in Sources */,
 				1B8E4AB02889115200432728 /* SettingViewController.swift in Sources */,
+				1B58957D2939B906007A9937 /* SettingDetailViewController.swift in Sources */,
 				1B37890A28F9696100A2DF39 /* SettingMenuKeys.swift in Sources */,
 				1B3C0660287BE02E006A36CF /* LoginViewController.swift in Sources */,
 				1BD125D528D1EA800050F2D1 /* IssueAssignee.swift in Sources */,
@@ -1259,6 +1306,7 @@
 				1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */,
 				1B308D3D28AE1F0C0073640A /* ProfileImageButton.swift in Sources */,
 				1BD125BC28D1E2E90050F2D1 /* IssueDetailCommonType.swift in Sources */,
+				1B5895782939B8C6007A9937 /* SettingItemFetchModel.swift in Sources */,
 				1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */,
 				1BB9BB6E29188645002A0DEB /* IssueListReactor.swift in Sources */,
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
@@ -1294,6 +1342,7 @@
 				1BF1D0C028BC97D900393294 /* MilestoneListViewController.swift in Sources */,
 				1B5780AD2925B5A60034400F /* SignInFormReactor.swift in Sources */,
 				1BD125D828D1EF990050F2D1 /* IssueCommentReactorResponse.swift in Sources */,
+				1B58957B2939B8F0007A9937 /* SettingDetailReactor.swift in Sources */,
 				1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */,
 				1B0580CE2935EE560094140B /* SettingMainListModel.swift in Sources */,
 				1B8B74492900D36F008380BF /* SettingIssueQueryItem.swift in Sources */,
@@ -1332,12 +1381,14 @@
 				1BD125D328D1EA4C0050F2D1 /* IssueCommentReactionsResponse.swift in Sources */,
 				1B0580D2293722C50094140B /* SettingMainListModel.swift in Sources */,
 				1BF36D7928DC45D90033DF2A /* MilestoneInIssueEntity.swift in Sources */,
+				1B58957E2939C7A5007A9937 /* SettingReactor.swift in Sources */,
 				1B16125A293084C700B31347 /* UIAlertController+Extension.swift in Sources */,
 				1BF1D0BA28BB31D300393294 /* HTTPResponseModel.swift in Sources */,
 				1B232B2028A0DE1E007ED022 /* RequestBuilder.swift in Sources */,
 				1B16120B292C6F8600B31347 /* SignInError.swift in Sources */,
 				1B0580C52934E8F20094140B /* AppDelegate.swift in Sources */,
 				1B161256293083F400B31347 /* UIViewController+Extensions.swift in Sources */,
+				1B5895802939C8F5007A9937 /* SettingDetailReactor.swift in Sources */,
 				1B50EC2828D063CA005E5B82 /* IssueDetailViewModel.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B161208292C6F5600B31347 /* SignInInputCheckModel.swift in Sources */,
@@ -1345,6 +1396,7 @@
 				1BF36D7828DC45970033DF2A /* IssueHistories.swift in Sources */,
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
 				1B0580C62934E9270094140B /* TransformableHelper.swift in Sources */,
+				1B589584293B2B33007A9937 /* CommonProxyViewController.swift in Sources */,
 				1BD1C5BA291A2DB000AEA74F /* MainListReactorError.swift in Sources */,
 				1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift in Sources */,
 				1B37890B28F975FC00A2DF39 /* SettingMenuKeys.swift in Sources */,
@@ -1361,8 +1413,10 @@
 				1B0580CA2934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift in Sources */,
 				1BE71C8329179D96002F1A61 /* IssueAddRemoveModel.swift in Sources */,
 				1BD125D228D1EA320050F2D1 /* IssueListComment.swift in Sources */,
+				1B58957F2939C8E2007A9937 /* SettingDetailViewController.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,
 				1B16126029308B4100B31347 /* MainViewSingleRequestModel.swift in Sources */,
+				1B589585293B2B3A007A9937 /* SettingProxyViewController.swift in Sources */,
 				1BB9BB6F29188645002A0DEB /* IssueListReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

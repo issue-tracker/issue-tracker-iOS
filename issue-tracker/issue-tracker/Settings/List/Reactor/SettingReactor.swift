@@ -19,21 +19,28 @@ class SettingReactor: Reactor {
     var settingList: [SettingListItem] {
         currentState.settingList
     }
+    var generalInfo: SettingListItem {
+        model.generalInfo
+    }
+    var allListInfo: SettingListItem {
+        model.allListInfo
+    }
     
     struct State {
         @Pulse var settingList = [SettingListItem]()
         var previousId: UUID? = nil
+        var fetchDetailId: UUID? = nil
     }
     
     enum Action {
         case listSelected(UUID)
         case backButtonSelected
-        case fetchItemValue(SettingItemValue)
+        case fetchItemValue(any SettingItemValue)
     }
     
     enum Mutation {
         case updateSelectedListId(UUID?)
-        case setItemValue(SettingItemValue)
+        case setItemValue(any SettingItemValue)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -52,6 +59,7 @@ class SettingReactor: Reactor {
         switch mutation {
         case .updateSelectedListId(let targetID):
             state.previousId = state.settingList.first?.parentId
+            state.fetchDetailId = targetID
             state.settingList = model.getList(targetID)
         case .setItemValue(let value):
             model.setItemValue(value)

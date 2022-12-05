@@ -9,9 +9,9 @@ import Foundation
 
 class SettingItemFetchModel {
     
-    private var items: [SettingItemValue] = []
+    var items: [any SettingItemValue] = []
     
-    init(items: [SettingItemValue]) {
+    init(items: [any SettingItemValue]) {
         self.items = items
     }
 }

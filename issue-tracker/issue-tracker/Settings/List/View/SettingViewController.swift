@@ -63,28 +63,35 @@ class SettingViewController: CommonProxyViewController, View {
                 if list.isEmpty {
                     self?.goNextView()
                 } else {
-                    self?.tableView.performBatchUpdates {
-                        if let rowCount = self?.tableView.visibleCells.count {
-                            self?.tableView.deleteRows(
-                                at: (0..<(rowCount-1)).map { IndexPath(row: $0, section: 0) },
-                                with: .left
-                            )
-                        }
-                        
-                        self?.tableView.insertRows(
-                            at: (0..<(list.count)).map { IndexPath(row: $0, section: 0) },
-                            with: .left
-                        )
-                    }
+                    self?.updateCells(list.count)
                 }
             })
             .disposed(by: disposeBag)
     }
     
-    func goNextView() {
+    private func goNextView() {
         let view = SettingDetailViewController()
         view.parentReactor = reactor
+        if let reactor, let id = reactor.currentState.fetchDetailId {
+            view.targetId = id
+            view.generalInfo = reactor.generalInfo
+            view.allListInfo = reactor.allListInfo
+        }
+        
         navigationController?.pushViewController(view, animated: true)
+    }
+    
+    private func updateCells(_ countForUpdate: Int) {
+        tableView.performBatchUpdates { [weak self] in
+            
+            if let rowCount = self?.tableView.visibleCells.count {
+                let deleteTarget = (0..<(rowCount-1)).map { IndexPath(row: $0, section: 0) }
+                self?.tableView.deleteRows(at: deleteTarget, with: .left)
+            }
+            
+            let insertTarget = (0..<(countForUpdate)).map { IndexPath(row: $0, section: 0) }
+            self?.tableView.insertRows(at: insertTarget, with: .left)
+        }
     }
 }
 

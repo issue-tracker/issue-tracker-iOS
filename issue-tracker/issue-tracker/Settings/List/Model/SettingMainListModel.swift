@@ -8,8 +8,8 @@
 import Foundation
 
 class SettingMainListModel {
-    private var generalInfo: SettingListItem
-    private var allListInfo: SettingListItem
+    private(set) var generalInfo: SettingListItem
+    private(set) var allListInfo: SettingListItem
     
     init() {
         let generalId = UUID()
@@ -34,18 +34,18 @@ class SettingMainListModel {
         
         var loginSetting = SettingListItem(id: UUID(), title: "로그인 설정", parentId: generalInfo.id)
         loginSetting.values = [
-            "enable-auto-login": SettingListItemActivated(mainTitle: "자동 로그인 설정", subTitle: "로그인 한 정보를 토대로 자동 로그인을 시도합니다.", parentId: loginSetting.id, order: 0, isActivated: false),
-            "show-github-login": SettingListItemActivated(mainTitle: "깃허브 간편 로그인", subTitle: "간편 로그인-깃허브 를 활성화 합니다.", parentId: loginSetting.id, order: 1, isActivated: true),
-            "show-naver-login": SettingListItemActivated(mainTitle: "네이버 간편 로그인", subTitle: "간편 로그인-네이버 를 활성화 합니다.", parentId: loginSetting.id, order: 2, isActivated: true),
-            "show-kakao-login": SettingListItemActivated(mainTitle: "카카오 간편 로그인", subTitle: "간편 로그인-카카오 를 활성화 합니다.", parentId: loginSetting.id, order: 3, isActivated: true),
+            "enable-auto-login": SettingListItemActivated(mainTitle: "자동 로그인 설정", subTitle: "로그인 한 정보를 토대로 자동 로그인을 시도합니다.", parentId: loginSetting.id, order: 0, value: false),
+            "show-github-login": SettingListItemActivated(mainTitle: "깃허브 간편 로그인", subTitle: "간편 로그인-깃허브 를 활성화 합니다.", parentId: loginSetting.id, order: 1, value: true),
+            "show-naver-login": SettingListItemActivated(mainTitle: "네이버 간편 로그인", subTitle: "간편 로그인-네이버 를 활성화 합니다.", parentId: loginSetting.id, order: 2, value: true),
+            "show-kakao-login": SettingListItemActivated(mainTitle: "카카오 간편 로그인", subTitle: "간편 로그인-카카오 를 활성화 합니다.", parentId: loginSetting.id, order: 3, value: true),
         ]
         
         var mainThemeSetting = SettingListItem(id: UUID(), title: "테마 설정", parentId: generalInfo.id)
         mainThemeSetting.values = [
-            "light-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "라이트 모드", parentId: mainThemeSetting.id, order: 0, isActivated: false),
-            "dark-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "다크 모드", parentId: mainThemeSetting.id, order: 0, isActivated: false),
-            "system-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "시스템", parentId: mainThemeSetting.id, order: 0, isActivated: true),
-            "color-background": SettingListItemValueColor(mainTitle: "배경화면 색상 설정", subTitle: nil, parentId: mainThemeSetting.id, order: 0, rgbRed: 0, rgbGreen: 0, rgbBlue: 0),
+            "light-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "라이트 모드", parentId: mainThemeSetting.id, order: 0, value: false),
+            "dark-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "다크 모드", parentId: mainThemeSetting.id, order: 0, value: false),
+            "system-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "시스템", parentId: mainThemeSetting.id, order: 0, value: true),
+            "color-background": SettingListItemValueColor(mainTitle: "배경화면 색상 설정", subTitle: nil, parentId: mainThemeSetting.id, order: 0, value: SettingListItemValueColor.SettingListItemColor(rgbRed: 0, rgbGreen: 0, rgbBlue: 0)),
         ]
         
         generalInfo.subList = [
@@ -55,16 +55,16 @@ class SettingMainListModel {
         
         var listSetting = SettingListItem(id: UUID(), title: "목록 설정", parentId: allListInfo.id)
         listSetting.values = [
-            "issue-list-background-color": SettingListItemValueColor(mainTitle: "이슈 목록 배경 색", subTitle: "목록에 표시될 셀들의 배경색을 설정합니다.", parentId: listSetting.id, order: 0, rgbRed: 58, rgbGreen: 128, rgbBlue: 255),
-            "label-list-background-color": SettingListItemValueColor(mainTitle: "라벨 목록 배경 색", subTitle: "목록에 표시될 셀들의 배경색을 설정합니다.", parentId: listSetting.id, order: 0, rgbRed: 58, rgbGreen: 128, rgbBlue: 255),
-            "milestone-list-background-color": SettingListItemValueColor(mainTitle: "마일스톤 목록 배경 색", subTitle: "목록에 표시될 셀들의 배경색을 설정합니다.", parentId: listSetting.id, order: 0, rgbRed: 58, rgbGreen: 128, rgbBlue: 255),
+            "issue-list-background-color": SettingListItemValueColor(mainTitle: "이슈 목록 배경 색", subTitle: "목록에 표시될 셀들의 배경색을 설정합니다.", parentId: listSetting.id, order: 0, value: SettingListItemValueColor.SettingListItemColor(rgbRed: 58, rgbGreen: 128, rgbBlue: 255)),
+            "label-list-background-color": SettingListItemValueColor(mainTitle: "라벨 목록 배경 색", subTitle: "목록에 표시될 셀들의 배경색을 설정합니다.", parentId: listSetting.id, order: 0, value: SettingListItemValueColor.SettingListItemColor(rgbRed: 58, rgbGreen: 128, rgbBlue: 255)),
+            "milestone-list-background-color": SettingListItemValueColor(mainTitle: "마일스톤 목록 배경 색", subTitle: "목록에 표시될 셀들의 배경색을 설정합니다.", parentId: listSetting.id, order: 0, value: SettingListItemValueColor.SettingListItemColor(rgbRed: 58, rgbGreen: 128, rgbBlue: 255)),
         ]
         
         var issueDetailSetting = SettingListItem(id: UUID(), title: "이슈 상세 창 설정", parentId: allListInfo.id)
         issueDetailSetting.values = [
-            "will-show-labels": SettingListItemActivated(mainTitle: "라벨 표시", subTitle: nil, parentId: issueDetailSetting.id, order: 0, isActivated: true),
-            "will-show-profileImage": SettingListItemActivated(mainTitle: "프로필 이미지 표시", subTitle: nil, parentId: issueDetailSetting.id, order: 1, isActivated: true),
-            "shorten-comments-in-detail-screen": SettingListItemActivated(mainTitle: "", subTitle: nil, parentId: issueDetailSetting.id, order: 2, isActivated: false)
+            "will-show-labels": SettingListItemActivated(mainTitle: "라벨 표시", subTitle: nil, parentId: issueDetailSetting.id, order: 0, value: true),
+            "will-show-profileImage": SettingListItemActivated(mainTitle: "프로필 이미지 표시", subTitle: nil, parentId: issueDetailSetting.id, order: 1, value: true),
+            "shorten-comments-in-detail-screen": SettingListItemActivated(mainTitle: "", subTitle: nil, parentId: issueDetailSetting.id, order: 2, value: false)
         ]
         
         let stubSetting = SettingListItem(id: UUID(), title: "테스트용", parentId: allListInfo.id)
@@ -97,17 +97,26 @@ class SettingMainListModel {
     
     /// CoreData에서 SettingItemValue들을 Query하는 API로 변경 필요.
     func getAllItemValues(_ item: SettingListItem) -> [String: any SettingItemValue] {
-        for subList in [generalInfo.subList + allListInfo.subList] {
-            for info in subList {
-                if info.id == item.id {
-                    return item.values
-                }
+        for subList in (generalInfo.subList + allListInfo.subList) {
+            if subList.id == item.id {
+                return subList.values
             }
         }
         
 //        (generalInfo.subList + allListInfo.subList).reduce([]) { partialResult, subListItem in
 //            return subListItem.values.map({$0.value})
 //        }
+        
+        return [:]
+    }
+    
+    /// CoreData에서 SettingItemValue들을 Query하는 API로 변경 필요.
+    func getAllItemValues(_ id: UUID) -> [String: any SettingItemValue] {
+        for subList in (generalInfo.subList + allListInfo.subList) {
+            if subList.id == id {
+                return subList.values
+            }
+        }
         
         return [:]
     }
@@ -162,54 +171,89 @@ struct SettingListItem {
 }
 
 struct SettingListItemActivated: SettingItemValue {
+    typealias SettingValue = Bool
+    
+    let id: UUID = .init()
     let mainTitle: String
     let subTitle: String?
     let parentId: UUID?
     
     let order: Int
     
-    var isActivated: Bool
+    var value: Bool
 }
 
 struct SettingListItemValueColor: SettingItemValue {
+    typealias SettingValue = SettingListItemColor
+    
+    let id: UUID = .init()
     let mainTitle: String
     let subTitle: String?
     let parentId: UUID?
     
     let order: Int
     
-    var rgbRed: Float
-    var rgbGreen: Float
-    var rgbBlue: Float
+    var value: SettingListItemColor
+    
+    struct SettingListItemColor {
+        var rgbRed: Float
+        var rgbGreen: Float
+        var rgbBlue: Float
+    }
 }
 
-struct SettingListItemValueList<Element: Hashable>: SettingItemValue {
+struct SettingListItemValueList: SettingItemValue {
+    typealias SettingValue = Array<any SettingItemValue>
+
+    let id: UUID = .init()
     let mainTitle: String
     let subTitle: String?
     let parentId: UUID?
-    
+
     let order: Int
-    
-    var list: [Element]
+
+    var value: SettingValue
 }
 
 struct SettingListItemValueImage: SettingItemValue {
+    typealias SettingValue = Optional<Data>
+    
+    let id: UUID = .init()
     let mainTitle: String
     let subTitle: String?
     let parentId: UUID?
     
     let order: Int
     
-    var imageData: Data?
+    var value: Optional<Data>
+}
+
+struct SettingListItemValueString: SettingItemValue {
+    typealias SettingValue = String
+    
+    let id: UUID = .init()
+    let mainTitle: String
+    let subTitle: String?
+    let parentId: UUID?
+    
+    let order: Int
+    
+    var value: String
 }
 
 protocol SettingItemValue {
+    associatedtype SettingValue
+    
+    var id: UUID { get }
+    
     /// 같으면 한 그룹으로 인식
     var mainTitle: String { get }
     var subTitle: String? { get }
     var parentId: UUID? { get }
     
     var order: Int { get }
+    
+    var value: SettingValue { get set }
 }
 
 extension SettingListItem: Equatable {

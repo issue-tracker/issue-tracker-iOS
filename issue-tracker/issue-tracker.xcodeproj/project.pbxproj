@@ -102,7 +102,6 @@
 		1B58957B2939B8F0007A9937 /* SettingDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */; };
 		1B58957D2939B906007A9937 /* SettingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957C2939B906007A9937 /* SettingDetailViewController.swift */; };
 		1B58957E2939C7A5007A9937 /* SettingReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1612652934822B00B31347 /* SettingReactor.swift */; };
-		1B58957F2939C8E2007A9937 /* SettingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957C2939B906007A9937 /* SettingDetailViewController.swift */; };
 		1B5895802939C8F5007A9937 /* SettingDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */; };
 		1B589584293B2B33007A9937 /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
 		1B589585293B2B3A007A9937 /* SettingProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxyViewController.swift */; };
@@ -122,6 +121,10 @@
 		1B69A90728EF1D47001C6720 /* SettingIssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */; };
 		1B69A90928EF8F25001C6720 /* SettingIssueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */; };
 		1B69A90B28EF8F32001C6720 /* SettingIssueQueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */; };
+		1B6DBDDD293DBDE5005FBFFD /* SettingItemFetchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5895772939B8C6007A9937 /* SettingItemFetchModel.swift */; };
+		1B6DBDE8293DD9E2005FBFFD /* SettingDetailMonoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DBDE7293DD9E2005FBFFD /* SettingDetailMonoItemCell.swift */; };
+		1B6DBDEA293DDA06005FBFFD /* SettingDetailMultiItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DBDE9293DDA06005FBFFD /* SettingDetailMultiItemCell.swift */; };
+		1B6DBDEC293DF012005FBFFD /* SettingDetailCellViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DBDEB293DF012005FBFFD /* SettingDetailCellViewFactory.swift */; };
 		1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */; };
 		1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */; };
 		1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */; };
@@ -310,6 +313,9 @@
 		1B69A90628EF1D47001C6720 /* SettingIssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueListViewController.swift; sourceTree = "<group>"; };
 		1B69A90828EF8F25001C6720 /* SettingIssueDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueDetailViewController.swift; sourceTree = "<group>"; };
 		1B69A90A28EF8F32001C6720 /* SettingIssueQueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueQueryViewController.swift; sourceTree = "<group>"; };
+		1B6DBDE7293DD9E2005FBFFD /* SettingDetailMonoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailMonoItemCell.swift; sourceTree = "<group>"; };
+		1B6DBDE9293DDA06005FBFFD /* SettingDetailMultiItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailMultiItemCell.swift; sourceTree = "<group>"; };
+		1B6DBDEB293DF012005FBFFD /* SettingDetailCellViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailCellViewFactory.swift; sourceTree = "<group>"; };
 		1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListTableViewCell.swift; sourceTree = "<group>"; };
 		1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListTableViewCell.swift; sourceTree = "<group>"; };
 		1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListTableViewCell.swift; sourceTree = "<group>"; };
@@ -729,6 +735,9 @@
 			isa = PBXGroup;
 			children = (
 				1B58957C2939B906007A9937 /* SettingDetailViewController.swift */,
+				1B6DBDE7293DD9E2005FBFFD /* SettingDetailMonoItemCell.swift */,
+				1B6DBDE9293DDA06005FBFFD /* SettingDetailMultiItemCell.swift */,
+				1B6DBDEB293DF012005FBFFD /* SettingDetailCellViewFactory.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1236,6 +1245,7 @@
 				1B0580C02934BD470094140B /* TransformableHelper.swift in Sources */,
 				1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */,
 				1BCAB8BA29186F6D00ED2F82 /* IssueEditReactor.swift in Sources */,
+				1B6DBDEC293DF012005FBFFD /* SettingDetailCellViewFactory.swift in Sources */,
 				1BD125CB28D1E8D60050F2D1 /* IssueListAuthor.swift in Sources */,
 				1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */,
 				1B50EC2A28D09073005E5B82 /* IssueAddRemoveModel.swift in Sources */,
@@ -1262,6 +1272,7 @@
 				1B8B74442900D2DD008380BF /* SettingIssueQueryCell.swift in Sources */,
 				1BD1C5BC291A52B600AEA74F /* MainListStatusReactor.swift in Sources */,
 				1B3788F728F5961100A2DF39 /* SettingIssueCollectionViewCell.swift in Sources */,
+				1B6DBDEA293DDA06005FBFFD /* SettingDetailMultiItemCell.swift in Sources */,
 				1B37891E28F98B7B00A2DF39 /* Milestone+Extensions.swift in Sources */,
 				1B8E4AAA2889110900432728 /* SettingsNavigationController.swift in Sources */,
 				1BE01DFE28A618D700929163 /* UIDevice+Extension.swift in Sources */,
@@ -1312,6 +1323,7 @@
 				1B5D6999289A461200AE9495 /* RequestHTTPTimerModel.swift in Sources */,
 				1BB9BB732919EE97002A0DEB /* MilestoneListReactor.swift in Sources */,
 				1BD102C328B7656700A056BF /* CommonTextFieldAreaInputField.swift in Sources */,
+				1B6DBDE8293DD9E2005FBFFD /* SettingDetailMonoItemCell.swift in Sources */,
 				1BB9BB712919EE91002A0DEB /* LabelListReactor.swift in Sources */,
 				1B50B86028C9EA8600073AC9 /* IssueDetailViewController.swift in Sources */,
 				1B8FD16929274F9C001179C6 /* HTTPURLResponse+Extensions.swift in Sources */,
@@ -1369,6 +1381,7 @@
 				1B16120C292C6FBE00B31347 /* HTTPURLResponse+Extensions.swift in Sources */,
 				1B0580C32934E8970094140B /* CheckDefaultCoreData.swift in Sources */,
 				1BD125D628D1EA9D0050F2D1 /* IssueAssignee.swift in Sources */,
+				1B6DBDDD293DBDE5005FBFFD /* SettingItemFetchModel.swift in Sources */,
 				1B4F489528A4E1FF00C4B33A /* MainViewRequestModel.swift in Sources */,
 				1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B161202292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift in Sources */,
@@ -1413,7 +1426,6 @@
 				1B0580CA2934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift in Sources */,
 				1BE71C8329179D96002F1A61 /* IssueAddRemoveModel.swift in Sources */,
 				1BD125D228D1EA320050F2D1 /* IssueListComment.swift in Sources */,
-				1B58957F2939C8E2007A9937 /* SettingDetailViewController.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,
 				1B16126029308B4100B31347 /* MainViewSingleRequestModel.swift in Sources */,
 				1B589585293B2B3A007A9937 /* SettingProxyViewController.swift in Sources */,

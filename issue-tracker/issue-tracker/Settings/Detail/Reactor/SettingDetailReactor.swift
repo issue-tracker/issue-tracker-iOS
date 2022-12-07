@@ -13,15 +13,16 @@ class SettingDetailReactor: Reactor {
     var initialState: State
     var items: [any SettingItemValue] = []
     
-    init(targetId: UUID, generalInfo: SettingListItem, allListInfo: SettingListItem) {
+    init(targetId: UUID, settingList: [SettingListItem]) {
         
-        for item in (generalInfo.subList + allListInfo.subList) {
+        var values = [any SettingItemValue]()
+        for item in settingList {
             if item.id == targetId {
-                self.items = item.values.map({$0.value})
+                values.append(contentsOf: item.values.map({$0.value}))
             }
         }
         
-        initialState = .init(settingList: items)
+        initialState = .init(settingList: values)
     }
     
     struct State {

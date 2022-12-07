@@ -18,7 +18,6 @@ class SettingDetailViewController: UIViewController, View {
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.dataSource = self
-        
         return view
     }()
     
@@ -28,8 +27,8 @@ class SettingDetailViewController: UIViewController, View {
     var settingItemId: UUID?
     
     var targetId: UUID!
-    var generalInfo: SettingListItem!
-    var allListInfo: SettingListItem!
+    // CoreData를 적용하기 전까지의 임시 코드
+    var settingList = [SettingListItem]()
     
     var disposeBag: DisposeBag = .init()
     
@@ -50,7 +49,7 @@ class SettingDetailViewController: UIViewController, View {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reactor = Reactor(targetId: targetId, generalInfo: generalInfo, allListInfo: allListInfo)
+        reactor = Reactor(targetId: targetId, settingList: settingList)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

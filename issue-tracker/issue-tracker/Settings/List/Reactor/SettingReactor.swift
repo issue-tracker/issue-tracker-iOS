@@ -5,6 +5,7 @@
 //  Created by 백상휘 on 2022/11/28.
 //
 
+import Foundation
 import ReactorKit
 
 class SettingReactor: Reactor {
@@ -13,57 +14,51 @@ class SettingReactor: Reactor {
     private var model = SettingMainListModel()
     
     init() {
-        initialState.settingList = model.getList(nil)
+        initialState.settingList = model.getAllListItems()
     }
     
-    var settingList: [SettingListItem] {
+    var currentListCount: Int {
+        allItems.count
+    }
+    
+    var allItems: [SettingListItem] {
         currentState.settingList
-    }
-    var generalInfo: SettingListItem {
-        model.generalInfo
-    }
-    var allListInfo: SettingListItem {
-        model.allListInfo
     }
     
     struct State {
         @Pulse var settingList = [SettingListItem]()
-        var previousId: UUID? = nil
-        var fetchDetailId: UUID? = nil
+        @Pulse var updatingId: UUID?
     }
     
     enum Action {
-        case listSelected(UUID)
-        case backButtonSelected
-        case fetchItemValue(any SettingItemValue)
+        case updateItemIntiate(IndexPath)
     }
     
     enum Mutation {
-        case updateSelectedListId(UUID?)
-        case setItemValue(any SettingItemValue)
+        case updateItemInMutating(SettingListItem)
+        case updateItemMutated(any SettingItemValue)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .listSelected(let id):
-            return Observable.just(Mutation.updateSelectedListId(id))
-        case .backButtonSelected:
-            return Observable.just(Mutation.updateSelectedListId(currentState.previousId))
-        case .fetchItemValue(let value):
-            return Observable.just(Mutation.setItemValue(value))
+        case .updateItemIntiate(let indexPath):
+            let updateItem = currentState.settingList[indexPath.row]
+            guard updateItem.listType == .item else {
+                return .empty()
+            }
+            
+            let mutation = Mutation.updateItemInMutating(updateItem)
+            return Observable.just(mutation)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = currentState
         switch mutation {
-        case .updateSelectedListId(let targetID):
-            state.previousId = state.settingList.first?.parentId
-            state.fetchDetailId = targetID
-            state.settingList = model.getList(targetID)
-        case .setItemValue(let value):
+        case .updateItemInMutating(let item):
+            state.updatingId = item.id
+        case .updateItemMutated(let value):
             model.setItemValue(value)
-            state.settingList = model.getList(state.previousId)
         }
         return state
     }

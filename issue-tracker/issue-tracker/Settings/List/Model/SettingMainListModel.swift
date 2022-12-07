@@ -13,10 +13,10 @@ class SettingMainListModel {
     
     init() {
         let generalId = UUID()
-        generalInfo = SettingListItem(id: generalId, title: "일반 설정")
+        generalInfo = SettingListItem(id: generalId, title: "일반 설정", listTypeValue: SettingListType.title.rawValue)
         
         let allListId = UUID()
-        allListInfo = SettingListItem(id: allListId, title: "이슈/라벨/마일스톤 설정")
+        allListInfo = SettingListItem(id: allListId, title: "이슈/라벨/마일스톤 설정", listTypeValue: SettingListType.title.rawValue)
         
         initializeList()
     }
@@ -45,7 +45,7 @@ class SettingMainListModel {
             "light-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "라이트 모드", parentId: mainThemeSetting.id, order: 0, value: false),
             "dark-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "다크 모드", parentId: mainThemeSetting.id, order: 0, value: false),
             "system-theme-mode-enable": SettingListItemActivated(mainTitle: "다크 모드 적용 여부", subTitle: "시스템", parentId: mainThemeSetting.id, order: 0, value: true),
-            "color-background": SettingListItemValueColor(mainTitle: "배경화면 색상 설정", subTitle: nil, parentId: mainThemeSetting.id, order: 0, value: SettingListItemValueColor.SettingListItemColor(rgbRed: 0, rgbGreen: 0, rgbBlue: 0)),
+            "color-background": SettingListItemValueColor(mainTitle: "배경화면 색상 설정", subTitle: nil, parentId: mainThemeSetting.id, order: 0, value: SettingListItemValueColor.SettingListItemColor(rgbRed: 58, rgbGreen: 128, rgbBlue: 255)),
         ]
         
         generalInfo.subList = [
@@ -148,22 +148,40 @@ class SettingMainListModel {
         }
     }
     
-    #if DEBUG
-    var getMainItems: [SettingListItem] {
-        return [generalInfo, allListInfo]
+    /// CoreData에서 SettingItemValue을 Commit하는 API로 변경 필요.
+    ///
+    /// index, IndexPath, UUID 등 여러 방식을 통해 리스트와 아이템을 가져오는 API를 간략하게 제공할 필요가 있다.
+    func getAllListItems() -> [SettingListItem] {
+        [generalInfo] + generalInfo.subList + [allListInfo] + allListInfo.subList
     }
-    #endif
+    
+    /// CoreData에서 SettingItemValue을 Commit하는 API로 변경 필요.
+    ///
+    /// index, IndexPath, UUID 등 여러 방식을 통해 리스트와 아이템을 가져오는 API를 간략하게 제공할 필요가 있다.
+    func getListItem(_ index: Int) -> SettingListItem {
+        let list = [generalInfo] + generalInfo.subList + [allListInfo] + allListInfo.subList
+        return list[index]
+    }
+}
+
+enum SettingListType: Int, CaseIterable {
+    case title = 0
+    case item = 1
 }
 
 struct SettingListItem {
     let id: UUID
     let parentId: UUID?
     let title: String
+    private let listValue: Int
+    let listType: SettingListType
     
-    init(id: UUID, title: String, parentId: UUID? = nil) {
+    init(id: UUID, title: String, parentId: UUID? = nil, listTypeValue: Int = 1) {
         self.id = id
         self.title = title
         self.parentId = parentId
+        self.listValue = listTypeValue
+        self.listType = SettingListType.allCases.first(where: {$0.rawValue == listTypeValue}) ?? SettingListType.item
     }
     
     var subList = [SettingListItem]()

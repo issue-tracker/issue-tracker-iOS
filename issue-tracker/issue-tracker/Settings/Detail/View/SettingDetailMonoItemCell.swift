@@ -44,7 +44,7 @@ class SettingDetailMonoItemCell: UITableViewCell {
         
         contentView.flex.define { flex in
             flex.addItem(titleLabel)
-            self.valueFieldFlex = flex.addItem(valueField)
+            self.valueFieldFlex = flex.addItem(valueField).width(100%).padding(8)
         }
         
         contentView.flex.layout()
@@ -60,7 +60,7 @@ class SettingDetailMonoItemCell: UITableViewCell {
             valueFieldFlex?.addItem(switchButton)
         } else if let value = item.value as? SettingListItemValueColor.SettingValue {
             let colorView = SettingDetailCellFactory.valueColorView()
-            colorView.backgroundColor = UIColor(red: CGFloat(value.rgbRed), green: CGFloat(value.rgbGreen), blue: CGFloat(value.rgbBlue), alpha: 0.5)
+            colorView.backgroundColor = UIColor(red: CGFloat(value.rgbRed)/255, green: CGFloat(value.rgbGreen)/255, blue: CGFloat(value.rgbBlue)/255, alpha: 0.5)
             valueFieldFlex?.addItem(colorView)
         } else if let value = item.value as? Data, let image = UIImage(data: value) {
             let imageView = SettingDetailCellFactory.valueImageView()

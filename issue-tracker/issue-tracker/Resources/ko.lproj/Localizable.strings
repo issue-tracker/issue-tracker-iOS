@@ -43,4 +43,4 @@ L_N_LVC_BTN_LOGIN="아이디로 로그인";
 L_N_LVC_BTN_PWRESET="비밀번호 재설정";
 L_N_LVC_BTN_SIGNIN="회원가입";
 L_N_LVC_BTN_SIGNIN_OAUTH="간편회원가입";
-L_N_LVC_LB_SIGNIN_OAUTH="간편하게 로그인/회원가입";
+L_N_LVC_LB_SIGN_OAUTH="간편하게 로그인\/회원가입";

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B02F9CF29483977006498CE /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B02F9CE29483977006498CE /* CoreDataStack.swift */; };
+		1B02F9D029483998006498CE /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B02F9CE29483977006498CE /* CoreDataStack.swift */; };
+		1B02F9D529484506006498CE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B02F9D729484506006498CE /* Localizable.strings */; };
+		1B02F9DB29484532006498CE /* I18N.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B02F9DA29484532006498CE /* I18N.swift */; };
+		1B02F9DC29484532006498CE /* I18N.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B02F9DA29484532006498CE /* I18N.swift */; };
 		1B03E7A828BFA6FB0006FADD /* MainViewSingleRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */; };
 		1B03E7BD28C1F1950006FADD /* issue_trackerUITests_MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7BC28C1F1950006FADD /* issue_trackerUITests_MainView.swift */; };
 		1B03E7BF28C1F1D10006FADD /* issue_trackerUITests_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */; };
@@ -237,6 +242,12 @@
 
 /* Begin PBXFileReference section */
 		0E3F2E104153498D6D7CED36 /* Pods_issue_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_issue_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B02F9CE29483977006498CE /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		1B02F9D129483DF4006498CE /* settings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settings.json; sourceTree = "<group>"; };
+		1B02F9D629484506006498CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B02F9D82948450B006498CE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1B02F9DA29484532006498CE /* I18N.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I18N.swift; sourceTree = "<group>"; };
+		1B02F9DD2948485F006498CE /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B03E7A728BFA6FB0006FADD /* MainViewSingleRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewSingleRequestModel.swift; sourceTree = "<group>"; };
 		1B03E7BC28C1F1950006FADD /* issue_trackerUITests_MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_MainView.swift; sourceTree = "<group>"; };
 		1B03E7BE28C1F1D10006FADD /* issue_trackerUITests_Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_Login.swift; sourceTree = "<group>"; };
@@ -616,6 +627,8 @@
 				1B3C0651287BDD17006A36CF /* Assets.xcassets */,
 				1B3C0656287BDD17006A36CF /* Info.plist */,
 				1B0808822893E1B2001704C2 /* URL+Extension.swift */,
+				1B02F9DA29484532006498CE /* I18N.swift */,
+				1B02F9D729484506006498CE /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -804,6 +817,8 @@
 			children = (
 				1B16126B29348D4200B31347 /* DataModel */,
 				1B6DBDF0294302DF005FBFFD /* Repository.swift */,
+				1B02F9CE29483977006498CE /* CoreDataStack.swift */,
+				1B02F9D129483DF4006498CE /* settings.json */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -1022,6 +1037,7 @@
 				1B3C0642287BDD15006A36CF /* Frameworks */,
 				1B3C0643287BDD15006A36CF /* Resources */,
 				E257C46FFC3CD333E6CC7F68 /* [CP] Embed Pods Frameworks */,
+				1B02F9D4294842DC006498CE /* Localize Script */,
 			);
 			buildRules = (
 			);
@@ -1060,6 +1076,7 @@
 				1B89AF5128A0D4FC0057C6D5 /* Frameworks */,
 				1B89AF5228A0D4FC0057C6D5 /* Resources */,
 				0F1353665AD846E9313085BA /* [CP] Embed Pods Frameworks */,
+				1B02F9DE29484CEB006498CE /* Localize Script */,
 			);
 			buildRules = (
 			);
@@ -1101,6 +1118,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
+				ko,
 			);
 			mainGroup = 1B3C063C287BDD15006A36CF;
 			productRefGroup = 1B3C0646287BDD15006A36CF /* Products */;
@@ -1120,6 +1139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */,
+				1B02F9D529484506006498CE /* Localizable.strings in Resources */,
 				1BF1D0D628BCE0C200393294 /* Milestones.json in Resources */,
 				1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */,
 				1BF1D0D428BCE0BE00393294 /* Labels.json in Resources */,
@@ -1162,6 +1182,42 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-issue-tracker-issue-trackerUITests/Pods-issue-tracker-issue-trackerUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		1B02F9D4294842DC006498CE /* Localize Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Localize Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\necho \"generating I18N.swift\"\n\ntouch tempI18N.swift\necho \"struct I18N {\" >> tempI18N.swift\ninputfile=${SRCROOT}/issue-tracker/Resources/Localizable.strings\n\nwhile IFS= read -r line\n\ndo\necho $line\npattern='^[a-zA-Z]+(.*)[\\\\s]*=[\\\\s]*(.*)$'\n\ncomment='\\/\\/.+'\n\nif [[ $line =~ $pattern ]]\nthen\n    echo \"Yes👌\"\n    variableName=$(echo ${line%%=*})\n    echo $variableName\n    if [ \"$variableName\" != \"\" ]; then\n        echo \"    static let $variableName = \\\"$variableName\\\".localized\" >> tempI18N.swift\n    fi\nelse\n    if [[ $line =~ $comment ]]\n    then\n        echo \"Comment 📝\"\n        echo \"\\n    $line\" >> tempI18N.swift\n    else\n        echo \"No👎\"\n    fi\nfi\ndone <\"$inputfile\"\n\necho \"}\" >> tempI18N.swift\ncat tempI18N.swift > ${SRCROOT}/issue-tracker/Resources/I18N.swift\nrm tempI18N.swift\n\necho \"-------------\"\ncat $inputfile\ncat ${SRCROOT}/Manhwakyung-ios/Resources/I18N.swift\necho \"-------------\"\n";
+		};
+		1B02F9DE29484CEB006498CE /* Localize Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Localize Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\necho \"generating I18N.swift\"\n\ntouch tempI18N.swift\necho \"struct I18N {\" >> tempI18N.swift\ninputfile=${SRCROOT}/issue-tracker/Resources/Localizable.strings\n\nwhile IFS= read -r line\n\ndo\necho $line\npattern='^[a-zA-Z]+(.*)[\\\\s]*=[\\\\s]*(.*)$'\n\ncomment='\\/\\/.+'\n\nif [[ $line =~ $pattern ]]\nthen\n    echo \"Yes👌\"\n    variableName=$(echo ${line%%=*})\n    echo $variableName\n    if [ \"$variableName\" != \"\" ]; then\n        echo \"    static let $variableName = \\\"$variableName\\\".localized\" >> tempI18N.swift\n    fi\nelse\n    if [[ $line =~ $comment ]]\n    then\n        echo \"Comment 📝\"\n        echo \"\\n    $line\" >> tempI18N.swift\n    else\n        echo \"No👎\"\n    fi\nfi\ndone <\"$inputfile\"\n\necho \"}\" >> tempI18N.swift\ncat tempI18N.swift > ${SRCROOT}/issue-tracker/Resources/I18N.swift\nrm tempI18N.swift\n\necho \"-------------\"\ncat $inputfile\ncat ${SRCROOT}/Manhwakyung-ios/Resources/I18N.swift\necho \"-------------\"\n";
 		};
 		4F25F22F553A6D17620D3E83 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1283,6 +1339,7 @@
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
 				1BF36D7528DC28620033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
+				1B02F9CF29483977006498CE /* CoreDataStack.swift in Sources */,
 				1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */,
 				1B8B74442900D2DD008380BF /* SettingIssueQueryCell.swift in Sources */,
 				1BD1C5BC291A52B600AEA74F /* MainListStatusReactor.swift in Sources */,
@@ -1351,6 +1408,7 @@
 				1BD125CD28D1E8E70050F2D1 /* IssueCommentReactionsResponse.swift in Sources */,
 				1B1612592930842700B31347 /* SceneDelegate+Extensions.swift in Sources */,
 				1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */,
+				1B02F9DB29484532006498CE /* I18N.swift in Sources */,
 				1B3788FF28F7A08500A2DF39 /* UITableViewCell+Extensions.swift in Sources */,
 				1B37891228F9788200A2DF39 /* SettingLabelQueryViewController.swift in Sources */,
 				1B8E4AB628892F0B00432728 /* ViewBindable.swift in Sources */,
@@ -1440,6 +1498,7 @@
 				1B0580D4293723B90094140B /* issue_trackerUnitTest_Settings.swift in Sources */,
 				1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */,
 				1B0580C42934E8E10094140B /* SettingDataModel.xcdatamodeld in Sources */,
+				1B02F9D029483998006498CE /* CoreDataStack.swift in Sources */,
 				1B161207292C6F4F00B31347 /* SignInFormModel.swift in Sources */,
 				1B0580CA2934E95A0094140B /* issue_trackerUnitTest_Persistent_Setting.swift in Sources */,
 				1BE71C8329179D96002F1A61 /* IssueAddRemoveModel.swift in Sources */,
@@ -1448,6 +1507,7 @@
 				1B16126029308B4100B31347 /* MainViewSingleRequestModel.swift in Sources */,
 				1B589585293B2B3A007A9937 /* SettingProxyViewController.swift in Sources */,
 				1BB9BB6F29188645002A0DEB /* IssueListReactor.swift in Sources */,
+				1B02F9DC29484532006498CE /* I18N.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1483,6 +1543,19 @@
 			targetProxy = 1B89AF5A28A0D4FC0057C6D5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1B02F9D729484506006498CE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B02F9D629484506006498CE /* en */,
+				1B02F9D82948450B006498CE /* ja */,
+				1B02F9DD2948485F006498CE /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1B3C0657287BDD17006A36CF /* Debug */ = {

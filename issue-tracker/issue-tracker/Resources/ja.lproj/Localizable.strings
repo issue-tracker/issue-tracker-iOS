@@ -46,3 +46,59 @@ L_N_LVC_BTN_SIGNIN="会員登録";
 L_N_LVC_BTN_SIGNIN_OAUTH="簡単な会員登録";
 L_N_LVC_LB_SIGN_OAUTH="簡単にログイン/会員登録";
 L_N_LVC_ALERT_AUTOLOGINFAIL="自動ログインに失敗しました。もう一度ログインしてください.";
+
+// Settings - General
+
+M_ST_SVC_TCELL_GENERAL="一般";
+
+// Settings - General - Login
+
+M_ST_SVC_TCELL_GENERAL_LOGIN="ログインサービス";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO="自動ログイン設定";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC="アプリの実行時に保存された情報を利用してログインしようとします.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB="GitHubログイン";
+M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC="GitHubを介したログイン機能を有効にします";
+M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER="Naverログイン";
+M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC="Naverでログイン機能を有効にします.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO="Kakaoログイン";
+M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC="Kakaoでログイン機能を有効にします.";
+
+// Settings - General - Dark mode
+
+M_ST_SVC_TCELL_GENERAL_DARKMODE="ダークモード";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE="お気に入りのアプリモードを選択してください.";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_LIGHT="ライト（明るい） モード";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_DARK="ダーク（ダーク） モード";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_SYSTEM="システム";
+
+// Settings - General - Language
+
+M_ST_SVC_TCELL_GENERAL_LANGUAGE="言語";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE="お気に入りの言語を選択してください.";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_KOREAN="한국어";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_ENGLISH="English";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_JAPANESE="日本語";
+
+// Settings - Issue/Label/Milestone
+
+M_ST_SVC_TCELL_CONTENTS="イッシュ(Issue)/ラベル(Label)/マイルストーン(Milestone)";
+
+// Settings - Issue/Label/Milestone - Lists
+
+M_ST_SVC_TCELL_CONTENTS_LIST="リスト設定";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR="イッシュ(Issue) 背景色";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC="イッシュ(Issue)リストの各項目に背景色を割り当てます.";
+M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR="ラベル(Label) 背景色";
+M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC="ラベル(Label)リストの各項目に背景色を割り当てます.";
+M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR="マイルストーン(Milestone) 背景色";
+M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC="マイルストーン(Milestone)リストの各項目に背景色を割り当てます.";
+
+// Settings - Issue/Label/Milestone - Details
+
+M_ST_SVC_TCELL_CONTENTS_DETAIL="詳細画面設定";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL="ラベル(Label) 表示可否";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC="より速い画面呼び出しをしたい場合は、この設定をオフにしてください.";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE="プロフィールイメージ(Profile image) 表示可否";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC="より速い画面呼び出しをしたい場合は、この設定をオフにしてください.";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY="イッシュ(Issue) 履歴の簡素化";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC="より速い画面呼び出しをしたい場合は、この設定をオンにしてください.";

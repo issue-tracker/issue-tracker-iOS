@@ -29,6 +29,8 @@
  LB = UILabel
  BTN = UIButton
  ALERT = UIAlertController
+ TCELL = UITableViewCell
+ CCELL = UICollectionViewCell
  */
 
 /*
@@ -46,3 +48,59 @@ L_N_LVC_BTN_SIGNIN="Signin";
 L_N_LVC_BTN_SIGNIN_OAUTH="Signin Via";
 L_N_LVC_LB_SIGN_OAUTH="OR..";
 L_N_LVC_ALERT_AUTOLOGINFAIL="Login in system failed. Try login again.";
+
+// Settings - General
+
+M_ST_SVC_TCELL_GENERAL="General";
+
+// Settings - General - Login
+
+M_ST_SVC_TCELL_GENERAL_LOGIN="Login Services";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO="Auto Login";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC="Execute auto-login at launch-time using saved informations.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB="GitHub Login Activate";
+M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC="Login via GitHub functionality activate.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER="Naver Login Activate";
+M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC="Login via Naver functionality activate.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO="Kakao Login Activate";
+M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC="Login via Kakao functionality activate.";
+
+// Settings - General - Dark mode
+
+M_ST_SVC_TCELL_GENERAL_DARKMODE="Dark mode";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE="Choose preferred mode";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_LIGHT="Light mode";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_DARK="Dark mode";
+M_ST_SVC_TCELL_GENERAL_DARKMODE_SYSTEM="System";
+
+// Settings - General - Language
+
+M_ST_SVC_TCELL_GENERAL_LANGUAGE="Languages";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE="Choose preferred language";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_KOREAN="한국어";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_ENGLISH="English";
+M_ST_SVC_TCELL_GENERAL_LANGUAGE_JAPANESE="日本語";
+
+// Settings - Issue/Label/Milestone
+
+M_ST_SVC_TCELL_CONTENTS="Issue/Label/Milestone";
+
+// Settings - Issue/Label/Milestone - Lists
+
+M_ST_SVC_TCELL_CONTENTS_LIST="Lists";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR="Issue Background Color";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC="Issue list background color.";
+M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR="Label Background Color";
+M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC="Label list background color.";
+M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR="Milestone Background Color";
+M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC="Milestone list background color.";
+
+// Settings - Issue/Label/Milestone - Details
+
+M_ST_SVC_TCELL_CONTENTS_DETAIL="Details";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL="Label activate/show";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC="Turn this OFF if you need fast screen.";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE="Profile image activate/show";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC="Turn this OFF if you need fast screen.";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY="Simple history mode activate";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC="Turn this ON if you need compact screen.";

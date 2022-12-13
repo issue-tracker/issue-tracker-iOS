@@ -248,7 +248,7 @@
 /* Begin PBXFileReference section */
 		0E3F2E104153498D6D7CED36 /* Pods_issue_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_issue_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B02F9CE29483977006498CE /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		1B02F9D129483DF4006498CE /* settings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settings.json; sourceTree = "<group>"; };
+		1B02F9D129483DF4006498CE /* settingLists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settingLists.json; sourceTree = "<group>"; };
 		1B02F9D629484506006498CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B02F9D82948450B006498CE /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B02F9DA29484532006498CE /* I18N.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I18N.swift; sourceTree = "<group>"; };
@@ -826,7 +826,7 @@
 				1B16126B29348D4200B31347 /* DataModel */,
 				1B6DBDF0294302DF005FBFFD /* Repository.swift */,
 				1B02F9CE29483977006498CE /* CoreDataStack.swift */,
-				1B02F9D129483DF4006498CE /* settings.json */,
+				1B02F9D129483DF4006498CE /* settingLists.json */,
 			);
 			path = Repository;
 			sourceTree = "<group>";

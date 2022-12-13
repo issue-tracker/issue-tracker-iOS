@@ -28,6 +28,7 @@
  TXTF = UITextField
  LB = UILabel
  BTN = UIButton
+ ALERT = UIAlertController
  */
 
 /*
@@ -44,3 +45,4 @@ L_N_LVC_BTN_PWRESET="Reset Password";
 L_N_LVC_BTN_SIGNIN="Signin";
 L_N_LVC_BTN_SIGNIN_OAUTH="Signin Via";
 L_N_LVC_LB_SIGN_OAUTH="OR..";
+L_N_LVC_ALERT_AUTOLOGINFAIL="Login in system failed. Try login again.";

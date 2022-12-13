@@ -8,4 +8,5 @@ struct I18N {
     static let L_N_LVC_BTN_SIGNIN = "L_N_LVC_BTN_SIGNIN".localized
     static let L_N_LVC_BTN_SIGNIN_OAUTH = "L_N_LVC_BTN_SIGNIN_OAUTH".localized
     static let L_N_LVC_LB_SIGN_OAUTH = "L_N_LVC_LB_SIGN_OAUTH".localized
+    static let L_N_LVC_ALERT_AUTOLOGINFAIL = "L_N_LVC_ALERT_AUTOLOGINFAIL".localized
 }

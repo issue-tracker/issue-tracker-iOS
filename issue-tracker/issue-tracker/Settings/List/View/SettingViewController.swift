@@ -83,38 +83,29 @@ extension SettingViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = reactor?.allItems[indexPath.row] else {
-            return UITableViewCell()
-        }
-        
-        switch item.listType {
-        case .title:
-            return tableView.getTitleCell(item, indexPath: indexPath)
-        case .item:
-            return tableView.getNormalCell(item, indexPath: indexPath)
-        }
+          return UITableViewCell()
     }
 }
 
-extension UITableView {
-    func getNormalCell(_ item: SettingListItem, indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.dequeueReusableCell(withIdentifier: CELL.reuseIdentifier, for: indexPath) as? CELL else {
-            return UITableViewCell()
-        }
-        
-        cell.label.text = item.listType.toIndent() + item.title
-        return cell
-    }
-    
-    func getTitleCell(_ item: SettingListItem, indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.dequeueReusableCell(withIdentifier: TITLECELL.reuseIdentifier, for: indexPath) as? TITLECELL else {
-            return UITableViewCell()
-        }
-        
-        cell.titleLabel.text = item.listType.toIndent() + item.title
-        return cell
-    }
-}
+//extension UITableView {
+//    func getNormalCell(_ item: SettingListItem, indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = self.dequeueReusableCell(withIdentifier: CELL.reuseIdentifier, for: indexPath) as? CELL else {
+//            return UITableViewCell()
+//        }
+//        
+//        cell.label.text = item.listType.toIndent() + item.title
+//        return cell
+//    }
+//    
+//    func getTitleCell(_ item: SettingListItem, indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = self.dequeueReusableCell(withIdentifier: TITLECELL.reuseIdentifier, for: indexPath) as? TITLECELL else {
+//            return UITableViewCell()
+//        }
+//        
+//        cell.titleLabel.text = item.listType.toIndent() + item.title
+//        return cell
+//    }
+//}
 
 extension SettingListType {
     func toIndent() -> String {

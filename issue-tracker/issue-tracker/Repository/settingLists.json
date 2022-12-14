@@ -1,147 +1,149 @@
 {
-  {
-    "title": "M_ST_SVC_TCELL_GENERAL",
-    "listTypeValue": 0,
-    "items": [
-      {
-        "title": "M_ST_SVC_TCELL_GENERAL_LOGIN",
-        "values": [
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC",
-            "order": 0,
-            "value": false
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC",
-            "order": 1,
-            "value": true
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC",
-            "order": 2,
-            "value": true
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC",
-            "order": 3,
-            "value": true
-          }
-        ]
-      },
-      {
-        "title": "M_ST_SVC_TCELL_GENERAL_DARKMODE",
-        "values": [
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_LIGHT",
-            "order": 0,
-            "value": false
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_DARK",
-            "order": 1,
-            "value": false
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_SYSTEM",
-            "order": 2,
-            "value": true
-          }
-        ]
-      },
-      {
-        "title": "M_ST_SVC_TCELL_GENERAL_LANGUAGE",
-        "values": [
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_KOREAN",
-            "order": 0,
-            "value": true
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_ENGLISH",
-            "order": 0,
-            "value": false
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
-            "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_JAPANESE",
-            "order": 0,
-            "value": false
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "title": "M_ST_SVC_TCELL_CONTENTS",
-    "listTypeValue": 0,
-    "items": [
-      {
-        "title": "M_ST_SVC_TCELL_CONTENTS_LIST",
-        "values": [
-          {
-            "mainTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR",
-            "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC",
-            "order": 0,
-            "value": {
-              "rgbRed": 58.0,
-              "rgbGreen": 128.0,
-              "rgbBlue": 255.0
+  "contents": [
+    {
+      "title": "M_ST_SVC_TCELL_GENERAL",
+      "listTypeValue": 0,
+      "items": [
+        {
+          "title": "M_ST_SVC_TCELL_GENERAL_LOGIN",
+          "values": [
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC",
+              "order": 0,
+              "value": false
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC",
+              "order": 1,
+              "value": true
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC",
+              "order": 2,
+              "value": true
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC",
+              "order": 3,
+              "value": true
             }
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR",
-            "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC",
-            "order": 1,
-            "value": {
-              "rgbRed": 58.0,
-              "rgbGreen": 128.0,
-              "rgbBlue": 255.0
+          ]
+        },
+        {
+          "title": "M_ST_SVC_TCELL_GENERAL_DARKMODE",
+          "values": [
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_LIGHT",
+              "order": 0,
+              "value": false
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_DARK",
+              "order": 1,
+              "value": false
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_SYSTEM",
+              "order": 2,
+              "value": true
             }
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR",
-            "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC",
-            "order": 2,
-            "value": {
-              "rgbRed": 58.0,
-              "rgbGreen": 128.0,
-              "rgbBlue": 255.0
+          ]
+        },
+        {
+          "title": "M_ST_SVC_TCELL_GENERAL_LANGUAGE",
+          "values": [
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_KOREAN",
+              "order": 0,
+              "value": true
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_ENGLISH",
+              "order": 0,
+              "value": false
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_JAPANESE",
+              "order": 0,
+              "value": false
             }
-          }
-        ]
-      },
-      {
-        "title": "M_ST_SVC_TCELL_CONTENTS_DETAIL",
-        "values": [
-          {
-            "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL",
-            "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC",
-            "order": 0,
-            "value": true
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE",
-            "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC",
-            "order": 1,
-            "value": true
-          },
-          {
-            "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY",
-            "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC",
-            "order": 2,
-            "value": false
-          }
-        ]
-      }
-    ]
-  }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "M_ST_SVC_TCELL_CONTENTS",
+      "listTypeValue": 0,
+      "items": [
+        {
+          "title": "M_ST_SVC_TCELL_CONTENTS_LIST",
+          "values": [
+            {
+              "mainTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR",
+              "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC",
+              "order": 0,
+              "value": {
+                "rgbRed": 58.0,
+                "rgbGreen": 128.0,
+                "rgbBlue": 255.0
+              }
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR",
+              "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC",
+              "order": 1,
+              "value": {
+                "rgbRed": 58.0,
+                "rgbGreen": 128.0,
+                "rgbBlue": 255.0
+              }
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR",
+              "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC",
+              "order": 2,
+              "value": {
+                "rgbRed": 58.0,
+                "rgbGreen": 128.0,
+                "rgbBlue": 255.0
+              }
+            }
+          ]
+        },
+        {
+          "title": "M_ST_SVC_TCELL_CONTENTS_DETAIL",
+          "values": [
+            {
+              "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL",
+              "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC",
+              "order": 0,
+              "value": true
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE",
+              "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC",
+              "order": 1,
+              "value": true
+            },
+            {
+              "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY",
+              "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC",
+              "order": 2,
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

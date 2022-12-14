@@ -11,18 +11,9 @@ import ReactorKit
 class SettingDetailReactor: Reactor {
     
     var initialState: State
-    var items: [any SettingItemValue] = []
     
     init(targetId: UUID, settingList: [SettingListItem]) {
-        
-        var values = [any SettingItemValue]()
-        for item in settingList {
-            if item.id == targetId {
-                values.append(contentsOf: item.values.map({$0.value}))
-            }
-        }
-        
-        initialState = .init(settingList: values)
+        initialState = .init(settingList: [any SettingItemValue]())
     }
     
     struct State {

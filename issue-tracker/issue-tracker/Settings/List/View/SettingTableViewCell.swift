@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingTableViewCell: UITableViewCell, CellEntityAdaptable {
+class SettingTableViewCell: UITableViewCell {
     var index: Int = -1
     let customBackgroundView = UIView()
     let label = CommonLabel(fontMultiplier: 1.45)
@@ -42,10 +42,5 @@ class SettingTableViewCell: UITableViewCell, CellEntityAdaptable {
         label.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    func setEntity(_ entity: SettingCategory, at index: Int) {
-        self.index = index
-        label.text = entity.getName()
     }
 }

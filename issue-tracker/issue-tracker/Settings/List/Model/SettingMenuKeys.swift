@@ -20,10 +20,6 @@ protocol PersistentKey {
 // MARK: - 설정 창 추상타입
 
 /// 설정 창 Category Entity 를 위한 프로토콜. 화면에 표시되어야 할 이름과 다음 ViewController를 반환한다.
-protocol SettingCategory {
-    func getName() -> String
-    func getNextView() -> UIViewController?
-}
 
 /// 설정 창 Item Entity 를 위한 프로토콜.
 protocol SettingItemClickable {
@@ -61,24 +57,5 @@ enum IssueSettings: String, CaseIterable, PersistentKey {
     
     func getPersistentKey() -> String {
         "ISSUE_"+self.rawValue
-    }
-}
-
-enum LabelSettings: String, CaseIterable, PersistentKey {
-    case list = "목록 설정"
-    case detail = "상세 창 설정"
-    case query = "기본 조회조건 설정"
-    
-    func getPersistentKey() -> String {
-        "LABEL_"+self.rawValue
-    }
-}
-
-enum MilestoneSettings: String, CaseIterable, PersistentKey {
-    case list = "목록 설정"
-    case query = "기본 조회조건 설정"
-    
-    func getPersistentKey() -> String {
-        "MILESTONE_"+self.rawValue
     }
 }

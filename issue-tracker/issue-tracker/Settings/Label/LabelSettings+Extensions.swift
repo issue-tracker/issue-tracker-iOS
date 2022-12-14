@@ -7,20 +7,20 @@
 
 import UIKit
 
-extension LabelSettings: SettingCategory {
-    
-    func getNextView() -> UIViewController? {
-        switch self {
-        case .list:
-            return SettingLabelListViewController()
-        case .query:
-            return SettingLabelQueryViewController()
-        case .detail:
-            return SettingLabelDetailViewController()
-        }
-    }
-    
-    func getName() -> String {
-        self.rawValue
-    }
-}
+//extension LabelSettings: SettingCategory {
+//    
+//    func getNextView() -> UIViewController? {
+//        switch self {
+//        case .list:
+//            return SettingLabelListViewController()
+//        case .query:
+//            return SettingLabelQueryViewController()
+//        case .detail:
+//            return SettingLabelDetailViewController()
+//        }
+//    }
+//    
+//    func getName() -> String {
+//        self.rawValue
+//    }
+//}

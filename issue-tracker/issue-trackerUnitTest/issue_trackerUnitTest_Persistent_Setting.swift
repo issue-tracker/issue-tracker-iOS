@@ -8,7 +8,32 @@
 import XCTest
 
 final class issue_trackerUnitTest_Persistent_Setting: XCTestCase {
-    func test_SettingChecker() throws {
-        TransformableHelper.register()
+  
+  let stack = CoreDataStack()
+  
+  func test_SettingChecker() throws {
+    SettingValueTransformable.register()
+    
+    stack.removeAllSettingLists()
+    
+    do {
+      var count = 0
+      
+      count = try stack.context.count(for: SettingCategory.fetchRequest())
+      XCTAssertEqual(count, 0)
+      
+      count = try stack.context.count(for: SettingListItem.fetchRequest())
+      XCTAssertEqual(count, 0)
+      
+      count = try stack.context.count(for: SettingList.fetchRequest())
+      XCTAssertEqual(count, 0)
+      
+    } catch let error as NSError {
+      print("Error occured \(error), \(error.userInfo)")
     }
+    
+    stack.resetDefaultSetting()
+    
+    XCTAssertTrue(stack.checkSettingListAvailable())
+  }
 }

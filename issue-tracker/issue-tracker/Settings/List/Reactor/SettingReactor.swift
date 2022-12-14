@@ -40,26 +40,10 @@ class SettingReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action {
-        case .updateItemIntiate(let indexPath):
-            let updateItem = currentState.settingList[indexPath.row]
-            guard updateItem.listType == .item else {
-                return .empty()
-            }
-            
-            let mutation = Mutation.updateItemInMutating(updateItem)
-            return Observable.just(mutation)
-        }
+        .empty()
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var state = currentState
-        switch mutation {
-        case .updateItemInMutating(let item):
-            state.updatingId = item.id
-        case .updateItemMutated(let value):
-            model.setItemValue(value)
-        }
-        return state
+        return currentState
     }
 }

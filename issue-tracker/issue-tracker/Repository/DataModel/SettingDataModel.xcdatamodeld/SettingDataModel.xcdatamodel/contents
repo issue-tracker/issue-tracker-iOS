@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ItemActivated" representedClassName="ItemActivated" syncable="YES" codeGenerationType="class">
-        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="subTitle" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
-        <attribute name="value" attributeType="Boolean" usesScalarValueType="YES"/>
+    <entity name="SettingCategory" representedClassName="SettingCategory" syncable="YES">
+        <attribute name="listTypeValue" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SettingList" inverseName="parent" inverseEntity="SettingList"/>
     </entity>
-    <entity name="ItemList" representedClassName="ItemList" syncable="YES" codeGenerationType="class">
-        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="subTitle" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
-        <attribute name="value" attributeType="Transformable" valueTransformerName="CategorisedSettingListsTransformable"/>
+    <entity name="SettingList" representedClassName="SettingList" syncable="YES">
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="parent" maxCount="1" deletionRule="Nullify" destinationEntity="SettingCategory" inverseName="items" inverseEntity="SettingCategory"/>
+        <relationship name="values" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SettingListItem" inverseName="parent" inverseEntity="SettingListItem"/>
     </entity>
-    <entity name="ItemValueColor" representedClassName="ItemValueColor" syncable="YES" codeGenerationType="class">
-        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="subTitle" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
-        <attribute name="value" optional="YES" attributeType="Transformable" valueTransformerName="ColorAttributeTransformer"/>
-    </entity>
-    <entity name="SettingItem" representedClassName="SettingItem" syncable="YES" codeGenerationType="class">
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="parentId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="title" attributeType="String"/>
-        <attribute name="value" attributeType="Transformable" valueTransformerName="CategorisedSettingListsTransformable"/>
+    <entity name="SettingListItem" representedClassName="SettingListItem" syncable="YES">
+        <attribute name="mainTitle" attributeType="String"/>
+        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="subTitle" optional="YES" attributeType="String"/>
+        <attribute name="value" optional="YES" attributeType="Transformable" valueTransformerName="SettingValueTransformable"/>
+        <relationship name="parent" maxCount="1" deletionRule="Nullify" destinationEntity="SettingList" inverseName="values" inverseEntity="SettingList"/>
     </entity>
 </model>

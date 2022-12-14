@@ -7,18 +7,18 @@
 
 import UIKit
 
-extension MilestoneSettings: SettingCategory {
-    
-    func getNextView() -> UIViewController? {
-        switch self {
-        case .list:
-            return SettingMilestoneListViewController()
-        case .query:
-            return SettingMilestoneQueryViewController()
-        }
-    }
-    
-    func getName() -> String {
-        self.rawValue
-    }
-}
+//extension MilestoneSettings: SettingCategory {
+//    
+//    func getNextView() -> UIViewController? {
+//        switch self {
+//        case .list:
+//            return SettingMilestoneListViewController()
+//        case .query:
+//            return SettingMilestoneQueryViewController()
+//        }
+//    }
+//    
+//    func getName() -> String {
+//        self.rawValue
+//    }
+//}

@@ -159,6 +159,7 @@
 		1B8FD16929274F9C001179C6 /* HTTPURLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FD16829274F9C001179C6 /* HTTPURLResponse+Extensions.swift */; };
 		1B94384028B3520D007CAE40 /* HTTPResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */; };
 		1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B94384128B3552E007CAE40 /* UIViewController+Extensions.swift */; };
+		1BA3432D2975124B001CB700 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BA3432C2975124B001CB700 /* GoogleService-Info.plist */; };
 		1BB9BB6E29188645002A0DEB /* IssueListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */; };
 		1BB9BB6F29188645002A0DEB /* IssueListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */; };
 		1BB9BB712919EE91002A0DEB /* LabelListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB702919EE91002A0DEB /* LabelListReactor.swift */; };
@@ -354,6 +355,7 @@
 		1B8FD16829274F9C001179C6 /* HTTPURLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		1B94383F28B3520D007CAE40 /* HTTPResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponseModel.swift; sourceTree = "<group>"; };
 		1B94384128B3552E007CAE40 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		1BA3432C2975124B001CB700 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1BB9BB6D29188645002A0DEB /* IssueListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListReactor.swift; sourceTree = "<group>"; };
 		1BB9BB702919EE91002A0DEB /* LabelListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListReactor.swift; sourceTree = "<group>"; };
 		1BB9BB722919EE97002A0DEB /* MilestoneListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListReactor.swift; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 				1B3C064A287BDD15006A36CF /* SceneDelegate.swift */,
 				1B3C0651287BDD17006A36CF /* Assets.xcassets */,
 				1B3C0656287BDD17006A36CF /* Info.plist */,
+				1BA3432C2975124B001CB700 /* GoogleService-Info.plist */,
 				1B0808822893E1B2001704C2 /* URL+Extension.swift */,
 			);
 			path = Resources;
@@ -1108,6 +1111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B89AF42289CD1FA0057C6D5 /* RELEASE.xcconfig in Resources */,
+				1BA3432D2975124B001CB700 /* GoogleService-Info.plist in Resources */,
 				1BF1D0D628BCE0C200393294 /* Milestones.json in Resources */,
 				1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */,
 				1BF1D0D428BCE0BE00393294 /* Labels.json in Resources */,

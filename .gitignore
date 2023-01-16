@@ -96,3 +96,7 @@ iOSInjectionProject/
 # xcconfig
 
 RELEASE.xcconfig
+
+# Firebase
+
+GoogleService-info.plist

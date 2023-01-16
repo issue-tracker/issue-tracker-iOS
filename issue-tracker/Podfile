@@ -12,6 +12,8 @@ target 'issue-tracker' do
   pod 'RxRelay', '>=6.5.0'
   pod 'RxCocoa', '>=6.5.0'
   pod 'ReactorKit', '3.1.0'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
   
   target 'issue-trackerUnitTests' do
     inherit! :search_paths

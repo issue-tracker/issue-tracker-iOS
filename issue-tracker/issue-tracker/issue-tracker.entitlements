@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:3.36.249.0:8080/</string>
+		<string>applinks:sanghwiback.page.link</string>
 	</array>
 </dict>
 </plist>

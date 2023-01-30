@@ -8,12 +8,25 @@
 import UIKit
 import CoreData
 import FirebaseCore
+import FirebaseDynamicLinks
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        
+        let dynamicLinksDomainURIPrefix = "https://sanghwiback.page.link"
+        let link = URL(string: "https://front.issue-tracker.link/" + "")
+        let linkBuilder = DynamicLinkComponents(link: link!, domainURIPrefix: dynamicLinksDomainURIPrefix)
+        
+        if let appStoreID = Bundle.main.object(forInfoDictionaryKey: "APP_STORE_ID") as? String {
+            
+            linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID: "com.sanghwiback.issue-tracker")
+            linkBuilder?.iOSParameters?.appStoreID = appStoreID
+            
+            let longDynamicLink = linkBuilder!.url!
+        }
         
 //        UserDefaults.standard.setValue(
 //            (try? JSONEncoder().encode([

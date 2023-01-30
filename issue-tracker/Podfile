@@ -13,7 +13,7 @@ target 'issue-tracker' do
   pod 'RxCocoa', '>=6.5.0'
   pod 'ReactorKit', '3.1.0'
   pod 'FirebaseAuth'
-  pod 'FirebaseFirestore'
+  pod 'FirebaseDynamicLinks'
   
   target 'issue-trackerUnitTests' do
     inherit! :search_paths

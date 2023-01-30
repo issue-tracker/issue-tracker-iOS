@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 enum MainView {
     case login
@@ -112,6 +113,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         else {
             topViewController?.present(UIAlertController.messageFailed, animated: true)
             return
+        }
+        
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userURL) { dynamiclink, error in
+            print(dynamiclink?.url)
         }
         
         print(userURL)

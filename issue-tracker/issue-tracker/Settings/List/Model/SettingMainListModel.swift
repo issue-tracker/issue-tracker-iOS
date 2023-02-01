@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class SettingMainListModel {
     
@@ -39,7 +40,20 @@ class SettingMainListModel {
     ///
     /// index, IndexPath, UUID 등 여러 방식을 통해 리스트와 아이템을 가져오는 API를 간략하게 제공할 필요가 있다.
     func getAllListItems() -> [SettingListItem] {
-        []
+        guard let context = NSManagedObjectContext.viewContext else {
+            return []
+        }
+        
+        let fetch = SettingListItem.fetchRequest()
+        var result = [SettingListItem]()
+        
+        do {
+            result = try context.fetch(fetch)
+        } catch {
+            print(error)
+        }
+        
+        return result
     }
     
     /// CoreData에서 SettingItemValue을 Commit하는 API로 변경 필요.

@@ -11,5 +11,6 @@ class TransformableHelper {
     static func register() {
         ColorAttributeTransformer.register()
         CategorisedSettingListsTransformable.register()
+        SettingValueTransformable.register()
     }
 }

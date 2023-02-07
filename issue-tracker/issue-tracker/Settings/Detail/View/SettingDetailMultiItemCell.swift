@@ -9,6 +9,11 @@ import UIKit
 
 class SettingDetailMultiItemCell: UITableViewCell {
     
+    let tempView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         makeUI()
@@ -25,10 +30,18 @@ class SettingDetailMultiItemCell: UITableViewCell {
     }
     
     private func makeUI() {
-        
+        contentView.addSubview(tempView)
+        tempView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
-    func setEntity(_ item: SettingListItemValueList) {
-        
+    func setEntity(_ item: ColorSets) {
+        tempView.backgroundColor = UIColor(
+            red: CGFloat(item.rgbRed) / 255,
+            green: CGFloat(item.rgbGreen) / 255,
+            blue: CGFloat(item.rgbBlue) / 255,
+            alpha: 1
+        )
     }
 }

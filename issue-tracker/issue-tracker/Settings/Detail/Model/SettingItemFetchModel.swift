@@ -7,11 +7,11 @@
 
 import Foundation
 
-class SettingItemFetchModel {
-    
-    var items: [any SettingItemValue] = []
-    
-    init(items: [any SettingItemValue]) {
-        self.items = items
-    }
-}
+//class SettingItemFetchModel {
+//    
+//    var items: [any SettingItemValue] = []
+//    
+//    init(items: [any SettingItemValue]) {
+//        self.items = items
+//    }
+//}

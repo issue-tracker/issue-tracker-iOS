@@ -50,29 +50,8 @@ class SettingDetailMonoItemCell: UITableViewCell {
         contentView.flex.layout()
     }
     
-    func setEntity(_ item: any SettingItemValue) {
-        
-        self.titleLabel.text = item.mainTitle
-        
-        if let value = item.value as? Bool {
-            let switchButton = SettingDetailCellFactory.valueBoolSwitch()
-            switchButton.isOn = value
-            valueFieldFlex?.addItem(switchButton)
-        } else if let value = item.value as? SettingListItemValueColor.SettingValue {
-            let colorView = SettingDetailCellFactory.valueColorView()
-            colorView.backgroundColor = UIColor(red: CGFloat(value.rgbRed)/255, green: CGFloat(value.rgbGreen)/255, blue: CGFloat(value.rgbBlue)/255, alpha: 0.5)
-            valueFieldFlex?.addItem(colorView)
-        } else if let value = item.value as? Data, let image = UIImage(data: value) {
-            let imageView = SettingDetailCellFactory.valueImageView()
-            imageView.image = image
-            valueFieldFlex?.addItem(imageView)
-        } else if let value = item.value as? String {
-            let label = SettingDetailCellFactory.valueStringLabel()
-            label.text = value
-            label.backgroundColor = UIColor.red.withAlphaComponent(0.5)
-            valueFieldFlex?.addItem(label)
-        }
-        
+    func setEntity(_ value: Bool) {
+        titleLabel.text = value ? "True" : "False"
         contentView.flex.layout()
     }
 }

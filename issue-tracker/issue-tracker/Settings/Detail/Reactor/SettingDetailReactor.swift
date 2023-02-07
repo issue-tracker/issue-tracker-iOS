@@ -7,21 +7,28 @@
 
 import Foundation
 import ReactorKit
+import CoreData
 
 class SettingDetailReactor: Reactor {
-    
+    var model: SettingListItemUpdateModel?
     var initialState: State
     
-    init(targetId: UUID, settingList: [SettingListItem]) {
-        initialState = .init(settingList: [any SettingItemValue]())
+    init(item: SettingListItem?) {
+        self.model = .init(item)
+        
+        initialState = State(
+            mainTitle: item?.mainTitle,
+            subTitle: item?.subTitle,
+            value: item?.value
+        )
+        
     }
     
     struct State {
-        @Pulse var settingList: [any SettingItemValue]
-    }
-    
-    var settingList: [any SettingItemValue] {
-        currentState.settingList
+        var mainTitle: String?
+        var subTitle: String?
+        
+        @Pulse var value: Any?
     }
     
     enum Action {
@@ -38,5 +45,18 @@ class SettingDetailReactor: Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         return initialState
+    }
+}
+
+class SettingListItemUpdateModel {
+    
+    private var item: SettingListItem
+    
+    init?(_ item: SettingListItem?) {
+        if let item {
+            self.item = item
+        } else {
+            return nil
+        }
     }
 }

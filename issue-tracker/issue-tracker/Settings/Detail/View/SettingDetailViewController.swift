@@ -22,14 +22,7 @@ class SettingDetailViewController: UIViewController, View {
     }()
     
     /// DetailView의 상태 중 SettingItemValue에 해당하는 값을 List의 Reactor's State로 적용하고 싶을 경우 참조한다.
-    var parentReactor: SettingReactor?
-    
-    var settingItemId: UUID?
-    
-    var targetId: UUID!
-    // CoreData를 적용하기 전까지의 임시 코드
-    var settingList = [SettingListItem]()
-    
+    var settingItem: SettingListItem?
     var disposeBag: DisposeBag = .init()
     
     override func viewDidLoad() {
@@ -49,7 +42,7 @@ class SettingDetailViewController: UIViewController, View {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reactor = Reactor(targetId: targetId, settingList: settingList)
+        reactor = Reactor(item: settingItem)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,9 +50,11 @@ class SettingDetailViewController: UIViewController, View {
     }
     
     func bind(reactor: SettingDetailReactor) {
-        reactor.pulse(\.$settingList)
-            .bind(onNext: { [weak self] _ in
-                self?.tableView.reloadData()
+        reactor.pulse(\.$value)
+            .bind(onNext: { [weak tableView] value in
+                tableView?.performBatchUpdates({
+                    tableView?.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .fade)
+                })
             })
             .disposed(by: disposeBag)
     }
@@ -67,22 +62,34 @@ class SettingDetailViewController: UIViewController, View {
 
 extension SettingDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        reactor?.settingList.count ?? 0
+        3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = reactor?.settingList[indexPath.row] else {
-            return UITableViewCell()
+        guard indexPath.row > 1 else {
+            let cell = UITableViewCell()
+            cell.textLabel?.text = indexPath.row == 0 ? reactor?.currentState.mainTitle : reactor?.currentState.subTitle
+            return cell
         }
         
-        /// Swift's static typing means the type of a variable must be known at compile time.
-        if let itemValue = item.value as? SettingListItemValueList {
+        if let itemValue = reactor?.currentState.value as? ColorSets {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MULTICell.reuseIdentifier, for: indexPath) as? MULTICell else { return UITableViewCell() }
+            
             cell.setEntity(itemValue)
+            
             return cell
+            
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MONOCell.reuseIdentifier, for: indexPath) as? MONOCell else { return UITableViewCell() }
-            cell.setEntity(item)
+            var result = false
+            
+            if let value = reactor?.currentState.value {
+                let cfValue = value as! CFBoolean
+                result = cfValue == kCFBooleanTrue
+            }
+            
+            cell.setEntity(result)
+            
             return cell
         }
     }

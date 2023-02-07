@@ -19,9 +19,24 @@ class SettingViewController: CommonProxyViewController, View {
     
     var disposeBag = DisposeBag()
     
+    let stackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+    }()
+    
+    let headerSectionButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = UIColor.opaqueSeparator
+        view.isHidden = true
+        view.setTitle("<", for: .normal)
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.separatorStyle = .none
+        view.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         view.register(TITLECELL.self, forCellReuseIdentifier: TITLECELL.reuseIdentifier)
         view.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
         return view
@@ -30,10 +45,15 @@ class SettingViewController: CommonProxyViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Settings"
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints {
+        view.addSubview(stackView)
+        
+        stackView.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
+        headerSectionButton.frame.size.height = 90
+        stackView.addArrangedSubview(headerSectionButton)
+        stackView.addArrangedSubview(tableView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,40 +69,79 @@ class SettingViewController: CommonProxyViewController, View {
     
     func bind(reactor: SettingReactor) {
         tableView.rx.itemSelected
-            .map({ Reactor.Action.updateItemIntiate($0) })
-            .bind(to: reactor.action)
+            .compactMap({ [weak self] indexPath in
+                self?.reactor?.currentState.currentItem(at: indexPath)
+            })
+            .bind(onNext: { [weak self] item in
+                if let selectedItem = item as? SettingListItem {
+                    self?.goNextView(selectedItem)
+                    return
+                }
+                
+                var action: Reactor.Action? {
+                    if let category = item as? SettingCategory {
+                        return Reactor.Action.selectCategory(category)
+                    } else if let list = item as? SettingList {
+                        return Reactor.Action.selectList(list)
+                    } else {
+                        return nil
+                    }
+                }
+                
+                if let action {
+                    self?.reactor?.action
+                        .onNext(action)
+                }
+            })
             .disposed(by: disposeBag)
         
-        reactor.pulse(\.$settingList)
+        headerSectionButton.rx.tap
+            .bind(onNext: {
+                switch self.reactor?.currentState.settingListType {
+                case .list:
+                    self.reactor?.action
+                        .onNext(SettingReactor.Action.backToCategory)
+                case .item:
+                    self.reactor?.action
+                        .onNext(SettingReactor.Action.backToList)
+                default:
+                    return
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$settingTableViewList)
+            .do(onNext: { [weak self] items in
+                if let self = self, let reactor = self.reactor {
+                    self.tableView.performBatchUpdates({
+                        let listCount = reactor.currentState.getListCount()
+                        let indexPaths = (0..<listCount).map({
+                            IndexPath(row: $0, section: 0)
+                        })
+                        
+                        self.tableView.reloadRows(at: indexPaths, with: .left)
+                    })
+                }
+                
+                if let type = items.first?.type {
+                    self?.reactor?.action
+                        .onNext(Reactor.Action.sendListType(type))
+                }
+            })
             .bind(to: tableView.rx.items(
                 cellIdentifier: CELL.reuseIdentifier,
                 cellType: CELL.self)
-            ) { row, element, cell in
-                cell.label.text = element.mainTitle
+            ) { [weak self] _, element, cell in
+                
+                self?.headerSectionButton.isHidden = element.isCategory
+                cell.label.text = element.title
             }
-            .disposed(by: disposeBag)
-        
-        reactor.pulse(\.$updatingId)
-            .compactMap({$0})
-            .bind(onNext: { [weak self] id in
-                self?.goNextView(id)
-            })
             .disposed(by: disposeBag)
     }
     
-    private func goNextView(_ id: UUID) {
+    private func goNextView(_ item: SettingListItem) {
         let view = SettingDetailViewController()
-        view.parentReactor = reactor
-        view.targetId = id
-        // CoreData를 적용하기 전까지의 임시 코드
-        view.settingList = reactor?.allItems ?? []
-        
+        view.settingItem = item
         navigationController?.pushViewController(view, animated: true)
-    }
-}
-
-extension SettingListType {
-    func toIndent() -> String {
-        (0..<self.rawValue).map({_ in "   "}).reduce("", +)
     }
 }

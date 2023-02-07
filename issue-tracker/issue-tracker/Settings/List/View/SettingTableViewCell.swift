@@ -37,6 +37,7 @@ class SettingTableViewCell: UITableViewCell {
         customBackgroundView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(5)
             $0.trailing.bottom.equalToSuperview().inset(5)
+            $0.height.equalTo(35)
         }
         
         label.snp.makeConstraints {

@@ -35,6 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         self.orientationLock
     }
+    
+    func saveContext() {
+        do {
+            try persistentContainer.viewContext.save()
+        } catch let error as NSError {
+            print("Unresolved error \(error), \(error.userInfo)")
+        }
+    }
 }
 
 extension NSManagedObjectContext {

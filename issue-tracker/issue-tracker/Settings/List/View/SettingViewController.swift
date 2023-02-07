@@ -24,7 +24,6 @@ class SettingViewController: CommonProxyViewController, View {
         view.separatorStyle = .none
         view.register(TITLECELL.self, forCellReuseIdentifier: TITLECELL.reuseIdentifier)
         view.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
-        view.dataSource = self
         return view
     }()
     
@@ -55,7 +54,12 @@ class SettingViewController: CommonProxyViewController, View {
             .disposed(by: disposeBag)
         
         reactor.pulse(\.$settingList)
-            .bind(onNext: { [weak tableView] _ in tableView?.reloadData() })
+            .bind(to: tableView.rx.items(
+                cellIdentifier: CELL.reuseIdentifier,
+                cellType: CELL.self)
+            ) { row, element, cell in
+                cell.label.text = element.mainTitle
+            }
             .disposed(by: disposeBag)
         
         reactor.pulse(\.$updatingId)
@@ -76,36 +80,6 @@ class SettingViewController: CommonProxyViewController, View {
         navigationController?.pushViewController(view, animated: true)
     }
 }
-
-extension SettingViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        reactor?.currentListCount ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          return UITableViewCell()
-    }
-}
-
-//extension UITableView {
-//    func getNormalCell(_ item: SettingListItem, indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = self.dequeueReusableCell(withIdentifier: CELL.reuseIdentifier, for: indexPath) as? CELL else {
-//            return UITableViewCell()
-//        }
-//        
-//        cell.label.text = item.listType.toIndent() + item.title
-//        return cell
-//    }
-//    
-//    func getTitleCell(_ item: SettingListItem, indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = self.dequeueReusableCell(withIdentifier: TITLECELL.reuseIdentifier, for: indexPath) as? TITLECELL else {
-//            return UITableViewCell()
-//        }
-//        
-//        cell.titleLabel.text = item.listType.toIndent() + item.title
-//        return cell
-//    }
-//}
 
 extension SettingListType {
     func toIndent() -> String {

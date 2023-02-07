@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B0244E9299149300074434D /* SettingListItem+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0244E8299149300074434D /* SettingListItem+Decodable.swift */; };
+		1B0244EA29914E820074434D /* SettingListItem+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0244E8299149300074434D /* SettingListItem+Decodable.swift */; };
 		1B02F9CF29483977006498CE /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B02F9CE29483977006498CE /* CoreDataStack.swift */; };
 		1B02F9D029483998006498CE /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B02F9CE29483977006498CE /* CoreDataStack.swift */; };
 		1B02F9D529484506006498CE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B02F9D729484506006498CE /* Localizable.strings */; };
@@ -263,6 +265,7 @@
 
 /* Begin PBXFileReference section */
 		0E3F2E104153498D6D7CED36 /* Pods_issue_tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_issue_tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B0244E8299149300074434D /* SettingListItem+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingListItem+Decodable.swift"; sourceTree = "<group>"; };
 		1B02F9CE29483977006498CE /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		1B02F9D129483DF4006498CE /* settingLists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = settingLists.json; sourceTree = "<group>"; };
 		1B02F9D629484506006498CE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -491,6 +494,7 @@
 				1B02F9FE29497800006498CE /* SettingList+CoreDataProperties.swift */,
 				1B02F9FA294977FF006498CE /* SettingListItem+CoreDataClass.swift */,
 				1B02F9FC29497800006498CE /* SettingListItem+CoreDataProperties.swift */,
+				1B0244E8299149300074434D /* SettingListItem+Decodable.swift */,
 			);
 			path = CoreDataManagedModels;
 			sourceTree = "<group>";
@@ -1438,6 +1442,7 @@
 				1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */,
 				1B8E4AA02887DAAA00432728 /* SettingProxyViewController.swift in Sources */,
 				1B5780AF2925C2AF0034400F /* SignInError.swift in Sources */,
+				1B0244E9299149300074434D /* SettingListItem+Decodable.swift in Sources */,
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
 				1BFA429E28B6231B00827EBE /* CommonTextFieldArea.swift in Sources */,
 				1B94384228B3552E007CAE40 /* UIViewController+Extensions.swift in Sources */,
@@ -1523,6 +1528,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B161205292C6F4B00B31347 /* SignInFormReactor.swift in Sources */,
+				1B0244EA29914E820074434D /* SettingListItem+Decodable.swift in Sources */,
 				1B02FA0A29497B72006498CE /* SettingList+CoreDataClass.swift in Sources */,
 				1BD125D128D1EA2D0050F2D1 /* IssueListAuthor.swift in Sources */,
 				1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */,

@@ -112,7 +112,7 @@ enum SettingListType: Int, CaseIterable {
     case item = 1
 }
 
-class SettingListItemColor {
+class SettingItemColor {
   var rgbRed: Float
   var rgbGreen: Float
   var rgbBlue: Float
@@ -121,5 +121,17 @@ class SettingListItemColor {
     self.rgbRed = rgbRed
     self.rgbGreen = rgbGreen
     self.rgbBlue = rgbBlue
+  }
+}
+
+class SettingItemLoginActivate {
+  var github = true
+  var kakao = true
+  var naver = true
+  
+  init(github: Bool = false, kakao: Bool = false, naver: Bool = false) {
+    self.github = github
+    self.kakao = kakao
+    self.naver = naver
   }
 }

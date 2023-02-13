@@ -9,49 +9,56 @@ import UIKit
 import FlexLayout
 import RxSwift
 import RxCocoa
+import CoreData
 
-class SettingDetailMonoItemCell: UITableViewCell {
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        return label
+class SettingDetailMonoItemCell: SettingManagedObjectCell {
+    let titleLabel: UILabel = {
+        let view = UILabel()
+        view.minimumScaleFactor = 0.2
+        return view
     }()
-    
-    private let valueField: UIView = {
-        let view = UIView()
+    let valueSwitch: UISwitch = {
+        let view = UISwitch()
+        view.isOn = false
         return view
     }()
     
-    private var valueFieldFlex: Flex?
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        makeUI()
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        makeUI()
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        makeUI()
-    }
-    
-    private func makeUI() {
-        titleLabel.backgroundColor = UIColor.opaqueSeparator
+    func makeUI() {
+        contentView.flex
+            .justifyContent(.end)
+            .direction(.row)
+            .define { flex in
+                flex.addItem(titleLabel).grow(1).padding(8)
+                flex.addItem(valueSwitch).padding(8)
+            }
         
-        contentView.flex.define { flex in
-            flex.addItem(titleLabel)
-            self.valueFieldFlex = flex.addItem(valueField).width(100%).padding(8)
-        }
+        valueSwitch.rx
+            .controlEvent(.valueChanged)
+            .withLatestFrom(valueSwitch.rx.value)
+            .subscribe(onNext: { [weak self] isOn in
+                guard
+                    let managedObject = self?.managedObject,
+                    let valueMutating = cfCast(isOn, to: CFBoolean.self)
+                else {
+                    return
+                }
+                
+                do {
+                    managedObject.value = valueMutating
+                    try NSManagedObjectContext.viewContext?.save()
+                } catch {
+                    print(error)
+                }
+            })
+            .disposed(by: disposeBag)
         
-        contentView.flex.layout()
+        contentView.flex.layout(mode: .adjustHeight)
     }
     
-    func setEntity(_ value: Bool) {
-        titleLabel.text = value ? "True" : "False"
-        contentView.flex.layout()
+    func setEntity(title: String? = nil, _ value: Bool) {
+        titleLabel.text = title
+        valueSwitch.isOn = value
+        
+        contentView.setNeedsLayout()
     }
 }

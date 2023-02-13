@@ -100,7 +100,7 @@ class LoginViewController: CommonProxyViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    //    switchScreen(type: .main)
+    switchScreen(type: .main)
     view.addSubview(infoFlexContainer)
     
     passwordTextField.isSecureTextEntry = true

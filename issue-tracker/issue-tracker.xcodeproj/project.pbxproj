@@ -195,6 +195,9 @@
 		1BB9BB732919EE97002A0DEB /* MilestoneListReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9BB722919EE97002A0DEB /* MilestoneListReactor.swift */; };
 		1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */; };
 		1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */; };
+		1BBDDE9D2999F42300743385 /* CFTollFreeBridgedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDDE9C2999F42300743385 /* CFTollFreeBridgedType.swift */; };
+		1BBDDE9E2999F56700743385 /* CFTollFreeBridgedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDDE9C2999F42300743385 /* CFTollFreeBridgedType.swift */; };
+		1BBDDEA02999FE5B00743385 /* SettingManagedObjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDDE9F2999FE5B00743385 /* SettingManagedObjectCell.swift */; };
 		1BC122A728AF5BC100BAB0F7 /* RELEASE.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1B89AF41289CD1FA0057C6D5 /* RELEASE.xcconfig */; };
 		1BCAB8BA29186F6D00ED2F82 /* IssueEditReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCAB8B929186F6D00ED2F82 /* IssueEditReactor.swift */; };
 		1BCAB8BB2918709000ED2F82 /* IssueEditReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BCAB8B929186F6D00ED2F82 /* IssueEditReactor.swift */; };
@@ -406,6 +409,8 @@
 		1BB9BB722919EE97002A0DEB /* MilestoneListReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListReactor.swift; sourceTree = "<group>"; };
 		1BBA3EA0287D6A9E00DC57A0 /* HorizontalTitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalTitleTextField.swift; sourceTree = "<group>"; };
 		1BBA3EA2287D800900DC57A0 /* HorizontalButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalButtons.swift; sourceTree = "<group>"; };
+		1BBDDE9C2999F42300743385 /* CFTollFreeBridgedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFTollFreeBridgedType.swift; sourceTree = "<group>"; };
+		1BBDDE9F2999FE5B00743385 /* SettingManagedObjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingManagedObjectCell.swift; sourceTree = "<group>"; };
 		1BCAB8B929186F6D00ED2F82 /* IssueEditReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueEditReactor.swift; sourceTree = "<group>"; };
 		1BD102C228B7656700A056BF /* CommonTextFieldAreaInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextFieldAreaInputField.swift; sourceTree = "<group>"; };
 		1BD125AB28D1BF2E0050F2D1 /* IssueDetailCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailCommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -507,6 +512,7 @@
 				1B0580BB29349F8E0094140B /* ColorAttributedTransformable.swift */,
 				1B0580BD2934ADF60094140B /* CategorisedSettingListsTransformable.swift */,
 				1B02F9E829496DCF006498CE /* SettingValueTransformable.swift */,
+				1BBDDE9C2999F42300743385 /* CFTollFreeBridgedType.swift */,
 			);
 			path = Transformable;
 			sourceTree = "<group>";
@@ -766,6 +772,7 @@
 				1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */,
 				1B6DBDED2940AF3A005FBFFD /* SettingTableViewTitleCell.swift */,
 				1B8E4AAF2889115200432728 /* SettingViewController.swift */,
+				1BBDDE9F2999FE5B00743385 /* SettingManagedObjectCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1384,6 +1391,7 @@
 				1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */,
 				1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */,
 				1BF36D7328DC27DF0033DF2A /* IssueHistories.swift in Sources */,
+				1BBDDE9D2999F42300743385 /* CFTollFreeBridgedType.swift in Sources */,
 				1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */,
 				1B0580C02934BD470094140B /* TransformableHelper.swift in Sources */,
 				1B02FA0129497800006498CE /* SettingListItem+CoreDataClass.swift in Sources */,
@@ -1426,6 +1434,7 @@
 				1B8B744228FF9BE7008380BF /* SettingQueryInsertView.swift in Sources */,
 				1B8E4AB428892EF200432728 /* IssueListTableViewCell.swift in Sources */,
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
+				1BBDDEA02999FE5B00743385 /* SettingManagedObjectCell.swift in Sources */,
 				1B1612512930839E00B31347 /* CommonTextField+Extensions.swift in Sources */,
 				1B8E4AB228892AEF00432728 /* IssueEditViewController.swift in Sources */,
 				1B03E7A828BFA6FB0006FADD /* MainViewSingleRequestModel.swift in Sources */,
@@ -1584,6 +1593,7 @@
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
 				1B0580D4293723B90094140B /* issue_trackerUnitTest_Settings.swift in Sources */,
 				1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */,
+				1BBDDE9E2999F56700743385 /* CFTollFreeBridgedType.swift in Sources */,
 				1B02F9E529485AFE006498CE /* Localizable+Extensions.swift in Sources */,
 				1B0580C42934E8E10094140B /* SettingDataModel.xcdatamodeld in Sources */,
 				1B02F9D029483998006498CE /* CoreDataStack.swift in Sources */,

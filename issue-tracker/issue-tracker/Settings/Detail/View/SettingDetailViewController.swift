@@ -12,8 +12,6 @@ import RxSwift
 
 class SettingDetailViewController: UIViewController, View {
     typealias Reactor = SettingDetailReactor
-    typealias MONOCell = SettingDetailMonoItemCell
-    typealias MULTICell = SettingDetailMultiItemCell
     
     private lazy var tableView: UITableView = {
         let view = UITableView()
@@ -30,10 +28,9 @@ class SettingDetailViewController: UIViewController, View {
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         
-        tableView.register(MONOCell.self, forCellReuseIdentifier: MONOCell.reuseIdentifier)
-        tableView.register(MULTICell.self, forCellReuseIdentifier: MULTICell.reuseIdentifier)
+        tableView.register(SettingDetailMonoItemCell.self, forCellReuseIdentifier: SettingDetailMonoItemCell.reuseIdentifier)
+        tableView.register(SettingDetailMultiItemCell.self, forCellReuseIdentifier: SettingDetailMultiItemCell.reuseIdentifier)
         tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableView.automaticDimension
         
         tableView.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
@@ -43,10 +40,6 @@ class SettingDetailViewController: UIViewController, View {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reactor = Reactor(item: settingItem)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     
     func bind(reactor: SettingDetailReactor) {
@@ -72,25 +65,48 @@ extension SettingDetailViewController: UITableViewDataSource {
             return cell
         }
         
-        if let itemValue = reactor?.currentState.value as? ColorSets {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MULTICell.reuseIdentifier, for: indexPath) as? MULTICell else { return UITableViewCell() }
+        let cell = SettingTableViewCellFactory.makeCell(in: tableView,
+                                                        at: indexPath,
+                                                        reactor?.currentState.value)
+        (cell as? SettingManagedObjectCell)?.managedObject = settingItem
+        
+        return cell
+    }
+}
+
+class SettingTableViewCellFactory {
+    static func makeCell(in tableView: UITableView, at indexPath: IndexPath, _ item: Any?) -> UITableViewCell {
+        guard let item else { return .init() }
+        
+        if let itemValue = item as? ColorSets {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDetailMultiItemCell.reuseIdentifier, for: indexPath) as? SettingDetailMultiItemCell else {
+                return UITableViewCell()
+            }
             
             cell.setEntity(itemValue)
             
             return cell
             
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MONOCell.reuseIdentifier, for: indexPath) as? MONOCell else { return UITableViewCell() }
-            var result = false
-            
-            if let value = reactor?.currentState.value {
-                let cfValue = value as! CFBoolean
-                result = cfValue == kCFBooleanTrue
+        } else if let itemValue = item as? LoginActivate {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDetailMultiItemCell.reuseIdentifier, for: indexPath) as? SettingDetailMultiItemCell else {
+                return UITableViewCell()
             }
             
-            cell.setEntity(result)
+            cell.setEntity(itemValue)
+            
+            return cell
+            
+        } else if let itemBoolean = cfCast(item, to: CFBoolean.self) {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingDetailMonoItemCell.reuseIdentifier, for: indexPath) as? SettingDetailMonoItemCell else {
+                return UITableViewCell()
+            }
+            
+            cell.setEntity(itemBoolean == kCFBooleanTrue)
+            cell.makeUI()
             
             return cell
         }
+        
+        return UITableViewCell()
     }
 }

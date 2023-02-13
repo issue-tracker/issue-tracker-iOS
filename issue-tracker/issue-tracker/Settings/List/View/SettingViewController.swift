@@ -58,8 +58,6 @@ class SettingViewController: CommonProxyViewController, View {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableView.automaticDimension
         
         // 상세 화면에서 다시 돌아왔을 때 기존의 상태값을 유지하도록 하기 위함.
         if reactor == nil {
@@ -72,20 +70,23 @@ class SettingViewController: CommonProxyViewController, View {
             .compactMap({ [weak self] indexPath in
                 self?.reactor?.currentState.currentItem(at: indexPath)
             })
-            .bind(onNext: { [weak self] item in
-                if let selectedItem = item as? SettingListItem {
-                    self?.goNextView(selectedItem)
-                    return
+            .filter({ [weak self] (item) -> Bool in
+                guard let selectedItem = item as? SettingListItem else {
+                    return true
                 }
                 
+                self?.goNextView(selectedItem)
+                return false
+            })
+            .bind(onNext: { [weak self] item in
                 var action: Reactor.Action? {
                     if let category = item as? SettingCategory {
                         return Reactor.Action.selectCategory(category)
                     } else if let list = item as? SettingList {
                         return Reactor.Action.selectList(list)
-                    } else {
-                        return nil
                     }
+                    
+                    return nil
                 }
                 
                 if let action {

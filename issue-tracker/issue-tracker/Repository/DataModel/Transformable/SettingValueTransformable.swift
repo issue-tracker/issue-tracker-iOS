@@ -9,7 +9,11 @@ import Foundation
 
 class SettingValueTransformable: NSSecureUnarchiveFromDataTransformer {
   override class var allowedTopLevelClasses: [any AnyClass] {
-    [CFBoolean.self, SettingListItemColor.self]
+    [
+      CFBoolean.self,
+      SettingItemColor.self,
+      SettingItemLoginActivate.self
+    ]
   }
   
   static func register() {

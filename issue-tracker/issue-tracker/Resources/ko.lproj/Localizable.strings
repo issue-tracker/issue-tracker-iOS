@@ -29,6 +29,8 @@
  LB = UILabel
  BTN = UIButton
  ALERT = UIAlertController
+ TCELL = UITableViewCell
+ CCELL = UICollectionViewCell
  */
 
 /*
@@ -53,9 +55,11 @@ M_ST_SVC_TCELL_GENERAL="일반";
 
 // Settings - General - Login
 
-M_ST_SVC_TCELL_GENERAL_LOGIN="로그인 서비스";
+M_ST_SVC_TCELL_GENERAL_LOGIN="로그인";
 M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO="자동 로그인 설정";
 M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC="앱 실행 시 저장된 정보를 이용하여 로그인을 시도합니다.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE="로그인 서비스";
+M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_DESC="로그인 서비스들에 대한 설정을 합니다.";
 M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB="GitHub 로그인";
 M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC="GitHub 를 통한 로그인 기능을 활성화 합니다.";
 M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER="Naver 로그인";
@@ -63,21 +67,25 @@ M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC="Naver 를 통한 로그인 기능을 �
 M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO="Kakao 로그인";
 M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC="Kakao 를 통한 로그인 기능을 활성화 합니다.";
 
-// Settings - General - Dark mode
+// Settings - General - Preferences
 
-M_ST_SVC_TCELL_GENERAL_DARKMODE="다크 모드";
-M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE="선호하는 앱 모드를 선택하세요.";
-M_ST_SVC_TCELL_GENERAL_DARKMODE_LIGHT="라이트(밝은) 모드";
-M_ST_SVC_TCELL_GENERAL_DARKMODE_DARK="다크(어두운) 모드";
-M_ST_SVC_TCELL_GENERAL_DARKMODE_SYSTEM="시스템";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES="개인 설정";
 
-// Settings - General - Language
+// Settings - General - Preferences - Dark mode
 
-M_ST_SVC_TCELL_GENERAL_LANGUAGE="언어";
-M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE="선호하는 언어를 선택하세요.";
-M_ST_SVC_TCELL_GENERAL_LANGUAGE_KOREAN="한국어";
-M_ST_SVC_TCELL_GENERAL_LANGUAGE_ENGLISH="English";
-M_ST_SVC_TCELL_GENERAL_LANGUAGE_JAPANESE="日本語";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE="다크 모드";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_TITLE="선호하는 앱 모드를 선택하세요.";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_LIGHT="라이트(밝은) 모드";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_DARK="다크(어두운) 모드";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_SYSTEM="시스템";
+
+// Settings - General - Preferences - Language
+
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE="언어";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_TITLE="선호하는 언어를 선택하세요.";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_KOREAN="한국어";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_ENGLISH="English";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_JAPANESE="日本語";
 
 // Settings - Issue/Label/Milestone
 

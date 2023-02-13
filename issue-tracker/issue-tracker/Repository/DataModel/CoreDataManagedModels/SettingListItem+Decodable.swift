@@ -76,7 +76,16 @@ struct SettingListItemDecodable: Decodable {
       
         if let value = try? container.decodeIfPresent(Bool.self, forKey: .value) {
             self.value = value
+        } else if let value = try? container.decodeIfPresent(DarkModeSettings.self, forKey: .value) {
+            self.value = value
         } else if let value = try? container.decodeIfPresent(ColorSets.self, forKey: .value) {
+            // MARK: - Decoding Failed. JSON looks fine.
+            self.value = value
+            
+        } else if let value = try? container.decodeIfPresent(LoginActivate.self, forKey: .value) {
+            // MARK: - Decoding Failed. JSON looks fine.
+            self.value = value
+        } else if let value = try? container.decodeIfPresent(Int.self, forKey: .value) {
             // MARK: - Decoding Failed. JSON looks fine.
             self.value = value
         } else {
@@ -102,4 +111,16 @@ struct ColorSets: Decodable {
         self.rgbGreen = try container.decode(Float.self, forKey: .rgbGreen)
         self.rgbBlue = try container.decode(Float.self, forKey: .rgbBlue)
     }
+}
+
+struct LoginActivate: Decodable {
+    var github = true
+    var kakao = true
+    var naver = true
+}
+
+enum DarkModeSettings: Int, Codable {
+    case system = 0
+    case light = 1
+    case dark = 2
 }

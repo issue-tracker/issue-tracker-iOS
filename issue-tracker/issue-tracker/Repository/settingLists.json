@@ -14,71 +14,34 @@
               "value": false
             },
             {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC",
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_DESC",
               "order": 1,
-              "value": true
+              "value": {
+                  "github": true,
+                  "naver": true,
+                  "kakao": true
+              }
             },
-            {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC",
-              "order": 2,
-              "value": true
-            },
-            {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC",
-              "order": 3,
-              "value": true
-            }
           ]
         },
         {
-          "title": "M_ST_SVC_TCELL_GENERAL_DARKMODE",
+          "title": "M_ST_SVC_TCELL_GENERAL_PREFERENCES",
           "values": [
             {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_LIGHT",
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_TITLE",
               "order": 0,
-              "value": false
+              "value": 0
             },
             {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_DARK",
+              "mainTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE",
+              "subTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_TITLE",
               "order": 1,
-              "value": false
+              "value": 0
             },
-            {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_TITLE",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_DARKMODE_SYSTEM",
-              "order": 2,
-              "value": true
-            }
           ]
         },
-        {
-          "title": "M_ST_SVC_TCELL_GENERAL_LANGUAGE",
-          "values": [
-            {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_KOREAN",
-              "order": 0,
-              "value": true
-            },
-            {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_ENGLISH",
-              "order": 0,
-              "value": false
-            },
-            {
-              "mainTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_TITLE",
-              "subTitle": "M_ST_SVC_TCELL_GENERAL_LANGUAGE_JAPANESE",
-              "order": 0,
-              "value": false
-            }
-          ]
-        }
       ]
     },
     {

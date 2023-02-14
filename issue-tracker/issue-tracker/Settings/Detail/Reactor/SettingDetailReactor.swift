@@ -19,7 +19,7 @@ class SettingDetailReactor: Reactor {
         initialState = State(
             mainTitle: item?.mainTitle,
             subTitle: item?.subTitle,
-            value: item?.value
+            value: item
         )
         
     }
@@ -28,23 +28,57 @@ class SettingDetailReactor: Reactor {
         var mainTitle: String?
         var subTitle: String?
         
-        @Pulse var value: Any?
+        @Pulse var value: SettingListItem?
     }
     
     enum Action {
-        case setItemValue((id: UUID, value: Any))
+        case setItem(SettingListItem)
+        case setItemValue(Any)
     }
     
     enum Mutation {
-        case setItemValue((id: UUID, value: Any))
+        case setItem(SettingListItem)
+        case setItemValue(Any)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        .empty()
+        switch action {
+        case .setItem(let item):
+            return Observable.just(Mutation.setItem(item))
+        case .setItemValue(let value):
+            return Observable.just(Mutation.setItemValue(value))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        return initialState
+        var state = currentState
+        
+        switch mutation {
+        case .setItem(let item):
+            state.value = item
+        case .setItemValue(let value):
+            var mutatedValue: Any? {
+                if type(of: value) == type(of: currentState.value) {
+                    return value
+                } else if let value = cfCast(value, to: CFBoolean.self) {
+                    return value
+                }
+                
+                return nil
+            }
+            
+            if let mutatedValue {
+                state.value?.value = mutatedValue
+            }
+        }
+        
+        do {
+            try NSManagedObjectContext.viewContext?.save()
+        } catch {
+            print(error)
+        }
+        
+        return state
     }
 }
 

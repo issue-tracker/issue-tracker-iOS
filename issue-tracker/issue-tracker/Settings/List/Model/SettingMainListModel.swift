@@ -10,8 +10,14 @@ import CoreData
 
 class SettingMainListModel {
     
+    var context: NSManagedObjectContext?
+    
+    init(context: NSManagedObjectContext? = nil) {
+        self.context = context ?? NSManagedObjectContext.viewContext
+    }
+    
     func getCategoryArray() -> [SettingCategory] {
-        guard let context = NSManagedObjectContext.viewContext else {
+        guard let context else {
             return []
         }
         
@@ -27,7 +33,7 @@ class SettingMainListModel {
     }
     
     func getListArray(parent category: SettingCategory) -> [SettingList] {
-        guard let context = NSManagedObjectContext.viewContext else {
+        guard let context else {
             return []
         }
 
@@ -46,15 +52,10 @@ class SettingMainListModel {
         }
         
         return result
-//        let result = getDataFromCoreData(
-//            argumentObject: category,
-//            objectKeyPath: #keyPath(SettingList.parent)) as? [SettingList]
-//
-//        return result ?? []
     }
     
     func getItemArray(parent list: SettingList) -> [SettingListItem] {
-        guard let context = NSManagedObjectContext.viewContext else {
+        guard let context else {
             return []
         }
 
@@ -73,15 +74,10 @@ class SettingMainListModel {
         }
         
         return result
-//        let result = getDataFromCoreData(
-//            argumentObject: list,
-//            objectKeyPath: #keyPath(SettingListItem.parent)) as? [SettingListItem]
-//
-//        return result ?? []
     }
     
     private func getDataFromCoreData<CDObjectType: NSManagedObject, CDReturnType: NSManagedObject>(argumentObject: CDObjectType, objectKeyPath: String) -> [CDReturnType] {
-        guard let context = NSManagedObjectContext.viewContext else {
+        guard let context else {
             return []
         }
         

@@ -30,6 +30,7 @@ class SettingViewController: CommonProxyViewController, View {
         view.backgroundColor = UIColor.opaqueSeparator
         view.isHidden = true
         view.setTitle("<", for: .normal)
+        view.accessibilityIdentifier = "BackButton"
         return view
     }()
     

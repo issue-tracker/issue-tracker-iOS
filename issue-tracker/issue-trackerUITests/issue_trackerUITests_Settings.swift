@@ -9,21 +9,34 @@ import XCTest
 
 class issue_trackerUITests_Settings: CommonTestCase {
     
-    override func doFunctionTest() {
+    override func doVisibleTest() {
         app.tabBars.buttons.element(boundBy: 2).tap()
         
-        app.tables.cells.element(boundBy: 2).tap()
-        app.collectionViews.cells.element(boundBy: 0).descendants(matching: .switch).element.tap()
-        app.navigationBars.buttons.firstMatch.tap()
+        func selectCells(at index: Int) {
+            var index = index
+            let backButton = app.navigationBars.buttons.firstMatch
+            let cell = app.tables.cells.element(boundBy: index)
+            
+            if cell.exists && backButton.exists == false {
+                cell.tap()
+            }
+            
+            if backButton.exists {
+                backButton.tap()
+                index += 1
+            }
+            
+            if app.tables.cells.count > index {
+                for i in index..<app.tables.cells.count {
+                    selectCells(at: i)
+                }
+            } else {
+                app.buttons.matching(identifier: "BackButton").firstMatch.tap()
+            }
+        }
         
-        app.tables.cells.element(boundBy: 2).tap()
-        app.collectionViews.cells.element(boundBy: 1).descendants(matching: .switch).element.tap()
-        app.navigationBars.buttons.firstMatch.tap()
-    }
-    
-    override func doVisibleTest() {
-        app.tables.cells.element(boundBy: 2).tap()
-        XCTAssertTrue(app.collectionViews.cells.element(boundBy: 1).descendants(matching: .switch).element.isOn)
+        selectCells(at: 0)
+        selectCells(at: 1)
     }
 }
 

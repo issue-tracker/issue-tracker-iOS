@@ -31,16 +31,6 @@ final class CoreDataStack {
     init() {
         TransformableHelper.register()
         resetDefaultSetting()
-        
-        let persistentStoreDescription = NSPersistentStoreDescription()
-        persistentStoreDescription.type = NSInMemoryStoreType
-        
-        persistentContainer.persistentStoreDescriptions = [persistentStoreDescription]
-        persistentContainer.loadPersistentStores(completionHandler: { _, error in
-            if let error = error as? NSError {
-                fatalError()
-            }
-        })
     }
     
     // MARK: - Core Data Saving support

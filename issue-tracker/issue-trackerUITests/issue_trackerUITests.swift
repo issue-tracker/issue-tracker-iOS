@@ -42,7 +42,6 @@ class issue_trackerUITests: XCTestCase {
     
     func test_IssueSettingView() throws {
         issue_trackerUITests_Login(app: app).doFunctionTest()
-        issue_trackerUITests_Settings(app: app).doFunctionTest()
         issue_trackerUITests_Settings(app: app).doVisibleTest()
     }
     

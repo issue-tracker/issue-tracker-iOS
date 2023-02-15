@@ -37,7 +37,6 @@ class SettingViewController: CommonProxyViewController, View {
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.separatorStyle = .none
-        view.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         view.register(TITLECELL.self, forCellReuseIdentifier: TITLECELL.reuseIdentifier)
         view.register(CELL.self, forCellReuseIdentifier: CELL.reuseIdentifier)
         return view

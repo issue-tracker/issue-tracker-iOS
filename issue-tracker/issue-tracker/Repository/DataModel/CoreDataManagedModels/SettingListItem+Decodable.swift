@@ -74,16 +74,13 @@ struct SettingListItemDecodable: Decodable {
         self.subTitle = try container.decode(String.self, forKey: .subTitle)
         self.order = try container.decode(Int.self, forKey: .order)
       
-        if let value = try? container.decodeIfPresent(Bool.self, forKey: .value) {
-            self.value = value
-        } else if let value = try? container.decodeIfPresent(DarkModeSettings.self, forKey: .value) {
-            self.value = value
-        } else if let value = try? container.decodeIfPresent(ColorSets.self, forKey: .value) {
+        if let value = try? container.decodeIfPresent(SettingItemColor.self, forKey: .value) {
             // MARK: - Decoding Failed. JSON looks fine.
             self.value = value
-            
-        } else if let value = try? container.decodeIfPresent(LoginActivate.self, forKey: .value) {
+        } else if let value = try? container.decodeIfPresent(SettingItemLoginActivate.self, forKey: .value) {
             // MARK: - Decoding Failed. JSON looks fine.
+            self.value = value
+        } else if let value = try? container.decodeIfPresent(Bool.self, forKey: .value) {
             self.value = value
         } else if let value = try? container.decodeIfPresent(Int.self, forKey: .value) {
             // MARK: - Decoding Failed. JSON looks fine.
@@ -92,31 +89,6 @@ struct SettingListItemDecodable: Decodable {
             self.value = nil
         }
     }
-}
-
-struct ColorSets: Decodable {
-    var rgbRed: Float
-    var rgbGreen: Float
-    var rgbBlue: Float
-    
-    enum CodingKeys: CodingKey {
-        case rgbRed
-        case rgbGreen
-        case rgbBlue
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.rgbRed = try container.decode(Float.self, forKey: .rgbRed)
-        self.rgbGreen = try container.decode(Float.self, forKey: .rgbGreen)
-        self.rgbBlue = try container.decode(Float.self, forKey: .rgbBlue)
-    }
-}
-
-struct LoginActivate: Decodable {
-    var github = true
-    var kakao = true
-    var naver = true
 }
 
 enum DarkModeSettings: Int, Codable {

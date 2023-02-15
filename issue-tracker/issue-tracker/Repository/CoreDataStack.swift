@@ -54,26 +54,15 @@ final class CoreDataStack {
     }
     
     private func removeAllSettingLists(_ completionHandler: (()->Void)? = nil) {
+        let fetch = SettingListItem.fetchRequest()
+        
         do {
-            
-            for item in (try context.fetch(SettingCategory.fetchRequest())) {
-                print("SettingCategory Delete")
+            let result = try context.fetch(fetch)
+            for item in result {
                 context.delete(item)
             }
             
-            for item in (try context.fetch(SettingList.fetchRequest())) {
-                print("SettingList Delete")
-                context.delete(item)
-            }
-            
-            for item in (try context.fetch(SettingListItem.fetchRequest())) {
-                print("SettingListItem Delete")
-                context.delete(item)
-            }
-            
-            try saveContext()
-            
-            completionHandler?()
+            try context.save()
         } catch let error as NSError {
             print(error)
         }
@@ -116,14 +105,20 @@ final class CoreDataStack {
                         obj3.mainTitle = item.mainTitle.localized
                         obj3.subTitle = item.subTitle.localized
                         obj3.order = Int16(item.order)
-                        
-                        if let value = item.value as? Bool {
-                            obj3.value = value ? kCFBooleanTrue : kCFBooleanFalse
-                        } else {
-                            obj3.value = item.value
-                        }
-                        
                         obj3.parent = obj2
+                        
+                        if let value = item.value {
+                            if let bool = value as? Bool {
+                                obj3.value = bool
+                            } else if let color = value as? SettingItemColor {
+                                obj3.setValue(color, forKeyPath: #keyPath(SettingListItem.value))
+                            } else if let loginActivate = value as? SettingItemLoginActivate {
+                                obj3.setValue(loginActivate, forKeyPath: #keyPath(SettingListItem.value))
+                            } else {
+                                obj3.value = value
+                                
+                            }
+                        }
                         
                         listItems.append(obj3)
                     }
@@ -135,7 +130,7 @@ final class CoreDataStack {
                 obj.items = NSOrderedSet(array: categoryItems)
             }
             
-            try saveContext()
+            try context.save()
             completionHandler?()
         } catch let error as NSError {
             print(error)

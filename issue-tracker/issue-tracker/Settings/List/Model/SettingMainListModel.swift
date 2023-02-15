@@ -108,26 +108,58 @@ enum SettingListType: Int, CaseIterable {
     case item = 1
 }
 
-class SettingItemColor {
-  var rgbRed: Float
-  var rgbGreen: Float
-  var rgbBlue: Float
-  
-  init(rgbRed: Float, rgbGreen: Float, rgbBlue: Float) {
-    self.rgbRed = rgbRed
-    self.rgbGreen = rgbGreen
-    self.rgbBlue = rgbBlue
-  }
+class SettingItemColor: NSObject, NSSecureCoding, Decodable {
+    static var supportsSecureCoding: Bool = true
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(rgbRed, forKey: "rgbRed")
+        coder.encode(rgbGreen, forKey: "rgbGreen")
+        coder.encode(rgbBlue, forKey: "rgbBlue")
+    }
+    
+    required convenience init?(coder: NSCoder) {
+        let rgbRed = coder.decodeFloat(forKey: "rgbRed")
+        let rgbGreen = coder.decodeFloat(forKey: "rgbGreen")
+        let rgbBlue = coder.decodeFloat(forKey: "rgbBlue")
+        
+        self.init(rgbRed: rgbRed, rgbGreen: rgbGreen, rgbBlue: rgbBlue)
+    }
+    
+    var rgbRed: Float
+    var rgbGreen: Float
+    var rgbBlue: Float
+    
+    init(rgbRed: Float, rgbGreen: Float, rgbBlue: Float) {
+        self.rgbRed = rgbRed
+        self.rgbGreen = rgbGreen
+        self.rgbBlue = rgbBlue
+    }
 }
 
-class SettingItemLoginActivate {
-  var github = true
-  var kakao = true
-  var naver = true
-  
-  init(github: Bool = false, kakao: Bool = false, naver: Bool = false) {
-    self.github = github
-    self.kakao = kakao
-    self.naver = naver
-  }
+class SettingItemLoginActivate: NSObject, NSSecureCoding, Decodable {
+    static var supportsSecureCoding: Bool = true
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(github, forKey: "github")
+        coder.encode(kakao, forKey: "kakao")
+        coder.encode(naver, forKey: "naver")
+    }
+    
+    required convenience init?(coder: NSCoder) {
+        let github = coder.decodeBool(forKey: "github")
+        let kakao = coder.decodeBool(forKey: "kakao")
+        let naver = coder.decodeBool(forKey: "naver")
+        
+        self.init(github: github, kakao: kakao, naver: naver)
+    }
+    
+    var github = true
+    var kakao = true
+    var naver = true
+    
+    init(github: Bool = false, kakao: Bool = false, naver: Bool = false) {
+        self.github = github
+        self.kakao = kakao
+        self.naver = naver
+    }
 }

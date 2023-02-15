@@ -34,7 +34,7 @@ class SettingTableViewCellFactory {
                 return UITableViewCell()
             }
             
-            cell.setEntity(itemBoolean)
+            cell.setEntity(title: item?.mainTitle, itemBoolean)
             cell.makeUI()
             
             return cell

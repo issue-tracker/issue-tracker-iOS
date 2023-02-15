@@ -8,10 +8,16 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import FlexLayout
+import SnapKit
 import CoreData
 
 class SettingDetailMultiItemCell: SettingManagedObjectCell {
+    
+    let stackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+    }()
     
     let titledSwitch: (String, Bool) -> UIView = { title, value in
         let view = UIView()
@@ -21,17 +27,26 @@ class SettingDetailMultiItemCell: SettingManagedObjectCell {
         label.text = title
         trailingSwitch.isOn = value
         
-        view.frame.size.height = 80
-        view.flex.direction(.row).define { flex in
-            flex.addItem(label).width(45%).padding(8)
-            flex.addItem(trailingSwitch).padding(8)
+        view.addSubview(label)
+        view.addSubview(trailingSwitch)
+        
+        label.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().inset(8)
         }
-        view.flex.layout(mode: .adjustHeight)
+        
+        trailingSwitch.snp.makeConstraints { make in
+            make.leading.equalTo(label.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(8)
+            make.top.equalToSuperview().offset(8)
+        }
         
         return view
     }
     
-    func setEntity(_ item: ColorSets) {
+    func setEntity(_ item: SettingItemColor) {
         contentView.backgroundColor = UIColor(
             red: CGFloat(item.rgbRed) / 255,
             green: CGFloat(item.rgbGreen) / 255,
@@ -40,11 +55,19 @@ class SettingDetailMultiItemCell: SettingManagedObjectCell {
         )
     }
     
-    func setEntity(_ item: LoginActivate) {
-        contentView.removeFromSuperview()
-        let switches = [item.github, item.kakao, item.naver]
-            .enumerated()
-            .map { (index, value) in
+    func setEntity(_ item: SettingItemLoginActivate) {
+        contentView.subviews.forEach { view in
+            view.removeFromSuperview()
+        }
+        
+        contentView.addSubview(stackView)
+        
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        [item.github, item.kakao, item.naver].enumerated()
+            .forEach { (index, value) in
                 var title: String {
                     if index == 0 {
                         return "github"
@@ -55,44 +78,37 @@ class SettingDetailMultiItemCell: SettingManagedObjectCell {
                     }
                 }
                 
-                return self.titledSwitch(title, value)
-            }
-        
-        let contentFlex = contentView.flex.define { _ in }
-        
-        for (index, switchView) in switches.enumerated() {
-            contentFlex.addItem(switchView).width(100%)
-            
-            if let switchButton = switchView.subviews.first(where: {$0 is UISwitch}) as? UISwitch {
-                switchButton.rx
-                    .controlEvent(.valueChanged)
-                    .withLatestFrom(switchButton.rx.value)
-                    .subscribe(onNext: { [weak self] isOn in
-                        guard
-                            var value = self?.managedObject?.value as? LoginActivate,
-                            let context = NSManagedObjectContext.viewContext
-                        else {
-                            return
-                        }
-                        
-                        do {
-                            switch index {
-                            case 0: value.github = isOn
-                            case 1: value.kakao = isOn
-                            case 2: value.naver = isOn
-                            default: return
+                let view = self.titledSwitch(title, value)
+                
+                if let switchView = view.subviews.first(where: {$0 is UISwitch}) as? UISwitch {
+                    switchView.rx.controlEvent(.valueChanged)
+                        .withLatestFrom(switchView.rx.value)
+                        .map({(index, $0)})
+                        .subscribe(onNext: { [weak self] index, isOn in
+                            guard
+                                let managedObject = self?.managedObject,
+                                let value = managedObject.value as? SettingItemLoginActivate
+                            else {
+                                return
                             }
                             
-                            self?.managedObject?.value = value
-                            try context.save()
-                        } catch {
-                            print(error)
-                        }
-                    })
-                    .disposed(by: disposeBag)
+                            do {
+                                switch index {
+                                case 0: value.github = isOn
+                                case 1: value.kakao = isOn
+                                default: value.naver = isOn
+                                }
+                                
+                                managedObject.setValue(value, forKeyPath: #keyPath(SettingListItem.value))
+                                try NSManagedObjectContext.viewContext?.save()
+                            } catch {
+                                print(error)
+                            }
+                        })
+                        .disposed(by: disposeBag)
+                }
+                
+                stackView.addArrangedSubview(view)
             }
-        }
-        
-        contentFlex.layout(mode: .adjustHeight)
     }
 }

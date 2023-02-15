@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import FlexLayout
+import SnapKit
 import RxSwift
 import RxCocoa
 import CoreData
@@ -24,13 +24,21 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
     }()
     
     func makeUI() {
-        contentView.flex
-            .justifyContent(.end)
-            .direction(.row)
-            .define { flex in
-                flex.addItem(titleLabel).grow(1).padding(8)
-                flex.addItem(valueSwitch).padding(8)
-            }
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(valueSwitch)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(8)
+            make.bottom.equalToSuperview().inset(8)
+        }
+        
+        valueSwitch.snp.makeConstraints { make in
+            make.leading.equalTo(titleLabel.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(8)
+            make.top.equalToSuperview().offset(8)
+        }
         
         valueSwitch.rx
             .controlEvent(.valueChanged)
@@ -51,8 +59,6 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
                 }
             })
             .disposed(by: disposeBag)
-        
-        contentView.flex.layout(mode: .adjustHeight)
     }
     
     func setEntity(title: String? = nil, _ value: Bool) {

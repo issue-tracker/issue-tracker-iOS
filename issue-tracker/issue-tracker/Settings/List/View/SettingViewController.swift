@@ -112,6 +112,7 @@ class SettingViewController: CommonProxyViewController, View {
             .disposed(by: disposeBag)
         
         reactor.pulse(\.$settingTableViewList)
+            .observe(on: MainScheduler.asyncInstance)
             .do(onNext: { [weak self] items in
                 if let self = self, let reactor = self.reactor {
                     self.tableView.performBatchUpdates({

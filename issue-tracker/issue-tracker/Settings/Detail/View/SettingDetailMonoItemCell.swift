@@ -12,12 +12,13 @@ import RxCocoa
 import CoreData
 
 class SettingDetailMonoItemCell: SettingManagedObjectCell {
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let view = UILabel()
+        view.numberOfLines = 0
         view.minimumScaleFactor = 0.2
         return view
     }()
-    let valueSwitch: UISwitch = {
+    private let valueSwitch: UISwitch = {
         let view = UISwitch()
         view.isOn = false
         return view
@@ -27,6 +28,7 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueSwitch)
         
+        titleLabel.snp.contentCompressionResistanceHorizontalPriority = UILayoutPriority.defaultLow.rawValue
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(20)
             make.top.equalToSuperview().offset(8)
@@ -36,8 +38,7 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
         valueSwitch.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(8)
             make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(8)
-            make.top.equalToSuperview().offset(8)
+            make.centerY.equalTo(titleLabel.snp.centerY)
         }
         
         valueSwitch.rx
@@ -61,10 +62,11 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
             .disposed(by: disposeBag)
     }
     
-    func setEntity(title: String? = nil, _ value: Bool) {
+    func setTitle(_ title: String?) {
         titleLabel.text = title
+    }
+    
+    func setEntity(_ value: Bool) {
         valueSwitch.isOn = value
-        
-        contentView.setNeedsLayout()
     }
 }

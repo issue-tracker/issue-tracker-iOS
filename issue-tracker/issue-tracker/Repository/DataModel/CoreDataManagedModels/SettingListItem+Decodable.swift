@@ -58,20 +58,19 @@ struct SettingListDecodable: Decodable {
 struct SettingListItemDecodable: Decodable {
     var mainTitle: String
     var subTitle: String
+    var desc: String
     var order: Int
     var value: Any?
     
-    enum CodingKeys: CodingKey {
-        case mainTitle
-        case subTitle
-        case order
-        case value
+    enum CodingKeys: String, CodingKey, CaseIterable {
+        case mainTitle, subTitle, desc, order, value
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.mainTitle = try container.decode(String.self, forKey: .mainTitle)
         self.subTitle = try container.decode(String.self, forKey: .subTitle)
+        self.desc = try container.decode(String.self, forKey: .desc)
         self.order = try container.decode(Int.self, forKey: .order)
       
         if let value = try? container.decodeIfPresent(SettingItemColor.self, forKey: .value) {

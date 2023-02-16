@@ -75,10 +75,8 @@
 		1B1E28DD28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */; };
 		1B20F79A288EC195004EBE9F /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F799288EC195004EBE9F /* CommonTextField.swift */; };
 		1B20F79D288FA34E004EBE9F /* LoginRequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */; };
-		1B2243C8299CC72A0063262C /* SettingListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243C6299CC72A0063262C /* SettingListItem+CoreDataProperties.swift */; };
-		1B2243C9299CC72A0063262C /* SettingListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243C6299CC72A0063262C /* SettingListItem+CoreDataProperties.swift */; };
-		1B2243CA299CC72A0063262C /* SettingListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243C7299CC72A0063262C /* SettingListItem+CoreDataClass.swift */; };
-		1B2243CB299CC72A0063262C /* SettingListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243C7299CC72A0063262C /* SettingListItem+CoreDataClass.swift */; };
+		1B2243D8299DC4EE0063262C /* SettingListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243D6299DC4ED0063262C /* SettingListItem+CoreDataClass.swift */; };
+		1B2243D9299DC4EE0063262C /* SettingListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243D7299DC4ED0063262C /* SettingListItem+CoreDataProperties.swift */; };
 		1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D6998289A461200AE9495 /* RequestHTTPTimerModel.swift */; };
 		1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0808822893E1B2001704C2 /* URL+Extension.swift */; };
@@ -306,8 +304,8 @@
 		1B1E28DC28C6FE7000B91A6A /* issue_trackerUITests_SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_SignIn.swift; sourceTree = "<group>"; };
 		1B20F799288EC195004EBE9F /* CommonTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
 		1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestHTTPModel.swift; sourceTree = "<group>"; };
-		1B2243C6299CC72A0063262C /* SettingListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SettingListItem+CoreDataProperties.swift"; path = "/Users/sanghwiback/Desktop/Edu/CodeSquad/issue-tracker-iOS/issue-tracker/issue-tracker/Repository/DataModel/CoreDataManagedModels/SettingListItem+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		1B2243C7299CC72A0063262C /* SettingListItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SettingListItem+CoreDataClass.swift"; path = "/Users/sanghwiback/Desktop/Edu/CodeSquad/issue-tracker-iOS/issue-tracker/issue-tracker/Repository/DataModel/CoreDataManagedModels/SettingListItem+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		1B2243D6299DC4ED0063262C /* SettingListItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingListItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1B2243D7299DC4ED0063262C /* SettingListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1B2F8E2B290A3FA700173092 /* issue_trackerUITests_UpdateEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = issue_trackerUITests_UpdateEntity.swift; sourceTree = "<group>"; };
 		1B308D3828ADFA410073640A /* ServiceSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSignInViewController.swift; sourceTree = "<group>"; };
 		1B308D3C28AE1F0C0073640A /* ProfileImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageButton.swift; sourceTree = "<group>"; };
@@ -497,8 +495,8 @@
 				1B02F9FB294977FF006498CE /* SettingCategory+CoreDataProperties.swift */,
 				1B02F9FF29497800006498CE /* SettingList+CoreDataClass.swift */,
 				1B02F9FE29497800006498CE /* SettingList+CoreDataProperties.swift */,
-				1B2243C7299CC72A0063262C /* SettingListItem+CoreDataClass.swift */,
-				1B2243C6299CC72A0063262C /* SettingListItem+CoreDataProperties.swift */,
+				1B2243D6299DC4ED0063262C /* SettingListItem+CoreDataClass.swift */,
+				1B2243D7299DC4ED0063262C /* SettingListItem+CoreDataProperties.swift */,
 				1B0244E8299149300074434D /* SettingListItem+Decodable.swift */,
 			);
 			path = CoreDataManagedModels;
@@ -1389,17 +1387,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B308D3928ADFA410073640A /* ServiceSignInViewController.swift in Sources */,
+				1B2243D9299DC4EE0063262C /* SettingListItem+CoreDataProperties.swift in Sources */,
 				1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */,
 				1BF36D7328DC27DF0033DF2A /* IssueHistories.swift in Sources */,
 				1BBDDE9D2999F42300743385 /* CFTollFreeBridgedType.swift in Sources */,
 				1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */,
 				1B0580C02934BD470094140B /* TransformableHelper.swift in Sources */,
+				1B2243D8299DC4EE0063262C /* SettingListItem+CoreDataClass.swift in Sources */,
 				1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */,
 				1BCAB8BA29186F6D00ED2F82 /* IssueEditReactor.swift in Sources */,
 				1B6DBDEC293DF012005FBFFD /* SettingDetailCellViewFactory.swift in Sources */,
 				1BD125CB28D1E8D60050F2D1 /* IssueListAuthor.swift in Sources */,
 				1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */,
-				1B2243CA299CC72A0063262C /* SettingListItem+CoreDataClass.swift in Sources */,
 				1B50EC2A28D09073005E5B82 /* IssueAddRemoveModel.swift in Sources */,
 				1B37892028FA645700A2DF39 /* CellEntityAdaptable.swift in Sources */,
 				1BF36D9528E1CE5E0033DF2A /* UIColor+Extension.swift in Sources */,
@@ -1441,7 +1440,6 @@
 				1B58957229388B15007A9937 /* SettingIssueReactor.swift in Sources */,
 				1B4F489428A4BE4700C4B33A /* IssueListEntity.swift in Sources */,
 				1BF1D0BE28BC97BE00393294 /* LabelListViewController.swift in Sources */,
-				1B2243C8299CC72A0063262C /* SettingListItem+CoreDataProperties.swift in Sources */,
 				1B5780AB2925B59F0034400F /* SignInFormModel.swift in Sources */,
 				1B8E4AA8288910FF00432728 /* MyPageNavigationController.swift in Sources */,
 				1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */,
@@ -1538,7 +1536,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B161205292C6F4B00B31347 /* SignInFormReactor.swift in Sources */,
-				1B2243C9299CC72A0063262C /* SettingListItem+CoreDataProperties.swift in Sources */,
 				1B0244EA29914E820074434D /* SettingListItem+Decodable.swift in Sources */,
 				1B02FA0A29497B72006498CE /* SettingList+CoreDataClass.swift in Sources */,
 				1BD125D128D1EA2D0050F2D1 /* IssueListAuthor.swift in Sources */,
@@ -1588,7 +1585,6 @@
 				1B16120A292C6F7700B31347 /* SignInValidationModel.swift in Sources */,
 				1BD125B228D1E1A90050F2D1 /* UIScrollView+Extension.swift in Sources */,
 				1B02FA0C29497B82006498CE /* SettingCategory+CoreDataClass.swift in Sources */,
-				1B2243CB299CC72A0063262C /* SettingListItem+CoreDataClass.swift in Sources */,
 				1B16126129308B4C00B31347 /* ViewBindable.swift in Sources */,
 				1B02F9E129485144006498CE /* issue_trackerUnitTest_Localizable.swift in Sources */,
 				1B6DBDF2294309D1005FBFFD /* Repository.swift in Sources */,

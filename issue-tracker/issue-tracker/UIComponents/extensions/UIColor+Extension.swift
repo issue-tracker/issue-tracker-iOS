@@ -45,4 +45,23 @@ extension UIColor {
 
         return nil
     }
+    
+    convenience init?(settingItem item: SettingItemColor) {
+        let enableRange: ClosedRange<Float> = 0...255
+        
+        guard
+            enableRange ~= item.rgbRed,
+            enableRange ~= item.rgbGreen,
+            enableRange ~= item.rgbBlue
+        else {
+            return nil
+        }
+        
+        self.init(
+            red: CGFloat(item.rgbRed) / 255,
+            green: CGFloat(item.rgbGreen) / 255,
+            blue: CGFloat(item.rgbBlue) / 255,
+            alpha: 1
+        )
+    }
 }

@@ -2,7 +2,7 @@
 //  SettingListItem+CoreDataProperties.swift
 //  
 //
-//  Created by 백상휘 on 2023/02/15.
+//  Created by 백상휘 on 2023/02/16.
 //
 //
 
@@ -20,6 +20,7 @@ extension SettingListItem {
     @NSManaged public var order: Int16
     @NSManaged public var subTitle: String?
     @NSManaged public var value: Any?
+    @NSManaged public var desc: String?
     @NSManaged public var parent: SettingList?
 
 }

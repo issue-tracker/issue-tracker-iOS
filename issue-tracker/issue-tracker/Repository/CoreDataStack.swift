@@ -104,6 +104,7 @@ final class CoreDataStack {
                         
                         obj3.mainTitle = item.mainTitle.localized
                         obj3.subTitle = item.subTitle.localized
+                        obj3.desc = item.desc.localized
                         obj3.order = Int16(item.order)
                         obj3.parent = obj2
                         

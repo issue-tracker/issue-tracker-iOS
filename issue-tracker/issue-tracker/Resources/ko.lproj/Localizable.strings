@@ -47,7 +47,7 @@ L_N_LVC_BTN_PWRESET="비밀번호 재설정";
 L_N_LVC_BTN_SIGNIN="회원가입";
 L_N_LVC_BTN_SIGNIN_OAUTH="간편회원가입";
 L_N_LVC_LB_SIGN_OAUTH="간편하게 로그인\/회원가입";
-L_N_LVC_ALERT_AUTOLOGINFAIL="자동 로그인이 실패하였습니다. 다시 로그인해 주시기 바랍니다.";
+L_N_LVC_ALERT_AUTOLOGINFAIL="자동 로그인이 실패하였습니다. 다시 로그인해 주시기 바랍니다";
 
 // Settings - General
 
@@ -56,16 +56,18 @@ M_ST_SVC_TCELL_GENERAL="일반";
 // Settings - General - Login
 
 M_ST_SVC_TCELL_GENERAL_LOGIN="로그인";
-M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO="자동 로그인 설정";
-M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC="앱 실행 시 저장된 정보를 이용하여 로그인을 시도합니다.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO="자동 로그인";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_SUBTITLE="자동 로그인 설정";
+M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC="저장된 로그인 정보를 이용하여 앱 실행 시 자동 로그인을 시도합니다";
 M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE="로그인 서비스";
-M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_DESC="로그인 서비스들에 대한 설정을 합니다.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_SUBTITLE="로그인 서비스 기능 설정";
+M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_DESC="로그인 화면의 로그인 서비스 버튼을 활성화 합니다. 이 설정을 통해 앱 종료 시 자동으로 로그아웃 됩니다";
 M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB="GitHub 로그인";
-M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC="GitHub 를 통한 로그인 기능을 활성화 합니다.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_GITHUB_DESC="GitHub 를 통한 로그인 기능을 활성화 합니다";
 M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER="Naver 로그인";
-M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC="Naver 를 통한 로그인 기능을 활성화 합니다.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_NAVER_DESC="Naver 를 통한 로그인 기능을 활성화 합니다";
 M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO="Kakao 로그인";
-M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC="Kakao 를 통한 로그인 기능을 활성화 합니다.";
+M_ST_SVC_TCELL_GENERAL_LOGIN_KAKAO_DESC="Kakao 를 통한 로그인 기능을 활성화 합니다";
 
 // Settings - General - Preferences
 
@@ -74,7 +76,8 @@ M_ST_SVC_TCELL_GENERAL_PREFERENCES="개인 설정";
 // Settings - General - Preferences - Dark mode
 
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE="다크 모드";
-M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_TITLE="선호하는 앱 모드를 선택하세요.";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_SUBTITLE="선호하는 모드를 선택하세요";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_DESC="다크 모드와 라이트 모드는 이름처럼 화면을 설정합니다. 시스템 항목은 저녁엔 다크, 아침 이후는 라이트 모드를 사용합니다";
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_LIGHT="라이트(밝은) 모드";
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_DARK="다크(어두운) 모드";
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_SYSTEM="시스템";
@@ -82,31 +85,38 @@ M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_SYSTEM="시스템";
 // Settings - General - Preferences - Language
 
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE="언어";
-M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_TITLE="선호하는 언어를 선택하세요.";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_SUBTITLE="선호하는 언어를 선택하세요";
+M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_DESC="이 설정을 바꾸게 되면 앱이 재실행 됩니다";
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_KOREAN="한국어";
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_ENGLISH="English";
 M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_JAPANESE="日本語";
 
 // Settings - Issue/Label/Milestone
 
-M_ST_SVC_TCELL_CONTENTS="이슈(Issue)/라벨(Label)/마일스톤(Milestone)";
+M_ST_SVC_TCELL_CONTENTS="이슈(Issue)\/라벨(Label)\/마일스톤(Milestone)";
 
 // Settings - Issue/Label/Milestone - Lists
 
 M_ST_SVC_TCELL_CONTENTS_LIST="목록 설정";
 M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR="이슈(Issue) 배경색";
-M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC="이슈(Issue) 목록의 각 항목에 배경색을 지정합니다.";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_SUBTITLE="슬라이더를 조정하여 배경색을 설정하세요";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC="배경색이 필요하지 않을 경우 스위치를 끄시기 바랍니다";
 M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR="라벨(Label) 배경색";
-M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC="라벨(Label) 목록의 각 항목에 배경색을 지정합니다.";
+M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_SUBTITLE="슬라이더를 조정하여 배경색을 설정하세요";
+M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC="배경색이 필요하지 않을 경우 스위치를 끄시기 바랍니다";
 M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR="마일스톤(Milestone) 배경색";
-M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC="마일스톤(Milestone) 목록의 각 항목에 배경색을 지정합니다.";
+M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_SUBTITLE="슬라이더를 조정하여 배경색을 설정하세요";
+M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC="배경색이 필요하지 않을 경우 스위치를 끄시기 바랍니다";
 
 // Settings - Issue/Label/Milestone - Details
 
 M_ST_SVC_TCELL_CONTENTS_DETAIL="상세 창";
 M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL="라벨(Label) 표시여부";
-M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC="좀 더 빠른 화면 호출을 원하신다면 이 설정을 꺼주세요.";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_SUBTITLE="라벨 정보를 표시하거나 숨깁니다";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC="스위치를 통해 설정을 끄면 더 빠르고 작은 화면을 호출할 수 있습니다";
 M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE="프로필 이미지 (Profile image) 표시여부";
-M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC="좀 더 빠른 화면 호출을 원하신다면 이 설정을 꺼주세요.";
-M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY="이슈(Issue) 내역 간소화";
-M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC="좀 더 빠른 화면 호출을 원하신다면 이 설정을 켜주세요.";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_SUBTITLE="프로필 이미지를 표시하거나 숨깁니다";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC="스위치를 통해 설정을 끄면 더 빠르고 작은 화면을 호출할 수 있습니다";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY="이력 목록 간소화";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_SUBTITLE="간단 이력 목록을 활성화 합니다";
+M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC="스위치를 통해 설정을 켜게 되면 더 간단한 화면으로 이력을 확인할 수 있습니다";

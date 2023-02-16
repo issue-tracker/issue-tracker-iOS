@@ -13,7 +13,15 @@ import CoreData
 
 class SettingDetailMultiItemCell: SettingManagedObjectCell {
     
-    let stackView: UIStackView = {
+    private let titleLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
+        view.minimumScaleFactor = 0.2
+        return view
+    }()
+    
+    private let stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         return view
@@ -30,54 +38,56 @@ class SettingDetailMultiItemCell: SettingManagedObjectCell {
         view.addSubview(label)
         view.addSubview(trailingSwitch)
         
+        label.snp.contentCompressionResistanceHorizontalPriority = UILayoutPriority.defaultLow.rawValue
         label.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview()
             make.top.equalToSuperview().offset(8)
             make.bottom.equalToSuperview().inset(8)
         }
         
         trailingSwitch.snp.makeConstraints { make in
             make.leading.equalTo(label.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(8)
-            make.top.equalToSuperview().offset(8)
+            make.centerY.equalTo(label.snp.centerY)
+            make.trailing.equalToSuperview()
         }
         
         return view
     }
     
-    func setEntity(_ item: SettingItemColor) {
-        contentView.backgroundColor = UIColor(
-            red: CGFloat(item.rgbRed) / 255,
-            green: CGFloat(item.rgbGreen) / 255,
-            blue: CGFloat(item.rgbBlue) / 255,
-            alpha: 1
-        )
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
     
-    func setEntity(_ item: SettingItemLoginActivate) {
-        contentView.subviews.forEach { view in
-            view.removeFromSuperview()
-        }
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(stackView)
         
         stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().inset(20)
+            make.verticalEdges.equalToSuperview()
         }
         
+        stackView.addArrangedSubview(titleLabel)
+    }
+    
+    func setTitle(_ title: String?) {
+        titleLabel.text = title
+    }
+    
+    func setEntity(_ item: SettingItemColor) {
+        let view = UIView()
+        view.backgroundColor = UIColor(settingItem: item)
+        view.frame.size.height = 80
+        
+        stackView.addArrangedSubview(view)
+    }
+    
+    func setEntity(_ item: SettingItemLoginActivate) {
         [item.github, item.kakao, item.naver].enumerated()
             .forEach { (index, value) in
-                var title: String {
-                    if index == 0 {
-                        return "github"
-                    } else if index == 1 {
-                        return "kakao"
-                    } else {
-                        return "naver"
-                    }
-                }
-                
+                let title = SocialType.allCases[index].rawValue
                 let view = self.titledSwitch(title, value)
                 
                 if let switchView = view.subviews.first(where: {$0 is UISwitch}) as? UISwitch {

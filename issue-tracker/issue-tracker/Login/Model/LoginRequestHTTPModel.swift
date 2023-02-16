@@ -142,9 +142,9 @@ enum LoginValidationError: Error {
 }
 
 enum SocialType: String, CaseIterable {
+    case github
     case kakao
     case naver
-    case github
 }
 
 struct LoginResponse: Decodable {

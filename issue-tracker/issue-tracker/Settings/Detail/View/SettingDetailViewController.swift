@@ -62,15 +62,16 @@ extension SettingDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard indexPath.row > 1 else {
             let cell = UITableViewCell()
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.minimumScaleFactor = 0.2
             cell.textLabel?.text = indexPath.row == 0 ? reactor?.currentState.mainTitle : reactor?.currentState.subTitle
+            cell.setNeedsLayout()
+            cell.setNeedsDisplay()
             return cell
         }
         
-        let cell = SettingTableViewCellFactory.makeCell(in: tableView,
-                                                        at: indexPath,
-                                                        reactor?.currentState.value)
-        (cell as? SettingManagedObjectCell)?.managedObject = settingItem
-        
-        return cell
+        return SettingTableViewCellFactory.makeCell(in: tableView,
+                                                    at: indexPath,
+                                                    reactor?.currentState.value)
     }
 }

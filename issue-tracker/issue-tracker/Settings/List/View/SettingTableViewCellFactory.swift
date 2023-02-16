@@ -16,7 +16,9 @@ class SettingTableViewCellFactory {
                 return UITableViewCell()
             }
             
+            cell.setTitle(item?.desc)
             cell.setEntity(itemValue)
+            cell.managedObject = item
             
             return cell
             
@@ -25,7 +27,9 @@ class SettingTableViewCellFactory {
                 return UITableViewCell()
             }
             
+            cell.setTitle(item?.desc)
             cell.setEntity(itemValue)
+            cell.managedObject = item
             
             return cell
             
@@ -34,7 +38,9 @@ class SettingTableViewCellFactory {
                 return UITableViewCell()
             }
             
-            cell.setEntity(title: item?.mainTitle, itemBoolean)
+            cell.setTitle(item?.desc)
+            cell.setEntity(itemBoolean)
+            cell.managedObject = item
             cell.makeUI()
             
             return cell

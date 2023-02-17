@@ -17,6 +17,7 @@ fileprivate typealias TITLECELL = SettingTableViewTitleCell
 class SettingViewController: CommonProxyViewController, View {
     typealias Reactor = SettingReactor
     
+    var navigationBarTitle: String?
     var disposeBag = DisposeBag()
     
     let stackView: UIStackView = {
@@ -47,22 +48,27 @@ class SettingViewController: CommonProxyViewController, View {
         navigationItem.title = "Settings"
         view.addSubview(stackView)
         
+        headerSectionButton.frame.size.height = 90
         stackView.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        headerSectionButton.frame.size.height = 90
         stackView.addArrangedSubview(headerSectionButton)
         stackView.addArrangedSubview(tableView)
+        
+        reactor = Reactor()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // 상세 화면에서 다시 돌아왔을 때 기존의 상태값을 유지하도록 하기 위함.
-        if reactor == nil {
-            reactor = Reactor()
+        if let title = navigationItem.title, title.hasPrefix("Setting") == false {
+            navigationItem.title = navigationBarTitle
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationBarTitle = navigationItem.title
     }
     
     func bind(reactor: SettingReactor) {
@@ -78,33 +84,43 @@ class SettingViewController: CommonProxyViewController, View {
                 self?.goNextView(selectedItem)
                 return false
             })
+            .do(onNext: { [weak self] item in
+                guard let title = self?.reactor?.getListTitle(item) else {
+                    return
+                }
+                
+                self?.navigationItem.title?.append(contentsOf: "-\(title)")
+            })
             .bind(onNext: { [weak self] item in
                 var action: Reactor.Action? {
                     if let category = item as? SettingCategory {
-                        return Reactor.Action.selectCategory(category)
+                        return .selectCategory(category)
                     } else if let list = item as? SettingList {
-                        return Reactor.Action.selectList(list)
+                        return .selectList(list)
                     }
                     
                     return nil
                 }
                 
                 if let action {
-                    self?.reactor?.action
-                        .onNext(action)
+                    self?.reactor?.action.onNext(action)
                 }
             })
             .disposed(by: disposeBag)
         
         headerSectionButton.rx.tap
             .bind(onNext: {
+                if let removeStartIndex = self.navigationItem.title?.lastIndex(of: "-") {
+                    self.navigationItem.title?.removeSubrange(removeStartIndex...)
+                } else {
+                    self.navigationItem.title = "Settings"
+                }
+                
                 switch self.reactor?.currentState.settingListType {
                 case .list:
-                    self.reactor?.action
-                        .onNext(SettingReactor.Action.backToCategory)
+                    self.reactor?.action.onNext(.backToCategory)
                 case .item:
-                    self.reactor?.action
-                        .onNext(SettingReactor.Action.backToList)
+                    self.reactor?.action.onNext(.backToList)
                 default:
                     return
                 }
@@ -114,20 +130,19 @@ class SettingViewController: CommonProxyViewController, View {
         reactor.pulse(\.$settingTableViewList)
             .observe(on: MainScheduler.asyncInstance)
             .do(onNext: { [weak self] items in
-                if let self = self, let reactor = self.reactor {
-                    self.tableView.performBatchUpdates({
-                        let listCount = reactor.currentState.getListCount()
+                if let reactor = self?.reactor {
+                    let listCount = reactor.currentState.getListCount()
+                    self?.tableView.performBatchUpdates({
                         let indexPaths = (0..<listCount).map({
                             IndexPath(row: $0, section: 0)
                         })
                         
-                        self.tableView.reloadRows(at: indexPaths, with: .left)
+                        self?.tableView.reloadRows(at: indexPaths, with: .left)
                     })
                 }
                 
                 if let type = items.first?.type {
-                    self?.reactor?.action
-                        .onNext(Reactor.Action.sendListType(type))
+                    self?.reactor?.action.onNext(.sendListType(type))
                 }
             })
             .bind(to: tableView.rx.items(

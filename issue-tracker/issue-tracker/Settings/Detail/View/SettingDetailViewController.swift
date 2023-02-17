@@ -16,6 +16,10 @@ class SettingDetailViewController: UIViewController, View {
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.dataSource = self
+        view.register(SettingDetailMonoItemCell.self, forCellReuseIdentifier: SettingDetailMonoItemCell.reuseIdentifier)
+        view.register(SettingDetailMultiItemCell.self, forCellReuseIdentifier: SettingDetailMultiItemCell.reuseIdentifier)
+        view.estimatedRowHeight = 80
+        
         return view
     }()
     
@@ -27,20 +31,17 @@ class SettingDetailViewController: UIViewController, View {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
-        navigationItem.backBarButtonItem?.accessibilityIdentifier = "BackButton"
-        
-        tableView.register(SettingDetailMonoItemCell.self, forCellReuseIdentifier: SettingDetailMonoItemCell.reuseIdentifier)
-        tableView.register(SettingDetailMultiItemCell.self, forCellReuseIdentifier: SettingDetailMultiItemCell.reuseIdentifier)
-        tableView.estimatedRowHeight = 80
         
         tableView.snp.makeConstraints {
             $0.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
+        reactor = Reactor(item: settingItem)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reactor = Reactor(item: settingItem)
+        navigationController?.navigationBar.topItem?.title = "Back"
     }
     
     func bind(reactor: SettingDetailReactor) {

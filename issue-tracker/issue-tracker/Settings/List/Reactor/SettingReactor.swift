@@ -132,4 +132,33 @@ class SettingReactor: Reactor {
         
         return state
     }
+    
+    func getListTitle(_ item: Any?) -> String? {
+        var result: String?
+        
+        switch item {
+        case let category as SettingCategory:
+            result = category.title
+        case let list as SettingList:
+            result = list.title
+        case let item as SettingListItem:
+            result = item.mainTitle
+        default:
+            return nil
+        }
+        
+        func checkResult(_ result: inout String) {
+            guard result.count > 8 else { return }
+            
+            result.removeSubrange(result.index(result.startIndex, offsetBy: 8)...)
+            result.append(contentsOf: "..")
+        }
+        
+        if var result {
+            checkResult(&result)
+            return result
+        } else {
+            return nil
+        }
+    }
 }

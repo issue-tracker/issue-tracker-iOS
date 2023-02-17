@@ -63,11 +63,24 @@ extension SettingDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard indexPath.row > 1 else {
             let cell = UITableViewCell()
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.minimumScaleFactor = 0.2
-            cell.textLabel?.text = indexPath.row == 0 ? reactor?.currentState.mainTitle : reactor?.currentState.subTitle
-            cell.setNeedsLayout()
-            cell.setNeedsDisplay()
+            var label: CommonLabel? {
+                cell.contentView.subviews.first(where: {$0 is CommonLabel}) as? CommonLabel
+            }
+            
+            if label == nil {
+                let label = CommonLabel(fontMultiplier: 1.2)
+                label.textAlignment = .natural
+                label.numberOfLines = 0
+                cell.contentView.addSubview(label)
+                label.snp.makeConstraints { make in
+                    make.leading.equalToSuperview().offset(20)
+                    make.top.equalToSuperview().offset(8)
+                    make.bottom.equalToSuperview().inset(8)
+                    make.trailing.equalToSuperview().inset(20)
+                }
+            }
+            
+            label?.text = indexPath.row == 0 ? reactor?.currentState.mainTitle : reactor?.currentState.subTitle
             return cell
         }
         

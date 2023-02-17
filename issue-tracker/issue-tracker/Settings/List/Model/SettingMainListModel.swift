@@ -162,4 +162,8 @@ class SettingItemLoginActivate: NSObject, NSSecureCoding, Decodable {
         self.kakao = kakao
         self.naver = naver
     }
+    
+    var allCases: [Bool] {[
+        github, kakao, naver
+    ]}
 }

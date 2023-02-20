@@ -34,9 +34,10 @@ https://sphenoid-fight-243.notion.site/1f7abecd77004e76b4adefff2db3624a
 
 ## 🛠 Architecture
 
-### MVC Pattern
+### ReactorKit
 
-MVC 의 C 인 ViewController 가 View 의 일부 역할을 가지고 있기 때문에 MVVM 의 필요성을 굳이 느끼지 못함. 만약 Model의 역할이 너무 커지게 되거나, View 의 역할이 너무 커지게 되면 MVVM 으로 전환하기 위해 객체 간 독립성을 보장하여 개발할 필요가 있음.
+MVC 패턴을 적용하였으나, Test 코드 작성이 힘든 점 / 유지보수성이 어려운 점 / 객체 간 Coupling 이 너무 두드러진 점 / 각 객체의 크기가 너무 커지는 점 / 코드 재사용성이 떨어지는 점 때문에 양방향 구조에서 단방향 구조로 변경.
+
 
 
 ---
@@ -48,21 +49,17 @@ MVC 의 C 인 ViewController 가 View 의 일부 역할을 가지고 있기 때�
     <em>UI-Test 로 회원가입 후 로그인하여 데이터 출력되는지 확인하는 중</em>
 </p>
 
-* XCTest 를 통한 버그 및 개발 간소화
-  - Model 개발은 Unit-Test 만으로 시작.
-  - View/ViewController 개발은 UI-Test 만으로 시작.
-* 타입 확장을 통한 개발 효율 증대
-* FlexLayout, SnapKit 조합을 통해 더욱 효과적으로 UI 작성. Code-Base 의 UI 작성.
-  - Grid 레이아웃의 경우 FlexLayout 사용.
-  - 아주 간단한 레이아웃의 경우 SnapKit 사용.
-  - 위의 결정사항들은 명확한 코드 작성과 쉬운 레이아웃 수정을 위한 것임.
-* RxSwift, RxCocoa 등을 이용한 코드 간소화.
-  - 좀 더 간소하고 명확한(클린한) 코드를 위해 든든한 코드 수정 진행 중.
+* XCTest 를 통한 버그 및 개발 간소화.
+* 타입 확장을 통한 개발 효율 증대.
+* FlexLayout(Frame-Based Layout), SnapKit(AutoLayout) 조합으로 효과적인 Code-Base UI 작성.
+* RxSwift, RxCocoa 등을 이용하여 복잡한 로직을 간소화.
+* Localization 적용
+* Universal-Link 적용
+  - https://back.issue-tracker.link/openApp
 
 ---
 
 ## ❗️ Challenge
 
-* ContextMenu 를 응용하여 여러가지 UI 개발
-* VoiceOver 를 이용한 색다른 사용자 경험 제공
-* Instruments 사용을 통해 앱에 대한 상세 정보 제공
+* 높은 Test-Coverage 달성!
+* 좋은 테스트 코드를 준비해둔 상태로 GitHub Action 을 이용한 CI/CD 적용.

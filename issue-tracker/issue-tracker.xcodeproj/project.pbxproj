@@ -104,6 +104,8 @@
 		1B37892428FA726900A2DF39 /* SettingSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37892328FA726900A2DF39 /* SettingSelectable.swift */; };
 		1B37892628FCEAAE00A2DF39 /* issue_trackerUITests_Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37892528FCEAAE00A2DF39 /* issue_trackerUITests_Settings.swift */; };
 		1B381B90299F7A2200FAB480 /* TitledSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B381B8F299F7A2200FAB480 /* TitledSwitch.swift */; };
+		1B381B9429A3328C00FAB480 /* SettingListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243D6299DC4ED0063262C /* SettingListItem+CoreDataClass.swift */; };
+		1B381B9529A3329100FAB480 /* SettingListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2243D7299DC4ED0063262C /* SettingListItem+CoreDataProperties.swift */; };
 		1B3C0649287BDD15006A36CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C0648287BDD15006A36CF /* AppDelegate.swift */; };
 		1B3C064B287BDD15006A36CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C064A287BDD15006A36CF /* SceneDelegate.swift */; };
 		1B3C0652287BDD17006A36CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B3C0651287BDD17006A36CF /* Assets.xcassets */; };
@@ -1546,10 +1548,12 @@
 				1BF1D0D828BE210400393294 /* issue_trackerUnitTest_Issue.swift in Sources */,
 				1B69A90028EBDF24001C6720 /* Int+Extensions.swift in Sources */,
 				1B0580C72934E92B0094140B /* ColorAttributedTransformable.swift in Sources */,
+				1B381B9529A3329100FAB480 /* SettingListItem+CoreDataProperties.swift in Sources */,
 				1B232B1D28A0DBA6007ED022 /* RequestHTTPModel.swift in Sources */,
 				1B16126229308B5400B31347 /* ViewBinding.swift in Sources */,
 				1B16120C292C6FBE00B31347 /* HTTPURLResponse+Extensions.swift in Sources */,
 				1B0580C32934E8970094140B /* CheckDefaultCoreData.swift in Sources */,
+				1B381B9429A3328C00FAB480 /* SettingListItem+CoreDataClass.swift in Sources */,
 				1B02FA0D29497B84006498CE /* SettingCategory+CoreDataProperties.swift in Sources */,
 				1BD125D628D1EA9D0050F2D1 /* IssueAssignee.swift in Sources */,
 				1B6DBDDD293DBDE5005FBFFD /* SettingItemFetchModel.swift in Sources */,

@@ -24,6 +24,16 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
         return view
     }()
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        makeUI()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        makeUI()
+    }
+    
     func makeUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueSwitch)
@@ -44,20 +54,9 @@ class SettingDetailMonoItemCell: SettingManagedObjectCell {
         valueSwitch.rx
             .controlEvent(.valueChanged)
             .withLatestFrom(valueSwitch.rx.value)
-            .subscribe(onNext: { [weak self] isOn in
-                guard
-                    let managedObject = self?.managedObject,
-                    let valueMutating = cfCast(isOn, to: CFBoolean.self)
-                else {
-                    return
-                }
-                
-                do {
-                    managedObject.value = valueMutating
-                    try NSManagedObjectContext.viewContext?.save()
-                } catch {
-                    print(error)
-                }
+            .map({ SettingDetailReactor.Action.setItemBoolean($0) })
+            .subscribe(onNext: { [weak self] in
+                self?.reactor?.action.onNext($0)
             })
             .disposed(by: disposeBag)
     }

@@ -22,7 +22,7 @@ protocol ListViewRepresentingStatus {
     var statusDescription: String? { get }
 }
 
-class MainListViewController: CommonProxyViewController, SettingProxyViewController {
+class MainListViewController: CommonProxyViewController, SetingProxy {
     
     // Search field 에 관한 가이드라인
     // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)

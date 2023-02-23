@@ -18,7 +18,6 @@ class SettingTableViewCellFactory {
             
             cell.setTitle(item?.desc)
             cell.setEntity(itemValue)
-            cell.managedObject = item
             
             return cell
             
@@ -29,7 +28,6 @@ class SettingTableViewCellFactory {
             
             cell.setTitle(item?.desc)
             cell.setEntity(itemValue)
-            cell.managedObject = item
             
             return cell
             
@@ -40,8 +38,6 @@ class SettingTableViewCellFactory {
             
             cell.setTitle(item?.desc)
             cell.setEntity(itemBoolean)
-            cell.managedObject = item
-            cell.makeUI()
             
             return cell
         }

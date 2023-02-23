@@ -108,6 +108,10 @@ enum SettingListType: Int, CaseIterable {
     case item = 1
 }
 
+enum RGBColor: String, CaseIterable {
+    case red, green, blue
+}
+
 class SettingItemColor: NSObject, NSSecureCoding, Decodable {
     static var supportsSecureCoding: Bool = true
     
@@ -133,6 +137,14 @@ class SettingItemColor: NSObject, NSSecureCoding, Decodable {
         self.rgbRed = rgbRed
         self.rgbGreen = rgbGreen
         self.rgbBlue = rgbBlue
+    }
+    
+    static func getTitle(_ index: Int) -> String? {
+        guard 0..<RGBColor.allCases.count ~= index else {
+            return nil
+        }
+        
+        return RGBColor.allCases[index].rawValue
     }
 }
 

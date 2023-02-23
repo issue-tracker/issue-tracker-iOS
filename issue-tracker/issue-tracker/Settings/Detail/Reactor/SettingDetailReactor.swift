@@ -33,7 +33,9 @@ class SettingDetailReactor: Reactor {
     
     enum Action {
         case setItem(SettingListItem)
-        case setItemValue(Any)
+        case setItemBoolean(Bool)
+        case setColorSetting(RGBColor, Float)
+        case setLoginActive(SocialType, Bool)
     }
     
     enum Mutation {
@@ -45,8 +47,32 @@ class SettingDetailReactor: Reactor {
         switch action {
         case .setItem(let item):
             return Observable.just(Mutation.setItem(item))
-        case .setItemValue(let value):
+        case .setItemBoolean(let value):
             return Observable.just(Mutation.setItemValue(value))
+        case .setColorSetting(let colorType, let value):
+            guard let setting = currentState.value?.value as? SettingItemColor else {
+                return .empty()
+            }
+            
+            switch colorType {
+            case .red: setting.rgbRed = value
+            case .blue: setting.rgbBlue = value
+            case .green: setting.rgbGreen = value
+            }
+            
+            return Observable.just(Mutation.setItemValue(setting))
+        case .setLoginActive(let socialType, let value):
+            guard let setting = currentState.value?.value as? SettingItemLoginActivate else {
+                return .empty()
+            }
+            
+            switch socialType {
+            case .github: setting.github = value
+            case .naver: setting.naver = value
+            case .kakao: setting.kakao = value
+            }
+            
+            return Observable.just(Mutation.setItemValue(setting))
         }
     }
     
@@ -57,19 +83,7 @@ class SettingDetailReactor: Reactor {
         case .setItem(let item):
             state.value = item
         case .setItemValue(let value):
-            var mutatedValue: Any? {
-                if type(of: value) == type(of: currentState.value) {
-                    return value
-                } else if let value = cfCast(value, to: CFBoolean.self) {
-                    return value
-                }
-                
-                return nil
-            }
-            
-            if let mutatedValue {
-                state.value?.value = mutatedValue
-            }
+            state.value?.setValue(value, forKeyPath: #keyPath(SettingListItem.value))
         }
         
         do {

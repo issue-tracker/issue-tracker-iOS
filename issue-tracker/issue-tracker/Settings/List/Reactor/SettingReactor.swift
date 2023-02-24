@@ -147,18 +147,18 @@ class SettingReactor: Reactor {
             return nil
         }
         
-        func checkResult(_ result: inout String) {
-            guard result.count > 8 else { return }
-            
-            result.removeSubrange(result.index(result.startIndex, offsetBy: 8)...)
-            result.append(contentsOf: "..")
-        }
-        
         if var result {
-            checkResult(&result)
+            truncateString(&result)
             return result
         } else {
             return nil
         }
+    }
+    
+    func truncateString(_ result: inout String) {
+        guard result.count > 8 else { return }
+        
+        result.removeSubrange(result.index(result.startIndex, offsetBy: 8)...)
+        result.append(contentsOf: "..")
     }
 }

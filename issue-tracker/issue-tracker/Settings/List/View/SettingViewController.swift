@@ -72,40 +72,41 @@ class SettingViewController: CommonProxyViewController, View {
     }
     
     func bind(reactor: SettingReactor) {
-        tableView.rx.itemSelected
-            .compactMap({ [weak self] indexPath in
-                self?.reactor?.currentState.currentItem(at: indexPath)
-            })
-            .filter({ [weak self] (item) -> Bool in
-                guard let selectedItem = item as? SettingListItem else {
-                    return true
+        let cellSelected = tableView.rx.itemSelected.share()
+        
+        let settingCellSelected = cellSelected
+            .compactMap { self.reactor?.currentState.currentItem(at: $0) }
+        
+        let emitCellTitle = settingCellSelected
+            .compactMap({ $0 as? SettingListCellTitle })
+        
+        let emitSettingItem = settingCellSelected
+            .compactMap { $0 as? SettingListItem }
+        
+        cellSelected
+            .bind { self.tableView.deselectRow(at: $0, animated: false) }
+            .disposed(by: disposeBag)
+        
+        settingCellSelected
+            .bind { item in
+                if let category = item as? SettingCategory {
+                    self.reactor?.action.onNext(.selectCategory(category))
+                } else if let list = item as? SettingList {
+                    self.reactor?.action.onNext(.selectList(list))
                 }
-                
-                self?.goNextView(selectedItem)
-                return false
-            })
-            .do(onNext: { [weak self] item in
-                guard let title = self?.reactor?.getListTitle(item) else {
-                    return
-                }
-                
-                self?.navigationItem.title?.append(contentsOf: "-\(title)")
-            })
-            .bind(onNext: { [weak self] item in
-                var action: Reactor.Action? {
-                    if let category = item as? SettingCategory {
-                        return .selectCategory(category)
-                    } else if let list = item as? SettingList {
-                        return .selectList(list)
-                    }
-                    
-                    return nil
-                }
-                
-                if let action {
-                    self?.reactor?.action.onNext(action)
-                }
-            })
+            }
+            .disposed(by: disposeBag)
+        
+        emitCellTitle
+            .bind {
+                guard var titleLabelText = $0.mainTitle else { return }
+                self.reactor?.truncateString(&titleLabelText)
+                self.navigationItem.title?.append(contentsOf: "-\(titleLabelText)")
+            }
+            .disposed(by: disposeBag)
+        
+        emitSettingItem
+            .bind { [weak self] in self?.goNextView($0) }
             .disposed(by: disposeBag)
         
         headerSectionButton.rx.tap
@@ -113,16 +114,16 @@ class SettingViewController: CommonProxyViewController, View {
                 if let removeStartIndex = self.navigationItem.title?.lastIndex(of: "-") {
                     self.navigationItem.title?.removeSubrange(removeStartIndex...)
                 } else {
-                    self.navigationItem.title = "Settings"
+                    self.navigationItem.title = "Setting"
                 }
                 
-                switch self.reactor?.currentState.settingListType {
-                case .list:
-                    self.reactor?.action.onNext(.backToCategory)
-                case .item:
-                    self.reactor?.action.onNext(.backToList)
-                default:
-                    return
+                let listType = self.reactor?.currentState.settingListType
+                let reactorAction = self.reactor?.action
+                
+                switch listType {
+                case .list: reactorAction?.onNext(.backToCategory)
+                case .item: reactorAction?.onNext(.backToList)
+                default: return
                 }
             })
             .disposed(by: disposeBag)

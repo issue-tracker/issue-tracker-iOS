@@ -17,6 +17,7 @@ class SettingDetailViewController: UIViewController, View {
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.dataSource = self
+        view.separatorStyle = .none
         view.register(SettingDetailMonoItemCell.self, forCellReuseIdentifier: SettingDetailMonoItemCell.reuseIdentifier)
         view.register(SettingDetailMultiItemCell.self, forCellReuseIdentifier: SettingDetailMultiItemCell.reuseIdentifier)
         view.estimatedRowHeight = 80
@@ -64,6 +65,13 @@ class SettingDetailViewController: UIViewController, View {
                 })
             })
             .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .asDriver()
+            .drive { [weak self] indexPath in
+                self?.tableView.deselectRow(at: indexPath, animated: false)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -99,11 +107,7 @@ extension SettingDetailViewController: UITableViewDataSource {
         let cell = SettingTableViewCellFactory
             .makeCell(in: tableView, at: indexPath, reactor?.currentState.value)
         
-        if let cell = cell as? SettingDetailMultiItemCell {
-            cell.reactor = reactor
-        }
-        
-        if let cell = cell as? SettingDetailMonoItemCell {
+        if let cell = cell as? SettingManagedObjectCell {
             cell.reactor = reactor
         }
         

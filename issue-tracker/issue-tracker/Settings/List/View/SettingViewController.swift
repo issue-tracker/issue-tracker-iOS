@@ -77,12 +77,6 @@ class SettingViewController: CommonProxyViewController, View {
         let settingCellSelected = cellSelected
             .compactMap { self.reactor?.currentState.currentItem(at: $0) }
         
-        let emitCellTitle = settingCellSelected
-            .compactMap({ $0 as? SettingListCellTitle })
-        
-        let emitSettingItem = settingCellSelected
-            .compactMap { $0 as? SettingListItem }
-        
         cellSelected
             .bind { self.tableView.deselectRow(at: $0, animated: false) }
             .disposed(by: disposeBag)
@@ -97,7 +91,8 @@ class SettingViewController: CommonProxyViewController, View {
             }
             .disposed(by: disposeBag)
         
-        emitCellTitle
+        settingCellSelected
+            .compactMap({ $0 as? SettingListCellTitle })
             .bind {
                 guard var titleLabelText = $0.mainTitle else { return }
                 self.reactor?.truncateString(&titleLabelText)
@@ -105,7 +100,8 @@ class SettingViewController: CommonProxyViewController, View {
             }
             .disposed(by: disposeBag)
         
-        emitSettingItem
+        settingCellSelected
+            .compactMap { $0 as? SettingListItem }
             .bind { [weak self] in self?.goNextView($0) }
             .disposed(by: disposeBag)
         
@@ -131,16 +127,9 @@ class SettingViewController: CommonProxyViewController, View {
         reactor.pulse(\.$settingTableViewList)
             .observe(on: MainScheduler.asyncInstance)
             .do(onNext: { [weak self] items in
-                if let reactor = self?.reactor {
-                    let listCount = reactor.currentState.getListCount()
-                    self?.tableView.performBatchUpdates({
-                        let indexPaths = (0..<listCount).map({
-                            IndexPath(row: $0, section: 0)
-                        })
-                        
-                        self?.tableView.reloadRows(at: indexPaths, with: .left)
-                    })
-                }
+                self?.tableView.performBatchUpdates({
+                    self?.updateCells()
+                })
                 
                 if let type = items.first?.type {
                     self?.reactor?.action.onNext(.sendListType(type))
@@ -155,6 +144,17 @@ class SettingViewController: CommonProxyViewController, View {
                 cell.label.text = element.title
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func updateCells() {
+        DispatchQueue.main.async { [weak self] in
+            guard let listCount = self?.tableView.visibleCells.count else {
+                return
+            }
+            
+            let indexPaths = (0..<listCount).map({ IndexPath(row: $0, section: 0) })
+            self?.tableView.reloadRows(at: indexPaths, with: .left)
+        }
     }
     
     private func goNextView(_ item: SettingListItem) {

@@ -27,6 +27,7 @@ class TitledSwitch: UIView {
     convenience init(title: String?, value: Bool = false) {
         self.init(frame: .zero)
         label.text = title
+        label.textAlignment = .natural
         trailingSwitch.isOn = value
         
         makeUI()

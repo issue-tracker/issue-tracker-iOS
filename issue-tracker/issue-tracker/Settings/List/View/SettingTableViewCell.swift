@@ -31,7 +31,6 @@ class SettingTableViewCell: UITableViewCell {
         contentView.addSubview(customBackgroundView)
         customBackgroundView.addSubview(label)
         
-        label.backgroundColor = .systemBackground
         label.textAlignment = .left
         
         customBackgroundView.snp.makeConstraints {

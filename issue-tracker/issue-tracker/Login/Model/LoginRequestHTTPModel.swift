@@ -141,12 +141,6 @@ enum LoginValidationError: Error {
     case noneCase
 }
 
-enum SocialType: String, CaseIterable {
-    case github
-    case kakao
-    case naver
-}
-
 struct LoginResponse: Decodable {
     var memberResponse: MemberResponse
     var accessToken: AccessToken

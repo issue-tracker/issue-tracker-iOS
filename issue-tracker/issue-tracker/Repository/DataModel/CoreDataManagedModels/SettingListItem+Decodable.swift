@@ -95,8 +95,16 @@ struct SettingListItemDecodable: Decodable {
     }
 }
 
-enum DarkModeSettings: Int, Codable {
+enum DarkModeSettings: Int, Codable, CaseIterable {
     case system = 0
     case light = 1
     case dark = 2
+}
+
+enum SocialType: String, CaseIterable {
+    case github, kakao, naver
+}
+
+enum LanguageSettings: String, CaseIterable {
+    case english, japanese, korean
 }

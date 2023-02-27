@@ -11,10 +11,8 @@ import RxSwift
 import SnapKit
 
 class TitledSwitch: UIView {
-    
     let label = CommonLabel()
     let trailingSwitch = UISwitch()
-    var socialType: SocialType?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -28,7 +26,8 @@ class TitledSwitch: UIView {
         self.init(frame: .zero)
         label.text = title
         label.textAlignment = .natural
-        trailingSwitch.isOn = value
+//        trailingSwitch.isOn = value
+        trailingSwitch.setOn(value, animated: true)
         
         makeUI()
     }
@@ -52,13 +51,10 @@ class TitledSwitch: UIView {
 }
 
 extension Reactive where Base: TitledSwitch {
-    var switchTapped: ControlEvent<(SocialType, Bool)> {
-        let source1: Observable<Bool>
-        source1 = base.trailingSwitch.rx.value.asObservable()
-        
-        let source2: Observable<SocialType>
-        source2 = Observable.just(base.socialType).compactMap({ $0 })
-        
-        return ControlEvent(events: Observable.combineLatest(source2, source1))
+    func switchTapped<T>(with t: T) -> ControlEvent<(T, Bool)> {
+        return ControlEvent(events: Observable.combineLatest(
+            Observable.just(t),
+            base.trailingSwitch.rx.value.asObservable()
+        ))
     }
 }

@@ -17,8 +17,7 @@ extension SettingDetailMultiItemCell {
                 let type = SocialType.allCases[index]
                 let view = TitledSwitch(title: type.rawValue, value: value)
                 
-                view.socialType = type
-                view.rx.switchTapped
+                view.rx.switchTapped(with: type)
                     .map({ type, value in
                         SettingDetailReactor.Action.setLoginActive(type, value)
                     })

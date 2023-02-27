@@ -15,6 +15,7 @@
         <attribute name="mainTitle" attributeType="String"/>
         <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="subTitle" optional="YES" attributeType="String"/>
+        <attribute name="typeName" attributeType="String" defaultValueString=""/>
         <attribute name="value" optional="YES" attributeType="Transformable" valueTransformerName="SettingValueTransformable" customClassName="Any"/>
         <relationship name="parent" maxCount="1" deletionRule="Nullify" destinationEntity="SettingList" inverseName="values" inverseEntity="SettingList"/>
     </entity>

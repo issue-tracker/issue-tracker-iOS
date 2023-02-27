@@ -9,6 +9,16 @@ import CoreData
 
 final class CoreDataStack {
     typealias Entity = NSManagedObject
+    enum ValueType: String, CaseIterable {
+        case rgb_color, range, boolean
+        case login_activate
+        
+        static func getType(query str: String) -> ValueType? {
+            return Self.allCases.first { type in
+                type.rawValue.contains(str)
+            }
+        }
+    }
     
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
@@ -107,18 +117,19 @@ final class CoreDataStack {
                         obj3.desc = item.desc.localized
                         obj3.order = Int16(item.order)
                         obj3.parent = obj2
+                        obj3.typeName = item.typeName
                         
-                        if let value = item.value {
-                            if let bool = value as? Bool {
-                                obj3.value = bool
-                            } else if let color = value as? SettingItemColor {
-                                obj3.setValue(color, forKeyPath: #keyPath(SettingListItem.value))
-                            } else if let loginActivate = value as? SettingItemLoginActivate {
-                                obj3.setValue(loginActivate, forKeyPath: #keyPath(SettingListItem.value))
-                            } else {
-                                obj3.value = value
-                                
-                            }
+                        switch ValueType.getType(query: item.typeName) {
+                        case .boolean:
+                            obj3.setValue(item.value as? Bool, forKeyPath: #keyPath(SettingListItem.value))
+                        case .range:
+                            obj3.setValue(item.value as? SettingItemRange, forKeyPath: #keyPath(SettingListItem.value))
+                        case .login_activate:
+                            obj3.setValue(item.value as? SettingItemLoginActivate, forKeyPath: #keyPath(SettingListItem.value))
+                        case .rgb_color:
+                            obj3.setValue(item.value as? SettingItemColor, forKeyPath: #keyPath(SettingListItem.value))
+                        default:
+                            obj3.setValue(item.value, forKeyPath: #keyPath(SettingListItem.value))
                         }
                         
                         listItems.append(obj3)

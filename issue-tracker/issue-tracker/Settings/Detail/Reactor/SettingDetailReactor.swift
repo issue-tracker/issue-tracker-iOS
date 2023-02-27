@@ -36,6 +36,7 @@ class SettingDetailReactor: Reactor {
         case setItemBoolean(Bool)
         case setColorSetting(RGBColor, Float)
         case setLoginActive(SocialType, Bool)
+        case setRange(Int)
     }
     
     enum Mutation {
@@ -73,6 +74,16 @@ class SettingDetailReactor: Reactor {
             }
             
             return Observable.just(Mutation.setItemValue(setting))
+        case .setRange(let value):
+            guard
+                let rangeValue = currentState.value?.value as? SettingItemRange,
+                rangeValue.minValue...rangeValue.maxValue ~= value
+            else {
+                return .empty()
+            }
+            
+            rangeValue.currentValue = value
+            return Observable.just(Mutation.setItemValue(rangeValue))
         }
     }
     

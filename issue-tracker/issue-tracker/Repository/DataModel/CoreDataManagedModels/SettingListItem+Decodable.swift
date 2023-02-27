@@ -60,10 +60,11 @@ struct SettingListItemDecodable: Decodable {
     var subTitle: String
     var desc: String
     var order: Int
+    var typeName: String
     var value: Any?
     
     enum CodingKeys: String, CodingKey, CaseIterable {
-        case mainTitle, subTitle, desc, order, value
+        case mainTitle, subTitle, desc, order, typeName, value
     }
     
     init(from decoder: Decoder) throws {
@@ -72,12 +73,16 @@ struct SettingListItemDecodable: Decodable {
         self.subTitle = try container.decode(String.self, forKey: .subTitle)
         self.desc = try container.decode(String.self, forKey: .desc)
         self.order = try container.decode(Int.self, forKey: .order)
+        self.typeName = try container.decode(String.self, forKey: .typeName)
       
         if let value = try? container.decodeIfPresent(SettingItemColor.self, forKey: .value) {
             // MARK: - Decoding Failed. JSON looks fine.
             self.value = value
         } else if let value = try? container.decodeIfPresent(SettingItemLoginActivate.self, forKey: .value) {
             // MARK: - Decoding Failed. JSON looks fine.
+            self.value = value
+        } else if let value = try? container.decodeIfPresent(SettingItemRange.self, forKey: .value) {
+            value.titlesLocalized = value.titlesLocalized.map({$0.localized})
             self.value = value
         } else if let value = try? container.decodeIfPresent(Bool.self, forKey: .value) {
             self.value = value

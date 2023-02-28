@@ -10,11 +10,11 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-class TitledSlider: UIView {
+class TitledSlider<ValueKey>: UIView {
     
     let slider = UISlider()
     let titleLabel = CommonLabel()
-    var colorType: RGBColor = .red
+    var valueKey: ValueKey?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,11 +26,11 @@ class TitledSlider: UIView {
         makeUI()
     }
     
-    convenience init(title: String, value: Float, colorType: RGBColor) {
+    convenience init(title: String, value: Float, valueKey: ValueKey) {
         self.init(frame: .zero)
         self.titleLabel.text = title
         self.slider.value = value
-        self.colorType = colorType
+        self.valueKey = valueKey
     }
     
     func makeUI() {
@@ -52,10 +52,16 @@ class TitledSlider: UIView {
     }
 }
 
-extension Reactive where Base: TitledSlider {
+extension Reactive where Base: TitledSlider<RGBColor> {
     var sliderMoved: ControlEvent<(RGBColor, Float)> {
-        let source1 = Observable.just(base.colorType)
-        let source2 = base.slider.rx.value.asObservable()
-        return ControlEvent(events: Observable.combineLatest(source1, source2))
+        return ControlEvent(events: Observable.combineLatest(
+            Observable<RGBColor>.create { observer in
+                let disposables = Disposables.create()
+                if let valueKey = base.valueKey { observer.onNext(valueKey) }
+                observer.onCompleted()
+                return disposables
+            },
+            base.slider.rx.value.asObservable()
+        ))
     }
 }

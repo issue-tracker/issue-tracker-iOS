@@ -26,7 +26,6 @@ class TitledSwitch: UIView {
         self.init(frame: .zero)
         label.text = title
         label.textAlignment = .natural
-//        trailingSwitch.isOn = value
         trailingSwitch.setOn(value, animated: true)
         
         makeUI()

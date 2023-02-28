@@ -12,22 +12,34 @@ import RxCocoa
 extension SettingDetailMultiItemCell {
     func setEntity(_ item: SettingItemColor) {
         [
-            (RGBColor.red, item.rgbRed, UIColor(red: CGFloat(item.rgbRed/255), green: 0, blue: 0, alpha: 1)),
-            (RGBColor.blue, item.rgbBlue, UIColor(red: 0, green: 0, blue: CGFloat(item.rgbBlue/255), alpha: 1)),
-            (RGBColor.green, item.rgbGreen, UIColor(red: 0, green: CGFloat(item.rgbGreen/255), blue: 0, alpha: 1))
+            (RGBColor.red, item.rgbRed, UIColor.red),
+            (RGBColor.blue, item.rgbBlue, UIColor.blue),
+            (RGBColor.green, item.rgbGreen, UIColor.green)
         ]
             .forEach { type, value, uiColor in
                 
-                let titleSlider = TitledSlider(title: type.rawValue, value: value, colorType: type)
-                titleSlider.slider.maximumTrackTintColor = uiColor
+                let titleSlider = TitledSlider<RGBColor>(title: type.rawValue, value: value/255.0, valueKey: type)
                 titleSlider.slider.minimumTrackTintColor = uiColor
+                titleSlider.slider.maximumTrackTintColor = uiColor
                 titleSlider.rx.sliderMoved
-                    .map({ colorType, value in
-                        SettingDetailReactor.Action.setColorSetting(colorType, value)
+                    .observe(on: MainScheduler.asyncInstance)
+                    .do(onNext: { [weak self] type, value in
+                        let targetView = self?.stackView.arrangedSubviews.last as? UIView
+                        guard let color = targetView?.backgroundColor else {
+                            return
+                        }
+                        
+                        switch type {
+                        case .red:
+                            targetView?.backgroundColor = UIColor(red: CGFloat(value), green: color.components.green, blue: color.components.blue, alpha: 1)
+                        case .blue:
+                            targetView?.backgroundColor = UIColor(red: color.components.red, green: color.components.green, blue: CGFloat(value), alpha: 1)
+                        case .green:
+                            targetView?.backgroundColor = UIColor(red: color.components.red, green: CGFloat(value), blue: color.components.blue, alpha: 1)
+                        }
                     })
-                    .bind { [weak self] in
-                        self?.reactor?.action.onNext($0)
-                    }
+                    .map({ type, value in SettingDetailReactor.Action.setColorSetting(type, value * 255) })
+                    .bind { [weak self] in self?.reactor?.action.onNext($0) }
                     .disposed(by: disposeBag)
                 
                 stackView.addArrangedSubview(titleSlider)
@@ -35,8 +47,20 @@ extension SettingDetailMultiItemCell {
         
         let view = UIView()
         view.backgroundColor = UIColor(settingItem: item)
-        view.frame.size.height = 80
+        view.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         stackView.addArrangedSubview(view)
+    }
+}
+
+private extension UIColor {
+    var coreImageColor: CIColor {
+        return CIColor(color: self)
+    }
+    
+    //UIColor에서 rgb값 뽑아내기
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        let color = coreImageColor
+        return (color.red, color.green, color.blue, color.alpha)
     }
 }

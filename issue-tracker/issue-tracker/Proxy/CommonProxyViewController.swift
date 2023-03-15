@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommonProxyViewController: UIViewController {
+class CommonProxyViewController: UIViewController, SettingProxy {
     
     private var resignKeyboardGesture: UIGestureRecognizer?
     
@@ -37,5 +37,9 @@ class CommonProxyViewController: UIViewController {
     
     @objc func resignKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    func callSetting() {
+        
     }
 }

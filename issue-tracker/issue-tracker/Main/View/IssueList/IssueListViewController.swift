@@ -17,8 +17,11 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
     var listItemSelected: PublishSubject<MainListType>?
     var disposeBag = DisposeBag()
     
+    private var issueListColor: UIColor?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(tableView)
         
         tableView.accessibilityIdentifier = "issueListViewController"
@@ -27,8 +30,15 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
         refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        callSetting()
+    }
+    
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
+        
+        callSetting()
         
         let parent = parent as? MainListViewController
         var parentViewFrame = parent?.listScrollView.frame ?? view.frame
@@ -48,8 +58,11 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
             .drive(tableView.rx.items(
                 cellIdentifier: IssueListTableViewCell.reuseIdentifier,
                 cellType: IssueListTableViewCell.self
-            )) { _, entity, cell in
+            )) { [weak self] _, entity, cell in
                 cell.setEntity(entity)
+                if let color = self?.issueListColor {
+                    cell.setBackgroundColor(color)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -92,5 +105,16 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
     
     var statusDescription: String? {
         reactor?.currentState.issueStatus
+    }
+}
+
+extension IssueListViewController: SettingProxy {
+    func callSetting() {
+        let model = MainListCallSettingModel<SettingItemColor>()
+        model.settingTitle = "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR".localized
+        
+        if let settingItem = model.settingValue {
+            issueListColor = UIColor(settingItem: settingItem)
+        }
     }
 }

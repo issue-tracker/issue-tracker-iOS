@@ -140,7 +140,7 @@
 		1B58957E2939C7A5007A9937 /* SettingReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1612652934822B00B31347 /* SettingReactor.swift */; };
 		1B5895802939C8F5007A9937 /* SettingDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B58957A2939B8F0007A9937 /* SettingDetailReactor.swift */; };
 		1B589584293B2B33007A9937 /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
-		1B589585293B2B3A007A9937 /* SetingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SetingProxy.swift */; };
+		1B589585293B2B3A007A9937 /* SettingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxy.swift */; };
 		1B5D698B2898D65B00AE9495 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698A2898D65B00AE9495 /* UIView+Extension.swift */; };
 		1B5D698E2898DF3200AE9495 /* RequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D698D2898DF3200AE9495 /* RequestHTTPModel.swift */; };
 		1B5D69932898DF6500AE9495 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D69922898DF6500AE9495 /* RequestBuilder.swift */; };
@@ -189,7 +189,7 @@
 		1B8E4A96288684EA00432728 /* OpaqueLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */; };
 		1B8E4A982886DD5200432728 /* SignInLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A972886DD5200432728 /* SignInLoginButton.swift */; };
 		1B8E4A9A2887CE0300432728 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A992887CE0300432728 /* IssueListViewController.swift */; };
-		1B8E4AA02887DAAA00432728 /* SetingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SetingProxy.swift */; };
+		1B8E4AA02887DAAA00432728 /* SettingProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4A9F2887DAAA00432728 /* SettingProxy.swift */; };
 		1B8E4AA22887DAB200432728 /* CommonProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */; };
 		1B8E4AA428890E4500432728 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA328890E4500432728 /* MainTabBarController.swift */; };
 		1B8E4AA6288910E200432728 /* MainListNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AA5288910E200432728 /* MainListNavigationController.swift */; };
@@ -416,7 +416,7 @@
 		1B8E4A95288684EA00432728 /* OpaqueLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaqueLoadingView.swift; sourceTree = "<group>"; };
 		1B8E4A972886DD5200432728 /* SignInLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInLoginButton.swift; sourceTree = "<group>"; };
 		1B8E4A992887CE0300432728 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
-		1B8E4A9F2887DAAA00432728 /* SetingProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetingProxy.swift; sourceTree = "<group>"; };
+		1B8E4A9F2887DAAA00432728 /* SettingProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProxy.swift; sourceTree = "<group>"; };
 		1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonProxyViewController.swift; sourceTree = "<group>"; };
 		1B8E4AA328890E4500432728 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		1B8E4AA5288910E200432728 /* MainListNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListNavigationController.swift; sourceTree = "<group>"; };
@@ -987,7 +987,7 @@
 		1B8E4A9E2887D94200432728 /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
-				1B8E4A9F2887DAAA00432728 /* SetingProxy.swift */,
+				1B8E4A9F2887DAAA00432728 /* SettingProxy.swift */,
 				1B8E4AA12887DAB200432728 /* CommonProxyViewController.swift */,
 			);
 			path = Proxy;
@@ -1502,7 +1502,7 @@
 				1B02F9E929496DCF006498CE /* SettingValueTransformable.swift in Sources */,
 				1BF1D0BC28BC829A00393294 /* MainListViewController.swift in Sources */,
 				1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */,
-				1B8E4AA02887DAAA00432728 /* SetingProxy.swift in Sources */,
+				1B8E4AA02887DAAA00432728 /* SettingProxy.swift in Sources */,
 				1B5780AF2925C2AF0034400F /* SignInError.swift in Sources */,
 				1B0244E9299149300074434D /* SettingListItem+Decodable.swift in Sources */,
 				1BBA3EA3287D800900DC57A0 /* HorizontalButtons.swift in Sources */,
@@ -1666,7 +1666,7 @@
 				1B652E1429A76587003B1167 /* SettingItemLoginActivate.swift in Sources */,
 				1B89AF4A28A0D4EF0057C6D5 /* issue_trackerUnitTest.swift in Sources */,
 				1B16126029308B4100B31347 /* MainViewSingleRequestModel.swift in Sources */,
-				1B589585293B2B3A007A9937 /* SetingProxy.swift in Sources */,
+				1B589585293B2B3A007A9937 /* SettingProxy.swift in Sources */,
 				1BB9BB6F29188645002A0DEB /* IssueListReactor.swift in Sources */,
 				1B02F9DC29484532006498CE /* I18N.swift in Sources */,
 			);

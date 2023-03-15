@@ -22,7 +22,7 @@ protocol ListViewRepresentingStatus {
     var statusDescription: String? { get }
 }
 
-class MainListViewController: CommonProxyViewController, SetingProxy {
+class MainListViewController: CommonProxyViewController {
     
     // Search field 에 관한 가이드라인
     // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
@@ -114,6 +114,9 @@ class MainListViewController: CommonProxyViewController, SetingProxy {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: callSetting
+        callSetting()
+        
         // MARK: addSubview
         view.addSubview(bookmarkScrollView)
         view.addSubview(listSegmentedControl)
@@ -197,8 +200,24 @@ class MainListViewController: CommonProxyViewController, SetingProxy {
             .disposed(by: disposeBag)
     }
     
-    func callSetting() {
-        print("callSetting Complete")
+    override func callSetting() {
+        let model = MainListCallSettingModel<SettingItemColor>()
+        
+        for title in [
+            "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR".localized,
+            "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR".localized,
+            "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR".localized
+        ] {
+            
+            model.settingTitle = title
+            
+            guard let settingItem = model.settingValue, let color = UIColor(settingItem: settingItem) else {
+                continue
+            }
+            
+            
+            
+        }
     }
 }
 

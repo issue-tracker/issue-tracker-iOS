@@ -45,4 +45,36 @@ final class IssueListTableViewCell: MainListTableViewCell {
         profileView.profileImageURL = entity.author.profileImage
         setNeedsDisplay()
     }
+    
+    func setBackgroundColor(_ color: UIColor, setContentsColorContrast: Bool = true) {
+        
+        paddingView.backgroundColor = color
+        
+        guard setContentsColorContrast else { return }
+        
+        let contrastColor = color.contrast
+        titleLabel.textColor = contrastColor
+        contentsLabel.textColor = contrastColor
+        dateLabel.textColor = contrastColor
+    }
+}
+
+private extension UIColor {
+    var contrast: UIColor {
+        
+        let ciColor = CIColor(color: self)
+        
+        let compRed: CGFloat = ciColor.red * 0.299
+        let compGreen: CGFloat = ciColor.green * 0.587
+        let compBlue: CGFloat = ciColor.blue * 0.114
+        
+        // Counting the perceptive luminance - human eye favors green color...
+        let luminance = (compRed + compGreen + compBlue)
+        
+        // bright colors - black font
+        // dark colors - white font
+        let col: CGFloat = luminance < 0.55 ? 0 : 1
+        
+        return UIColor( red: col, green: col, blue: col, alpha: ciColor.alpha)
+    }
 }

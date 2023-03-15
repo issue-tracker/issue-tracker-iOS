@@ -86,6 +86,11 @@
 		1B36308F29AC3D4F002A9888 /* SettingListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36308D29AC3D4F002A9888 /* SettingListItem+CoreDataProperties.swift */; };
 		1B36309129AC4281002A9888 /* SettingItemRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36309029AC4281002A9888 /* SettingItemRange.swift */; };
 		1B36309529AC51A9002A9888 /* SettingDetailMultiItemCell+SettingItemRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36309429AC51A9002A9888 /* SettingDetailMultiItemCell+SettingItemRange.swift */; };
+		1B36309729B1E70A002A9888 /* MainListCallSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36309629B1E70A002A9888 /* MainListCallSettingModel.swift */; };
+		1B36309829B1EB94002A9888 /* MainListCallSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36309629B1E70A002A9888 /* MainListCallSettingModel.swift */; };
+		1B36309929B1EC59002A9888 /* SettingListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36308D29AC3D4F002A9888 /* SettingListItem+CoreDataProperties.swift */; };
+		1B36309A29B1EC5C002A9888 /* SettingListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36308C29AC3D4F002A9888 /* SettingListItem+CoreDataClass.swift */; };
+		1B36309B29B1EC76002A9888 /* SettingItemRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B36309029AC4281002A9888 /* SettingItemRange.swift */; };
 		1B3788EF28F57E7900A2DF39 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */; };
 		1B3788F728F5961100A2DF39 /* SettingIssueCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788F628F5961100A2DF39 /* SettingIssueCollectionViewCell.swift */; };
 		1B3788FD28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3788FC28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift */; };
@@ -151,7 +156,6 @@
 		1B652E1529A7658A003B1167 /* SettingItemColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B652E1029A7656D003B1167 /* SettingItemColor.swift */; };
 		1B652E1729A83DA7003B1167 /* SettingListCellTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B652E1629A83DA7003B1167 /* SettingListCellTitle.swift */; };
 		1B652E1829A83F1C003B1167 /* SettingListCellTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B652E1629A83DA7003B1167 /* SettingListCellTitle.swift */; };
-		1B652E1929A83F1D003B1167 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AAF2889115200432728 /* SettingViewController.swift */; };
 		1B69A8FC28EB2270001C6720 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A8FB28EB2270001C6720 /* Int+Extensions.swift */; };
 		1B69A8FE28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B69A8FD28EBDB77001C6720 /* issue_trackerUnitTest_Login.swift */; };
 		1B69A8FF28EBDC02001C6720 /* LoginRequestHTTPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B20F79C288FA34E004EBE9F /* LoginRequestHTTPModel.swift */; };
@@ -326,6 +330,7 @@
 		1B36308D29AC3D4F002A9888 /* SettingListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1B36309029AC4281002A9888 /* SettingItemRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItemRange.swift; sourceTree = "<group>"; };
 		1B36309429AC51A9002A9888 /* SettingDetailMultiItemCell+SettingItemRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingDetailMultiItemCell+SettingItemRange.swift"; sourceTree = "<group>"; };
+		1B36309629B1E70A002A9888 /* MainListCallSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListCallSettingModel.swift; sourceTree = "<group>"; };
 		1B3788EE28F57E7900A2DF39 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		1B3788F628F5961100A2DF39 /* SettingIssueCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingIssueCollectionViewCell.swift; sourceTree = "<group>"; };
 		1B3788FC28F7A03500A2DF39 /* UICollectionViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extensions.swift"; sourceTree = "<group>"; };
@@ -741,6 +746,7 @@
 				1B50EC2028D044D6005E5B82 /* IssueDetail */,
 				1BF1D0CC28BC9A7F00393294 /* LabelList */,
 				1BF1D0CD28BC9A8400393294 /* MilestoneList */,
+				1B36309629B1E70A002A9888 /* MainListCallSettingModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1461,6 +1467,7 @@
 				1B652E1729A83DA7003B1167 /* SettingListCellTitle.swift in Sources */,
 				1B4F48A528A51D6E00C4B33A /* CommonLabel.swift in Sources */,
 				1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */,
+				1B36309729B1E70A002A9888 /* MainListCallSettingModel.swift in Sources */,
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
 				1BF36D7528DC28620033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
@@ -1601,6 +1608,7 @@
 				1BD125D628D1EA9D0050F2D1 /* IssueAssignee.swift in Sources */,
 				1B6DBDDD293DBDE5005FBFFD /* SettingItemFetchModel.swift in Sources */,
 				1B4F489528A4E1FF00C4B33A /* MainViewRequestModel.swift in Sources */,
+				1B36309A29B1EC5C002A9888 /* SettingListItem+CoreDataClass.swift in Sources */,
 				1B4F488B28A3DF4B00C4B33A /* ModelProducingObservable.swift in Sources */,
 				1B652E1829A83F1C003B1167 /* SettingListCellTitle.swift in Sources */,
 				1B161202292C52DD00B31347 /* issue_trackerUnitTest_SignIn.swift in Sources */,
@@ -1610,6 +1618,7 @@
 				1BD125D928D1EFF00050F2D1 /* IssueCommentReactorResponse.swift in Sources */,
 				1B232B1E28A0DBAA007ED022 /* RequestHTTPTimerModel.swift in Sources */,
 				1B69A8FF28EBDC02001C6720 /* LoginRequestHTTPModel.swift in Sources */,
+				1B36309B29B1EC76002A9888 /* SettingItemRange.swift in Sources */,
 				1BD125D328D1EA4C0050F2D1 /* IssueCommentReactionsResponse.swift in Sources */,
 				1BF36D7928DC45D90033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1B58957E2939C7A5007A9937 /* SettingReactor.swift in Sources */,
@@ -1619,12 +1628,12 @@
 				1B16120B292C6F8600B31347 /* SignInError.swift in Sources */,
 				1B0580C52934E8F20094140B /* AppDelegate.swift in Sources */,
 				1B161256293083F400B31347 /* UIViewController+Extensions.swift in Sources */,
-				1B652E1929A83F1D003B1167 /* SettingViewController.swift in Sources */,
 				1B5895802939C8F5007A9937 /* SettingDetailReactor.swift in Sources */,
 				1B50EC2828D063CA005E5B82 /* IssueDetailViewModel.swift in Sources */,
 				1B232B1F28A0DC07007ED022 /* URL+Extension.swift in Sources */,
 				1B161208292C6F5600B31347 /* SignInInputCheckModel.swift in Sources */,
 				1B0580C82934E92F0094140B /* CategorisedSettingListsTransformable.swift in Sources */,
+				1B36309829B1EB94002A9888 /* MainListCallSettingModel.swift in Sources */,
 				1BF36D7828DC45970033DF2A /* IssueHistories.swift in Sources */,
 				1BF1D0D028BCA16B00393294 /* MainViewProtocol.swift in Sources */,
 				1B0580C62934E9270094140B /* TransformableHelper.swift in Sources */,
@@ -1643,6 +1652,7 @@
 				1B02F9E129485144006498CE /* issue_trackerUnitTest_Localizable.swift in Sources */,
 				1B6DBDF2294309D1005FBFFD /* Repository.swift in Sources */,
 				1B4F489628A4E20100C4B33A /* IssueListEntity.swift in Sources */,
+				1B36309929B1EC59002A9888 /* SettingListItem+CoreDataProperties.swift in Sources */,
 				1B0580D4293723B90094140B /* issue_trackerUnitTest_Settings.swift in Sources */,
 				1BF1D0D928BF685900393294 /* LabelListEntity.swift in Sources */,
 				1BBDDE9E2999F56700743385 /* CFTollFreeBridgedType.swift in Sources */,

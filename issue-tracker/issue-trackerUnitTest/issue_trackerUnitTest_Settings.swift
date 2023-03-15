@@ -45,4 +45,10 @@ final class issue_trackerUnitTest_Settings: XCTestCase {
 //            }
 //        }
     }
+    
+    func test_callSettingModel() throws {
+        let model = MainListCallSettingModel<SettingItemColor>()
+        model.settingTitle = "Isuse Background Color"
+        XCTAssertNil(model.settingValue)
+    }
 }

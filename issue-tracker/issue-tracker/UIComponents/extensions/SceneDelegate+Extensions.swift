@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-    func switchScreen(type: MainView) {
+    func switchScreen(type: SceneDelegate.MainView) {
         DispatchQueue.main.async {
             SceneDelegate.shared?.switchScreen(type: type)
         }

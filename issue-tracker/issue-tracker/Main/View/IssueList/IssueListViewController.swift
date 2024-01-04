@@ -14,7 +14,7 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
     
     private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
     private var tableView = UITableView()
-    var listItemSelected: PublishSubject<MainListType>?
+    var listItemSelected: PublishSubject<ListType>?
     var disposeBag = DisposeBag()
     
     private var issueListColor: UIColor?
@@ -78,7 +78,7 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
                     return
                 }
                 
-                self?.listItemSelected?.onNext(MainListType.issue(id))
+                self?.listItemSelected?.onNext(ListType.issue(id))
             })
             .disposed(by: disposeBag)
         
@@ -103,8 +103,8 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
         reactor?.requestInitialList()
     }
     
-    var statusDescription: String? {
-        reactor?.currentState.issueStatus
+    var statusDescription: String {
+        reactor?.currentState.issueStatus ?? "0/0"
     }
 }
 

@@ -92,7 +92,7 @@ final class MilestoneListViewController: UIViewController, View, ListViewReprese
         reactor?.requestInitialList()
     }
     
-    var statusDescription: String? {
-        reactor?.currentState.milestoneStatus
+    var statusDescription: String {
+        reactor?.currentState.milestoneStatus ?? "0"
     }
 }

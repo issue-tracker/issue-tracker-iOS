@@ -7,72 +7,59 @@
 
 import SnapKit
 import FlexLayout
-import UIKit
-import RxSwift
 import RxCocoa
 import ReactorKit
 
-enum MainListType {
-    case issue(Int)
-    case label(Int)
-    case milestone(Int)
-}
+typealias ListType = MainListViewController.MainListType
 
 protocol ListViewRepresentingStatus {
-    var statusDescription: String? { get }
+    var statusDescription: String { get }
 }
 
 class MainListViewController: CommonProxyViewController {
     
-    // Search field 에 관한 가이드라인
-    // 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
-    // Best practices
-    // 1. 적절한 시간에 탐색을 시작하도록 하라. 바로 시작할 수도 있고, Return/Enter 등을 탭 해야될 수도 있다. 타이핑 중 계속 검색하려면 계속 결과가 수정되어야 한다.
-    // 2. Search history 를 제공하는 것은 사용자의 선택으로 맡겨둬야 한다.
+    enum MainListType {
+        case issue(Int), label(Int), milestone(Int)
+    }
     
-    private let padding: CGFloat = 8
-    private var removePopupSubject = PublishSubject<PopupTableView?>()
+    private var reloadListSubject = PublishSubject<MainListType>(),
+                listItemSelected = PublishSubject<MainListType>(),
+                removePopupSubject = PublishSubject<PopupTableView?>()
     private var disposeBag = DisposeBag()
+    
     private var popupView: PopupTableView?
     private let bookmarkScrollView = QueryBookmarkScrollView()
+    private func getViewController<T: ListViewRepresentingStatus>(type: T.Type) -> T where T: UIViewController {
+        let vc = type.init()
+        addChild(vc) // trigger willMove(toParent:UIViewController?)
+        return vc
+    }
+    
+    private lazy var issueListVC = getViewController(type: IssueListViewController.self)
+    private lazy var labelListVC = getViewController(type: LabelListViewController.self)
+    private lazy var milestoneListVC = getViewController(type: MilestoneListViewController.self)
+    private var descriptables: [ListViewRepresentingStatus] {
+        [getViewController(type: IssueListViewController.self), labelListVC, milestoneListVC]
+    }
     
     private(set) lazy var listSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Issue","Label","Milestone"])
-        control.rx.selectedSegmentIndex.bind(onNext: { index in
-            guard 0...2 ~= index else { return }
-            let offset = CGPoint(x: self.listScrollView.frame.width * CGFloat(index), y: 0)
-            self.listScrollView.setContentOffset(offset, animated: true)
-            self.title = self.descriptables[index].statusDescription
-        })
-        .disposed(by: disposeBag)
-        
         control.accessibilityIdentifier = "listControl"
         control.selectedSegmentIndex = 0
+        control.rx.selectedSegmentIndex
+            .filter({0...2 ~= $0})
+            .bind(onNext: { [weak self] inx in
+                guard let self = self else { return }
+                
+                let scrollView = self.listScrollView
+                let offset = CGPoint(x: scrollView.frame.width * CGFloat(inx), y: 0)
+                scrollView.setContentOffset(offset, animated: true)
+                self.title = self.descriptables[inx].statusDescription
+            })
+            .disposed(by: disposeBag)
         
         return control
     }()
-    
-    private(set) var reloadListSubject = PublishSubject<MainListType>()
-    private(set) var listItemSelected = PublishSubject<MainListType>()
-    
-    private lazy var issueListView: IssueListViewController = {
-        let vc = IssueListViewController()
-        self.addChild(vc) // trigger willMove(toParent:UIViewController?)
-        return vc
-    }()
-    private lazy var labelListView: LabelListViewController = {
-        let vc = LabelListViewController()
-        self.addChild(vc)
-        return vc
-    }()
-    private lazy var milestoneListView: MilestoneListViewController = {
-        let vc = MilestoneListViewController()
-        self.addChild(vc)
-        return vc
-    }()
-    private var descriptables: [ListViewRepresentingStatus] {
-        [issueListView, labelListView, milestoneListView]
-    }
     
     private(set) var listScrollView: UIScrollView = {
         let view = UIScrollView()
@@ -98,38 +85,34 @@ class MainListViewController: CommonProxyViewController {
     
     private lazy var plusButton: UIButton = {
         let button = UIButton()
-        button.rx.tap.subscribe(onNext: { _ in
-            let viewController = IssueEditViewController()
-            viewController.reloadSubject = self.reloadListSubject
-            self.navigationController?.present(UINavigationController(rootViewController: viewController), animated: true)
-        })
-        .disposed(by: disposeBag)
-        
         button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
         button.accessibilityIdentifier = "issueUpdateEntry"
+        button.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                let vc = IssueEditViewController()
+                vc.reloadSubject = self?.reloadListSubject
+                self?.navigationController?
+                    .present(UINavigationController(rootViewController: vc), animated: true)
+            })
+            .disposed(by: disposeBag)
         
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
+        listScrollView.delegate = self
+        bookmarkScrollView.showsHorizontalScrollIndicator = false
+        [bookmarkScrollView, listSegmentedControl, listScrollView, plusButton].forEach { v in
+            view.addSubview(v)
+        }
         
-        // MARK: callSetting
-        callSetting()
+        [issueListVC, labelListVC, milestoneListVC].forEach { vc in
+            listScrollView.addSubview(vc.view)
+        }
         
-        // MARK: addSubview
-        view.addSubview(bookmarkScrollView)
-        view.addSubview(listSegmentedControl)
-        view.addSubview(listScrollView)
-        view.addSubview(plusButton)
-        listScrollView.addSubview(issueListView.view)
-        listScrollView.addSubview(labelListView.view)
-        listScrollView.addSubview(milestoneListView.view)
-        view.bringSubviewToFront(plusButton)
+        let padding: CGFloat = 8
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
-        
-        // MARK: AutoLayout(SnapKit)
         bookmarkScrollView.snp.makeConstraints {
             $0.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(view.frame.height*0.035)
@@ -151,46 +134,29 @@ class MainListViewController: CommonProxyViewController {
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
-        issueListView.view.snp.makeConstraints {
-            $0.size.equalTo(listScrollView.snp.size)
-            $0.leading.equalTo(0)
-        }
-        
-        labelListView.view.snp.makeConstraints {
-            $0.size.equalTo(listScrollView.snp.size)
-            $0.leading.equalTo(issueListView.view.snp.trailing)
-        }
-        
-        milestoneListView.view.snp.makeConstraints {
-            $0.size.equalTo(listScrollView.snp.size)
-            $0.leading.equalTo(labelListView.view.snp.trailing)
-        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        bookmarkScrollView.showsHorizontalScrollIndicator = false
+        callSetting()
         
-        listScrollView.delegate = self
-        listScrollView.contentSize.width = listScrollView.frame.width * 3
+        issueListVC.listItemSelected = self.listItemSelected
+        issueListVC.didMove(toParent: self)
         
-        issueListView.listItemSelected = self.listItemSelected
-        issueListView.didMove(toParent: self)
-        labelListView.didMove(toParent: self)
-        milestoneListView.didMove(toParent: self)
+        view.bringSubviewToFront(plusButton)
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         
-        // MARK: RxCocoa
         listItemSelected
-            .subscribe(onNext: { [weak self] type in
+            .compactMap({ type -> Int? in
                 switch type {
-                case .issue(let id):
-                    self?.tabBarController?.tabBar.isHidden = true
-                    self?.navigationController?.pushViewController(IssueDetailViewController(id), animated: true)
-                default:
-                    return
+                case .issue(let id): return id
+                default: return nil
                 }
+            })
+            .subscribe(onNext: { [weak self] id in
+                self?.tabBarController?.tabBar.isHidden = true
+                self?.navigationController?.pushViewController(IssueDetailViewController(id), animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -200,31 +166,57 @@ class MainListViewController: CommonProxyViewController {
             .disposed(by: disposeBag)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        listScrollView.contentSize.width = listScrollView.frame.width * 3
+        
+        issueListVC.view.snp.makeConstraints {
+            $0.size.equalTo(listScrollView.snp.size)
+            $0.top.equalTo(listScrollView.snp.top)
+            $0.leading.equalTo(0)
+        }
+        
+        labelListVC.view.snp.makeConstraints {
+            $0.size.equalTo(listScrollView.snp.size)
+            $0.leading.equalTo(issueListVC.view.snp.trailing)
+            $0.top.equalTo(listScrollView.snp.top)
+        }
+        
+        milestoneListVC.view.snp.makeConstraints {
+            $0.size.equalTo(listScrollView.snp.size)
+            $0.leading.equalTo(labelListVC.view.snp.trailing)
+            $0.top.equalTo(listScrollView.snp.top)
+        }
+    }
+    
     override func callSetting() {
         let model = MainListCallSettingModel<SettingItemColor>()
         
         for title in [
-            "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR".localized,
-            "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR".localized,
-            "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR".localized
+            I18N.M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR,
+            I18N.M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR,
+            I18N.M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR,
         ] {
-            
             model.settingTitle = title
             
-            guard let settingItem = model.settingValue, let color = UIColor(settingItem: settingItem) else {
+            guard 
+                let settingItem = model.settingValue,
+                let _ = UIColor(settingItem: settingItem)
+            else {
                 continue
             }
-            
-            
-            
         }
     }
 }
 
 extension MainListViewController: UIScrollViewDelegate {
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)
-        listSegmentedControl.selectedSegmentIndex = page
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        // caculate index that heading.
+        listSegmentedControl.selectedSegmentIndex = Int(targetContentOffset.pointee.x / scrollView.frame.width)
     }
 }
 
@@ -244,9 +236,14 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
     }
 }
 
+// Search field 에 관한 가이드라인
+// 출처 : (https://developer.apple.com/design/human-interface-guidelines/components/navigation-and-search/search-fields/)
+// Best practices
+// 1. 적절한 시간에 탐색을 시작하도록 하라. 바로 시작할 수도 있고, Return/Enter 등을 탭 해야될 수도 있다. 타이핑 중 계속 검색하려면 계속 결과가 수정되어야 한다.
+// 2. Search history 를 제공하는 것은 사용자의 선택으로 맡겨둬야 한다.
 extension MainListViewController: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        guard popupView == nil, (searchBar.text ?? "").isEmpty else { return true }
+        guard (searchBar.text ?? "").isEmpty else { return true }
         
         var popupFrame = searchBar.frame.offsetBy(dx: 0, dy: searchBar.frame.height + 8)
         popupFrame.size = CGSize(width: popupFrame.width / 2, height: 170)
@@ -274,9 +271,7 @@ extension MainListViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        defer {
-            searchBar.text = nil
-        }
+        defer { searchBar.text = nil }
         
         bookmarkScrollView.insertButton(searchText: searchBar.text ?? "")
         searchBar.resignFirstResponder()

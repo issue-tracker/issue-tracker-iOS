@@ -86,7 +86,7 @@ final class LabelListViewController: UIViewController, View, ListViewRepresentin
         reactor?.requestInitialList()
     }
     
-    var statusDescription: String? {
-        reactor?.currentState.labelStatus
+    var statusDescription: String {
+        reactor?.currentState.labelStatus ?? "0"
     }
 }

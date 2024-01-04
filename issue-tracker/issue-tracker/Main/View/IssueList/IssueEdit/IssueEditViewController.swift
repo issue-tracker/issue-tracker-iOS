@@ -5,9 +5,7 @@
 //  Created by 백상휘 on 2022/07/21.
 //
 
-import UIKit
 import RxCocoa
-import RxSwift
 import SnapKit
 import ReactorKit
 
@@ -20,7 +18,7 @@ final class IssueEditViewController: CommonProxyViewController, View {
     typealias Reactor = IssueEditReactor
     
     var editType: IssueEditType = .add
-    var reloadSubject: PublishSubject<MainListType>?
+    var reloadSubject: PublishSubject<ListType>?
     
     var disposeBag = DisposeBag()
     

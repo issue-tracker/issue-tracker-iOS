@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import ReactorKit
 import RxSwift
+import RxCocoa
 
 class SettingDetailViewController: UIViewController, View {
     typealias Reactor = SettingDetailReactor
@@ -16,6 +17,7 @@ class SettingDetailViewController: UIViewController, View {
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.dataSource = self
+        view.separatorStyle = .none
         view.register(SettingDetailMonoItemCell.self, forCellReuseIdentifier: SettingDetailMonoItemCell.reuseIdentifier)
         view.register(SettingDetailMultiItemCell.self, forCellReuseIdentifier: SettingDetailMultiItemCell.reuseIdentifier)
         view.estimatedRowHeight = 80
@@ -44,13 +46,31 @@ class SettingDetailViewController: UIViewController, View {
         navigationController?.navigationBar.topItem?.title = "Back"
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let delegate = UIApplication.shared.delegate as? AppDelegate
+        do {
+            try delegate?.coreDataStack.saveContext()
+        } catch {
+            print(error)
+        }
+    }
+    
     func bind(reactor: SettingDetailReactor) {
         reactor.pulse(\.$value)
+            .filter({ _ in self.tableView.visibleCells.count >= 2 })
             .bind(onNext: { [weak tableView] value in
                 tableView?.performBatchUpdates({
                     tableView?.reloadRows(at: [IndexPath(row: 2, section: 0)], with: .fade)
                 })
             })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .asDriver()
+            .drive { [weak self] indexPath in
+                self?.tableView.deselectRow(at: indexPath, animated: false)
+            }
             .disposed(by: disposeBag)
     }
 }
@@ -84,8 +104,13 @@ extension SettingDetailViewController: UITableViewDataSource {
             return cell
         }
         
-        return SettingTableViewCellFactory.makeCell(in: tableView,
-                                                    at: indexPath,
-                                                    reactor?.currentState.value)
+        let cell = SettingTableViewCellFactory
+            .makeCell(in: tableView, at: indexPath, reactor?.currentState.value)
+        
+        if let cell = cell as? SettingManagedObjectCell {
+            cell.reactor = reactor
+        }
+        
+        return cell
     }
 }

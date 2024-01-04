@@ -98,7 +98,7 @@ M_ST_SVC_TCELL_CONTENTS="Issue/Label/Milestone";
 // Settings - Issue/Label/Milestone - Lists
 
 M_ST_SVC_TCELL_CONTENTS_LIST="Lists Screen";
-M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR="Isuse Background Color";
+M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR="Issue Background Color";
 M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_SUBTITLE="Slide and Adjust background color";
 M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC="Switch off when you don't want background color";
 M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR="Label Background Color";

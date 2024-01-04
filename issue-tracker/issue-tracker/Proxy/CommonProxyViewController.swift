@@ -7,14 +7,13 @@
 
 import UIKit
 
-class CommonProxyViewController: UIViewController {
+class CommonProxyViewController: UIViewController, SettingProxy {
     
     private var resignKeyboardGesture: UIGestureRecognizer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        (self as? SettingProxyViewController)?.callSetting()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -38,5 +37,9 @@ class CommonProxyViewController: UIViewController {
     
     @objc func resignKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    func callSetting() {
+        
     }
 }

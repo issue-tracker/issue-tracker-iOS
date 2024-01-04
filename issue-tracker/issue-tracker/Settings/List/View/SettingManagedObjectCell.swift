@@ -12,7 +12,6 @@ import RxSwift
 class SettingManagedObjectCell: UITableViewCell {
     internal var disposeBag = DisposeBag()
     
-    var managedObject: SettingListItem?
     var reactor: SettingDetailReactor?
     
     required init?(coder: NSCoder) {

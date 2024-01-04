@@ -12,6 +12,7 @@ class SettingValueTransformable: NSSecureUnarchiveFromDataTransformer {
     [
       CFBoolean.self,
       SettingItemColor.self,
+      SettingItemRange.self,
       SettingItemLoginActivate.self
     ]
   }

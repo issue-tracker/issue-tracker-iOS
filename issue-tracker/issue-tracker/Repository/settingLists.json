@@ -11,6 +11,7 @@
               "mainTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO",
               "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_GENERAL_LOGIN_AUTO_DESC",
+              "typeName": "boolean",
               "order": 0,
               "value": false
             },
@@ -19,6 +20,7 @@
               "subTitle": "M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_GENERAL_LOGIN_SERVICE_DESC",
               "order": 1,
+              "typeName": "login_activate",
               "value": {
                   "github": true,
                   "naver": true,
@@ -34,15 +36,37 @@
               "mainTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE",
               "subTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_DESC",
+              "typeName": "range",
               "order": 0,
-              "value": 0
+              "value": {
+                  "minValue": 0,
+                  "currentValue": 0,
+                  "titlesLocalized": [
+                        "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_LIGHT",
+                        "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_DARK",
+                        "M_ST_SVC_TCELL_GENERAL_PREFERENCES_DARKMODE_SYSTEM"
+                  ],
+                  "valueUnit": 1,
+                  "maxValue": 2
+              }
             },
             {
               "mainTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE",
               "subTitle": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_DESC",
+              "typeName": "range",
               "order": 1,
-              "value": 0
+              "value": {
+                  "minValue": 0,
+                  "currentValue": 0,
+                  "titlesLocalized": [
+                        "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_KOREAN",
+                        "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_ENGLISH",
+                        "M_ST_SVC_TCELL_GENERAL_PREFERENCES_LANGUAGE_JAPANESE"
+                  ],
+                  "valueUnit": 1,
+                  "maxValue": 2
+              }
             },
           ]
         },
@@ -60,6 +84,7 @@
               "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_CONTENTS_LIST_ISSUE_BGCOLOR_DESC",
               "order": 0,
+              "typeName": "rgb_color",
               "value": {
                 "rgbRed": 58.0,
                 "rgbGreen": 128.0,
@@ -71,6 +96,7 @@
               "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR_DESC",
               "order": 1,
+              "typeName": "rgb_color",
               "value": {
                 "rgbRed": 58.0,
                 "rgbGreen": 128.0,
@@ -82,6 +108,7 @@
               "subTitle": "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR_DESC",
               "order": 2,
+              "typeName": "rgb_color",
               "value": {
                 "rgbRed": 58.0,
                 "rgbGreen": 128.0,
@@ -97,6 +124,7 @@
               "mainTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL",
               "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_LABEL_DESC",
+              "typeName": "boolean",
               "order": 0,
               "value": true
             },
@@ -105,6 +133,7 @@
               "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_PROFILEIMAGE_DESC",
               "order": 1,
+              "typeName": "boolean",
               "value": true
             },
             {
@@ -112,6 +141,7 @@
               "subTitle": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_SUBTITLE",
               "desc": "M_ST_SVC_TCELL_CONTENTS_DETAIL_SHOW_SIMPLEHISTORY_DESC",
               "order": 2,
+              "typeName": "boolean",
               "value": false
             }
           ]

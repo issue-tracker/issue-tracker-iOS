@@ -24,8 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func switchScreen(type: MainView) {
         var getRootView: () -> (UIViewController) {
             switch type {
-            case .login: getLoginNavigationView
-            case .main: getTabBarView
+            case .login: return getLoginNavigationView
+            case .main: return getTabBarView
             }
         }
         

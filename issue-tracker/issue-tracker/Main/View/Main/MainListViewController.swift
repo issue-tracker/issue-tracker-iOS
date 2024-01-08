@@ -22,10 +22,10 @@ class MainListViewController: CommonProxyViewController {
         case issue(Int), label(Int), milestone(Int)
     }
     
-    private var reloadListSubject = PublishSubject<MainListType>(),
-                listItemSelected = PublishSubject<MainListType>(),
-                removePopupSubject = PublishSubject<PopupTableView?>()
     private var disposeBag = DisposeBag()
+    private var reloadListRelay = PublishRelay<MainListType>(),
+                listItemRelay = PublishRelay<Int>(),
+                removePopupRelay = PublishRelay<PopupTableView?>()
     
     private var popupView: PopupTableView?
     private let bookmarkScrollView = QueryBookmarkScrollView()
@@ -46,14 +46,11 @@ class MainListViewController: CommonProxyViewController {
         let control = UISegmentedControl(items: ["Issue","Label","Milestone"])
         control.accessibilityIdentifier = "listControl"
         control.selectedSegmentIndex = 0
-        control.rx.selectedSegmentIndex
+        control.rx.selectedSegmentIndex.asDriver()
             .filter({0...2 ~= $0})
-            .bind(onNext: { [weak self] inx in
-                guard let self = self else { return }
-                
-                let scrollView = self.listScrollView
-                let offset = CGPoint(x: scrollView.frame.width * CGFloat(inx), y: 0)
-                scrollView.setContentOffset(offset, animated: true)
+            .drive(onNext: { inx in
+                let xPosition = self.listScrollView.frame.width * CGFloat(inx)
+                self.listScrollView.setContentOffset(CGPoint(x: xPosition, y: 0), animated: true)
                 self.title = self.descriptables[inx].statusDescription
             })
             .disposed(by: disposeBag)
@@ -63,7 +60,6 @@ class MainListViewController: CommonProxyViewController {
     
     private(set) var listScrollView: UIScrollView = {
         let view = UIScrollView()
-        view.isPagingEnabled = true
         view.showsVerticalScrollIndicator = false
         view.showsHorizontalScrollIndicator = false
         view.accessibilityIdentifier = "listScrollView"
@@ -87,10 +83,10 @@ class MainListViewController: CommonProxyViewController {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
         button.accessibilityIdentifier = "issueUpdateEntry"
-        button.rx.tap
-            .subscribe(onNext: { [weak self] _ in
+        button.rx.tap.asDriver()
+            .drive(onNext: { [weak self] _ in
                 let vc = IssueEditViewController()
-                vc.reloadSubject = self?.reloadListSubject
+                vc.reloadRelay = self?.reloadListRelay
                 self?.navigationController?
                     .present(UINavigationController(rootViewController: vc), animated: true)
             })
@@ -103,13 +99,11 @@ class MainListViewController: CommonProxyViewController {
         super.loadView()
         listScrollView.delegate = self
         bookmarkScrollView.showsHorizontalScrollIndicator = false
-        [bookmarkScrollView, listSegmentedControl, listScrollView, plusButton].forEach { v in
-            view.addSubview(v)
-        }
         
-        [issueListVC, labelListVC, milestoneListVC].forEach { vc in
-            listScrollView.addSubview(vc.view)
-        }
+        [bookmarkScrollView, listSegmentedControl, listScrollView, plusButton]
+            .forEach { view.addSubview($0) }
+        [issueListVC, labelListVC, milestoneListVC]
+            .forEach { listScrollView.addSubview($0.view) }
         
         let padding: CGFloat = 8
         
@@ -134,6 +128,8 @@ class MainListViewController: CommonProxyViewController {
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(padding)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        listScrollView.layoutIfNeeded()
     }
     
     override func viewDidLoad() {
@@ -141,51 +137,34 @@ class MainListViewController: CommonProxyViewController {
         
         callSetting()
         
-        issueListVC.listItemSelected = self.listItemSelected
+        issueListVC.listItemRelay = self.listItemRelay
         issueListVC.didMove(toParent: self)
         
         view.bringSubviewToFront(plusButton)
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: profileView)]
         
-        listItemSelected
-            .compactMap({ type -> Int? in
-                switch type {
-                case .issue(let id): return id
-                default: return nil
-                }
-            })
-            .subscribe(onNext: { [weak self] id in
-                self?.tabBarController?.tabBar.isHidden = true
-                self?.navigationController?.pushViewController(IssueDetailViewController(id), animated: true)
-            })
+        listItemRelay
+            .map({ id in IssueDetailViewController(id)})
+            .subscribe { [weak navigationController] dest in
+                navigationController?.pushViewController(dest, animated: true)
+            }
             .disposed(by: disposeBag)
         
-        removePopupSubject
-            .observe(on: MainScheduler.instance)
+        removePopupRelay
             .subscribe(onNext: { $0?.removeFromSuperview() })
             .disposed(by: disposeBag)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        
         listScrollView.contentSize.width = listScrollView.frame.width * 3
         
-        issueListVC.view.snp.makeConstraints {
-            $0.size.equalTo(listScrollView.snp.size)
-            $0.top.equalTo(listScrollView.snp.top)
-            $0.leading.equalTo(0)
+        equalSizeToScroll(issueListVC).makeConstraints { make in
+            make.top.equalTo(listScrollView.snp.top)
+            make.leading.equalTo(0)
         }
-        
-        labelListVC.view.snp.makeConstraints {
-            $0.size.equalTo(listScrollView.snp.size)
-            $0.leading.equalTo(issueListVC.view.snp.trailing)
-            $0.top.equalTo(listScrollView.snp.top)
+        equalSizeToScroll(labelListVC).makeConstraints { make in
+            make.leading.equalTo(issueListVC.view.snp.trailing)
         }
-        
-        milestoneListVC.view.snp.makeConstraints {
-            $0.size.equalTo(listScrollView.snp.size)
-            $0.leading.equalTo(labelListVC.view.snp.trailing)
-            $0.top.equalTo(listScrollView.snp.top)
+        equalSizeToScroll(milestoneListVC).makeConstraints { make in
+            make.leading.equalTo(labelListVC.view.snp.trailing)
         }
     }
     
@@ -209,18 +188,17 @@ class MainListViewController: CommonProxyViewController {
     }
 }
 
-extension MainListViewController: UIScrollViewDelegate {
-    func scrollViewWillEndDragging(
-        _ scrollView: UIScrollView,
-        withVelocity velocity: CGPoint,
-        targetContentOffset: UnsafeMutablePointer<CGPoint>
-    ) {
-        // caculate index that heading.
-        listSegmentedControl.selectedSegmentIndex = Int(targetContentOffset.pointee.x / scrollView.frame.width)
+private extension MainListViewController {
+    func equalSizeToScroll(_ base: UIViewController) -> ConstraintViewDSL {
+        base.view.snp.makeConstraints { make in
+            make.size.equalTo(listScrollView.snp.size)
+            make.top.equalTo(listScrollView.snp.top)
+        }
+        return base.view.snp
     }
 }
 
-extension MainListViewController: UIContextMenuInteractionDelegate {
+extension MainListViewController: UIContextMenuInteractionDelegate, UIScrollViewDelegate {
     func contextMenuInteraction(
         _ interaction: UIContextMenuInteraction,
         configurationForMenuAtLocation location: CGPoint
@@ -233,6 +211,14 @@ extension MainListViewController: UIContextMenuInteractionDelegate {
                 }
             ])
         }
+    }
+    
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        listSegmentedControl.selectedSegmentIndex = Int(targetContentOffset.pointee.x / scrollView.frame.width)
     }
 }
 
@@ -262,12 +248,12 @@ extension MainListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty == false {
-            removePopupSubject.onNext(popupView)
+            removePopupRelay.accept(popupView)
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        removePopupSubject.onNext(popupView)
+        removePopupRelay.accept(popupView)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

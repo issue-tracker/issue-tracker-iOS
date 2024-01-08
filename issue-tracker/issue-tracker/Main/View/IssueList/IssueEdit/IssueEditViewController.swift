@@ -18,7 +18,7 @@ final class IssueEditViewController: CommonProxyViewController, View {
     typealias Reactor = IssueEditReactor
     
     var editType: IssueEditType = .add
-    var reloadSubject: PublishSubject<ListType>?
+    var reloadRelay: PublishRelay<ListType>?
     
     var disposeBag = DisposeBag()
     

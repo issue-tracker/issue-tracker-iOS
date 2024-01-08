@@ -55,6 +55,7 @@ class IssueDetailViewController: CommonProxyViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.tabBar.isHidden = true
         navigationItem.title = ""
         view.backgroundColor = .systemBackground
         if let id = issueId {

@@ -49,8 +49,10 @@ final class IssueListReactor: MainListStatusReactor {
         var closedIssueCount = 0
         var pageNumber = 0
         
-        @Pulse var issueStatus: String = "0/0"
-        @Pulse var issues: [IssueListEntity] = []
+        @Pulse var issueStatus: String = "4/4"
+        @Pulse var issues: [IssueListEntity] = [
+            .init(id: 0), .init(id: 1), .init(id: 2), .init(id: 3)
+        ]
         @Pulse var lockReload = false
         @Pulse var isRefreshing = false
     }

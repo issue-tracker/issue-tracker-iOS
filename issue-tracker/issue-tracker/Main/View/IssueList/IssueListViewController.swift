@@ -11,10 +11,11 @@ import ReactorKit
 final class IssueListViewController: UIViewController, View, ListViewRepresentingStatus {
     
     typealias Reactor = IssueListReactor
+    typealias CELL = IssueListTableViewCell
     
     private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
     private var tableView = UITableView()
-    var listItemSelected: PublishSubject<ListType>?
+    var listItemRelay: PublishRelay<Int>?
     var disposeBag = DisposeBag()
     
     private var issueListColor: UIColor?
@@ -27,7 +28,12 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
         tableView.accessibilityIdentifier = "issueListViewController"
         tableView.separatorStyle = .none
         tableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+        tableView.register(CELL.self,
+            forCellReuseIdentifier: CELL.reuseIdentifier)
+        
+        refreshControl.addTarget(self,
+            action: #selector(refreshList),
+            for: .valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,17 +43,14 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
     
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
+        if let vc = parent as? MainListViewController {
+            view.frame.size = vc.listScrollView.frame.size
+            tableView.rowHeight = vc.listScrollView.frame.height / 4.5
+        }
         
-        callSetting()
-        
-        let parent = parent as? MainListViewController
-        var parentViewFrame = parent?.listScrollView.frame ?? view.frame
-        parentViewFrame.origin = .zero
-        tableView.frame = parentViewFrame
-        view.frame = parentViewFrame
-        
-        tableView.rowHeight = parentViewFrame.height / 4.5
-        tableView.register(IssueListTableViewCell.self, forCellReuseIdentifier: IssueListTableViewCell.reuseIdentifier)
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         reactor = Reactor()
     }
@@ -73,27 +76,26 @@ final class IssueListViewController: UIViewController, View, ListViewRepresentin
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let id = self?.reactor?.currentState.issues[indexPath.row].id else {
-                    return
-                }
-                
-                self?.listItemSelected?.onNext(ListType.issue(id))
+            .compactMap({ [weak self] ip -> Int? in
+                self?.reactor?.currentState.issues[ip.row].id
+            })
+            .subscribe(onNext: { [weak self] id in
+                self?.listItemRelay?.accept(id)
             })
             .disposed(by: disposeBag)
         
         refreshList()
         
         reactor.pulse(\.$issueStatus)
+            .filter({ [weak self] _ in
+                let parent = (self?.parent as? MainListViewController)
+                let segmented = parent?.listSegmentedControl
+                return segmented?.selectedSegmentIndex == 0
+            })
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] status in
                 self?.refreshControl.endRefreshing()
-                
-                guard let parent = (self?.parent as? MainListViewController), parent.listSegmentedControl.selectedSegmentIndex == 0 else {
-                    return
-                }
-                
-                parent.title = status
+                self?.parent?.title = status
             })
             .disposed(by: disposeBag)
     }

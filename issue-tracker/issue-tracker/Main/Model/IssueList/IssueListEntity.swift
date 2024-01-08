@@ -57,6 +57,22 @@ struct IssueListEntity: Codable {
     let lastModifiedAt: String?
     let closed: Bool
     
+    init(id: Int) {
+        self.id = id
+        self.title = "Test IssueListEntity id as \(id)"
+        
+        self.author = .init(id: id, email: "tester@gmail.com", nickname: "Tester", profileImage: "")
+        self.comments = []
+        self.issueAssignees = []
+        self.issueLabels = []
+        self.milestone = nil
+        self.issueHistories = []
+        
+        createdAt = nil
+        lastModifiedAt = nil
+        closed = false
+    }
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -126,4 +142,3 @@ struct IssueListEntity: Codable {
         case issueLabels
     }
 }
-

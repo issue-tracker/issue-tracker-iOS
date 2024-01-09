@@ -8,85 +8,53 @@
 import RxCocoa
 import ReactorKit
 
-final class LabelListViewController: UIViewController, View, ListViewRepresentingStatus {
+final class LabelListViewController: MainListViewController<LabelEntity> {
     
-    typealias Reactor = LabelListReactor
+    private var bgColor: UIColor?
     
-    private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
-    private var tableView = UITableView()
-    var disposeBag = DisposeBag()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addSubview(tableView)
-        
+    override func loadView() {
+        super.loadView()
         tableView.accessibilityIdentifier = "labelListViewController"
-        tableView.separatorStyle = .none
-        tableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
     
-    override func didMove(toParent parent: UIViewController?) {
-        super.didMove(toParent: parent)
-        
-        let parent = parent as? MainListViewController
-        var parentViewFrame = parent?.listScrollView.frame ?? view.frame
-        parentViewFrame.origin = .zero
-        tableView.frame = parentViewFrame
-        
-        parentViewFrame.origin = CGPoint(x: parentViewFrame.width, y: 0)
-        view.frame = parentViewFrame
-        
-        tableView.rowHeight = parentViewFrame.height/8.5
-        tableView.register(LabelListTableViewCell.self, forCellReuseIdentifier: LabelListTableViewCell.reuseIdentifier)
-        
-        view.setNeedsLayout()
-        reactor = Reactor()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        callSetting()
+        reactor?.action.onNext(.fetchList)
     }
     
-    func bind(reactor: LabelListReactor) {
+    override func bind(reactor: MainListReactor<LabelEntity>) {
+        super.bind(reactor: reactor)
         
-        reactor.pulse(\.$isRefreshing)
-            .bind(to: refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag)
-        
-        reactor.pulse(\.$labels).asDriver(onErrorJustReturn: [])
+        reactor.pulse(\.$list)
+            .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(
-                cellIdentifier: LabelListTableViewCell.reuseIdentifier,
-                cellType: LabelListTableViewCell.self
-            )) { index, entity, cell in
-                cell.setEntity(entity)
+                cellIdentifier: cellType.reuseIdentifier,
+                cellType: cellType)
+            ) { index, entity, cell in
+                (cell as? MainListCell)?.setEntity(entity)
             }
             .disposed(by: disposeBag)
-        
-        tableView.rx.willDisplayCell
-            .bind(onNext: { event in
-                (event.cell as? LabelListTableViewCell)?.setLayout()
-            })
-            .disposed(by: disposeBag)
-        
-        refreshList()
-        
-        reactor.pulse(\.$labelStatus)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] status in
-                self?.refreshControl.endRefreshing()
-                
-                guard let parent = (self?.parent as? MainListViewController), parent.listSegmentedControl.selectedSegmentIndex == 1 else {
-                    return
-                }
-                
-                parent.title = status
-            })
-            .disposed(by: disposeBag)
+    }
+}
+
+private extension MainListReactor<LabelEntity> {
+    func mutate(action: Action) -> Observable<Mutation> {
+        return Observable.never()
     }
     
-    @objc
-    private func refreshList() {
-        reactor?.requestInitialList()
+    func reduce(state: State, mutation: Mutation) -> State {
+        let newState = state
+        return newState
     }
-    
-    var statusDescription: String {
-        reactor?.currentState.labelStatus ?? "0"
+}
+
+extension LabelListViewController: SettingProxy {
+    func callSetting() {
+        let model = MainListCallSettingModel<SettingItemColor>()
+        model.settingTitle = "M_ST_SVC_TCELL_CONTENTS_LIST_LABEL_BGCOLOR".localized
+        if let settingItem = model.settingValue {
+            bgColor = UIColor(settingItem: settingItem)
+        }
     }
 }

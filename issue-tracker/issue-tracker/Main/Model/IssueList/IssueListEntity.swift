@@ -142,3 +142,32 @@ struct IssueListEntity: Codable {
         case issueLabels
     }
 }
+
+struct IssueEntity: Codable, MainListEntity {
+    let info: MainListInfo
+    init(info: MainListInfo) {
+        self.info = info
+    }
+    
+    init(inx: Int) {
+        self.info = .init(
+            id: inx,
+            title: "Test",
+            contents: "Contents",
+            createdAt: "today?",
+            lastModifiedAt: "modifiedDate",
+            closed: [true, false].randomElement()!)
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        info = try values.decode(MainListInfo.self, forKey: .info)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(info, forKey: .info)
+    }
+    
+    enum CodingKeys: CodingKey { case info }
+}

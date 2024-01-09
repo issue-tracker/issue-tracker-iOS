@@ -50,7 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func getTabBarView() -> UITabBarController {
         let tabBar = MainTabBarController()
         tabBar.viewControllers = [
-            MainListNavigationController(rootViewController: MainListViewController())
+            MainListNavigationController(rootViewController: MainContainerViewController())
                 .setTabBaritem(as: "main", imageName: "list.dash"),
             MyPageNavigationController(rootViewController: MyPageViewController())
                 .setTabBaritem(as: "myPage", imageName: "person.crop.circle"),

@@ -8,91 +8,52 @@
 import RxCocoa
 import ReactorKit
 
-final class MilestoneListViewController: UIViewController, View, ListViewRepresentingStatus {
+final class MilestoneListViewController: MainListViewController<MilestoneEntity> {
     
-    typealias Reactor = MilestoneListReactor
+    private var bgColor: UIColor?
     
-    private lazy var refreshControl = UIRefreshControl(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 20)))
-    private var tableView = UITableView()
-    var disposeBag = DisposeBag()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addSubview(tableView)
-        
+    override func loadView() {
+        super.loadView()
         tableView.accessibilityIdentifier = "milestoneListViewController"
-        tableView.separatorStyle = .none
-        tableView.refreshControl = self.refreshControl
-        refreshControl.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
     
-    override func didMove(toParent parent: UIViewController?) {
-        super.didMove(toParent: parent)
-        
-        let parent = parent as? MainListViewController
-        var parentViewFrame = parent?.listScrollView.frame ?? view.frame
-        parentViewFrame.origin = .zero
-        tableView.frame = parentViewFrame
-        
-        parentViewFrame.origin = CGPoint(x: (parentViewFrame.width * 2), y: 0)
-        view.frame = parentViewFrame
-        
-        tableView.rowHeight = parentViewFrame.height/7
-        tableView.register(MilestoneListTableViewCell.self, forCellReuseIdentifier: MilestoneListTableViewCell.reuseIdentifier)
-        
-        view.setNeedsLayout()
-        reactor = Reactor()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        callSetting()
+        reactor?.action.onNext(.fetchList)
     }
     
-    func bind(reactor: MilestoneListReactor) {
-
-        refreshControl.rx.controlEvent(.valueChanged).map({ Reactor.Action.reloadMilestone })
-            .timeout(.seconds(3), scheduler: ConcurrentMainScheduler.instance)
-            .do(onCompleted: { [weak self] in self?.refreshControl.endRefreshing() })
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+    override func bind(reactor: MainListReactor<MilestoneEntity>) {
+        super.bind(reactor: reactor)
         
-        reactor.pulse(\.$isRefreshing).asObservable()
-            .bind(to: refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag)
-        
-        reactor.pulse(\.$milestones).asDriver(onErrorJustReturn: [])
-            .drive(tableView.rx.items(
-                cellIdentifier: MilestoneListTableViewCell.reuseIdentifier,
-                cellType: MilestoneListTableViewCell.self
-            )) { index, entity, cell in
-                cell.setEntity(entity)
+        reactor.pulse(\.$list)
+            .bind(to: tableView.rx.items(
+                cellIdentifier: cellType.reuseIdentifier,
+                cellType: cellType)
+            ) { index, entity, cell in
+                (cell as? MainListCell)?.setEntity(entity)
             }
             .disposed(by: disposeBag)
-        
-        tableView.rx.willDisplayCell
-            .bind(onNext: { event in
-                (event.cell as? MilestoneListTableViewCell)?.setLayout()
-            })
-            .disposed(by: disposeBag)
-        
-        refreshList()
-        
-        reactor.pulse(\.$milestoneStatus)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] status in
-                self?.refreshControl.endRefreshing()
-                
-                guard let parent = (self?.parent as? MainListViewController), parent.listSegmentedControl.selectedSegmentIndex == 2 else {
-                    return
-                }
-                
-                parent.title = status
-            })
-            .disposed(by: disposeBag)
+    }
+}
+
+private extension MainListReactor<MilestoneEntity> {
+    func mutate(action: Action) -> Observable<Mutation> {
+        return Observable.never()
     }
     
-    @objc
-    private func refreshList() {
-        reactor?.requestInitialList()
+    func reduce(state: State, mutation: Mutation) -> State {
+        let newState = state
+        return newState
     }
-    
-    var statusDescription: String {
-        reactor?.currentState.milestoneStatus ?? "0"
+}
+
+extension MilestoneListViewController: SettingProxy {
+    func callSetting() {
+        let model = MainListCallSettingModel<SettingItemColor>()
+        model.settingTitle = "M_ST_SVC_TCELL_CONTENTS_LIST_MILESTONE_BGCOLOR".localized
+        if let settingItem = model.settingValue {
+            bgColor = UIColor(settingItem: settingItem)
+        }
     }
 }

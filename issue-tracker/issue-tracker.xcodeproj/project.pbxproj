@@ -172,9 +172,9 @@
 		1B6DBDEE2940AF3A005FBFFD /* SettingTableViewTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DBDED2940AF3A005FBFFD /* SettingTableViewTitleCell.swift */; };
 		1B6DBDF1294302DF005FBFFD /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DBDF0294302DF005FBFFD /* Repository.swift */; };
 		1B6DBDF2294309D1005FBFFD /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DBDF0294302DF005FBFFD /* Repository.swift */; };
-		1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */; };
+		1B776A2228C5BAEB0049BA57 /* MainLabelListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2128C5BAEB0049BA57 /* MainLabelListCell.swift */; };
 		1B776A2428C5BC030049BA57 /* MainListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */; };
-		1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */; };
+		1B776A2628C5BE0E0049BA57 /* MainMilestoneListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B776A2528C5BE0E0049BA57 /* MainMilestoneListCell.swift */; };
 		1B7985F628925152004E1EEA /* NSAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */; };
 		1B7AAAB028E2CE9500DD66EA /* QueryCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */; };
 		1B7AAAB228E3CCBA00DD66EA /* PopupTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7AAAB128E3CCBA00DD66EA /* PopupTableView.swift */; };
@@ -198,7 +198,7 @@
 		1B8E4AAE2889114A00432728 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AAD2889114A00432728 /* MyPageViewController.swift */; };
 		1B8E4AB02889115200432728 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AAF2889115200432728 /* SettingViewController.swift */; };
 		1B8E4AB228892AEF00432728 /* IssueEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB128892AEF00432728 /* IssueEditViewController.swift */; };
-		1B8E4AB428892EF200432728 /* IssueListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */; };
+		1B8E4AB428892EF200432728 /* MainIssueListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB328892EF200432728 /* MainIssueListCell.swift */; };
 		1B8E4AB628892F0B00432728 /* ViewBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB528892F0B00432728 /* ViewBindable.swift */; };
 		1B8E4AB828892F0F00432728 /* ViewBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8E4AB728892F0F00432728 /* ViewBinding.swift */; };
 		1B8FD16729274B43001179C6 /* SignInInputCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FD16629274B43001179C6 /* SignInInputCheckModel.swift */; };
@@ -399,9 +399,9 @@
 		1B6DBDEB293DF012005FBFFD /* SettingDetailCellViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDetailCellViewFactory.swift; sourceTree = "<group>"; };
 		1B6DBDED2940AF3A005FBFFD /* SettingTableViewTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewTitleCell.swift; sourceTree = "<group>"; };
 		1B6DBDF0294302DF005FBFFD /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelListTableViewCell.swift; sourceTree = "<group>"; };
+		1B776A2128C5BAEB0049BA57 /* MainLabelListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLabelListCell.swift; sourceTree = "<group>"; };
 		1B776A2328C5BC030049BA57 /* MainListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListTableViewCell.swift; sourceTree = "<group>"; };
-		1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListTableViewCell.swift; sourceTree = "<group>"; };
+		1B776A2528C5BE0E0049BA57 /* MainMilestoneListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMilestoneListCell.swift; sourceTree = "<group>"; };
 		1B7985F528925152004E1EEA /* NSAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		1B7AAAAF28E2CE9500DD66EA /* QueryCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryCondition.swift; sourceTree = "<group>"; };
 		1B7AAAB128E3CCBA00DD66EA /* PopupTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupTableView.swift; sourceTree = "<group>"; };
@@ -427,7 +427,7 @@
 		1B8E4AAD2889114A00432728 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		1B8E4AAF2889115200432728 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		1B8E4AB128892AEF00432728 /* IssueEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueEditViewController.swift; sourceTree = "<group>"; };
-		1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListTableViewCell.swift; sourceTree = "<group>"; };
+		1B8E4AB328892EF200432728 /* MainIssueListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainIssueListCell.swift; sourceTree = "<group>"; };
 		1B8E4AB528892F0B00432728 /* ViewBindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBindable.swift; sourceTree = "<group>"; };
 		1B8E4AB728892F0F00432728 /* ViewBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBinding.swift; sourceTree = "<group>"; };
 		1B8E4AB9288A6E4D00432728 /* issue-tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "issue-tracker.entitlements"; sourceTree = "<group>"; };
@@ -771,7 +771,7 @@
 			isa = PBXGroup;
 			children = (
 				1B8E4A992887CE0300432728 /* IssueListViewController.swift */,
-				1B8E4AB328892EF200432728 /* IssueListTableViewCell.swift */,
+				1B8E4AB328892EF200432728 /* MainIssueListCell.swift */,
 				1B4F48A228A4E5A600C4B33A /* IssueEdit */,
 			);
 			path = IssueList;
@@ -1055,7 +1055,7 @@
 			isa = PBXGroup;
 			children = (
 				1BF1D0BD28BC97BE00393294 /* LabelListViewController.swift */,
-				1B776A2128C5BAEB0049BA57 /* LabelListTableViewCell.swift */,
+				1B776A2128C5BAEB0049BA57 /* MainLabelListCell.swift */,
 			);
 			path = LabelList;
 			sourceTree = "<group>";
@@ -1064,7 +1064,7 @@
 			isa = PBXGroup;
 			children = (
 				1BF1D0BF28BC97D900393294 /* MilestoneListViewController.swift */,
-				1B776A2528C5BE0E0049BA57 /* MilestoneListTableViewCell.swift */,
+				1B776A2528C5BE0E0049BA57 /* MainMilestoneListCell.swift */,
 			);
 			path = MilestoneList;
 			sourceTree = "<group>";
@@ -1472,14 +1472,14 @@
 				1B3788EF28F57E7900A2DF39 /* SettingTableViewCell.swift in Sources */,
 				1B652E1729A83DA7003B1167 /* SettingListCellTitle.swift in Sources */,
 				1B4F48A528A51D6E00C4B33A /* CommonLabel.swift in Sources */,
-				1B776A2228C5BAEB0049BA57 /* LabelListTableViewCell.swift in Sources */,
+				1B776A2228C5BAEB0049BA57 /* MainLabelListCell.swift in Sources */,
 				1B36309729B1E70A002A9888 /* MainListCallSettingModel.swift in Sources */,
 				1B0808852893E4B8001704C2 /* UIAlertController+Extension.swift in Sources */,
 				1BF36D7528DC28620033DF2A /* MilestoneInIssueEntity.swift in Sources */,
 				1B080889289809E6001704C2 /* UIScrollView+Extension.swift in Sources */,
 				1B36308729AC3C18002A9888 /* SettingDataModel.xcdatamodeld in Sources */,
 				1B02F9CF29483977006498CE /* CoreDataStack.swift in Sources */,
-				1B776A2628C5BE0E0049BA57 /* MilestoneListTableViewCell.swift in Sources */,
+				1B776A2628C5BE0E0049BA57 /* MainMilestoneListCell.swift in Sources */,
 				1B8B74442900D2DD008380BF /* SettingIssueQueryCell.swift in Sources */,
 				1BD1C5BC291A52B600AEA74F /* MainListStatusReactor.swift in Sources */,
 				1B3788F728F5961100A2DF39 /* SettingIssueCollectionViewCell.swift in Sources */,
@@ -1490,7 +1490,7 @@
 				1BE01DFE28A618D700929163 /* UIDevice+Extension.swift in Sources */,
 				1B5D699528990BB000AE9495 /* RequestTextField.swift in Sources */,
 				1B8B744228FF9BE7008380BF /* SettingQueryInsertView.swift in Sources */,
-				1B8E4AB428892EF200432728 /* IssueListTableViewCell.swift in Sources */,
+				1B8E4AB428892EF200432728 /* MainIssueListCell.swift in Sources */,
 				1BBA3EA1287D6A9E00DC57A0 /* HorizontalTitleTextField.swift in Sources */,
 				1BDADE522B4CF37800E2D84D /* RGBColorWithAlpha.swift in Sources */,
 				1BBDDEA02999FE5B00743385 /* SettingManagedObjectCell.swift in Sources */,

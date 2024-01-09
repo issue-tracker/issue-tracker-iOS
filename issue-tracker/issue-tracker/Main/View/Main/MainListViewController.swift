@@ -161,7 +161,6 @@ struct MainListInfo: Codable {
 }
 
 protocol MainListCell {
-    func setLayout()
     func setEntity(_ entity: MainListEntity)
     func makeUI()
 }
